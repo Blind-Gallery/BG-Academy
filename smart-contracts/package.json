@@ -1,0 +1,39 @@
+{
+  "name": "BlindGallery",
+  "version": "1.0.0",
+  "description": "Blind gallery is a smart contract that exchanges tickets of art pieces.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node scripts/tezos-utils.js test gallery",
+    "test:local": "PROTOCOL_NAME=ithacanet COMPILER=local ./scripts/tezos-utils.js test gallery",
+    "deploy:testnet": "PROTOCOL_NAME=ithacanet ./scripts/tezos-utils.js deploy gallery",
+    "deploy:testnet:gallery": "PROTOCOL_NAME=ithacanet ./scripts/tezos-utils.js deploy gallery",
+    "deploy:testnet:token": "PROTOCOL_NAME=ithacanet ./scripts/tezos-utils.js deploy token",
+    "deploy:mainnet:gallery": "PROTOCOL_NAME=mainnet ./scripts/tezos-utils.js deploy gallery",
+    "compile:gallery": "PROTOCOL_NAME=ithacanet ./scripts/tezos-utils.js compile gallery",
+    "compile": "PROTOCOL_NAME=ithacanet ./scripts/tezos-utils.js compile gallery",
+    "compile:local": "PROTOCOL_NAME=ithacanet COMPILER=local ./scripts/tezos-utils.js compile gallery",
+    "build": "./scripts/tezos-utils.js compile all"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blind-Gallery/gallery-smart-contracts.git"
+  },
+  "keywords": ["tezos"],
+  "author": "tlacloc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blind-Gallery/gallery-smart-contracts/issues"
+  },
+  "homepage": "https://github.com/Blind-Gallery/gallery-smart-contracts#readme",
+  "dependencies": {
+    "@taquito/signer": "^11.2.0",
+    "@taquito/taquito": "^11.2.0",
+    "commander": "^3.0.2",
+    "dotenv": "^16.0.0",
+    "fs-extra": "^10.0.0",
+    "prompt-sync": "^4.2.0",
+    "uuid": "^8.3.2"
+  }
+}
