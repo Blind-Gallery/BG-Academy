@@ -1,9 +1,5 @@
 <template>
-  <div></div>
+  <div>
+    <h1>Hello Nuxters! 👋</h1>
+  </div>
 </template>
-
-<script>
-export default {
-  name: 'IndexPage'
-}
-</script>
