@@ -14,7 +14,7 @@
           <!--MODAL-->
           <b-modal id="signup" centered hidden-header>
             <template #modal-header="{ close }"
-              >Welcome Back! <Icon name="uil:github" color="black" />
+              >Welcome Back!<Icon icon="mdi:home" />
             </template>
           </b-modal>
         </div>
