@@ -14,7 +14,10 @@
           <!--MODAL-->
           <b-modal id="signup" centered hidden-header>
             <template #modal-header="{ close }"
-              >Welcome Back!<Icon icon="mdi:home" />
+              >Welcome Back!
+              <span style="cursor: pointer" @click="close()"
+                ><Icon width="32" color="#888" icon="material-symbols:close"
+              /></span>
             </template>
           </b-modal>
         </div>
@@ -25,29 +28,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  head: {
-    title: "Blind Gallery Academy",
-    meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      {
-        hid: "description",
-        name: "description",
-        content: "my website description",
-      },
-    ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
-    link: [
-      {
-        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap",
-        rel: "stylesheet",
-      },
-    ],
-  },
-};
-</script>
+<script></script>
 
 <style>
 body {
