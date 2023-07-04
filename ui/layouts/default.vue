@@ -4,22 +4,24 @@
       <header>
         <div class="header-container">
           <img
-            src="https://cdn.discordapp.com/attachments/987378128106168403/1124375028356616262/Recurso_20-8.png"
+            src="~/assets/AcademyLogo.png"
+            alt="Mi imagen"
             width="180px"
           >
           <div class="d-flex" style="gap: 1rem">
-            <button class="tertiary-btn">
+            <button v-b-modal.signin class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signup class="primary-btn">
               Sign In
             </button>
           </div>
-          <!--MODAL-->
+          <!--MODAL SIGN UP-->
           <b-modal id="signup" centered hidden-header hide-footer>
             <template #modal-header="{ close }">
               <h2>
                 Welcome Back!
               </h2>
+
               <span
                 style="cursor: pointer"
                 @click="close()"
@@ -29,7 +31,8 @@
                 icon="material-symbols:close"
               /></span>
             </template>
-            <b-form v-if="show" @submit="onSubmit" @reset="onReset">
+            <!--SIGN UP FORM-->
+            <b-form v-if="show" @submit="signIn" @reset="onReset">
               <b-form-group
                 id="input-group-1"
                 label="Email address:"
@@ -37,11 +40,18 @@
               >
                 <b-form-input
                   id="input-1"
-                  v-model="form.email"
+                  v-model="signInForm.email"
                   type="email"
                   placeholder="Enter email"
                   required
+                  :state="validation"
                 />
+                <b-form-invalid-feedback :state="validation">
+                  Please enter a valid email address
+                </b-form-invalid-feedback>
+                <b-form-valid-feedback :state="validation">
+                  Looks good!
+                </b-form-valid-feedback>
               </b-form-group>
 
               <b-form-group
@@ -49,18 +59,34 @@
                 label="Your Password:"
                 label-for="input-2"
               >
-                <b-form-input
-                  id="input-2"
-                  v-model="form.name"
-                  placeholder="Enter password"
-                  required
-                />
+                <div
+                  class="d-flex"
+                  style="    border: 1px solid #ced4da;
+    border-radius: 0.25rem; align-items: center;"
+                >
+                  <b-form-input
+                    id="input-2"
+                    v-model="signInForm.password"
+                    placeholder="Enter password"
+                    :type="showPassword === false ? 'password' : 'text'"
+                    required
+                    style="border:0"
+                  />
+                  <span @click="toggleShowPassword">
+                    <Icon
+                      width="32"
+                      color="#888"
+                      :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
+                      style="padding:0.25rem; cursor: pointer;"
+                    />
+                  </span>
+                </div>
                 <NuxtLink style="font-size: small;" to="">
                   Did you forget the password?
                 </NuxtLink>
               </b-form-group>
 
-              <button class="primary-btn" style="width: 100%;">
+              <button class="primary-btn" style="width: 100%;" @click="signIn">
                 Sign In
               </button>
               <div class="divider">
@@ -81,6 +107,88 @@
               </p>
             </b-form>
           </b-modal>
+
+          <!--MODAL SIGN IN-->
+          <!-- <b-modal id="signin" centered hidden-header hide-footer>
+            <template #modal-header="{ close }">
+              <h2>
+                Create new account
+              </h2>
+              <span
+                style="cursor: pointer"
+                @click="close()"
+              ><Icon
+                width="32"
+                color="#888"
+                icon="material-symbols:close"
+              /></span>
+            </template>
+            <b-form v-if="show" @submit="onSubmit" @reset="onReset">
+              <b-form-group
+                id="input-group-1"
+                label="Your name"
+                label-for="input-1"
+              >
+                <b-form-input
+                  id="input-1"
+                  v-model="form.email"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </b-form-group>
+
+              <b-form-group
+                id="input-group-2"
+                label="Password"
+                type="password"
+                label-for="input-2"
+                aria-describedby="password-help-block"
+              >
+                <b-form-input
+                  id="input-2"
+                  v-model="form.name"
+                  placeholder="Create password"
+                  required
+                />
+              </b-form-group>
+
+              <b-form-group
+                id="input-group-3"
+                label="Confirm password"
+
+                label-for="input-3"
+              >
+                <b-form-input
+                  id="input-3"
+                  v-model="form.name"
+                  type="password"
+                  aria-describedby="password-help-block"
+                  placeholder="Confirm your password"
+                  required
+                />
+              </b-form-group>
+
+              <button class="primary-btn" style="width: 100%;">
+                Sign Up
+              </button>
+              <div class="divider">
+                <hr><span>OR </span> <hr>
+              </div>
+              <button class="secondary-btn" style="width: 100%; position: relative;">
+                <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+                Connect Wallet
+              </button>
+              <button class="secondary-btn" style="width: 100%; position: relative;">
+                <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+              </button>
+
+              <p style="text-align: center; font-size: small;">
+                Already have an account? <NuxtLink to="">
+                  Sign In
+                </NuxtLink>
+              </p>
+            </b-form>
+          </b-modal> -->
         </div>
       </header>
       <Nuxt />
@@ -92,34 +200,43 @@
 export default {
   data () {
     return {
-      form: {
+      showPassword: false,
+      validMail: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      signInForm: {
         email: '',
-        name: '',
-        food: null,
-        checked: []
+        password: ''
       },
-      foods: [
-        { text: 'Select One', value: null },
-        'Carrots',
-        'Beans',
-        'Tomatoes',
-        'Corn'
-      ],
       show: true
     }
   },
+
+  computed: {
+    validation () {
+      if (this.signInForm.email.length === 0) {
+        return null
+      } else if (this.signInForm.email.match(this.validMail)) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   methods: {
-    onSubmit (event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
+    toggleShowPassword () {
+      this.showPassword = !this.showPassword
+    },
+
+    signIn (event) {
+      if (this.validation === true) {
+        event.preventDefault()
+        alert(JSON.stringify(this.signInForm))
+      }
     },
     onReset (event) {
       event.preventDefault()
       // Reset our form values
-      this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
+      this.signInForm.email = ''
+      this.signInForm.password = ''
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
