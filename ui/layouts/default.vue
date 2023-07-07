@@ -1,20 +1,25 @@
+<!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <template>
   <div>
-    <header>
-      <b-container fluid="xl">
+    <!--HEADER-->
+    <header class="sticky-top">
+      <b-container style="max-width: 1240px;">
         <div class="header-container">
-          <img
-            src="~/assets/AcademyLogo.png"
-            alt="Mi imagen"
-            width="180px"
-          >
-          <div class="d-flex" style="gap: 1rem">
+          <NuxtLink to="/">
+            <img
+              src="~/assets/AcademyLogo.png"
+              alt="Mi imagen"
+              width="180px"
+            >
+          </NuxtLink>
+          <div class="d-lg-flex d-none" style="gap: 1rem">
             <button v-b-modal.signup class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signin class="primary-btn">
               Sign In
             </button>
           </div>
+          <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
           <!--MODAL SIGN IN-->
           <b-modal id="signin" centered hidden-header hide-footer>
             <template #modal-header="{ close }">
@@ -24,7 +29,7 @@
 
               <span
                 style="cursor: pointer"
-                @click="close(); onReset()"
+                @click="close()"
               ><Icon
                 width="32"
                 color="#888"
@@ -82,7 +87,7 @@
                 <b-form-invalid-feedback :state="validationPassword">
                   {{ signInForm.password.length < 8 ? 'Your password must be at least 8 characters long' : '' }}
                 </b-form-invalid-feedback>
-                <a v-b-modal.recoverPassword style="font-size: small;" class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin'); onReset()">
+                <a v-b-modal.recoverPassword style="font-size: small;" class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
                   Did you forget the password?
                 </a>
               </b-form-group>
@@ -104,7 +109,7 @@
               </button>
 
               <p style="text-align: center; font-size: small;">
-                Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin'); onReset()">
+                Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
                   Sign Up
                 </a>
               </p>
@@ -160,7 +165,7 @@
               </h2>
               <span
                 style="cursor: pointer"
-                @click="close(); onReset()"
+                @click="close()"
               ><Icon
                 width="32"
                 color="#888"
@@ -250,7 +255,7 @@
               </button>
 
               <p style="text-align: center; font-size: small;">
-                Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup'); onReset()">
+                Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
                   Sign In
                 </a>
               </p>
@@ -260,6 +265,35 @@
       </b-container>
     </header>
     <Nuxt />
+    <footer class="m-4">
+      <b-container style="max-width: 1240px;">
+        <div class="d-flex flex-column">
+          <div class="d-flex gap-2 align-items-end">
+            <a target="_blank" href="https://nuxtjs.org">
+              <Icon class="mr-2" icon="entypo-social:twitter-with-circle" color="#888" width="18" />
+            </a>
+            <a target="blank" href="https://nuxtjs.org">
+
+              <Icon class="mr-2" icon="entypo-social:linkedin-with-circle" color="#888" width="18" />
+            </a>
+            <a target="blank" href="https://nuxtjs.org">
+              <Icon
+                class="mr-2"
+                icon="bxl:discord-alt"
+                style="background: #888;
+              border-radius: 50%;
+              padding: 0.2rem;"
+                color="#fff"
+                width="18"
+              />
+            </a>
+          </div>
+          <p class="small m-0">
+            © 2023 Blind Gallery Academy. All rights reserved.
+          </p>
+        </div>
+      </b-container>
+    </footer>
   </div>
 </template>
 
@@ -282,6 +316,7 @@ export default {
         email: '',
         password: ''
       }
+
     }
   },
 
@@ -295,6 +330,7 @@ export default {
         return false
       }
     },
+
     validationPassword () {
       if (this.signInForm.password.length === 0 && this.signUpForm.password.length === 0) {
         return null
@@ -304,8 +340,15 @@ export default {
         return false
       }
     }
+
+  },
+  mounted () {
+    this.$root.$on('bv::modal::show', (bvEvent, signup) => {
+      this.onReset(bvEvent, signup)
+    })
   },
   methods: {
+
     toggleShowPassword () {
       this.showPassword = !this.showPassword
     },
@@ -314,13 +357,9 @@ export default {
       if (this.validationEmail && this.validationPassword) {
         this.$bvModal.hide('signin')
         event.preventDefault()
-        alert(JSON.stringify(this.signInForm))
-        this.signInForm.email = ''
-        this.signInForm.password = ''
-        this.invalidFormMsg = ''
+        this.onReset()
       } else {
-        this.signInForm.email = ''
-        this.signInForm.password = ''
+        this.onReset()
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
     },
@@ -329,7 +368,6 @@ export default {
       if (this.validationEmail && this.validationPassword) {
         this.$bvModal.hide('signup')
         event.preventDefault()
-        alert(JSON.stringify(this.signUpForm))
         this.onReset()
       } else {
         this.onReset()
@@ -338,12 +376,16 @@ export default {
     },
 
     onReset () {
-      this.signInForm.email = ''
-      this.signInForm.password = ''
+      this.signInForm = {
+        email: '',
+        password: ''
+      }
 
-      this.signUpForm.name = ''
-      this.signUpForm.email = ''
-      this.signUpForm.password = ''
+      this.signUpForm = {
+        name: '',
+        email: '',
+        password: ''
+      }
 
       this.invalidFormMsg = ''
     }
@@ -357,6 +399,9 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
+header{
+  background-color: #fff;
+}
 a{
   color:#00b9cd;
 }
@@ -402,10 +447,27 @@ h1{
   background-color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
+  min-width: 120px;
 }
 
 .secondary-btn:hover {
   background-color: #eeeeee;
+}
+
+.secondary-btn-black{
+  background-color: transparent;
+  border:1px solid #fff;
+  border-radius: 5px;
+  color:#fff;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+
+.secondary-btn-black:hover {
+  background-color: #ffffff;
+  color:#1A374B;
 }
 
 .tertiary-btn {

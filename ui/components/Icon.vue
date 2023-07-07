@@ -8,7 +8,6 @@ import { Icon } from '@iconify/vue2'
 export default {
   name: 'IconItem',
   components: {
-
     Icon
   },
   props: {
