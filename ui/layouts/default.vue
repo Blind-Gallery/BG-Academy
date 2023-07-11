@@ -265,7 +265,7 @@
       </b-container>
     </header>
     <Nuxt />
-    <footer class="m-4">
+    <footer class="m-4 ">
       <b-container style="max-width: 1240px;">
         <div class="d-flex flex-column">
           <div class="d-flex gap-2 align-items-end">
@@ -411,7 +411,7 @@ a:hover{
 }
 
 p{
-  color:#888888
+  color:#6c757d
 }
 
 h1{
@@ -451,7 +451,7 @@ h1{
 }
 
 .secondary-btn:hover {
-  background-color: #eeeeee;
+  background-color: #f7f7f7;
 }
 
 .secondary-btn-black{
