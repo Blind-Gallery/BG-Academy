@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container style="max-width: 1240px;">
+    <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
       <b-row>
         <b-col lg="8">
           <div class="course-info">
@@ -8,7 +8,7 @@
               class="rounded mb-3"
               width="100%"
               height="450px"
-              src="https://www.youtube.com/embed/BmzhxCy2VyA"
+              src="https://www.youtube.com/embed/qtPi0JvmWbs"
               title="YouTube video player"
               frameborder="0"
             />
@@ -16,7 +16,7 @@
               Digital objects advanced
             </h5>
             <p>Gain insights into the latest tools and technologies used in the industry and develop a deep understanding of their capabilities.</p>
-            <h5 class="mb-3">
+            <h5 class="mb-3 mt-4">
               You will learn
             </h5>
             <div class="d-flex mb-3" style="gap:1rem">
@@ -48,23 +48,137 @@
                 </p>
               </div>
             </div>
-            <h5 class="mb-3">
+            <h5 class="mb-3 mt-4">
               Description
             </h5>
             <div :class="!seeMore ? 'overflow-hidden description-container' : 'overflow-hidden description-container__toggle'">
               <p>
-                The "Digital Objects Advanced" course is a comprehensive program designed to empower participants with the skills to create captivating digital art using coding techniques. Through a hands-on learning experience, students will explore the exciting intersection of art and technology, unlocking endless possibilities for artistic expression.
-                During this course, participants will dive into the world of generative art, where they will learn how to harness the power of algorithms and procedural methods to generate dynamic and visually stunning artworks. They will delve into the realm of interactive art, discovering how to combine coding with interactivity to engage viewers and create immersive digital art experiences.
+                The "Digital Objects Advanced" course is a comprehensive program designed to empower participants with the skills to create captivating digital art using coding techniques. Through a hands-on learning experience, students will explore the exciting intersection of art and technology, unlocking endless possibilities for artistic expression.<br><br>
+                During this course, participants will dive into the world of generative art, where they will learn how to harness the power of algorithms and procedural methods to generate dynamic and visually stunning artworks. They will delve into the realm of interactive art, discovering how to combine coding with interactivity to engage viewers and create immersive digital art experiences.<br><br>
                 Furthermore, the course will equip students with the ability to transform complex datasets into visually compelling artworks through data visualization techniques. By leveraging code, they will learn to represent information in meaningful and aesthetically pleasing ways, bridging the gap between data and art.
               </p>
             </div>
-            <button @click="doSeeMore()">
-              SEE MORE
+            <p style="text-align: center; cursor: pointer;font-weight: 600;" @click="doSeeMore()">
+              {{ seeMore ? 'SEE LESS' : 'SEE MORE' }}
+            </p>
+
+            <h5 class="mb-3 mt-4">
+              Course curriculum
+            </h5>
+
+            <button v-b-toggle.accordion-1 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
+              <span>Introduction to Generative Art</span><br>
+              <span class="small text-secondary">5 chapters</span>
             </button>
+
+            <b-collapse id="accordion-1" class="mb-2 " accordion="my-accordion" role="tabpanel">
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  1. Exploring the Foundations of Generative Art
+                </p><p class="m-0">
+                  5min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0 ">
+                  2. Understanding Algorithms and Creative Coding
+                </p><p class="m-0">
+                  15min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  3. Creating Dynamic Visual Systems
+                </p><p class="m-0">
+                  30min.
+                </p>
+              </div>
+
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  4. Embracing Randomness in Generative Art
+                </p><p class="m-0">
+                  25min.
+                </p>
+              </div>
+
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  5. Expressing Creativity Through Generative Art Techniques
+                </p><p class="m-0">
+                  50min.
+                </p>
+              </div>
+            </b-collapse>
+
+            <button v-b-toggle.accordion-2 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
+              <span>Interactive art with code</span><br>
+              <span class="small text-secondary">3 chapters</span>
+            </button>
+
+            <b-collapse id="accordion-2" class="mb-2 " accordion="my-accordion" role="tabpanel">
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  1.  Introduction to Interactive Art and Coding
+                </p><p class="m-0">
+                  8min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  2.Creating Immersive Experiences with Interactive Code
+                </p><p class="m-0">
+                  23min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  3. Exploring User Engagement and Interaction in Code-based Art
+                </p><p class="m-0">
+                  30min.
+                </p>
+              </div>
+            </b-collapse>
+
+            <button v-b-toggle.accordion-3 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
+              <span>Data Visualization and Art</span><br>
+              <span class="small text-secondary">4 chapters</span>
+            </button>
+
+            <b-collapse id="accordion-3" class="mb-2" accordion="my-accordion" role="tabpanel">
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  1. Introduction to Data Visualization in Art
+                </p><p class="m-0">
+                  4min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0 ">
+                  2. Exploring Data Sources and Formats for Artistic Visualizations
+                </p><p class="m-0">
+                  45min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  3. Creative Approaches to Data Interpretation and Representation
+                </p><p class="m-0">
+                  35min.
+                </p>
+              </div>
+              <div class="d-flex justify-content-between p-2 mb-2">
+                <p class="m-0">
+                  4. Interactive Data Visualizations and Engaging Audiences
+                </p><p class="m-0">
+                  50min.
+                </p>
+              </div>
+            </b-collapse>
           </div>
         </b-col>
         <b-col lg="4">
-          <div class="d-flex flex-column p-3 shadow-sm rounded position relative" style="gap:0.5rem">
+          <div class="d-flex flex-column p-3 shadow-sm rounded ml-3" style="gap:0.5rem; position:sticky; top: 77px;">
             <div v-b-toggle.instructor class="d-flex align-items-center" style="gap:0.5rem">
               <b-avatar src="https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg" size="2rem" />
               <div class="d-flex flex-column align-items-start">
@@ -76,7 +190,7 @@
                   Hugo Santana
                 </p>
               </div>
-              <div class="position-absolute" style="right:40px" @click="toggleDropdown">
+              <div class="position-absolute" style="right:20px" @click="toggleDropdown">
                 <Icon
                   :icon="isOpen ? 'material-symbols:keyboard-arrow-down' : 'material-symbols:keyboard-arrow-up'"
                   width="24"
@@ -85,7 +199,7 @@
             </div>
             <b-collapse id="instructor" visible accordion="intructor" role="tabpanel">
               <p class="small">
-                With over a decade of experience, he has taught at prestigious educational institutions and inspired countless students to delve into the fascinating world of creative coding.
+                With over a decade of experience, he has taught at prestigious educational institutions and inspired countless students to delve into the fascinating world of creative coding.<br><br>
                 His unique approach combines traditional art with cutting-edge technology, earning him recognition for pushing the boundaries of artistic expression.
               </p>
             </b-collapse>
@@ -99,12 +213,19 @@
               </p>
             </div>
             <button class="primary-btn w-100 ">
+              <Icon
+                icon="material-symbols:credit-card"
+                color="#fff"
+
+                width="21"
+              />
               Credit card
             </button>
             <button class="secondary-btn w-100">
-              Crypto
+              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+              Tezos
             </button>
-            <v-divider />
+            <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
@@ -112,23 +233,27 @@
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 12 hours
+                <Icon icon="material-symbols:signal-cellular-alt" color="#888" class="mr-2" /><p class="small m-0">
+                  Advanced level
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 12 hours
+                <Icon
+                  icon="material-symbols:language"
+                  color="#888"
+                  class="mr-2"
+                /><p class="small m-0">
+                  100% Online
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 12 hours
+                <Icon icon="material-symbols:closed-caption-outline" color="#888" class="mr-2" /><p class="small m-0">
+                  English subtitles
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 12 hours
+                <Icon icon="material-symbols:verified-outline" color="#888" class="mr-2" /><p class="small m-0">
+                  Certificate
                 </p>
               </div>
             </div>
@@ -160,7 +285,7 @@ export default {
 <style>
 .description-container{
     -webkit-mask-image: linear-gradient(to top,transparent 0,transparent 51px,#000 77px,#000 100%);
-    height: 180px;
+    height: 200px;
 
 }
 
