@@ -68,7 +68,7 @@
 
             <button v-b-toggle.accordion-1 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
               <span>Introduction to Generative Art</span><br>
-              <span class="small text-secondary">5 chapters</span>
+              <span class="small text-secondary">5 chapters | 1h 5m</span>
             </button>
 
             <b-collapse id="accordion-1" class="mb-2 " accordion="my-accordion" role="tabpanel">
@@ -113,7 +113,7 @@
 
             <button v-b-toggle.accordion-2 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
               <span>Interactive art with code</span><br>
-              <span class="small text-secondary">3 chapters</span>
+              <span class="small text-secondary">3 chapters | 1h 1m</span>
             </button>
 
             <b-collapse id="accordion-2" class="mb-2 " accordion="my-accordion" role="tabpanel">
@@ -142,7 +142,7 @@
 
             <button v-b-toggle.accordion-3 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
               <span>Data Visualization and Art</span><br>
-              <span class="small text-secondary">4 chapters</span>
+              <span class="small text-secondary">4 chapters | 2h 14m</span>
             </button>
 
             <b-collapse id="accordion-3" class="mb-2" accordion="my-accordion" role="tabpanel">
@@ -212,7 +212,7 @@
                 Access this course
               </p>
             </div>
-            <button class="primary-btn w-100 ">
+            <button v-b-modal.credit-pay class="primary-btn w-100 ">
               <Icon
                 icon="material-symbols:credit-card"
                 color="#fff"
@@ -221,6 +221,62 @@
               />
               Credit card
             </button>
+            <b-modal id="credit-pay" centered hidden-header hide-footer>
+              <template #modal-header="{ close }">
+                <h2>
+                  Payment details
+                </h2>
+                <span
+                  style="cursor: pointer"
+                  @click="close()"
+                ><Icon
+                  width="32"
+                  color="#888"
+                  icon="material-symbols:close"
+                /></span>
+              </template>
+              <b-form>
+                <b-form-group
+                  id="input-group-1"
+                  label="Card name"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the number that appears on your card"
+                    required
+                  />
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-1"
+                  label="Card number"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the card number"
+                    required
+                  />
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-1"
+                  label="Card number"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the card number"
+                    required
+                  />
+                </b-form-group>
+              </b-form>
+            </b-modal>
+
             <button class="secondary-btn w-100">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
@@ -229,7 +285,7 @@
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 12 hours
+                  Aprox. duration 4 hours
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -295,7 +351,4 @@ export default {
 
 }
 
-.course-info h5{
-    font-weight: 600;
-}
 </style>
