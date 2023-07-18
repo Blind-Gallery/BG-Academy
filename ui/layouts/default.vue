@@ -8,7 +8,7 @@
           <NuxtLink to="/">
             <img
               src="~/assets/AcademyLogo.png"
-              alt="Mi imagen"
+              alt="logo"
               width="180px"
             >
           </NuxtLink>
@@ -19,6 +19,7 @@
               Sign In
             </button>
           </div>
+
           <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
           <!--MODAL SIGN IN-->
           <b-modal id="signin" centered hidden-header hide-footer>
@@ -417,6 +418,11 @@ p{
 h1{
   font-weight: bold;
 }
+
+h2, h3,h4,h5{
+  font-weight: 600;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
