@@ -22,6 +22,9 @@ export default {
       }
     ]
   },
+  plugins: [
+    { src: '@/plugins/vue-html2pdf', mode: 'client' }
+  ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
