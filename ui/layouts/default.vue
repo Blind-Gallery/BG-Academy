@@ -400,6 +400,19 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 6px; /* Ancho de la barra de scroll */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del pulgar del scroll */
+  border-radius: 3px; /* Bordes redondeados del pulgar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color del pulgar del scroll al hacer hover */
+}
+
 header{
   background-color: #fff;
 }
