@@ -1,5 +1,5 @@
 <template>
-  <Icon :icon="icon" :width="width" :color="color" />
+  <Icon :icon="icon" :width="width" :color="color" :rotate="rotate" />
 </template>
 
 <script>
@@ -22,6 +22,10 @@ export default {
     color: {
       type: String,
       default: 'currentColor' // Color por defecto
+    },
+    rotate: {
+      type: String,
+      default: 'null'
     }
 
   }
