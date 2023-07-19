@@ -64,16 +64,31 @@
                 For having successfully completed the 12-hour <br>course in our online course platform.
               </p>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <p>Approved on 07/17/2023</p>
-              <div class="d-flex flex-column align-items-center position-relative">
-                <img class="position-absolute" style="top:-55px;  " src="https://cdn.discordapp.com/attachments/987378128106168403/1130868334494228551/pngwing.com.png" width="110px" alt="firma">
-                <div style="width:100%; margin:0.2rem 0rem; border-bottom:1px solid #6c757d3b; z-index: 2;" />
-                <p style="z-index: 2;" class="m-0 font-weight-bold text-dark">
-                  Hugo Santana
+            <div class="d-flex justify-content-between align-items-end">
+              <div class="d-flex flex-column align-items-center">
+                <p class="m-0">
+                  Completed on
                 </p>
-                <p style="z-index:2">
-                  Course Instructor
+                <p class="m-0 font-weight-bold text-dark">
+                  19/07/2023
+                </p>
+              </div>
+              <div class="d-flex flex-column align-items-center">
+                <p class="m-0">
+                  Blockchain
+                </p>
+                <p class="m-0 font-weight-bold text-dark">
+                  Tezos
+                </p>
+              </div>
+              <div class="d-flex flex-column align-items-center ">
+                <img src="https://cdn.discordapp.com/attachments/987378128106168403/1130868334494228551/pngwing.com.png" width="110px" alt="firma">
+                <div style="width:100%; margin:0.2rem 0rem; border-bottom:1px solid #6c757d3b; z-index: 2;" />
+                <p class="m-0">
+                  Course instructor
+                </p>
+                <p class="m-0 font-weight-bold text-dark">
+                  Hugo Santana
                 </p>
               </div>
             </div>
@@ -111,5 +126,9 @@ export default {
   position: relative;
   background-color: #fff;
   height: 790px;
+}
+
+.certificate-container p{
+  font-size: 18px;
 }
 </style>
