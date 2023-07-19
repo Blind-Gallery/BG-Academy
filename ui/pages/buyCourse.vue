@@ -179,7 +179,7 @@
         </b-col>
         <b-col lg="4">
           <div class="d-flex flex-column p-3 shadow-sm rounded ml-3" style="gap:0.5rem; position:sticky; top: 77px;">
-            <div v-b-toggle.instructor class="d-flex align-items-center" style="gap:0.5rem">
+            <div v-b-toggle.instructor class="d-flex align-items-center" style="gap:0.5rem" @click="toggleDropdown">
               <b-avatar src="https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg" size="2rem" />
               <div class="d-flex flex-column align-items-start">
                 <p class="m-0 small">
@@ -190,7 +190,7 @@
                   Hugo Santana
                 </p>
               </div>
-              <div class="position-absolute" style="right:20px" @click="toggleDropdown">
+              <div class="position-absolute" style="right:20px">
                 <Icon
                   :icon="isOpen ? 'material-symbols:keyboard-arrow-down' : 'material-symbols:keyboard-arrow-up'"
                   width="24"
