@@ -3,7 +3,7 @@
     <b-container style="margin-top: 2rem; max-width: 1240px">
       <b-row
         style="
-        max-height: 630px;
+        max-height: 700px;
         overflow-y: hidden;"
       >
         <b-col
@@ -16,16 +16,31 @@
           rounded
           mb-3"
             width="100%"
-            height="600px"
+            height="650px"
             src="https://www.youtube.com/embed/qtPi0JvmWbs"
             title="YouTube video player"
             frameborder="0"
           />
         </b-col>
 
+        <!--NAV BAR COLUMN-->
         <b-col :class="!navBarHidden ? 'columnNav':'columnNav__toggle'" lg="3" cols="12">
-          <span v-b-tooltip.hover :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'" style="cursor:pointer" @click="doHideNavBar()">
-            <Icon icon="material-symbols:menu-open" :rotate="!navBarHidden ? '2':'null'" width="32" color="#6c757d" /></span>
+          <!--HIDE NAV BAR ICON-->
+          <span
+            v-b-tooltip.hover
+            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+            style="cursor:pointer"
+            @click="doHideNavBar()"
+          >
+            <Icon
+              icon="material-symbols:menu-open"
+              :rotate="!navBarHidden ? '2':'null'"
+              width="32"
+              color="#6c757d"
+            />
+          </span>
+
+          <!--NAV BAR PARENT CONTAINER-->
           <div :class=" !navBarHidden? 'course-nav-container':'course-nav-container__toggle'">
             <div class="d-flex justify-content-between">
               <p class="small" style="font-weight: 600;">
@@ -35,8 +50,13 @@
                 Completed: 0/3
               </p>
             </div>
+
             <div class="d-flex flex-column">
-              <b-progress class="mb-2" height="5px" value="2" />
+              <b-progress
+                class="mb-2"
+                height="5px"
+                value="2"
+              />
               <div class="d-flex justify-content-between">
                 <p class="small">
                   Progress
@@ -47,22 +67,39 @@
               </div>
             </div>
 
-            <!--MODULE 1-->
-            <div class="border d-flex rounded p-3 mb-2">
+            <!--MODULES-->
+            <div
+              v-for="(module, moduleIndex) in courseModules"
+              :key="moduleIndex"
+              style="cursor: pointer;"
+              class="border d-flex rounded p-3 mb-2"
+              @click="toggleCollapse(moduleIndex)"
+            >
               <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
               <div>
-                <!--TOGGLE CONTAINER-->
-                <div v-b-toggle.accordion-1 class="w-100" style="text-align: start;" block variant="info">
+                <!--TOGGLE MODULE-->
+                <div
+                  class="w-100"
+                  style="text-align: start"
+                  block
+
+                  variant="info"
+                >
                   <div>
-                    <span class="small" style="font-weight: 600; color:#00b9cd">Introduction to Generative Art</span>
+                    <span class="small" style="font-weight: 600; color:#00b9cd">{{ module.title }}</span>
                     <br>
-                    <span class="small text-secondary ">5 chapters | 1h 5m</span>
+                    <span class="small text-secondary ">{{ module.chapter.length }} Chapters</span>
                   </div>
                 </div>
 
                 <!--CHAPTERS COLLAPSE-->
-                <b-collapse id="accordion-1" class="mb-2 mt-4" accordion="my-accordion" role="tabpanel">
-                  <!--CHAPTER 1-->
+                <b-collapse
+                  v-for="(chapter, chapterIndex) in module.chapter"
+                  :id="`accordion-${moduleIndex}`"
+                  :key="chapterIndex"
+                  class="mb-2 mt-4"
+                  role="tabpanel"
+                >
                   <div class="d-flex justify-content-between mb-2 position-relative chapter-container rounded p-2">
                     <Icon
                       class="progress-circle"
@@ -71,171 +108,7 @@
                       width="1rem"
                     />
                     <p class="m-0 small">
-                      Exploring the Foundations of Generative Art
-                    </p>
-                  </div>
-                  <!--CHAPTER 2-->
-                  <div class="d-flex justify-content-between mb-2 position-relative chapter-container rounded p-2">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Understanding Algorithms and Creative Coding
-                    </p>
-                  </div>
-                  <!--CHAPTER 3-->
-                  <div class="d-flex justify-content-between mb-2 position-relative chapter-container rounded p-2">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Creating Dynamic Visual Systems
-                    </p>
-                  </div>
-                  <!--CHAPTER 4-->
-                  <div class="d-flex justify-content-between  mb-2 position-relative chapter-container rounded p-2">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Embracing Randomness in Generative Art
-                    </p>
-                  </div>
-                  <!--CHAPTER 5-->
-                  <div class="d-flex justify-content-between position-relative chapter-container rounded p-2">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Expressing Creativity Through Generative Art Techniques
-                    </p>
-                  </div>
-                </b-collapse>
-              </div>
-            </div>
-
-            <!--MODULE 2-->
-            <div class="border d-flex rounded p-3 mb-2">
-              <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
-
-              <div>
-                <!--TOGGLE CONTAINER-->
-                <div v-b-toggle.accordion-2 class="w-100" style="text-align: start;" block variant="info">
-                  <div>
-                    <span class="small" style="font-weight: 600; color:#00b9cd">Interactive art with code</span><br>
-                    <span class="small text-secondary ">3 chapters | 1h 1m</span>
-                  </div>
-                </div>
-
-                <!--CHAPTERS COLLAPSE-->
-                <b-collapse id="accordion-2" class="mb-2 mt-4" accordion="my-accordion" role="tabpanel">
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Introduction to Interactive Art and Coding
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Creating Immersive Experiences with Interactive Code
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Exploring User Engagement and Interaction in Code-based Art
-                    </p>
-                  </div>
-                </b-collapse>
-              </div>
-            </div>
-
-            <!--MODULE 3-->
-            <div class="border d-flex rounded p-3 mb-2">
-              <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
-
-              <div>
-                <!--TOGGLE CONTAINER-->
-                <div v-b-toggle.accordion-3 class="w-100" style="text-align: start;" block variant="info">
-                  <div>
-                    <span class="small" style="font-weight: 600; color:#00b9cd">Data visualization and art</span><br>
-                    <span class="small text-secondary ">4 chapters | 2h 14m</span>
-                  </div>
-                </div>
-
-                <!--CHAPTERS COLLAPSE-->
-                <b-collapse id="accordion-3" class="mb-2 mt-4" accordion="my-accordion" role="tabpanel">
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Introduction to Data Visualization in Art
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Exploring Data Sources and Formats for Artistic Visualizations
-                    </p>
-                  </div>
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Creative Approaches to Data Interpretation and Representation
-                    </p>
-                  </div>
-
-                  <div class="d-flex justify-content-between mb-4 position-relative">
-                    <Icon
-                      class="progress-circle"
-                      icon="material-symbols:lens-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p class="m-0 small">
-                      Interactive Data Visualizations and Engaging Audiences
+                      {{ chapter.title }}
                     </p>
                   </div>
                 </b-collapse>
@@ -269,12 +142,71 @@
 export default {
   data () {
     return {
-      navBarHidden: false
+      navBarHidden: false,
+      courseModules: [
+        {
+          title: 'Introduction to generative art',
+          chapter: [
+            {
+              title: 'Exploring the foundation of generative art'
+            },
+            {
+              title: 'Understanding algorithms and creative coding'
+            },
+            {
+              title: 'Creating dynamic visual sistems'
+            },
+            {
+              title: 'Embracing randomness in generative art'
+            },
+            {
+              title: 'Expressing creativity through generative art techniques'
+            }
+          ]
+        },
+
+        {
+          title: 'Interactive art with code',
+          chapter: [
+            {
+              title: 'Introduction to Interactive Art and Coding'
+            },
+            {
+              title: 'Creating Immersive Experiences with Interactive Code'
+            },
+            {
+              title: 'Exploring User Engagement and Interaction in Code-based Art'
+            }
+          ]
+        },
+
+        {
+          title: 'Data visualization and art',
+          chapter: [
+            {
+              title: 'Introduction to Data Visualization in Art'
+            },
+            {
+              title: 'Exploring Data Sources and Formats for Artistic Visualizations'
+            },
+            {
+              title: 'Creative Approaches to Data Interpretation and Representation'
+            },
+            {
+              title: 'Interactive Data Visualizations and Engaging Audiences'
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {
     doHideNavBar () {
       this.navBarHidden = !this.navBarHidden
+    },
+
+    toggleCollapse (moduleIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     }
   }
 }
