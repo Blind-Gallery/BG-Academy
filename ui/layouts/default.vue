@@ -8,7 +8,7 @@
           <NuxtLink to="/">
             <img
               src="~/assets/AcademyLogo.png"
-              alt="Mi imagen"
+              alt="logo"
               width="180px"
             >
           </NuxtLink>
@@ -19,6 +19,7 @@
               Sign In
             </button>
           </div>
+
           <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
           <!--MODAL SIGN IN-->
           <b-modal id="signin" centered hidden-header hide-footer>
@@ -399,6 +400,19 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 6px; /* Ancho de la barra de scroll */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del pulgar del scroll */
+  border-radius: 3px; /* Bordes redondeados del pulgar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color del pulgar del scroll al hacer hover */
+}
+
 header{
   background-color: #fff;
 }
@@ -417,6 +431,11 @@ p{
 h1{
   font-weight: bold;
 }
+
+h2, h3,h4,h5{
+  font-weight: 600;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;

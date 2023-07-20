@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--INTRODUCTION CONTAINER-->
-    <b-container class="main-container pt-5 pb-5 mb-4" fluid>
+    <b-container class="main-container pt-5 pb-5 mb-5" fluid>
       <b-container style="max-width: 1240px;">
         <b-row class="align-items-center">
           <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
@@ -23,38 +23,39 @@
       </b-container>
     </b-container>
     <!--INFO CONTAINER-->
-    <b-container style="max-width: 1240px;">
-      <!--PARTNERS ROW-->
-      <p class="mt-4">
-        Meet our parterns
+    <b-container class="mb-5" style="max-width: 1240px;">
+      <!--PARTNERS CONTAINER-->
+      <p style="text-align: center; font-weight: 600;">
+        Meet our partners
       </p>
-      <b-row class="mb-5">
-        <div class="partners-container d-flex align-items-center" style="gap:2rem">
-          <img alt="fxhash" src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2">
-          <div style="height: 100%; border: 1px solid #cccccc;" />
-          <img
-            style="width: 85px;"
-            alt="tezos"
-            src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
-          ><div style="height: 100%; border: 1px solid #cccccc;" />
-          <img
-            alt="joyn"
-            src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
-            style="width: 90px;"
-          >
-          <div style="height: 100%; border: 1px solid #cccccc;" />
-          <img
-            alt="autonomy"
-            style="width: 140px;"
-            src="https://autonomy.io/Logo.svg"
-          >
-        </div>
-      </b-row>
-      <!--COURSES ROW-->
+      <hr class="m-0">
+      <div class="partners-container mb-5">
+        <img
+          width="110px"
+          alt="joyn"
+          src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
+        >
 
-      <h3 class="mb-4">
+        <img
+          width="140px"
+          alt="autonomy"
+          src="https://autonomy.io/Logo.svg"
+        >
+        <img
+          width="95px"
+          alt="tezos"
+          src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
+        >
+        <img
+          width="140px"
+          alt="fxhash"
+          src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2"
+        >
+      </div>
+      <!--COURSES ROW-->
+      <h4 class="mb-4 ">
         Increase your potential with the best courses
-      </h3>
+      </h4>
 
       <b-row>
         <b-col cols="12" lg="4">
@@ -116,7 +117,8 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container fluid style="background-color: #F6F6F6;">
+    <!--COMMUNITY FEEDBACK-->
+    <b-container class="mb-5" fluid style="background-color: #F6F6F6;">
       <b-container style="max-width: 1240px;">
         <b-row class="align-items-center pt-5 pb-5">
           <b-col>
@@ -187,9 +189,25 @@
 }
 
 .partners-container img{
-  width: 10%;
-  object-fit: contain;
   filter: brightness(-100%);
+  justify-self: center;
+
+}
+
+.partners-container{
+  display:grid;
+  grid-template-columns: repeat(4,0.2fr);
+  align-items: center;
+  justify-content: center;
+  gap:1.5rem;
+  padding:1.25rem
+}
+
+@media(max-width:768px){
+.partners-container{
+  display:grid;
+  grid-template-columns: repeat(2,0.5fr);
+}
 }
 
 @media (max-width: 425px){
