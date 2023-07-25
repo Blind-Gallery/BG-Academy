@@ -73,7 +73,6 @@
               :key="moduleIndex"
               style="cursor: pointer;"
               class="border d-flex rounded p-3 mb-2"
-              @click="toggleCollapse(moduleIndex)"
             >
               <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
               <div>
@@ -82,8 +81,8 @@
                   class="w-100"
                   style="text-align: start"
                   block
-
                   variant="info"
+                  @click="toggleCollapse(moduleIndex)"
                 >
                   <div>
                     <span class="small" style="font-weight: 600; color:#00b9cd">{{ module.title }}</span>
