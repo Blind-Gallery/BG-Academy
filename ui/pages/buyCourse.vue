@@ -66,138 +66,54 @@
               Course curriculum
             </h5>
 
-            <button v-b-toggle.accordion-1 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
-              <span>Introduction to Generative Art</span><br>
-              <span class="small text-secondary">5 chapters | 1h 5m</span>
-            </button>
-
-            <b-collapse id="accordion-1" class="mb-2 " accordion="my-accordion" role="tabpanel">
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  1. Exploring the Foundations of Generative Art
-                </p><p class="m-0">
-                  5min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0 ">
-                  2. Understanding Algorithms and Creative Coding
-                </p><p class="m-0">
-                  15min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  3. Creating Dynamic Visual Systems
-                </p><p class="m-0">
-                  30min.
-                </p>
+            <div
+              v-for="(module, moduleIndex) in courseModules"
+              :key="moduleIndex"
+              class="w-100 border p-3 mb-2 rounded"
+            >
+              <div @click="toggleCollapse(moduleIndex)">
+                <PxToggleCollapse :icon-width="'24px'" :subtitle-name="`Chapters: ${module.chapter.length} | 1h 30min`" :toggle-name="module.title" />
               </div>
 
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  4. Embracing Randomness in Generative Art
-                </p><p class="m-0">
-                  25min.
-                </p>
-              </div>
-
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  5. Expressing Creativity Through Generative Art Techniques
-                </p><p class="m-0">
-                  50min.
-                </p>
-              </div>
-            </b-collapse>
-
-            <button v-b-toggle.accordion-2 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
-              <span>Interactive art with code</span><br>
-              <span class="small text-secondary">3 chapters | 1h 1m</span>
-            </button>
-
-            <b-collapse id="accordion-2" class="mb-2 " accordion="my-accordion" role="tabpanel">
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  1.  Introduction to Interactive Art and Coding
-                </p><p class="m-0">
-                  8min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  2.Creating Immersive Experiences with Interactive Code
-                </p><p class="m-0">
-                  23min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  3. Exploring User Engagement and Interaction in Code-based Art
-                </p><p class="m-0">
-                  30min.
-                </p>
-              </div>
-            </b-collapse>
-
-            <button v-b-toggle.accordion-3 class="secondary-btn w-100 mb-2" style="text-align: start;" block variant="info">
-              <span>Data Visualization and Art</span><br>
-              <span class="small text-secondary">4 chapters | 2h 14m</span>
-            </button>
-
-            <b-collapse id="accordion-3" class="mb-2" accordion="my-accordion" role="tabpanel">
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  1. Introduction to Data Visualization in Art
-                </p><p class="m-0">
-                  4min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0 ">
-                  2. Exploring Data Sources and Formats for Artistic Visualizations
-                </p><p class="m-0">
-                  45min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  3. Creative Approaches to Data Interpretation and Representation
-                </p><p class="m-0">
-                  35min.
-                </p>
-              </div>
-              <div class="d-flex justify-content-between p-2 mb-2">
-                <p class="m-0">
-                  4. Interactive Data Visualizations and Engaging Audiences
-                </p><p class="m-0">
-                  50min.
-                </p>
-              </div>
-            </b-collapse>
+              <!--CHAPTERS COLLAPSE-->
+              <b-collapse
+                v-for="(chapter, chapterIndex) in module.chapter"
+                :id="`accordion-${moduleIndex}`"
+                :key="chapterIndex"
+                role="tabpanel"
+              >
+                <div class="d-flex justify-content-between mt-3 position-relative chapter-container rounded">
+                  <div class="d-flex align-items-center">
+                    <Icon
+                      icon="material-symbols:smart-display-outline-rounded"
+                      color="#6c757d"
+                      width="18"
+                      class="mr-2"
+                    />
+                    <p
+                      class="m-0 small"
+                    >
+                      {{ chapter.title }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="small m-0">
+                      15min
+                    </p>
+                  </div>
+                </div>
+              </b-collapse>
+            </div>
           </div>
         </b-col>
         <b-col lg="4">
           <div class="d-flex flex-column p-3 shadow-sm rounded ml-3" style="gap:0.5rem; position:sticky; top: 77px;">
-            <div v-b-toggle.instructor class="d-flex align-items-center" style="gap:0.5rem" @click="toggleDropdown">
+            <div v-b-toggle.instructor class="d-flex align-items-center w-100" style="gap:0.5rem" @click="toggleDropdown">
               <b-avatar src="https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg" size="2rem" />
-              <div class="d-flex flex-column align-items-start">
-                <p class="m-0 small">
-                  Instructor
-                </p>
 
-                <p class="m-0 text-dark">
-                  Hugo Santana
-                </p>
-              </div>
-              <div class="position-absolute" style="right:20px">
-                <Icon
-                  :icon="isOpen ? 'material-symbols:keyboard-arrow-down' : 'material-symbols:keyboard-arrow-up'"
-                  width="24"
-                />
-              </div>
+              <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="'Instructor name'" :subtitle-name="'Instructor'" />
             </div>
-            <b-collapse id="instructor" visible accordion="intructor" role="tabpanel">
+            <b-collapse id="instructor" accordion="intructor" role="tabpanel">
               <p class="small">
                 With over a decade of experience, he has taught at prestigious educational institutions and inspired countless students to delve into the fascinating world of creative coding.<br><br>
                 His unique approach combines traditional art with cutting-edge technology, earning him recognition for pushing the boundaries of artistic expression.
@@ -324,14 +240,70 @@ export default {
   data () {
     return {
       seeMore: false,
-      isOpen: false
+      isOpen: false,
+      courseModules: [
+        {
+          collapsed: true,
+          title: 'Introduction to generative art',
+          chapter: [
+            {
+              title: 'Exploring the foundation of generative art'
+            },
+            {
+              title: 'Understanding algorithms and creative coding'
+            },
+            {
+              title: 'Creating dynamic visual sistems'
+            },
+            {
+              title: 'Embracing randomness in generative art'
+            },
+            {
+              title: 'Expressing creativity through generative art techniques'
+            }
+          ]
+        },
+        {
+          title: 'Interactive art with code',
+          chapter: [
+            {
+              title: 'Introduction to Interactive Art and Coding'
+            },
+            {
+              title: 'Creating Immersive Experiences with Interactive Code'
+            },
+            {
+              title: 'Exploring User Engagement and Interaction in Code-based Art'
+            }
+          ]
+        },
+        {
+          title: 'Data visualization and art',
+          chapter: [
+            {
+              title: 'Introduction to Data Visualization in Art'
+            },
+            {
+              title: 'Exploring Data Sources and Formats for Artistic Visualizations'
+            },
+            {
+              title: 'Creative Approaches to Data Interpretation and Representation'
+            },
+            {
+              title: 'Interactive Data Visualizations and Engaging Audiences'
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {
+    toggleCollapse (moduleIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
+    },
     doSeeMore () {
       this.seeMore = !this.seeMore
     },
-
     toggleDropdown () {
       this.isOpen = !this.isOpen
     }
@@ -340,14 +312,14 @@ export default {
 </script>
 <style>
 .description-container{
-    -webkit-mask-image: linear-gradient(to top,transparent 0,transparent 51px,#000 77px,#000 100%);
+    mask-image: linear-gradient(to top,transparent 0,transparent 51px,#000 77px,#000 100%);
     height: 200px;
 
 }
 
 .decription-container__toggle{
     height: 100%;
-    -webkit-mask-image: inherit;
+    mask-image: inherit;
 
 }
 
