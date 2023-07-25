@@ -1,0 +1,19 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.rulers": [
+      {
+        "color": "#ff0000",
+        "column": 80
+      }
+    ]
+  },
+  "cSpell.words": [
+    "fastify",
+    "hasura"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"]
+}
