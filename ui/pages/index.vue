@@ -59,7 +59,7 @@
 
       <b-row>
         <b-col cols="12" lg="4">
-          <NuxtLink style="text-decoration: none;" to="/buyCourse">
+          <NuxtLink style="text-decoration: none;" class="link" to="/buyCourse">
             <PxCard
               :pfp="'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg'"
               :instructor="'Hugo Santana'"
@@ -201,6 +201,16 @@
   justify-content: center;
   gap:1.5rem;
   padding:1.25rem
+}
+
+.link{
+  color:black;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.link:hover{
+  color:#00b9cd
 }
 
 @media(max-width:768px){
