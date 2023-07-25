@@ -9,7 +9,9 @@
               Your starting point into
               <span style="color:#00B9CD"> Digital Arts  & Culture</span>
             </h1>
-            <p>Explore interactive courses led by industry experts, unleashing your artistic potential.</p>
+            <p>
+              Explore interactive courses led by industry experts, unleashing your artistic potential.
+            </p>
             <div class="d-flex gap-2">
               <button class="secondary-btn-black">
                 Explore courses
@@ -59,7 +61,7 @@
 
       <b-row>
         <b-col cols="12" lg="4">
-          <NuxtLink style="text-decoration: none;" class="link" to="/buyCourse">
+          <NuxtLink class="course-route" to="/buyCourse">
             <PxCard
               :pfp="'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg'"
               :instructor="'Hugo Santana'"
@@ -201,16 +203,6 @@
   justify-content: center;
   gap:1.5rem;
   padding:1.25rem
-}
-
-.link{
-  color:black;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-.link:hover{
-  color:#00b9cd
 }
 
 @media(max-width:768px){

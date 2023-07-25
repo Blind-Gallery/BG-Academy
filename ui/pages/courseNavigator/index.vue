@@ -36,7 +36,6 @@
               icon="material-symbols:menu-open"
               :rotate="!navBarHidden ? '2':'null'"
               width="32"
-              color="#6c757d"
             />
           </span>
 
@@ -75,20 +74,10 @@
               class="border d-flex rounded p-3 mb-2"
             >
               <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
-              <div>
+              <div class="w-100">
                 <!--TOGGLE MODULE-->
-                <div
-                  class="w-100"
-                  style="text-align: start"
-                  block
-                  variant="info"
-                  @click="toggleCollapse(moduleIndex)"
-                >
-                  <div>
-                    <span class="small" style="font-weight: 600; color:#00b9cd">{{ module.title }}</span>
-                    <br>
-                    <span class="small text-secondary ">{{ module.chapter.length }} Chapters</span>
-                  </div>
+                <div @click="toggleCollapse(moduleIndex)">
+                  <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: ${module.chapter.length}`" />
                 </div>
 
                 <!--CHAPTERS COLLAPSE-->
@@ -99,15 +88,18 @@
                   class="mb-2 mt-4"
                   role="tabpanel"
                 >
-                  <div class="d-flex justify-content-between mb-2 position-relative chapter-container rounded p-2">
+                  <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
                     <Icon
                       class="progress-circle"
                       icon="material-symbols:lens-outline"
                       color="#00b9cd"
                       width="1rem"
                     />
-                    <p class="m-0 small">
-                      {{ chapter.title }}
+                    <p style="font-size: small;" class="m-0 text-secondary">
+                      {{ chapter.title }}<br>
+                    </p>
+                    <p style="font-size: small" class="m-0 text-secondary">
+                      5min.<br>
                     </p>
                   </div>
                 </b-collapse>
@@ -123,9 +115,6 @@
             <b-tabs content-class="mt-3">
               <b-tab title="Resources" active>
                 <p>I'm the first tab</p>
-              </b-tab>
-              <b-tab title="Community">
-                <p>I'm the second tab</p>
               </b-tab>
               <b-tab title="Course info">
                 <p>I'm a disabled tab!</p>

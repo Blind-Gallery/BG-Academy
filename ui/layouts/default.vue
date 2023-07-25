@@ -400,6 +400,16 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
+.course-route{
+  text-decoration: none;
+  color:inherit
+}
+
+.course-route:hover{
+  text-decoration: none;
+  color:inherit;
+}
+
 ::-webkit-scrollbar {
   width: 6px; /* Ancho de la barra de scroll */
 }
@@ -422,10 +432,6 @@ a{
 
 a:hover{
   color:#009cad;
-}
-
-p{
-  color:#6c757d
 }
 
 h1{
