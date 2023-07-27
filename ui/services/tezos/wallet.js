@@ -1,8 +1,7 @@
 import { BeaconWallet } from '@taquito/beacon-wallet'
-import { Tezos } from '@/services/tezos'
+import { Tezos } from './utils'
 
 import { ENDPOINT, DEFAULT_MATRIX_NODE, CHAIN_NAME, APP_NAME, SERVICE_API } from '@/constants'
-import isUserAllowed from '@/API/getAllowList'
 
 const getWallets = async function (tezosAddress) {
   const response = await fetch(`${SERVICE_API}/wallets?login_wallet=${tezosAddress}`, {
@@ -20,8 +19,7 @@ const options = {
   name: APP_NAME,
   matrixNodes: [DEFAULT_MATRIX_NODE],
   preferredNetwork: CHAIN_NAME,
-  disableDefaultEvents: false,
-  featuredWallets: ['autonomy']
+  disableDefaultEvents: false
 }
 
 class BeaconWalletService {
@@ -45,7 +43,6 @@ class BeaconWalletService {
     this.tezosAddress = await this.wallet.getPKH()
     this.addedWallets = await getWallets(this.tezosAddress)
     this.isWalletConnected = true
-    this.isAllowed = await isUserAllowed(this.tezosAddress)
   }
 
   async autoLogin () {
@@ -56,7 +53,6 @@ class BeaconWalletService {
       this.addedWallets = await getWallets(this.tezosAddress)
       this.isWalletConnected = true
       Tezos.setWalletProvider(this.wallet)
-      this.isAllowed = await isUserAllowed(this.tezosAddress)
     }
   }
 

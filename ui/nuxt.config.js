@@ -1,3 +1,5 @@
+import webpack from 'webpack'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -56,7 +58,46 @@ export default {
     baseURL: '/'
   },
 
+  server: {
+    port: 4000
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    loaders: {
+      vue: {
+        transformAssetUrls: {
+          audio: 'src'
+        }
+      }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        // global modules
+        $: 'jquery',
+        _: 'lodash'
+      })
+    ],
+    extend (config, { isDev, isClient }) {
+      config.module.rules.push({
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]'
+        }
+      })
+      // ..
+      config.module.rules.push({
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        loader: 'file-loader'
+      })
+      // Sets webpack's mode to development if `isDev` is true.
+      if (isDev) {
+        config.mode = 'development'
+      }
+      if (isClient) {
+        config.optimization.splitChunks.maxSize = 200000
+      }
+    }
   }
 }
