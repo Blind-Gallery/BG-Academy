@@ -66,15 +66,20 @@ export default {
   build: {
     babel: {
       babelrc: true,
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            useBuiltIns: 'entry',
-            corejs: '3.22'
-          }
+      presets (env, [preset, options]) {
+        return [
+          ['@nuxt/babel-preset-app', options]
         ]
-      ],
+      },
+      // presets: [
+      //   [
+      //     '@babel/preset-env',
+      //     {
+      //       useBuiltIns: 'entry',
+      //       corejs: '3.22'
+      //     }
+      //   ]
+      // ],
       plugins: ['@babel/plugin-transform-nullish-coalescing-operator']
     },
 
