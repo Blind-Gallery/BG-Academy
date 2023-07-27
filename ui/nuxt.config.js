@@ -91,6 +91,10 @@ export default {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader'
       })
+      config.module.rules.push({
+        test: /node_modules[\\/]@walletconnect/,
+        loader: 'babel-loader'
+      })
       // Sets webpack's mode to development if `isDev` is true.
       if (isDev) {
         config.mode = 'development'
