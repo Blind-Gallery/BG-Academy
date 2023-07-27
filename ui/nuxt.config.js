@@ -65,8 +65,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     plugins: [
-      @babel/plugin-transform-nullish-coalescing-operator
-    ]
+    ],
     // plugins: [
     //   new webpack.ProvidePlugin({
     //     // global modules

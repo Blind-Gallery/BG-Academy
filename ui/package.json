@@ -28,12 +28,11 @@
     "vue": "^2.7.10",
     "vue-html2pdf": "^1.8.0",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10",
-    "webpack": "^5.88.2",
-    "webpack-dashboard": "^3.3.8"
+    "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-decorators": "^7.22.7",
     "@iconify/vue2": "^2.1.0",
     "@nuxtjs/eslint-config": "^11.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
