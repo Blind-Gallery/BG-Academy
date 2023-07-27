@@ -39,7 +39,7 @@
 
             <b-row v-else style="height: 65vh">
               <b-col lg="4">
-                <NuxtLink class="link" style="text-decoration: none;" to="/courseNavigator">
+                <NuxtLink class="course-route" style="text-decoration: none;" to="/courseNavigator">
                   <PxCard
                     :is-progress="true"
                     :is-certificate="false"

@@ -9,15 +9,24 @@
             <img
               src="~/assets/AcademyLogo.png"
               alt="logo"
-              width="180px"
+              width="160px"
             >
           </NuxtLink>
-          <div class="d-lg-flex d-none" style="gap: 1rem">
+          <div v-if="true" class="d-lg-flex d-none" style="gap: 1rem">
             <button v-b-modal.signup class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signin class="primary-btn">
               Sign In
             </button>
+          </div>
+
+          <div v-else>
+            <NuxtLink to="/myCourses">
+              <button class="tertiary-btn">
+                My courses
+              </button>
+            </NuxtLink>
+            <b-avatar size="1.5rem" />
           </div>
 
           <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
@@ -400,6 +409,16 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
+.course-route{
+  text-decoration: none;
+  color:inherit
+}
+
+.course-route:hover{
+  text-decoration: none;
+  color:inherit;
+}
+
 ::-webkit-scrollbar {
   width: 6px; /* Ancho de la barra de scroll */
 }
@@ -422,10 +441,6 @@ a{
 
 a:hover{
   color:#009cad;
-}
-
-p{
-  color:#6c757d
 }
 
 h1{

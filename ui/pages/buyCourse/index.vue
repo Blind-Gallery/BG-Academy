@@ -80,28 +80,30 @@
                 v-for="(chapter, chapterIndex) in module.chapter"
                 :id="`accordion-${moduleIndex}`"
                 :key="chapterIndex"
+                class="mt-2"
                 role="tabpanel"
               >
-                <div class="d-flex justify-content-between mt-3 position-relative chapter-container rounded">
-                  <div class="d-flex align-items-center">
-                    <Icon
-                      icon="material-symbols:smart-display-outline-rounded"
-                      color="#6c757d"
-                      width="18"
-                      class="mr-2"
-                    />
-                    <p
-                      class="m-0 small"
-                    >
-                      {{ chapter.title }}
-                    </p>
+                <NuxtLink to="/courseNavigator">
+                  <div class="d-flex justify-content-between py-3 px-2 position-relative  rounded">
+                    <div class="d-flex align-items-center">
+                      <Icon
+                        icon="material-symbols:smart-display-outline-rounded"
+                        width="18"
+                        class="mr-2"
+                      />
+                      <p
+                        class="m-0 small text-secondary"
+                      >
+                        {{ chapter.title }}
+                      </p>
+                    </div>
+                    <div>
+                      <p class="small m-0 text-secondary">
+                        15min
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p class="small m-0">
-                      15min
-                    </p>
-                  </div>
-                </div>
+                </NuxtLink>
               </b-collapse>
             </div>
           </div>
@@ -114,7 +116,7 @@
               <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="'Instructor name'" :subtitle-name="'Instructor'" />
             </div>
             <b-collapse id="instructor" accordion="intructor" role="tabpanel">
-              <p class="small">
+              <p class="small text-secondary">
                 With over a decade of experience, he has taught at prestigious educational institutions and inspired countless students to delve into the fascinating world of creative coding.<br><br>
                 His unique approach combines traditional art with cutting-edge technology, earning him recognition for pushing the boundaries of artistic expression.
               </p>
@@ -200,31 +202,31 @@
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" color="#888" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:alarm-outline" class="mr-2" /><p class="small m-0">
                   Aprox. duration 4 hours
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:signal-cellular-alt" color="#888" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:signal-cellular-alt" class="mr-2" /><p class="small m-0">
                   Advanced level
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
                 <Icon
                   icon="material-symbols:language"
-                  color="#888"
+
                   class="mr-2"
                 /><p class="small m-0">
                   100% Online
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:closed-caption-outline" color="#888" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:closed-caption-outline" class="mr-2" /><p class="small m-0">
                   English subtitles
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:verified-outline" color="#888" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:verified-outline" class="mr-2" /><p class="small m-0">
                   Certificate
                 </p>
               </div>
