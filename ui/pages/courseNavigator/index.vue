@@ -1,18 +1,13 @@
 <template>
   <div>
     <b-container style="margin-top: 2rem; max-width: 1240px">
-      <b-row
-        style="
-        max-height: 700px;
-        overflow-y: hidden;"
-        class="align-items-center"
-      >
+      <b-row>
         <b-col
           :class="!navBarHidden ? 'course-video':'course-video__toggle'"
           lg="9"
           cols="12"
         >
-          <div v-if="false">
+          <div v-if="true">
             <iframe
               class="
           rounded
@@ -24,7 +19,7 @@
               frameborder="0"
             />
           </div>
-          <div v-else class="d-flex flex-column align-items-center h-100">
+          <div v-else class="d-flex flex-column align-items-center">
             <Transition name="fade" mode="out-in">
               <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
                 <h1 class="text-light">
@@ -57,7 +52,7 @@
                 </div>
               </div>
 
-              <div v-else key="2">
+              <div v-else key="2" class="shadow-sm">
                 <swiper
                   ref="swiper"
                   class="ev-Slider"
@@ -65,10 +60,12 @@
                   :modules="modules"
                   :effect="'fade'"
                   :space-between="40"
-                  :navigation="true"
-                  :pagination="{
-                    clickable: true,
+                  :navigation="{
+                    enabled:true,
+                    nextEl:'.primary-btn',
+                    prevEl:'.secondary-btn'
                   }"
+                  :pagination="paginationOp"
                 >
                   <swiper-slide>
                     <h4 class="m-0 text-center" style="color:#00b9cd">
@@ -97,43 +94,7 @@
                         <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
                       </b-form-checkbox>
                     </b-form-checkbox-group>
-                    <div class="d-flex align-items-center">
-                      <button class="secondary-btn mr-3">
-                        LAST
-                      </button>
-                      <button class="primary-btn" @click="onNext">
-                        NEXT
-                      </button>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide>
-                    <h4 class="m-0 text-center" style="color:#00b9cd">
-                      1.- What does NFT stand for, and what is its basic definition?
-                    </h4>
-                    <hr class="w-100">
-                    <p>Choose one option</p>
-
-                    <b-form-checkbox-group
-                      v-model="selected"
-                      class="d-flex flex-column align-items-start mb-3"
-                      value-field="item"
-                      text-field="name"
-                      disabled-field="notEnabled"
-                    >
-                      <b-form-checkbox value="orange" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="apple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="grape" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
-                      </b-form-checkbox>
-                    </b-form-checkbox-group>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center">
                       <button class="secondary-btn mr-3">
                         LAST
                       </button>
@@ -142,98 +103,128 @@
                       </button>
                     </div>
                   </swiper-slide>
+
+                  <swiper-slide>
+                    <h4 class="m-0 text-center" style="color:#00b9cd">
+                      1.- What does NFT stand for, and what is its basic definition?
+                    </h4>
+                    <hr class="w-100">
+                    <p>Choose one option</p>
+
+                    <b-form-checkbox-group
+                      v-model="selected"
+                      class="d-flex flex-column align-items-start mb-3"
+                      value-field="item"
+                      text-field="name"
+                      disabled-field="notEnabled"
+                    >
+                      <b-form-checkbox value="orange" class="text-secondary small mb-4">
+                        <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
+                      </b-form-checkbox>
+                      <b-form-checkbox value="apple" class="text-secondary small mb-4">
+                        <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
+                      </b-form-checkbox>
+                      <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
+                        <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
+                      </b-form-checkbox>
+                      <b-form-checkbox value="grape" class="text-secondary small mb-4">
+                        <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
+                      </b-form-checkbox>
+                    </b-form-checkbox-group>
+                  </swiper-slide>
                 </swiper>
               </div>
             </Transition>
           </div>
         </b-col>
+        <!--HIDE NAV BAR ICON-->
 
         <!--NAV BAR COLUMN-->
-        <b-col :class="!navBarHidden ? 'columnNav border rounded py-3':'columnNav__toggle'" lg="3" cols="12">
-          <!--HIDE NAV BAR ICON-->
-          <span
-            v-b-tooltip.hover
-            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
-            style="cursor:pointer"
-            @click="doHideNavBar()"
-          >
-            <Icon
-              icon="material-symbols:menu-open"
-              :rotate="!navBarHidden ? '2':'null'"
-              width="32"
-            />
-          </span>
+        <Transition name="slide-fade">
+          <b-col v-if="!navBarHidden" key="1" class="border rounded py-3" lg="3" cols="12">
+            <!--NAV BAR PARENT CONTAINER-->
 
-          <!--NAV BAR PARENT CONTAINER-->
-          <div :class=" !navBarHidden? 'course-nav-container':'course-nav-container__toggle'">
-            <div class="d-flex justify-content-between">
-              <p class="small" style="font-weight: 600;">
-                Modules
-              </p>
-              <p class="small">
-                Completed: 0/3
-              </p>
-            </div>
-
-            <div class="d-flex flex-column">
-              <b-progress
-                class="mb-2"
-                height="5px"
-                value="2"
-              />
+            <div class="course-nav-container">
               <div class="d-flex justify-content-between">
-                <p class="small">
-                  Progress
+                <p class="small" style="font-weight: 600;">
+                  Modules
                 </p>
                 <p class="small">
-                  2%
+                  Completed: 0/3
                 </p>
               </div>
-            </div>
 
-            <!--MODULES-->
-            <div
-              v-for="(module, moduleIndex) in courseModules"
-              :key="moduleIndex"
-              style="cursor: pointer;"
-              class="border d-flex rounded p-3 mb-2"
-            >
-              <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
-              <div class="w-100">
-                <!--TOGGLE MODULE-->
-                <div @click="toggleCollapse(moduleIndex)">
-                  <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapter.length}`" />
+              <div class="d-flex flex-column">
+                <b-progress
+                  class="mb-2"
+                  height="5px"
+                  value="2"
+                />
+                <div class="d-flex justify-content-between">
+                  <p class="small">
+                    Progress
+                  </p>
+                  <p class="small">
+                    2%
+                  </p>
                 </div>
+              </div>
 
-                <!--CHAPTERS COLLAPSE-->
-                <b-collapse
-                  v-for="(chapter, chapterIndex) in module.chapter"
-                  :id="`accordion-${moduleIndex}`"
-                  :key="chapterIndex"
-                  class="mb-2 mt-4"
-                  role="tabpanel"
-                >
-                  <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
-                    <Icon
-                      class="progress-circle"
-                      :icon="chapter.isCompleted ? 'material-symbols:check-circle' :'material-symbols:lens-outline'"
-                      color="#00b9cd"
-                      width="1rem"
-                    />
-                    <p style="font-size: small; font-weight: 600;" class="m-0 text-secondary">
-                      {{ chapter.title }}<br>
-                    </p>
-                    <p style="font-size: small" class="m-0 text-secondary">
-                      5min.<br>
-                    </p>
+              <!--MODULES-->
+              <div
+                v-for="(module, moduleIndex) in courseModules"
+                :key="moduleIndex"
+                style="cursor: pointer;"
+                class="border d-flex rounded p-3 mb-2"
+              >
+                <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
+                <div class="w-100">
+                  <!--TOGGLE MODULE-->
+                  <div @click="toggleCollapse(moduleIndex)">
+                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapter.length}`" />
                   </div>
-                </b-collapse>
+
+                  <!--CHAPTERS COLLAPSE-->
+                  <b-collapse
+                    v-for="(chapter, chapterIndex) in module.chapter"
+                    :id="`accordion-${moduleIndex}`"
+                    :key="chapterIndex"
+                    class="mb-2 mt-4"
+                    role="tabpanel"
+                  >
+                    <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
+                      <Icon
+                        class="progress-circle"
+                        :icon="chapter.isCompleted ? 'material-symbols:check-circle' :'material-symbols:lens-outline'"
+                        color="#00b9cd"
+                        width="1rem"
+                      />
+                      <p style="font-size: small; font-weight: 600;" class="m-0 text-secondary">
+                        {{ chapter.title }}<br>
+                      </p>
+                      <p style="font-size: small" class="m-0 text-secondary">
+                        5min.<br>
+                      </p>
+                    </div>
+                  </b-collapse>
+                </div>
               </div>
             </div>
-          </div>
-        </b-col>
+          </b-col>
+        </Transition>
       </b-row>
-
+      <span
+        v-b-tooltip.hover
+        :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+        style="cursor:pointer"
+        @click="doHideNavBar()"
+      >
+        <Icon
+          icon="material-symbols:menu-open"
+          :rotate="!navBarHidden ? '2':'null'"
+          width="32"
+        />
+      </span>
       <b-row>
         <b-col>
           <div class="w-100">
@@ -266,12 +257,19 @@ export default {
   },
   setup () {
     return {
-
       modules: [Pagination, EffectFade, Navigation]
     }
   },
   data () {
     return {
+      paginationOp:
+      {
+        clickable: true,
+        className: '.bullets',
+        renderBullet: function (index, className) {
+          return '<span class="' + className + '">' + (index + 1) + '</span>'
+        }
+      },
       showEvIntro: true,
       navBarHidden: false,
       courseModules: [
@@ -373,38 +371,7 @@ export default {
   max-height: 600px;
   overflow-y: auto;
   padding-right: 5px;
-  transition: transform 0.3s ease;
-}
 
-.course-nav-container__toggle{
-  transition: transform 0.3s ease;
-  transform: translateX(120%);
-}
-
-.course-video{
-  flex: 0 0 75%;
-  max-width: 75%;
-  transition: 0.3s ease;
-}
-
-.course-video__toggle{
-  transition: 0.3s ease;
-  flex: 0 0 91.666667%;
-  max-width: 91.666667%;
-}
-
-.columnNav{
-  flex: 0 0 25%;
-  max-width: 25%;
-  transition: 0.3s ease;
-  overflow-x: hidden;
-}
-
-.columnNav__toggle{
-  transition: 0.3s ease;
-  flex: 0 0 8.333333%;
-  max-width: 8.333333%;
-  overflow-x: hidden;
 }
 
 .chapter-container{
@@ -429,9 +396,9 @@ export default {
   display:flex;
   justify-content: center;
   flex-direction: column;
-  border: 1px solid gray;
   padding:2rem;
   border-radius: 5px;
+  height: 560px;
 }
 
 .fade-enter-active {
@@ -443,6 +410,24 @@ export default {
   opacity: 0
 }
 
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s ;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+  }
+
 .swiper-pagination-bullet {
   width: 20px;
   height: 20px;
@@ -451,12 +436,14 @@ export default {
   font-size: 12px;
   color: #000;
   opacity: 1;
-  background: rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border: 1px solid #00b9cd;
+
 }
 
 .swiper-pagination-bullet-active {
   color: #fff;
-  background: #007aff;
+  background: #00b9cd;
 }
 
 </style>
