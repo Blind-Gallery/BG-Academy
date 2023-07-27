@@ -18,6 +18,8 @@
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
+    "swiper": "6.8.4",
+    "swiper-vue2": "1.0.9",
     "vue": "^2.7.10",
     "vue-html2pdf": "^1.8.0",
     "vue-server-renderer": "^2.7.10",
