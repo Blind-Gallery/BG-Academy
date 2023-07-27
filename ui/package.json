@@ -13,7 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.5",
+    "@airgap/beacon-sdk": "^4.0.6",
     "@microsoft/signalr": "^7.0.9",
     "@nuxtjs/axios": "^5.13.6",
     "@taquito/beacon-wallet": "^17.1.0",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.22.7",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.5",
     "@iconify/vue2": "^2.1.0",
     "@nuxtjs/eslint-config": "^11.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",

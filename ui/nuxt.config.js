@@ -64,8 +64,20 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    plugins: [
-    ],
+    babel: {
+      babelrc: true,
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            useBuiltIns: 'entry',
+            corejs: '3.22'
+          }
+        ]
+      ],
+      plugins: ['@babel/plugin-transform-nullish-coalescing-operator']
+    },
+
     // plugins: [
     //   new webpack.ProvidePlugin({
     //     // global modules
