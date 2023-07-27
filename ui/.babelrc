@@ -7,5 +7,6 @@
         "corejs": "3.22"
       }
     ]
-  ]
+  ],
+  "plugins": ["@babel/plugin-transform-nullish-coalescing-operator"]
 }

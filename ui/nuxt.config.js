@@ -64,29 +64,20 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    loaders: {
-      vue: {
-        transformAssetUrls: {
-          audio: 'src'
-        }
-      }
-    },
     plugins: [
-      new webpack.ProvidePlugin({
-        // global modules
-        $: 'jquery',
-        _: 'lodash'
-      })
-    ],
+      @babel/plugin-transform-nullish-coalescing-operator
+    ]
+    // plugins: [
+    //   new webpack.ProvidePlugin({
+    //     // global modules
+    //     $: 'jquery',
+    //     _: 'lodash'
+    //   })
+    // ],
+    // commonjsOptions: {
+    //   transformMixedEsModules: true // Enable @walletconnect/web3-provider which has some code in CommonJS
+    // },
     extend (config, { isDev, isClient }) {
-      config.module.rules.push({
-        test: /\.(ogg|mp3|wav|mpe?g)$/i,
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]'
-        }
-      })
-      // ..
       config.module.rules.push({
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader'
@@ -105,3 +96,5 @@ export default {
     }
   }
 }
+
+// "plugins": ["@babel/plugin-transform-nullish-coalescing-operator"]
