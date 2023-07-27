@@ -1,3 +1,18 @@
 table:
   name: users
   schema: public
+object_relationships:
+  - name: email
+    using:
+      foreign_key_constraint_on:
+        column: id
+        table:
+          name: emails
+          schema: public
+  - name: tezo
+    using:
+      foreign_key_constraint_on:
+        column: id
+        table:
+          name: tezos
+          schema: public
