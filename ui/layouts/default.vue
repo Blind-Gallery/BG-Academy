@@ -9,15 +9,24 @@
             <img
               src="~/assets/AcademyLogo.png"
               alt="logo"
-              width="180px"
+              width="160px"
             >
           </NuxtLink>
-          <div class="d-lg-flex d-none" style="gap: 1rem">
+          <div v-if="true" class="d-lg-flex d-none" style="gap: 1rem">
             <button v-b-modal.signup class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signin class="primary-btn">
               Sign In
             </button>
+          </div>
+
+          <div v-else>
+            <NuxtLink to="/myCourses">
+              <button class="tertiary-btn">
+                My courses
+              </button>
+            </NuxtLink>
+            <b-avatar size="1.5rem" />
           </div>
 
           <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
