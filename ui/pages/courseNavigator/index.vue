@@ -1,13 +1,26 @@
 <template>
   <div>
     <b-container style="margin-top: 2rem; max-width: 1240px">
-      <b-row>
+      <b-row class="courseNav-parent mb-3">
         <b-col
-          :class="!navBarHidden ? 'course-video':'course-video__toggle'"
           lg="9"
           cols="12"
+          :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
         >
-          <div v-if="true">
+          <span
+            v-b-tooltip.hover
+            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+            class="toggleNav-icon"
+            @click="doHideNavBar()"
+          >
+            <Icon
+              icon="material-symbols:menu-open"
+              :rotate="!navBarHidden ? '2':'null'"
+              width="32"
+              color="#fff"
+            />
+          </span>
+          <div v-if="false">
             <iframe
               class="
           rounded
@@ -54,7 +67,6 @@
 
               <div v-else key="2" class="shadow-sm">
                 <swiper
-                  ref="swiper"
                   class="ev-Slider"
                   :allow-touch-move="false"
                   :modules="modules"
@@ -66,6 +78,8 @@
                     prevEl:'.secondary-btn'
                   }"
                   :pagination="paginationOp"
+                  @reachEnd="paginationHide"
+                  @swiper="hideLastBullet"
                 >
                   <swiper-slide>
                     <h4 class="m-0 text-center" style="color:#00b9cd">
@@ -131,6 +145,55 @@
                         <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
                       </b-form-checkbox>
                     </b-form-checkbox-group>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <button class="secondary-btn mr-3">
+                        LAST
+                      </button>
+                      <button class="primary-btn">
+                        NEXT
+                      </button>
+                    </div>
+                  </swiper-slide>
+
+                  <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
+                    <h4>Total score</h4>
+                    <h1 style="font-size: 4rem; color:#00b9cd">
+                      100%
+                    </h1>
+                    <hr class="w-100">
+                    <div class="d-flex mb-4">
+                      <div class="d-flex align-items-center mr-4">
+                        <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
+                        <p class="text-success m-0">
+                          Correct: 10
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
+                        <p class="text-danger m-0">
+                          Wrong: 0
+                        </p>
+                      </div>
+                    </div>
+                    <p class="small text-secondary text-center">
+                      ¡Congratulations, you have successfully
+                      passed module 1 of this course!
+                    </p>
+
+                    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                      <button class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                        NEXT MODULE   <Icon
+                          width="24px"
+                          icon="material-symbols:chevron-right"
+                        />
+                      </button>
+                      <button class="secondary-btn  w-100  d-flex align-items-center justify-content-center">
+                        TRY IT AGAIN  <Icon
+                          width="21px"
+                          icon="material-symbols:restart-alt"
+                        />
+                      </button>
+                    </div>
                   </swiper-slide>
                 </swiper>
               </div>
@@ -140,8 +203,9 @@
         <!--HIDE NAV BAR ICON-->
 
         <!--NAV BAR COLUMN-->
-        <Transition name="slide-fade">
-          <b-col v-if="!navBarHidden" key="1" class="border rounded py-3" lg="3" cols="12">
+
+        <Transition name="fade">
+          <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
             <!--NAV BAR PARENT CONTAINER-->
 
             <div class="course-nav-container">
@@ -213,18 +277,7 @@
           </b-col>
         </Transition>
       </b-row>
-      <span
-        v-b-tooltip.hover
-        :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
-        style="cursor:pointer"
-        @click="doHideNavBar()"
-      >
-        <Icon
-          icon="material-symbols:menu-open"
-          :rotate="!navBarHidden ? '2':'null'"
-          width="32"
-        />
-      </span>
+
       <b-row>
         <b-col>
           <div class="w-100">
@@ -255,17 +308,14 @@ export default {
     Swiper,
     SwiperSlide
   },
-  setup () {
-    return {
-      modules: [Pagination, EffectFade, Navigation]
-    }
-  },
+
   data () {
     return {
+      modules: [Pagination, EffectFade, Navigation],
       paginationOp:
       {
+        type: 'bullets',
         clickable: true,
-        className: '.bullets',
         renderBullet: function (index, className) {
           return '<span class="' + className + '">' + (index + 1) + '</span>'
         }
@@ -352,8 +402,15 @@ export default {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
-    onNext () {
-      this.$refs.swiper.next()
+
+    hideLastBullet (swiper) {
+      const bullets = swiper.pagination.el.children
+      const lastBullet = bullets[bullets.length - 1]
+      lastBullet.parentNode.removeChild(lastBullet)
+    },
+
+    paginationHide (swiper) {
+      swiper.disable()
     }
   }
 }
@@ -365,6 +422,23 @@ export default {
   top: 10px;
   position: absolute;
   background-color: white
+}
+
+.courseNav-parent{
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+}
+
+.course-video{
+  flex: 0 0 75%;
+  max-width: 75%;
+  transition: 0.5s ease all;
+}
+
+.course-video__toggle{
+  transition: 0.5s ease all;
+  flex: 0 0 91.666667%;
+  max-width: 91.666667%;
 }
 
 .course-nav-container{
@@ -444,6 +518,28 @@ export default {
 .swiper-pagination-bullet-active {
   color: #fff;
   background: #00b9cd;
+}
+
+.toggleNav-icon{
+  position:absolute;
+  z-index: 2;
+  right:0;
+  top:0%;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 5px;
+  padding:0.25rem;
+  border:1px solid #f7f7f7;
+}
+
+@media (max-width: 990px) {
+  .courseNav-parent{
+    flex-wrap: wrap;
+  }
+
+  .toggleNav-icon{
+    display:none
+  }
 }
 
 </style>
