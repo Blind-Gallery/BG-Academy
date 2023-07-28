@@ -68,21 +68,24 @@ export default {
   build: {
     babel: {
       babelrc: true,
-      presets (env, [preset, options]) {
-        return [
-          ['@nuxt/babel-preset-app', options]
-        ]
-      },
-      // presets: [
-      //   [
-      //     '@babel/preset-env',
-      //     {
-      //       useBuiltIns: 'entry',
-      //       corejs: '3.22'
-      //     }
+      // presets (env, [preset, options]) {
+      //   return [
+      //     ['@nuxt/babel-preset-app', options]
       //   ]
-      // ],
-      plugins: ['@babel/plugin-transform-nullish-coalescing-operator']
+      // },
+      presets: [
+        [
+          '@nuxt/babel-preset-app',
+          {
+            useBuiltIns: 'entry',
+            corejs: '3.22'
+          }
+        ]
+      ],
+      plugins: [
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+        '@babel/plugin-proposal-optional-chaining'
+      ]
     },
 
     // plugins: [
@@ -102,7 +105,10 @@ export default {
       })
       config.module.rules.push({
         test: /node_modules[\\/]@walletconnect/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        }
       })
       // Sets webpack's mode to development if `isDev` is true.
       if (isDev) {
