@@ -13,6 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "@airgap/beacon-sdk": "^4.0.6",
     "@microsoft/signalr": "^7.0.9",
     "@nuxtjs/axios": "^5.13.6",
