@@ -21,9 +21,9 @@ const loginSchema = {
         refreshToken: { type: 'string' },
         user: {
           type: 'object',
-          required: ['userId', 'email', 'name'],
+          required: ['id', 'email', 'name'],
           properties: {
-            userId: uuidTypeSchema,
+            id: uuidTypeSchema,
             email: { type: 'string' },
             name: { type: 'string' }
           }

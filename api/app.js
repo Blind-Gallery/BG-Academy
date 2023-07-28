@@ -47,6 +47,10 @@ module.exports.options = {}
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
   fastify.register(fp(decorateFastifyInstance))
+  fastify.register(require('@fastify/cookie'), {
+      hook: 'onRequest',
+      parseOptions: {}
+    })
 
   // Do not touch the following lines
 
