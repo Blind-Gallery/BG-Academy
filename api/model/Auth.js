@@ -1,4 +1,4 @@
-const { Unauthorized } = require('http-errors')
+const { Unauthorized, BadRequest } = require('http-errors')
 const { Role } = require('../constants')
 const bcrypt = require('bcrypt')
 
@@ -53,14 +53,28 @@ class Login {
   async getUserByEmail (email) {
     const { users } = await this.gql.request(
       GET_USER_BY_EMAIL, { email })
-    console.log('USERS', users)
     return users.find(user => user.email.email === email)
   }
 
-  async login ({ email, password }) {
+  async login ({ email, password, wallet, signedMessage }) {
+    if (!email && !wallet) {
+      throw new BadRequest('No email or wallet provided')
+    }
+
+    if (email) {
+      this.emailLogin({ email, password })
+    } else if (wallet) {
+      this.walletLogin({ wallet, signedMessage })
+    }
+  }
+
+  async emailLogin ({ email, password }) {
+    if (!email) {
+      throw new BadRequest('No email provided')
+    }
+
     try {
       const user = await this.getUserByEmail(email)
-      console.log('PASSWORRRD', user.email.password, await bcrypt.compare(password, user.email.password))
       if (!await bcrypt.compare(password, user.email.password)) {
         throw new Unauthorized('Wrong password')
       }
@@ -74,6 +88,32 @@ class Login {
     } catch (e) {
       console.error(e)
       throw new Unauthorized('Wrong email')
+    }
+  }
+
+  async walletLogin ({ wallet, signedMessage }) {
+    if (!wallet) {
+      throw new BadRequest('No wallet provided')
+    }
+
+    try {
+      // compare signedMessage with taquito
+      const { users } = await this.gql.request(
+        GET_USER_BY_WALLET, { wallet })
+      const user = users.find(user => user.tezo.wallet === wallet)
+      if (!user) {
+        throw new Unauthorized('Wallet not found')
+      }
+      return {
+        refreshToken: await this._getJWTRefreshToken({ id: user.id, user, wallet }),
+        token: await this._getJWTToken(
+          { id: user.id, role: Role.USER, wallet }
+        ),
+        user
+      }
+    } catch (e) {
+      console.error(e)
+      throw new Unauthorized('Wrong wallet')
     }
   }
 
