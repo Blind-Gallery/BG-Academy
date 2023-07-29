@@ -308,6 +308,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
@@ -331,6 +333,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters('tezosWallet', [
+      'tezosAddress',
+      'isWalletConnected',
+      'isAllowed',
+      'addedWallets'
+    ]),
     validationEmail () {
       if (this.signInForm.email.length === 0 && this.signUpForm.email.length === 0) {
         return null
@@ -389,8 +397,10 @@ export default {
     },
 
     async walletConnect () {
-      alert('wallet connect')
       await this.$store.dispatch('tezosWallet/connect')
+      this.$auth.loginWith('local', {
+        wallet: this.tezosAddress
+      })
     },
 
     onReset () {
