@@ -6,10 +6,11 @@ const loginSchema = {
   tags,
   body: {
     type: 'object',
-    required: ['email', 'password'],
     properties: {
       email: { type: 'string' },
-      password: { type: 'string' }
+      password: { type: 'string' },
+      wallet: { type: 'string' },
+      signedMessage: { type: 'string' }
     }
   },
   response: {
@@ -21,11 +22,46 @@ const loginSchema = {
         refreshToken: { type: 'string' },
         user: {
           type: 'object',
-          required: ['id', 'email', 'name'],
+          required: ['id'],
           properties: {
             id: uuidTypeSchema,
             email: { type: 'string' },
-            name: { type: 'string' }
+            name: { type: 'string' },
+            wallet: { type: 'string' }
+          }
+        }
+      }
+    }
+  }
+}
+
+const signUpSchema = {
+  tags,
+  body: {
+    type: 'object',
+    properties: {
+      name: { type: 'string' },
+      email: { type: 'string' },
+      password: { type: 'string' },
+      wallet: { type: 'string' },
+      signedMessage: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['token', 'refreshToken', 'user'],
+      properties: {
+        token: { type: 'string' },
+        refreshToken: { type: 'string' },
+        user: {
+          type: 'object',
+          required: ['id'],
+          properties: {
+            id: uuidTypeSchema,
+            email: { type: 'string' },
+            name: { type: 'string' },
+            wallet: { type: 'string' }
           }
         }
       }
@@ -48,5 +84,6 @@ const refreshSchema = {
 
 module.exports = {
   loginSchema,
+  signUpSchema,
   refreshSchema
 }

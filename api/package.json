@@ -9,6 +9,7 @@
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
     "start": "fastify start -l info app.js",
+    "lint": "eslint . --ext .js",
     "dev": "fastify start -w -l info -P app.js"
   },
   "keywords": [],

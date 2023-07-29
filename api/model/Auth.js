@@ -22,6 +22,26 @@ query ($email: String = "") {
 }
 `
 
+const GET_USER_BY_WALLET = `
+query ($wallet: String = "") {
+  users(where: {tezo: {wallet: {_eq: $wallet}}}) {
+    id
+    lastname
+    name
+    pfp
+    email {
+      email
+      password
+      verificationCode
+    }
+    tezo {
+      signedMessage
+      wallet
+    }
+  }
+}
+`
+
 class Login {
   constructor ({ gql, jwt, opts, user }) {
     this.gql = gql
@@ -29,18 +49,18 @@ class Login {
     this.user = user
     this.jwt = jwt
   }
-  
-  async getUserByEmail(email) {
+
+  async getUserByEmail (email) {
     const { users } = await this.gql.request(
-        GET_USER_BY_EMAIL, { email })
-        console.log("USERS", users)
-        return users.find(user => user.email.email === email)
-    }
+      GET_USER_BY_EMAIL, { email })
+    console.log('USERS', users)
+    return users.find(user => user.email.email === email)
+  }
 
   async login ({ email, password }) {
     try {
       const user = await this.getUserByEmail(email)
-        console.log("PASSWORRRD", user.email.password, await bcrypt.compare(password, user.email.password))
+      console.log('PASSWORRRD', user.email.password, await bcrypt.compare(password, user.email.password))
       if (!await bcrypt.compare(password, user.email.password)) {
         throw new Unauthorized('Wrong password')
       }

@@ -2,6 +2,7 @@
 
 const {
   loginSchema,
+  signUpSchema,
   refreshSchema
 } = require('./schemas')
 
@@ -11,6 +12,7 @@ const {
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
     fastify.post('/login', { schema: loginSchema }, loginHandler)
+    fastify.post('/signup', { schema: signUpSchema }, signUpHandler)
     fastify.post('/refresh', { schema: refreshSchema }, refreshHandler)
   })
 }
@@ -24,6 +26,23 @@ module.exports[Symbol.for('plugin-meta')] = {
 }
 
 async function loginHandler (req, reply) {
+  const {
+    token,
+    refreshToken,
+    user
+  } = await this.login.login(req.body)
+
+  reply.setCookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+    maxAge: this.login.refreshTokenTTLSeconds()
+  })
+
+  return { token, refreshToken, user }
+}
+
+async function signUpHandler (req, reply) {
   const {
     token,
     refreshToken,

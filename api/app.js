@@ -5,7 +5,7 @@ const AutoLoad = require('@fastify/autoload')
 const fp = require('fastify-plugin')
 
 const {
-  Login,
+  Login
 } = require('./model')
 
 const {
@@ -48,15 +48,15 @@ module.exports = async function (fastify, opts) {
   // Place here your custom code!
   fastify.register(fp(decorateFastifyInstance))
   fastify.register(require('@fastify/cookie'), {
-      hook: 'onRequest',
-      parseOptions: {}
-    })
+    hook: 'onRequest',
+    parseOptions: {}
+  })
 
   fastify.register(require('@fastify/cors'), {
-      origin: true,
-      credentials: true,
-      allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
-    })
+    origin: true,
+    credentials: true,
+    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+  })
 
   // Do not touch the following lines
 
