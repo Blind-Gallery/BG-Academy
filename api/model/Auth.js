@@ -1,6 +1,7 @@
 const { Unauthorized, BadRequest } = require('http-errors')
 const { Role } = require('../constants')
 const bcrypt = require('bcrypt')
+const { verifySignature } = require('@taquito/utils')
 
 const GET_USER_BY_EMAIL = `
 query ($email: String = "") {
@@ -98,6 +99,11 @@ class Login {
 
     try {
       // compare signedMessage with taquito
+      const isVerified = verifySignature(
+        payloadBytes,
+        wallet,
+        signedMessage
+      )
       const { users } = await this.gql.request(
         GET_USER_BY_WALLET, { wallet })
       const user = users.find(user => user.tezo.wallet === wallet)
