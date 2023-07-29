@@ -19,7 +19,7 @@ const options = {
   name: APP_NAME,
   matrixNodes: [DEFAULT_MATRIX_NODE],
   preferredNetwork: CHAIN_NAME,
-  featuredWallets: ['autonomy'],
+  featuredWallets: ['Autonomy'],
   disableDefaultEvents: false
 }
 
