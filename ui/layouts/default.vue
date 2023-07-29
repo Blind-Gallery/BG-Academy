@@ -396,8 +396,7 @@ export default {
       alert('do login')
       this.$auth.loginWith('local', {
         data: {
-          email: 'admin@blindgallery.xyz',
-          password: 123
+          ...this.signInForm
         }
 
       })
@@ -406,8 +405,10 @@ export default {
     async walletConnect () {
       await this.$store.dispatch('tezosWallet/connect')
       this.$auth.loginWith('local', {
-        email: 'admin@blindgallery.xyz',
-        password: 123
+        data: {
+          wallet: this.tezosAddress,
+          signedMessage: this.signedMessage
+        }
       })
     },
 
