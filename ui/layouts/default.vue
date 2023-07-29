@@ -12,7 +12,7 @@
               width="160px"
             >
           </NuxtLink>
-          <div v-if="true" class="d-lg-flex d-none" style="gap: 1rem">
+          <div v-if="!$auth.loggedIn" class="d-lg-flex d-none" style="gap: 1rem">
             <button v-b-modal.signup class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signin class="primary-btn">
@@ -104,13 +104,13 @@
               <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
                 {{ invalidFormMsg }}
               </p>
-              <button class="primary-btn" style="width: 100%;" @click="onSignIn">
+              <button class="primary-btn" style="width: 100%;" @click="emailConnect">
                 Sign In
               </button>
               <div class="divider">
                 <hr><span>OR </span> <hr>
               </div>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
+              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
                 <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
                 Connect Wallet
               </button>
@@ -369,7 +369,6 @@ export default {
         event.preventDefault()
         this.onReset()
       } else {
-        this.onReset()
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
     },
@@ -383,6 +382,15 @@ export default {
         this.onReset()
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
+    },
+
+    emailConnect () {
+      alert('do login')
+    },
+
+    async walletConnect () {
+      alert('wallet connect')
+      await this.$store.dispatch('tezosWallet/connect')
     },
 
     onReset () {
