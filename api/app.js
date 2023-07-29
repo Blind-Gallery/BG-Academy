@@ -52,6 +52,12 @@ module.exports = async function (fastify, opts) {
       parseOptions: {}
     })
 
+  fastify.register(require('@fastify/cors'), {
+      origin: true,
+      credentials: true,
+      allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+    })
+
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
