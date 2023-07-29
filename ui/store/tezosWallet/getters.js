@@ -14,6 +14,6 @@ export function isAllowed ({ isAllowed }) {
   return isAllowed
 }
 
-export function addedWallets ({ addedWallets }) {
-  return addedWallets
+export function signedMessage ({ signedMessage }) {
+  return signedMessage
 }

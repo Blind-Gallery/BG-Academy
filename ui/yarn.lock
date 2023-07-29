@@ -2701,6 +2701,11 @@
   resolved "https://registry.yarnpkg.com/@taquito/core/-/core-17.1.0.tgz#f1264b3202de9b6852498aced0e96abbc2e6220d"
   integrity sha512-tfdgC7/Q5U9lN3UzvuJYf8Z7iBWyOtqILRuWRGFM6VtSXwNwcNK62f8FNKAgyHahFkVA4vVdD9zrt8NbM/TB2g==
 
+"@taquito/core@^17.1.1":
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/@taquito/core/-/core-17.1.1.tgz#7961991a2d63d0dffa1cc046456277874b058377"
+  integrity sha512-ib+dzHbVT+0maYGAVdeIk9v9CNkOiB5j8CwnHUygBkEajoOdWTPlsrldRhRTAOnbj+iQk0kdkUECD6KY6iNknw==
+
 "@taquito/http-utils@^17.1.0":
   version "17.1.0"
   resolved "https://registry.yarnpkg.com/@taquito/http-utils/-/http-utils-17.1.0.tgz#0a34ca917691bc9019d1fb5cebbe0db40a4b38d6"
@@ -2768,6 +2773,22 @@
     "@stablelib/blake2b" "^1.0.1"
     "@stablelib/ed25519" "^1.0.3"
     "@taquito/core" "^17.1.0"
+    "@types/bs58check" "^2.1.0"
+    bignumber.js "^9.1.0"
+    blakejs "^1.2.1"
+    bs58check "^2.1.2"
+    buffer "^6.0.3"
+    elliptic "^6.5.4"
+    typedarray-to-buffer "^4.0.0"
+
+"@taquito/utils@^17.1.1":
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/@taquito/utils/-/utils-17.1.1.tgz#9b7993df3fe0aac328a9805c9e8d26f860ae6efb"
+  integrity sha512-KcK7Qa2+SCcevxSJixA3utDtlPYS5DGXpZdMlrAjwjozMiuDGSLM63D1CrW/ojYI0t3tPuErty10cPhURZ+d4A==
+  dependencies:
+    "@stablelib/blake2b" "^1.0.1"
+    "@stablelib/ed25519" "^1.0.3"
+    "@taquito/core" "^17.1.1"
     "@types/bs58check" "^2.1.0"
     bignumber.js "^9.1.0"
     blakejs "^1.2.1"

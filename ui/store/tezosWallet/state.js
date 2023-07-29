@@ -4,6 +4,6 @@ export default function () {
     wallet: undefined,
     isWalletConnected: false,
     isAllowed: false,
-    addedWallets: []
+    signedMessage: undefined
   }
 }

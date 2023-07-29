@@ -3,5 +3,5 @@ export function setWallet (state, wallet) {
   state.isWalletConnected = wallet.isWalletConnected
   state.tezosAddress = wallet.tezosAddress
   state.isAllowed = wallet.isAllowed
-  state.addedWallets = wallet.addedWallets
+  state.signedMessage = wallet.signedMessage
 }

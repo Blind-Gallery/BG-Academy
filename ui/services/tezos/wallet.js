@@ -1,19 +1,9 @@
+import { char2Bytes } from '@taquito/utils'
 import { BeaconWallet } from '@taquito/beacon-wallet'
+import { SigningType } from '@airgap/beacon-sdk'
 import { Tezos } from './utils'
 
-import { ENDPOINT, DEFAULT_MATRIX_NODE, CHAIN_NAME, APP_NAME, SERVICE_API } from '@/constants'
-
-const getWallets = async function (tezosAddress) {
-  const response = await fetch(`${SERVICE_API}/wallets?login_wallet=${tezosAddress}`, {
-    method: 'GET'
-  })
-  let addedWallets = []
-  if (response.status === 200) {
-    const wallets = await response.json()
-    addedWallets = wallets.map(wallet => wallet.address)
-  }
-  return addedWallets ?? []
-}
+import { ENDPOINT, DEFAULT_MATRIX_NODE, CHAIN_NAME, APP_NAME } from '@/constants'
 
 const options = {
   name: APP_NAME,
@@ -30,6 +20,7 @@ class BeaconWalletService {
     this.addedWallets = undefined
     this.isWalletConnected = false
     this.isAllowed = false
+    this.signedMessage = undefined
   }
 
   async connect () {
@@ -42,8 +33,13 @@ class BeaconWalletService {
       }
     })
     this.tezosAddress = await this.wallet.getPKH()
-    this.addedWallets = await getWallets(this.tezosAddress)
     this.isWalletConnected = true
+
+    try {
+      this.signedMessage = await this.requestSignPayload()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async autoLogin () {
@@ -51,10 +47,45 @@ class BeaconWalletService {
     if (activateAccount) {
       this.wallet.client.setActiveAccount(activateAccount)
       this.tezosAddress = activateAccount.address
-      this.addedWallets = await getWallets(this.tezosAddress)
       this.isWalletConnected = true
       Tezos.setWalletProvider(this.wallet)
     }
+  }
+
+  async requestSignPayload () {
+    // The data to format
+    const dappUrl = 'tezos-test-d.app'
+    const ISO8601formatedTimestamp = new Date().toISOString()
+    const input = 'Hello world!'
+
+    // The full string
+    const formattedInput = [
+      'Tezos Signed Message:',
+      dappUrl,
+      ISO8601formatedTimestamp,
+      input
+    ].join(' ')
+
+    // The bytes to sign
+    const bytes = char2Bytes(formattedInput)
+    const bytesLength = (bytes.length / 2).toString(16)
+    const addPadding = `00000000${bytesLength}`
+    const paddedBytesLength = addPadding.slice(addPadding.length - 8)
+    const payloadBytes = '05' + '01' + paddedBytesLength + bytes
+
+    // The payload to send to the wallet
+    const payload = {
+      signingType: SigningType.MICHELINE,
+      payload: payloadBytes,
+      sourceAddress: this.tezosAddress
+    }
+
+    // The signing
+    const signedPayload = await this.wallet.client.requestSignPayload(payload)
+
+    // The signature
+    const { signature } = signedPayload
+    return signature
   }
 
   disconnect () {
