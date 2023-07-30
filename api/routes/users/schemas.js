@@ -18,7 +18,7 @@ const createUserSchema = {
   response: {
     200: {
       type: 'object',
-      required: ['token', 'refreshToken', 'user'],
+      required: ['user'],
       properties: {
         token: { type: 'string' },
         refreshToken: { type: 'string' },

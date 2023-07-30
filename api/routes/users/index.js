@@ -23,17 +23,9 @@ module.exports[Symbol.for('plugin-meta')] = {
 
 async function createUserHandler (req, reply) {
   const {
-    token,
-    refreshToken,
     user
   } = await this.user.create(req.body)
+  console.log('user', user)
 
-  reply.setCookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-    maxAge: this.user.refreshTokenTTLSeconds()
-  })
-
-  return { token, refreshToken, user }
+  return { user }
 }

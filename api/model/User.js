@@ -68,7 +68,7 @@ class User {
     return users.find(user => user.tezo.wallet === wallet)
   }
 
-  async createUser ({ name, email, password, wallet, signedMessage }) {
+  async create ({ name, email, password, wallet, signedMessage }) {
     // Check if user already exists
     const user = await this.getUserByEmail(email)
     if (user) {
@@ -83,12 +83,16 @@ class User {
 
     // Create user
     if (email && password) {
+      console.log('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
+      console.log('Creating user with wallet and signed message')
       return this.createWithWallet({ wallet, signedMessage })
     }
+
+    throw new BadRequest('Invalid parameters')
   }
 
   async createWithPassword ({ name, email, password }) {
@@ -109,8 +113,9 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
+    console.log('User created', user)
     // Todo: send email with verification code
-    return user
+    return { user }
   }
 
   async createWithWallet ({ wallet, signedMessage, payload }) {
@@ -137,9 +142,11 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
+    console.log('User created', user)
+
     // Todo: retrieve user data from blockchain and save it
 
-    return user
+    return { user }
   }
 }
 
