@@ -81,13 +81,19 @@ class Login {
 
     try {
       const user = await this.getUserByEmail(email)
+      console.log('HEEEERE', user, user.email.password)
       if (!await bcrypt.compare(password, user.email.password)) {
         throw new Unauthorized('Wrong password')
       }
       return {
         refreshToken: await this._getJWTRefreshToken({ id: user.id, user, email }),
         token: await this._getJWTToken(
-          { id: user.id, role: Role.USER, email }
+          {
+            id: user.id,
+            role: Role.USER,
+            loginMechanism: 'email',
+            loginPayload: email
+          }
         ),
         user
       }
