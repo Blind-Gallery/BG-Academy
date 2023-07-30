@@ -49,7 +49,7 @@ async function signUpHandler (req, reply) {
     token,
     refreshToken,
     user
-  } = await this.login.login(req.body)
+  } = await this.login.signUp(req.body)
 
   reply.setCookie('refreshToken', refreshToken, {
     httpOnly: true,

@@ -44,10 +44,9 @@ query ($wallet: String = "") {
 `
 
 class Login {
-  constructor ({ gql, jwt, opts, user }) {
+  constructor ({ gql, jwt, opts }) {
     this.gql = gql
     this.opts = opts
-    this.user = user
     this.jwt = jwt
   }
 
@@ -55,6 +54,10 @@ class Login {
     const { users } = await this.gql.request(
       GET_USER_BY_EMAIL, { email })
     return users.find(user => user.email.email === email)
+  }
+
+  async signUp ({ name, email, password, wallet, signedMessage }) {
+
   }
 
   async login ({ email, password, wallet, signedMessage, payload }) {
@@ -107,7 +110,9 @@ class Login {
         wallet,
         signedMessage
       )
-      console.log(isVerified)
+      if (!isVerified) {
+        throw new Unauthorized('Wrong wallet')
+      }
       const { users } = await this.gql.request(
         GET_USER_BY_WALLET, { wallet })
       const user = users.find(user => user.tezo.wallet === wallet)

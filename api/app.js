@@ -5,7 +5,8 @@ const AutoLoad = require('@fastify/autoload')
 const fp = require('fastify-plugin')
 
 const {
-  Login
+  Login,
+  User
 } = require('./model')
 
 const {
@@ -37,7 +38,13 @@ async function decorateFastifyInstance (fastify) {
     jwt,
     opts
   })
+  const user = new User({
+    gql,
+    jwt,
+    opts
+  })
   fastify.decorate('login', login)
+  fastify.decorate('user', user)
   fastify.decorate('jwt', jwt)
 }
 
