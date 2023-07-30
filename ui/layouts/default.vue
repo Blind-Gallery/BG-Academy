@@ -253,14 +253,14 @@
               <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
                 {{ invalidFormMsg }}
               </p>
-              <button class="primary-btn" style="width: 100%;" @click="onSignUp">
+              <button class="primary-btn" style="width: 100%;" @click="doSignUp">
                 Sign Up
               </button>
               <div class="divider">
                 <hr><span>OR </span> <hr>
               </div>
               <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
-                <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+                <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
                 Connect Wallet
               </button>
               <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
@@ -388,12 +388,25 @@ export default {
     onSignUp (event) {
       if (this.validationEmail && this.validationPassword) {
         this.$bvModal.hide('signup')
-        this.$axios.$post('auth/signup', this.signUpForm)
         event.preventDefault()
         this.onReset()
       } else {
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
+    },
+
+    async doSignUp () {
+      const signUpForm = this.signUpForm
+      await this.$axios.$post('users', signUpForm)
+      this.$auth.loginWith('local', {
+        data: {
+          ...signUpForm
+        }
+      })
+    },
+
+    doSignUpWallet () {
+
     },
 
     doLogout () {
