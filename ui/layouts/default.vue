@@ -26,7 +26,7 @@
                 My courses
               </button>
               <button class="tertiary-btn" @click="doLogout">
-                Logout
+                Log out
               </button>
             </NuxtLink>
             <b-avatar size="1.5rem" />
@@ -259,7 +259,7 @@
               <div class="divider">
                 <hr><span>OR </span> <hr>
               </div>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
+              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
                 <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
                 Connect Wallet
               </button>
@@ -405,8 +405,20 @@ export default {
       })
     },
 
-    doSignUpWallet () {
-
+    async doSignUpWallet () {
+      await this.$store.dispatch('tezosWallet/connect')
+      const data = {
+        wallet: this.publicKey,
+        signedMessage: this.signedMessage,
+        payload: this.payload
+      }
+      await this.$axios.$post('users', data)
+      this.$auth.loginWith('local', {
+        data
+      })
+      if (this.isWalletConnected && !this.$auth.loggedIn) {
+        this.$store.dispatch('tezosWallet/disconnect')
+      }
     },
 
     doLogout () {

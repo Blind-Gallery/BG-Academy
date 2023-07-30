@@ -178,6 +178,12 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      value: 45,
+      max: 100
+    }
+  },
   methods: {
 
     generateCertificate () {
