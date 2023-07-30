@@ -153,7 +153,7 @@ class Login {
   }
 
   logOut () {
-    return { token: null }
+    return { token: null, success: true }
   }
 
   refreshTokenTTLSeconds () {

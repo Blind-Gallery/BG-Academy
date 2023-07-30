@@ -82,8 +82,22 @@ const refreshSchema = {
   }
 }
 
+const logoutSchema = {
+  tags,
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   loginSchema,
   signUpSchema,
-  refreshSchema
+  refreshSchema,
+  logoutSchema
 }

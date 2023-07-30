@@ -3,7 +3,8 @@
 const {
   loginSchema,
   signUpSchema,
-  refreshSchema
+  refreshSchema,
+  logoutSchema
 } = require('./schemas')
 
 /**
@@ -14,6 +15,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/login', { schema: loginSchema }, loginHandler)
     fastify.post('/signup', { schema: signUpSchema }, signUpHandler)
     fastify.post('/refresh', { schema: refreshSchema }, refreshHandler)
+    fastify.post('/logout', { schema: logoutSchema }, logoutHandler)
   })
 }
 
@@ -65,4 +67,14 @@ async function refreshHandler (req, reply) {
     refreshToken
   } = req.cookies
   return this.login.refresh({ refreshToken })
+}
+
+async function logoutHandler (req, reply) {
+  reply.setCookie('refreshToken', null, {
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+    maxAge: 0
+  })
+  return this.login.logOut()
 }
