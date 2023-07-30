@@ -388,10 +388,10 @@ export default {
     onSignUp (event) {
       if (this.validationEmail && this.validationPassword) {
         this.$bvModal.hide('signup')
+        this.$axios.$post('auth/signup', this.signUpForm)
         event.preventDefault()
         this.onReset()
       } else {
-        this.onReset()
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
     },
