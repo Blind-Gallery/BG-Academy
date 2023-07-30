@@ -11,7 +11,7 @@ const loginSchema = {
       password: { type: 'string' },
       wallet: { type: 'string' },
       signedMessage: { type: 'string' },
-      payload: { type: 'object' }
+      payload: { type: 'string' }
     }
   },
   response: {

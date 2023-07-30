@@ -117,7 +117,12 @@ class Login {
       return {
         refreshToken: await this._getJWTRefreshToken({ id: user.id, user, wallet }),
         token: await this._getJWTToken(
-          { id: user.id, role: Role.USER, wallet }
+          {
+            id: user.id,
+            role: Role.USER,
+            loginMechanism: 'wallet',
+            loginPayload: wallet
+          }
         ),
         user
       }
