@@ -17,9 +17,9 @@ class BeaconWalletService {
   constructor () {
     this.wallet = new BeaconWallet(options)
     this.tezosAddress = undefined
-    this.addedWallets = undefined
+    this.publicKey = undefined
     this.isWalletConnected = false
-    this.isAllowed = false
+    this.payload = undefined
     this.signedMessage = undefined
   }
 
@@ -34,9 +34,13 @@ class BeaconWalletService {
     })
     this.tezosAddress = await this.wallet.getPKH()
     this.isWalletConnected = true
-
+    this.publicKey = (await this.wallet.client.getActiveAccount()).publicKey
+    console.log('public key', this.publicKey)
     try {
-      this.signedMessage = await this.requestSignPayload()
+      const signedMessage = await this.requestSignPayload()
+      console.log('signedMessage', signedMessage)
+
+      this.signedMessage = signedMessage
     } catch (e) {
       console.log(e)
     }
@@ -48,6 +52,7 @@ class BeaconWalletService {
       this.wallet.client.setActiveAccount(activateAccount)
       this.tezosAddress = activateAccount.address
       this.isWalletConnected = true
+      this.publicKey = this.wallet.client.getActiveAccount().publicKey
       Tezos.setWalletProvider(this.wallet)
     }
   }
@@ -80,11 +85,14 @@ class BeaconWalletService {
       sourceAddress: this.tezosAddress
     }
 
+    this.payload = payloadBytes
+
     // The signing
     const signedPayload = await this.wallet.client.requestSignPayload(payload)
 
     // The signature
     const { signature } = signedPayload
+    console.log(signedPayload)
     return signature
   }
 
@@ -96,9 +104,10 @@ class BeaconWalletService {
       this.wallet.client.destroy()
       this.wallet = undefined
       this.tezosAddress = undefined
+      this.publicKey = undefined
       this.isWalletConnected = false
-      this.isAllowed = false
-
+      this.payload = undefined
+      this.signedMessage = undefined
       this.wallet = new BeaconWallet(options)
     }
   }

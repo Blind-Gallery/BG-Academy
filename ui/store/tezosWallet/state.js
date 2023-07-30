@@ -2,8 +2,9 @@ export default function () {
   return {
     tezosAddress: undefined,
     wallet: undefined,
+    publicKey: undefined,
     isWalletConnected: false,
-    isAllowed: false,
+    payload: undefined,
     signedMessage: undefined
   }
 }

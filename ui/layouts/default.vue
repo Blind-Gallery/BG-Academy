@@ -25,6 +25,9 @@
               <button class="tertiary-btn">
                 My courses
               </button>
+              <button class="tertiary-btn" @click="doLogout">
+                Logout
+              </button>
             </NuxtLink>
             <b-avatar size="1.5rem" />
           </div>
@@ -334,10 +337,11 @@ export default {
 
   computed: {
     ...mapGetters('tezosWallet', [
+      'publicKey',
       'tezosAddress',
       'isWalletConnected',
-      'isAllowed',
-      'addedWallets'
+      'payload',
+      'signedMessage'
     ]),
     validationEmail () {
       if (this.signInForm.email.length === 0 && this.signUpForm.email.length === 0) {
@@ -392,8 +396,14 @@ export default {
       }
     },
 
+    doLogout () {
+      if (this.isWalletConnected) {
+        this.$store.dispatch('tezosWallet/disconnect')
+      }
+      this.$auth.logout()
+    },
+
     emailConnect () {
-      alert('do login')
       this.$auth.loginWith('local', {
         data: {
           ...this.signInForm
@@ -404,12 +414,17 @@ export default {
 
     async walletConnect () {
       await this.$store.dispatch('tezosWallet/connect')
+      const data = {
+        wallet: this.publicKey,
+        signedMessage: this.signedMessage,
+        payload: this.payload
+      }
       this.$auth.loginWith('local', {
-        data: {
-          wallet: this.tezosAddress,
-          signedMessage: this.signedMessage
-        }
+        data
       })
+      if (this.isWalletConnected && !this.$auth.loggedIn) {
+        this.$store.dispatch('tezosWallet/disconnect')
+      }
     },
 
     onReset () {
