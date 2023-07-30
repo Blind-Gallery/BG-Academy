@@ -10,7 +10,8 @@ const loginSchema = {
       email: { type: 'string' },
       password: { type: 'string' },
       wallet: { type: 'string' },
-      signedMessage: { type: 'string' }
+      signedMessage: { type: 'string' },
+      payload: { type: 'object' }
     }
   },
   response: {

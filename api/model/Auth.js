@@ -57,15 +57,17 @@ class Login {
     return users.find(user => user.email.email === email)
   }
 
-  async login ({ email, password, wallet, signedMessage }) {
+  async login ({ email, password, wallet, signedMessage, payload }) {
+    console.log(email, password, wallet, signedMessage, payload)
     if (!email && !wallet) {
       throw new BadRequest('No email or wallet provided')
     }
 
     if (email) {
-      this.emailLogin({ email, password })
-    } else if (wallet) {
-      this.walletLogin({ wallet, signedMessage })
+      return this.emailLogin({ email, password })
+    }
+    if (wallet) {
+      this.walletLogin({ wallet, signedMessage, payload })
     }
   }
 
@@ -92,7 +94,8 @@ class Login {
     }
   }
 
-  async walletLogin ({ wallet, signedMessage }) {
+  async walletLogin ({ wallet, signedMessage, payload }) {
+    console.log('wallet login', wallet, signedMessage, payload)
     if (!wallet) {
       throw new BadRequest('No wallet provided')
     }
@@ -100,10 +103,11 @@ class Login {
     try {
       // compare signedMessage with taquito
       const isVerified = verifySignature(
-        payloadBytes,
+        payload,
         wallet,
         signedMessage
       )
+      console.log(isVerified)
       const { users } = await this.gql.request(
         GET_USER_BY_WALLET, { wallet })
       const user = users.find(user => user.tezo.wallet === wallet)
@@ -123,24 +127,26 @@ class Login {
     }
   }
 
-  async _getJWTToken ({ id, role, email }) {
+  async _getJWTToken ({ id, role, loginMechanism, loginPayload }) {
     const tokenContent = {
       'https://hasura.io/jwt/claims': {
         'x-hasura-default-role': role,
         'x-hasura-allowed-roles': [role],
         'x-hasura-user-id': id
       },
-      email,
+      loginMechanism,
+      loginPayload,
       ...this._getJWTBaseTokenContent(id)
     }
     return this.jwt.generateToken(tokenContent)
   }
 
-  async _getJWTRefreshToken ({ id, user, email }) {
+  async _getJWTRefreshToken ({ id, user, email, wallet }) {
     const tokenContent = {
       ...this._getJWTBaseTokenContent(id),
       user,
-      email
+      loginMechanism: email ? 'email' : 'wallet',
+      loginPayload: email || wallet
     }
     return this.jwt.generateToken(tokenContent)
   }
@@ -162,11 +168,17 @@ class Login {
 
   async refresh (refreshToken) {
     console.log(refreshToken)
-    const { email } = this.jwt.verifyToken(refreshToken.refreshToken)
-    const user = this.getUserByEmail(email)
+    let user
+    const { loginMechanism, loginPayload } = this.jwt.verifyToken(refreshToken.refreshToken)
+    if (loginMechanism === 'email') {
+      user = await this.getUserByEmail(loginPayload)
+    }
+    if (loginMechanism === 'wallet') {
+      user = await this.getUserByWallet(loginPayload)
+    }
     return {
       token: await this._getJWTToken(
-        { id: user.id, role: Roles[user.roleId], email })
+        { id: user.id, role: Role.USER, loginMechanism, loginPayload })
     }
   }
 }
