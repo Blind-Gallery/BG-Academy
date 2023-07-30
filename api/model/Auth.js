@@ -70,7 +70,7 @@ class Login {
       return this.emailLogin({ email, password })
     }
     if (wallet) {
-      this.walletLogin({ wallet, signedMessage, payload })
+      return this.walletLogin({ wallet, signedMessage, payload })
     }
   }
 

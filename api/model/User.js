@@ -68,7 +68,7 @@ class User {
     return users.find(user => user.tezo.wallet === wallet)
   }
 
-  async create ({ name, email, password, wallet, signedMessage }) {
+  async create ({ name, email, password, wallet, signedMessage, payload }) {
     // Check if user already exists
     const user = await this.getUserByEmail(email)
     if (user) {
@@ -89,7 +89,7 @@ class User {
 
     if (wallet && signedMessage) {
       console.log('Creating user with wallet and signed message')
-      return this.createWithWallet({ wallet, signedMessage })
+      return this.createWithWallet({ wallet, signedMessage, payload })
     }
 
     throw new BadRequest('Invalid parameters')
