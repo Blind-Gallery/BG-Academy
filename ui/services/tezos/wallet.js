@@ -35,14 +35,11 @@ class BeaconWalletService {
     this.tezosAddress = await this.wallet.getPKH()
     this.isWalletConnected = true
     this.publicKey = (await this.wallet.client.getActiveAccount()).publicKey
-    console.log('public key', this.publicKey)
     try {
       const signedMessage = await this.requestSignPayload()
-      console.log('signedMessage', signedMessage)
 
       this.signedMessage = signedMessage
     } catch (e) {
-      console.log(e)
     }
   }
 
@@ -92,7 +89,6 @@ class BeaconWalletService {
 
     // The signature
     const { signature } = signedPayload
-    console.log(signedPayload)
     return signature
   }
 
