@@ -407,7 +407,8 @@ export default {
     async doSignUpWallet () {
       await this.$store.dispatch('tezosWallet/connect')
       const data = {
-        wallet: this.publicKey,
+        publicKey: this.publicKey,
+        wallet: this.tezosAddress,
         signedMessage: this.signedMessage,
         payload: this.payload
       }
@@ -418,6 +419,8 @@ export default {
       if (this.isWalletConnected && !this.$auth.loggedIn) {
         this.$store.dispatch('tezosWallet/disconnect')
       }
+
+      this.$bvModal.hide('signup')
     },
 
     doLogout () {
@@ -439,7 +442,8 @@ export default {
     async walletConnect () {
       await this.$store.dispatch('tezosWallet/connect')
       const data = {
-        wallet: this.publicKey,
+        publicKey: this.publicKey,
+        wallet: this.tezosAddress,
         signedMessage: this.signedMessage,
         payload: this.payload
       }
@@ -449,6 +453,8 @@ export default {
       if (this.isWalletConnected && !this.$auth.loggedIn) {
         this.$store.dispatch('tezosWallet/disconnect')
       }
+
+      this.$bvModal.hide('signin')
     },
 
     onReset () {
