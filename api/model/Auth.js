@@ -60,8 +60,7 @@ class Login {
 
   }
 
-  async login ({ email, password, wallet, signedMessage, payload }) {
-    console.log(email, password, wallet, signedMessage, payload)
+  async login ({ email, password, wallet, publicKey, signedMessage, payload }) {
     if (!email && !wallet) {
       throw new BadRequest('No email or wallet provided')
     }
@@ -70,7 +69,7 @@ class Login {
       return this.emailLogin({ email, password })
     }
     if (wallet) {
-      return this.walletLogin({ wallet, signedMessage, payload })
+      return this.walletLogin({ wallet, signedMessage, publicKey, payload })
     }
   }
 
@@ -103,8 +102,8 @@ class Login {
     }
   }
 
-  async walletLogin ({ wallet, signedMessage, payload }) {
-    console.log('wallet login', wallet, signedMessage, payload)
+  async walletLogin ({ wallet, publicKey, signedMessage, payload }) {
+    console.log('wallet login', wallet, publicKey, signedMessage, payload)
     if (!wallet) {
       throw new BadRequest('No wallet provided')
     }
@@ -113,7 +112,7 @@ class Login {
       // compare signedMessage with taquito
       const isVerified = verifySignature(
         payload,
-        wallet,
+        publicKey,
         signedMessage
       )
       if (!isVerified) {
