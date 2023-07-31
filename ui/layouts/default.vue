@@ -224,8 +224,7 @@
               >
                 <div
                   class="d-flex"
-                  style="    border: 1px solid #ced4da;
-    border-radius: 0.25rem; align-items: center;"
+                  style="border: 1px solid #ced4da; border-radius: 0.25rem; align-items: center;"
                 >
                   <b-form-input
                     id="input-3"
