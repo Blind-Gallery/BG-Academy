@@ -107,7 +107,7 @@
               <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
                 {{ invalidFormMsg }}
               </p>
-              <button class="primary-btn" style="width: 100%;" @click="emailConnect">
+              <button class="primary-btn" style="width: 100%;">
                 Sign In
               </button>
               <div class="divider">
@@ -117,7 +117,7 @@
                 <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
                 Connect Wallet
               </button>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
+              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
                 <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
               </button>
 
@@ -252,7 +252,7 @@
               <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
                 {{ invalidFormMsg }}
               </p>
-              <button class="primary-btn" style="width: 100%;" @click="doSignUp">
+              <button class="primary-btn" style="width: 100%;">
                 Sign Up
               </button>
               <div class="divider">
@@ -262,7 +262,7 @@
                 <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
                 Connect Wallet
               </button>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;">
+              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
                 <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
               </button>
 
@@ -374,8 +374,9 @@ export default {
       this.showPassword = !this.showPassword
     },
 
-    onSignIn (event) {
+    async onSignIn (event) {
       if (this.validationEmail && this.validationPassword) {
+        await this.emailConnect()
         this.$bvModal.hide('signin')
         event.preventDefault()
         this.onReset()
@@ -384,8 +385,9 @@ export default {
       }
     },
 
-    onSignUp (event) {
+    async onSignUp (event) {
       if (this.validationEmail && this.validationPassword) {
+        await this.doSignUp()
         this.$bvModal.hide('signup')
         event.preventDefault()
         this.onReset()
@@ -423,6 +425,12 @@ export default {
       this.$bvModal.hide('signup')
     },
 
+    doGoogleConnect () {
+      alert('google connect')
+      console.log('google connect')
+      this.$auth.loginWith('openIDConnect')
+    },
+
     doLogout () {
       if (this.isWalletConnected) {
         this.$store.dispatch('tezosWallet/disconnect')
@@ -430,8 +438,8 @@ export default {
       this.$auth.logout()
     },
 
-    emailConnect () {
-      this.$auth.loginWith('local', {
+    async emailConnect () {
+      await this.$auth.loginWith('local', {
         data: {
           ...this.signInForm
         }

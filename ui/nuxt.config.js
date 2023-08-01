@@ -64,6 +64,46 @@ export default {
 
   auth: {
     strategies: {
+      social: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://accounts.google.com/o/oauth2/auth',
+          token: undefined,
+          userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
+          logout: 'https://example.com/logout'
+        },
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          maxAge: 1800
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        responseType: 'token',
+        grantType: 'authorization_code',
+        accessType: undefined,
+        redirectUri: undefined,
+        logoutRedirectUri: undefined,
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        scope: ['openid', 'profile', 'email'],
+        state: 'UNIQUE_AND_NON_GUESSABLE',
+        codeChallengeMethod: '',
+        responseMode: '',
+        acrValues: ''
+      // autoLogout: false
+      },
+      oidc: {
+        scheme: 'openIDConnect',
+        clientId: process.env.GOOGLE_CLIENT_ID || '187416147688-mf571k010it7b6a19vuu5oi2jil5lrp0.apps.googleusercontent.com',
+        endpoints: {
+          configuration: 'https://accounts.google.com/.well-known/openid-configuration'
+        },
+        responseType: 'code',
+        scope: ['openid', 'profile', 'email'],
+        grantType: 'authorization_code'
+      },
       local: {
         token: {
           property: 'token',
