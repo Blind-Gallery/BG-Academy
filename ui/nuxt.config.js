@@ -120,6 +120,9 @@ export default {
     //   transformMixedEsModules: true // Enable @walletconnect/web3-provider which has some code in CommonJS
     // },
     extend (config, { isDev, isClient }) {
+      config.node = {
+        fs: 'empty'
+      }
       config.module.rules.push({
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader'
