@@ -2,7 +2,7 @@ version: "3.6"
 services:
   postgres:
     image: postgres:15
-    restart: always
+    restart: ${RESTART_POLICY}
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -11,7 +11,7 @@ services:
     image: hasura/graphql-engine:v2.27.0
     ports:
       - "8080:8080"
-    restart: always
+    restart: ${RESTART_POLICY}
     environment:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -32,7 +32,7 @@ services:
         condition: service_healthy
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.27.0
-    restart: always
+    restart: ${RESTART_POLICY}
     ports:
       - 8081:8081
     environment:
