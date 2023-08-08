@@ -378,8 +378,6 @@ export default {
       if (this.validationEmail && this.validationPassword) {
         await this.emailConnect()
         this.$bvModal.hide('signin')
-        event.preventDefault()
-        this.onReset()
       } else {
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
@@ -389,8 +387,6 @@ export default {
       if (this.validationEmail && this.validationPassword) {
         await this.doSignUp()
         this.$bvModal.hide('signup')
-        event.preventDefault()
-        this.onReset()
       } else {
         this.invalidFormMsg = 'Incorrect email and/or password'
       }
