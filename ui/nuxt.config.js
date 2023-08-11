@@ -59,7 +59,7 @@ export default {
   },
 
   server: {
-    port: 4000
+    port: process.env.PORT || 5000
   },
 
   auth: {
