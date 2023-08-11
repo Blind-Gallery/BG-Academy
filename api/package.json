@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -p -l info app.js",
+    "start-old": "fastify start --options -l info app.js",
+    "start": "node server.js",
     "lint": "eslint . --ext .js",
     "dev": "fastify start -w -l info -P app.js"
   },
