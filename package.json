@@ -1,0 +1,21 @@
+{
+  "name": "bg-academy",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "postinstall": "if [ $CLIENT_ENV ]; then npm run postinstall-client; elif [ $SERVER_ENV ]; then npm run postinstall-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
+    "postinstall-client": "cd packages/client && npm install && npm run build",
+    "postinstall-server": "cd packages/server && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blind-Gallery/BG-Academy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blind-Gallery/BG-Academy/issues"
+  },
+  "homepage": "https://github.com/Blind-Gallery/BG-Academy#readme"
+}
