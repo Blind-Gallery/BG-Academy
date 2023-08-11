@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/Blind-Gallery/BG-Academy/issues"
   },
-  "homepage": "https://github.com/Blind-Gallery/BG-Academy#readme"
+  "homepage": "https://github.com/Blind-Gallery/BG-Academy#readme",
+  "engines": {
+    "node": ">=16.17.0"
+  },
+  "packageManager": "yarn@3.2.2"
 }
