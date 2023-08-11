@@ -1,1 +1,1 @@
-web: cd ui && yarn start
+worker: cd ui && yarn start
