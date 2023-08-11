@@ -49,7 +49,10 @@ async function decorateFastifyInstance (fastify) {
 }
 
 // Pass --options via CLI arguments in command to enable these options.
-module.exports.options = {}
+module.exports.options = {
+  port: 3000,
+  host: '0.0.0.0'
+}
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
