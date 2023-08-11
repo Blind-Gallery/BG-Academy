@@ -1,1 +1,1 @@
-web: ls && yarn start
+web: cd ui && yarn start
