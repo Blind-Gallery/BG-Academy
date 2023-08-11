@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l -p $PORT info app.js",
+    "start": "fastify start -l -p info app.js",
     "lint": "eslint . --ext .js",
     "dev": "fastify start -w -l info -P app.js"
   },
