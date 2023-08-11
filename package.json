@@ -5,7 +5,8 @@
     "scripts": {
     "postinstall": "if [ $CLIENT_ENV ]; then npm run postinstall-client; elif [ $SERVER_ENV ]; then npm run postinstall-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
     "postinstall-client": "cd ui && NODE_ENV=development yarn && yarn build",
-    "postinstall-server": "cd api && npm install"
+    "postinstall-server": "cd api && npm install",
+    "start": "cd ui && yarn start"
   },
   "main": "index.js",
   "repository": "git@github.com:Blind-Gallery/BG-Academy.git",
