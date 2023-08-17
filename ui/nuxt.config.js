@@ -1,5 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  formulate: {
+    configPath: '@/plugins/formulate.config.js'
+  },
   head: {
     title: 'Blind Gallery Academy',
     htmlAttrs: {
@@ -30,6 +33,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/formulate.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -40,7 +44,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@braid/vue-formulate/nuxt'
 
   ],
 
@@ -92,7 +97,7 @@ export default {
         codeChallengeMethod: '',
         responseMode: '',
         acrValues: ''
-      // autoLogout: false
+        // autoLogout: false
       },
       oidc: {
         scheme: 'openIDConnect',
@@ -113,7 +118,7 @@ export default {
         },
         user: {
           property: 'user'
-        // autoFetch: true
+          // autoFetch: true
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
@@ -159,7 +164,8 @@ export default {
     // commonjsOptions: {
     //   transformMixedEsModules: true // Enable @walletconnect/web3-provider which has some code in CommonJS
     // },
-    extend (config, { isDev, isClient }) {
+    // eslint-disable-next-line space-before-function-paren
+    extend(config, { isDev, isClient }) {
       config.node = {
         fs: 'empty'
       }
