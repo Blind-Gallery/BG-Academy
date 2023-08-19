@@ -3,16 +3,16 @@
   <div>
     <!--HEADER-->
     <header class="sticky-top">
-      <b-container style="max-width: 1240px;">
-        <div class="header-container">
+      <b-container style="max-width: 1240px">
+        <!-- <div class="header-container">
           <NuxtLink to="/">
-            <img
-              src="~/assets/AcademyLogo.png"
-              alt="logo"
-              width="160px"
-            >
+
           </NuxtLink>
-          <div v-if="!$auth.loggedIn" class="d-lg-flex d-none" style="gap: 1rem">
+          <div
+            v-if="!$auth.loggedIn"
+            class="d-lg-flex d-none"
+            style="gap: 1rem"
+          >
             <button v-b-modal.signup class="tertiary-btn">
               Sign Up
             </button><button v-b-modal.signin class="primary-btn">
@@ -32,269 +32,313 @@
             <b-avatar size="1.5rem" />
           </div>
 
-          <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
-          <!--MODAL SIGN IN-->
-          <b-modal id="signin" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Welcome Back!
-              </h2>
+          <Icon
+            icon="material-symbols:menu"
+            width="30px"
+            class="d-lg-none d-md-block"
+          />
+        </div> -->
 
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-            <!--SIGN IN FORM-->
-            <b-form @submit="onSignIn">
-              <b-form-group
-                id="input-group-1"
-                label="Email address:"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  v-model="signInForm.email"
-                  type="email"
-                  placeholder="Enter email"
-                  required
-                  :state="validationEmail"
-                />
-                <b-form-invalid-feedback :state="validationEmail">
-                  Please enter a valid email address
-                </b-form-invalid-feedback>
-              </b-form-group>
+        <div>
+          <b-navbar toggleable="lg">
+            <b-navbar-brand to="/">
+              <img src="../assets/academy-logo.svg" alt="logo" width="160px">
+            </b-navbar-brand>
 
-              <b-form-group
-                id="input-group-2"
-                label="Your Password:"
-                label-for="input-2"
-              >
-                <div
-                  class="d-flex"
-                  style="    border: 1px solid #ced4da;
-    border-radius: 0.25rem; align-items: center;"
-                >
-                  <b-form-input
-                    id="input-2"
-                    v-model="signInForm.password"
-                    placeholder="Enter password"
-                    :type="showPassword === false ? 'password' : 'text'"
-                    required
-                    style="border:0"
-                  />
+            <b-navbar-toggle target="nav-collapse" />
 
-                  <span @click="toggleShowPassword">
-                    <Icon
-                      width="32"
-                      color="#888"
-                      :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
-                      style="padding:0.25rem; cursor: pointer;"
-                    />
-                  </span>
-                </div>
-                <b-form-invalid-feedback :state="validationPassword">
-                  {{ signInForm.password.length < 8 ? 'Your password must be at least 8 characters long' : '' }}
-                </b-form-invalid-feedback>
-                <a v-b-modal.recoverPassword style="font-size: small;" class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
-                  Did you forget the password?
-                </a>
-              </b-form-group>
-              <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
-                {{ invalidFormMsg }}
-              </p>
-              <button class="primary-btn" style="width: 100%;">
-                Sign In
-              </button>
-              <div class="divider">
-                <hr><span>OR </span> <hr>
-              </div>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
-                <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
-                Connect Wallet
-              </button>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-                <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-              </button>
-
-              <p style="text-align: center; font-size: small;">
-                Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
-                  Sign Up
-                </a>
-              </p>
-            </b-form>
-          </b-modal>
-
-          <!--RECOVER PASSWORD-->
-          <b-modal id="recoverPassword" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Recover password
-              </h2>
-
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-            <p style="font-size: small;">
-              Enter the email address you use on the platform. We will send you a link to reset your password.
-            </p>
-            <b-form>
-              <b-form-group
-                id="input-group-1"
-                label="Your email"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  placeholder="Enter your email"
-                  required
-                />
-              </b-form-group>
-              <button class="primary-btn" style="width: 100%; margin-bottom: 1rem;">
-                Recover Password
-              </button>
-
-              <p style="text-align: center; font-size: small;">
-                Back to <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('recoverPassword')">Sign In</a>
-              </p>
-            </b-form>
-          </b-modal>
-
-          <!--MODAL SIGN UP-->
-          <b-modal id="signup" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Create new account
-              </h2>
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-            <b-form @submit="onSignUp">
-              <b-form-group
-                id="input-group-1"
-                label="Your name"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  v-model="signUpForm.name"
-                  placeholder="Enter your full name"
-                  required
-                />
-              </b-form-group>
-
-              <b-form-group
-                id="input-group-2"
-                label="Your email"
-                label-for="input-2"
-              >
-                <b-form-input
-                  id="input-2"
-                  v-model="signUpForm.email"
-                  placeholder="Enter your email"
-                  required
-                  :state="validationEmail"
-                />
-                <b-form-invalid-feedback :state="validationEmail">
-                  Please enter a valid email address
-                </b-form-invalid-feedback>
-              </b-form-group>
-
-              <b-form-group
-                id="input-group-3"
-                label="Password"
-                label-for="input-3"
-                aria-describedby="password-help-block"
-              >
-                <div
-                  class="d-flex"
-                  style="border: 1px solid #ced4da; border-radius: 0.25rem; align-items: center;"
-                >
-                  <b-form-input
-                    id="input-3"
-                    v-model="signUpForm.password"
-                    placeholder="Create password"
-                    :type="showPassword === false ? 'password' : 'text'"
-                    required
-                    style="border:0"
-                  />
-
-                  <span @click="toggleShowPassword">
-                    <Icon
-                      width="32"
-                      color="#888"
-                      :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
-                      style="padding:0.25rem; cursor: pointer;"
-                    />
-                  </span>
-                </div>
-
-                <b-form-invalid-feedback :state="validationPassword">
-                  The password should have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
-                </b-form-invalid-feedback>
-              </b-form-group>
-              <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
-                {{ invalidFormMsg }}
-              </p>
-              <button class="primary-btn" style="width: 100%;">
-                Sign Up
-              </button>
-              <div class="divider">
-                <hr><span>OR </span> <hr>
-              </div>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
-                <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
-                Connect Wallet
-              </button>
-              <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-                <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-              </button>
-
-              <p style="text-align: center; font-size: small;">
-                Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
-                  Sign In
-                </a>
-              </p>
-            </b-form>
-          </b-modal>
+            <b-collapse id="nav-collapse" is-nav>
+              <!-- Right aligned nav items -->
+              <b-navbar-nav class="ml-auto">
+                <b-navbar-nav v-if="!$auth.loggedIn" class="d-flex align-items-center" style="gap:1rem">
+                  <b-nav-item v-b-modal.signup>
+                    Sign Up
+                  </b-nav-item>
+                  <button v-b-modal.signin class="primary-btn">
+                    Sign In
+                  </button>
+                </b-navbar-nav>
+                <b-navbar-nav v-else>
+                  <b-nav-item to="/myCourses">
+                    My courses
+                  </b-nav-item>
+                  <b-nav-item @click="doLogout">
+                    Log out
+                  </b-nav-item>
+                </b-navbar-nav>
+              </b-navbar-nav>
+            </b-collapse>
+          </b-navbar>
         </div>
       </b-container>
+
+      <!--MODAL SIGN IN-->
+      <b-modal id="signin" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Welcome Back!
+          </h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <!--SIGN IN FORM-->
+        <b-form @submit="onSignIn">
+          <b-form-group
+            id="input-group-1"
+            label="Email address:"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="signInForm.email"
+              type="email"
+              placeholder="Enter email"
+              required
+              :state="validationEmail"
+            />
+            <b-form-invalid-feedback :state="validationEmail">
+              Please enter a valid email address
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-2"
+            label="Your Password:"
+            label-for="input-2"
+          >
+            <div
+              class="d-flex"
+              style="    border: 1px solid #ced4da;
+    border-radius: 0.25rem; align-items: center;"
+            >
+              <b-form-input
+                id="input-2"
+                v-model="signInForm.password"
+                placeholder="Enter password"
+                :type="showPassword === false ? 'password' : 'text'"
+                required
+                style="border:0"
+              />
+
+              <span @click="toggleShowPassword">
+                <Icon
+                  width="32"
+                  color="#888"
+                  :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
+                  style="padding:0.25rem; cursor: pointer;"
+                />
+              </span>
+            </div>
+            <b-form-invalid-feedback :state="validationPassword">
+              {{ signInForm.password.length < 8 ? 'Your password must be at least 8 characters long' : '' }}
+            </b-form-invalid-feedback>
+            <a v-b-modal.recoverPassword style="font-size: small;" class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
+              Did you forget the password?
+            </a>
+          </b-form-group>
+          <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
+            {{ invalidFormMsg }}
+          </p>
+          <button class="primary-btn" style="width: 100%;">
+            Sign In
+          </button>
+          <div class="divider">
+            <hr><span>OR </span> <hr>
+          </div>
+          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
+            <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+            Connect Wallet
+          </button>
+          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+            <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+          </button>
+
+          <p style="text-align: center; font-size: small;">
+            Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
+              Sign Up
+            </a>
+          </p>
+        </b-form>
+      </b-modal>
+
+      <!--RECOVER PASSWORD-->
+      <b-modal id="recoverPassword" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Recover password
+          </h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <p style="font-size: small;">
+          Enter the email address you use on the platform. We will send you a link to reset your password.
+        </p>
+        <b-form>
+          <b-form-group
+            id="input-group-1"
+            label="Your email"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              placeholder="Enter your email"
+              required
+            />
+          </b-form-group>
+          <button class="primary-btn" style="width: 100%; margin-bottom: 1rem;">
+            Recover Password
+          </button>
+
+          <p style="text-align: center; font-size: small;">
+            Back to <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('recoverPassword')">Sign In</a>
+          </p>
+        </b-form>
+      </b-modal>
+
+      <!--MODAL SIGN UP-->
+      <b-modal id="signup" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Create new account
+          </h2>
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <b-form @submit="onSignUp">
+          <b-form-group
+            id="input-group-1"
+            label="Your name"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="signUpForm.name"
+              placeholder="Enter your full name"
+              required
+            />
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-2"
+            label="Your email"
+            label-for="input-2"
+          >
+            <b-form-input
+              id="input-2"
+              v-model="signUpForm.email"
+              placeholder="Enter your email"
+              required
+              :state="validationEmail"
+            />
+            <b-form-invalid-feedback :state="validationEmail">
+              Please enter a valid email address
+            </b-form-invalid-feedback>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-3"
+            label="Password"
+            label-for="input-3"
+            aria-describedby="password-help-block"
+          >
+            <div
+              class="d-flex"
+              style="border: 1px solid #ced4da; border-radius: 0.25rem; align-items: center;"
+            >
+              <b-form-input
+                id="input-3"
+                v-model="signUpForm.password"
+                placeholder="Create password"
+                :type="showPassword === false ? 'password' : 'text'"
+                required
+                style="border:0"
+              />
+
+              <span @click="toggleShowPassword">
+                <Icon
+                  width="32"
+                  color="#888"
+                  :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
+                  style="padding:0.25rem; cursor: pointer;"
+                />
+              </span>
+            </div>
+
+            <b-form-invalid-feedback :state="validationPassword">
+              The password should have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
+            </b-form-invalid-feedback>
+          </b-form-group>
+          <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
+            {{ invalidFormMsg }}
+          </p>
+          <button class="primary-btn" style="width: 100%;">
+            Sign Up
+          </button>
+          <div class="divider">
+            <hr><span>OR </span> <hr>
+          </div>
+          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
+            <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
+            Connect Wallet
+          </button>
+          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+            <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+          </button>
+
+          <p style="text-align: center; font-size: small;">
+            Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
+              Sign In
+            </a>
+          </p>
+        </b-form>
+      </b-modal>
     </header>
     <Nuxt />
-    <footer class="m-4 ">
-      <b-container style="max-width: 1240px;">
+    <footer class="m-4">
+      <b-container style="max-width: 1240px">
         <div class="d-flex flex-column">
           <div class="d-flex gap-2 align-items-end">
             <a target="_blank" href="https://nuxtjs.org">
-              <Icon class="mr-2" icon="entypo-social:twitter-with-circle" color="#888" width="18" />
+              <Icon
+                class="mr-2"
+                icon="entypo-social:twitter-with-circle"
+                color="#888"
+                width="18"
+              />
             </a>
             <a target="blank" href="https://nuxtjs.org">
-
-              <Icon class="mr-2" icon="entypo-social:linkedin-with-circle" color="#888" width="18" />
+              <Icon
+                class="mr-2"
+                icon="entypo-social:linkedin-with-circle"
+                color="#888"
+                width="18"
+              />
             </a>
             <a target="blank" href="https://nuxtjs.org">
               <Icon
                 class="mr-2"
                 icon="bxl:discord-alt"
-                style="background: #888;
-              border-radius: 50%;
-              padding: 0.2rem;"
+                style="background: #888; border-radius: 50%; padding: 0.2rem"
                 color="#fff"
                 width="18"
               />
@@ -330,7 +374,6 @@ export default {
         email: '',
         password: ''
       }
-
     }
   },
 
@@ -343,9 +386,15 @@ export default {
       'signedMessage'
     ]),
     validationEmail () {
-      if (this.signInForm.email.length === 0 && this.signUpForm.email.length === 0) {
+      if (
+        this.signInForm.email.length === 0 &&
+        this.signUpForm.email.length === 0
+      ) {
         return null
-      } else if (this.signInForm.email.match(this.validMail) || this.signUpForm.email.match(this.validMail)) {
+      } else if (
+        this.signInForm.email.match(this.validMail) ||
+        this.signUpForm.email.match(this.validMail)
+      ) {
         return true
       } else {
         return false
@@ -353,15 +402,20 @@ export default {
     },
 
     validationPassword () {
-      if (this.signInForm.password.length === 0 && this.signUpForm.password.length === 0) {
+      if (
+        this.signInForm.password.length === 0 &&
+        this.signUpForm.password.length === 0
+      ) {
         return null
-      } else if (this.signInForm.password.match(this.validPassword) || this.signUpForm.password.match(this.validPassword)) {
+      } else if (
+        this.signInForm.password.match(this.validPassword) ||
+        this.signUpForm.password.match(this.validPassword)
+      ) {
         return true
       } else {
         return false
       }
     }
-
   },
   mounted () {
     this.$root.$on('bv::modal::show', (bvEvent, signup) => {
@@ -369,7 +423,6 @@ export default {
     })
   },
   methods: {
-
     toggleShowPassword () {
       this.showPassword = !this.showPassword
     },
@@ -439,7 +492,6 @@ export default {
         data: {
           ...this.signInForm
         }
-
       })
     },
 
@@ -475,7 +527,6 @@ export default {
 
       this.invalidFormMsg = ''
     }
-
   }
 }
 </script>
@@ -485,18 +536,18 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
-.course-route{
+.course-route {
   text-decoration: none;
-  color:inherit
+  color: inherit;
 }
 
-.course-route:hover{
+.course-route:hover {
   text-decoration: none;
-  color:inherit;
+  color: inherit;
 }
 
 ::-webkit-scrollbar {
-  width: 6px; /* Ancho de la barra de scroll */
+  width: 10px; /* Ancho de la barra de scroll */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -508,22 +559,26 @@ body {
   background-color: #555; /* Color del pulgar del scroll al hacer hover */
 }
 
-header{
+header {
   background-color: #fff;
+  padding: 0.25rem 0rem;
 }
-a{
-  color:#00b9cd;
-}
-
-a:hover{
-  color:#009cad;
+a {
+  color: #00b9cd;
 }
 
-h1{
+a:hover {
+  color: #009cad;
+}
+
+h1 {
   font-weight: bold;
 }
 
-h2, h3,h4,h5{
+h2,
+h3,
+h4,
+h5 {
   font-weight: 600;
 }
 
@@ -549,7 +604,7 @@ h2, h3,h4,h5{
   background-color: #009cad;
 }
 
-.secondary-btn{
+.secondary-btn {
   border: 1px solid #00b9cd;
   border-radius: 5px;
   color: #00b9cd;
@@ -564,11 +619,11 @@ h2, h3,h4,h5{
   background-color: #f7f7f7;
 }
 
-.secondary-btn-black{
+.secondary-btn-black {
   background-color: transparent;
-  border:1px solid #fff;
+  border: 1px solid #fff;
   border-radius: 5px;
-  color:#fff;
+  color: #fff;
   font-weight: 600;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
@@ -577,7 +632,7 @@ h2, h3,h4,h5{
 
 .secondary-btn-black:hover {
   background-color: #ffffff;
-  color:#1A374B;
+  color: #1a374b;
 }
 
 .tertiary-btn {
@@ -586,17 +641,17 @@ h2, h3,h4,h5{
   color: #888888;
 }
 
-.modal-content{
-  padding:1rem;
+.modal-content {
+  padding: 1rem;
 }
 
-.modal-header > h2{
+.modal-header > h2 {
   font-size: 32px;
   font-weight: bold;
-  color:#00B9CD;
+  color: #00b9cd;
 }
 
-.divider{
+.divider {
   -webkit-box-align: center;
   -webkit-box-pack: justify;
   width: 100%;
@@ -606,7 +661,7 @@ h2, h3,h4,h5{
   margin: 1rem 0rem;
 }
 
-.divider>hr{
+.divider > hr {
   margin: 0px;
   height: 1px;
   border: none;
@@ -614,14 +669,13 @@ h2, h3,h4,h5{
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.divider>span{
+.divider > span {
   font-size: small;
-  color:#888888;
-  padding:0.3rem;
+  color: #888888;
+  padding: 0.3rem;
 }
 
-.invalid-feedback{
+.invalid-feedback {
   font-size: small;
 }
-
 </style>

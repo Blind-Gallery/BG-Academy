@@ -91,7 +91,7 @@
           <div ref="certificateContainer" class="d-flex flex-column justify-content-between p-5 certificate-container" style="gap:4rem">
             <div class="w-100">
               <img
-                src="~/assets/AcademyLogo.png"
+                src="~/assets/academy-logo.svg"
                 alt="logo"
                 width="250px"
               >
