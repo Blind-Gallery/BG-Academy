@@ -76,7 +76,7 @@ export default {
         client_id: process.env.GOOGLE_CLIENT_ID,
         grantType: 'authorization_code',
         accessType: undefined,
-        redirectUri: 'https://localhost:5000/',
+        redirectUri: process.env.REDIRECT_URL,
         logoutRedirectUri: undefined,
         scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
       },
