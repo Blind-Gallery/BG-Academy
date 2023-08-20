@@ -64,11 +64,24 @@ export default {
 
   auth: {
     strategies: {
+      google: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://accounts.google.com/o/oauth2/auth',
+          token: 'https://oauth2.googleapis.com/token',
+          userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo'
+        },
+        codeChallengeMethod: 'code',
+        responseType: 'token id_token',
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        // redirectUri: 'http://localhost:3000',
+        scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+      },
       social: {
         scheme: 'oauth2',
         endpoints: {
           authorization: 'https://accounts.google.com/o/oauth2/auth',
-          token: undefined,
+          token: 'https://oauth2.googleapis.com/token',
           userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
           logout: 'https://example.com/logout'
         },
@@ -88,7 +101,7 @@ export default {
         logoutRedirectUri: undefined,
         clientId: process.env.GOOGLE_CLIENT_ID,
         scope: ['openid', 'profile', 'email'],
-        state: 'UNIQUE_AND_NON_GUESSABLE',
+        state: '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',
         codeChallengeMethod: '',
         responseMode: '',
         acrValues: ''
@@ -96,7 +109,7 @@ export default {
       },
       oidc: {
         scheme: 'openIDConnect',
-        clientId: process.env.GOOGLE_CLIENT_ID || '187416147688-mf571k010it7b6a19vuu5oi2jil5lrp0.apps.googleusercontent.com',
+        clientId: process.env.GOOGLE_CLIENT_ID,
         endpoints: {
           configuration: 'https://accounts.google.com/.well-known/openid-configuration'
         },
