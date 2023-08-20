@@ -74,7 +74,10 @@ export default {
         codeChallengeMethod: 'code',
         responseType: 'token id_token',
         client_id: process.env.GOOGLE_CLIENT_ID,
-        // redirectUri: 'http://localhost:3000',
+        grantType: 'authorization_code',
+        accessType: undefined,
+        redirectUri: 'https://localhost:5000/',
+        logoutRedirectUri: undefined,
         scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
       },
       social: {
