@@ -20,7 +20,7 @@
               color="#fff"
             />
           </span>
-          <div v-if="false">
+          <div v-if="true">
             <iframe
               class="
           rounded
@@ -239,9 +239,9 @@
                 v-for="(module, moduleIndex) in courseModules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
-                class="border d-flex rounded p-3 mb-2"
+                class="border d-flex rounded  mb-2"
               >
-                <div class="mr-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
+                <div class="ml-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
                 <div class="w-100">
                   <!--TOGGLE MODULE-->
                   <div @click="toggleCollapse(moduleIndex)">
@@ -253,7 +253,7 @@
                     v-for="(chapter, chapterIndex) in module.chapter"
                     :id="`accordion-${moduleIndex}`"
                     :key="chapterIndex"
-                    class="mb-2 mt-4"
+                    class="mx-2"
                     role="tabpanel"
                   >
                     <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
@@ -418,7 +418,7 @@ export default {
 <style>
 .progress-circle{
   color: black;
-  left: -25px;
+  left: -17px;
   top: 10px;
   position: absolute;
   background-color: white
