@@ -5,7 +5,7 @@
     <header class="sticky-top">
       <b-container style="max-width: 1240px">
         <div>
-          <b-navbar toggleable="lg">
+          <b-navbar class="px-0" toggleable="lg">
             <b-navbar-brand to="/">
               <img src="../assets/academy-logo.png" alt="logo" width="160px">
             </b-navbar-brand>
