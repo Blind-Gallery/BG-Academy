@@ -1,5 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  formulate: {
+    configPath: '@/plugins/formulate.config.js'
+  },
   head: {
     title: 'Blind Gallery Academy',
     htmlAttrs: {
@@ -30,6 +33,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/formulate.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -40,7 +44,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@braid/vue-formulate/nuxt'
 
   ],
 
@@ -64,11 +69,27 @@ export default {
 
   auth: {
     strategies: {
+      google: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://accounts.google.com/o/oauth2/auth',
+          token: 'https://oauth2.googleapis.com/token',
+          userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo'
+        },
+        codeChallengeMethod: 'code',
+        responseType: 'token id_token',
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        grantType: 'authorization_code',
+        accessType: undefined,
+        redirectUri: process.env.REDIRECT_URI,
+        logoutRedirectUri: undefined,
+        scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
+      },
       social: {
         scheme: 'oauth2',
         endpoints: {
           authorization: 'https://accounts.google.com/o/oauth2/auth',
-          token: undefined,
+          token: 'https://oauth2.googleapis.com/token',
           userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
           logout: 'https://example.com/logout'
         },
@@ -88,15 +109,15 @@ export default {
         logoutRedirectUri: undefined,
         clientId: process.env.GOOGLE_CLIENT_ID,
         scope: ['openid', 'profile', 'email'],
-        state: 'UNIQUE_AND_NON_GUESSABLE',
+        state: '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',
         codeChallengeMethod: '',
         responseMode: '',
         acrValues: ''
-      // autoLogout: false
+        // autoLogout: false
       },
       oidc: {
         scheme: 'openIDConnect',
-        clientId: process.env.GOOGLE_CLIENT_ID || '187416147688-mf571k010it7b6a19vuu5oi2jil5lrp0.apps.googleusercontent.com',
+        clientId: process.env.GOOGLE_CLIENT_ID,
         endpoints: {
           configuration: 'https://accounts.google.com/.well-known/openid-configuration'
         },
@@ -113,7 +134,7 @@ export default {
         },
         user: {
           property: 'user'
-        // autoFetch: true
+          // autoFetch: true
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
@@ -159,7 +180,8 @@ export default {
     // commonjsOptions: {
     //   transformMixedEsModules: true // Enable @walletconnect/web3-provider which has some code in CommonJS
     // },
-    extend (config, { isDev, isClient }) {
+    // eslint-disable-next-line space-before-function-paren
+    extend(config, { isDev, isClient }) {
       config.node = {
         fs: 'empty'
       }

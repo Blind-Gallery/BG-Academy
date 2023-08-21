@@ -53,84 +53,53 @@
             icon="material-symbols:close"
           /></span>
         </template>
-        <!--SIGN IN FORM-->
-        <b-form @submit="onSignIn">
-          <b-form-group
-            id="input-group-1"
-            label="Email address:"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              v-model="signInForm.email"
-              type="email"
-              placeholder="Enter email"
-              required
-              :state="validationEmail"
-            />
-            <b-form-invalid-feedback :state="validationEmail">
-              Please enter a valid email address
-            </b-form-invalid-feedback>
-          </b-form-group>
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="signInForm"
+          class="login-form"
 
-          <b-form-group
-            id="input-group-2"
-            label="Your Password:"
-            label-for="input-2"
-          >
-            <div
-              class="d-flex"
-              style="    border: 1px solid #ced4da;
-    border-radius: 0.25rem; align-items: center;"
-            >
-              <b-form-input
-                id="input-2"
-                v-model="signInForm.password"
-                placeholder="Enter password"
-                :type="showPassword === false ? 'password' : 'text'"
-                required
-                style="border:0"
-              />
-
-              <span @click="toggleShowPassword">
-                <Icon
-                  width="32"
-                  color="#888"
-                  :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
-                  style="padding:0.25rem; cursor: pointer;"
-                />
-              </span>
-            </div>
-            <b-form-invalid-feedback :state="validationPassword">
-              {{ signInForm.password.length < 8 ? 'Your password must be at least 8 characters long' : '' }}
-            </b-form-invalid-feedback>
-            <a v-b-modal.recoverPassword style="font-size: small;" class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
-              Did you forget the password?
-            </a>
-          </b-form-group>
-          <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
-            {{ invalidFormMsg }}
+          @submit="doSignIn"
+        >
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+          />
+          <FormulateInput
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Your password"
+            validation="required|matches:/[0-9]/|min:8,length"
+          />
+          <p class="small" style="font-size: small; color:#960505">
+            {{ invalidMessage }}
           </p>
-          <button class="primary-btn" style="width: 100%;">
-            Sign In
-          </button>
-          <div class="divider">
-            <hr><span>OR </span> <hr>
-          </div>
-          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
-            <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
-            Connect Wallet
-          </button>
-          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-            <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-          </button>
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Sign In'"
+          />
+        </FormulateForm>
 
-          <p style="text-align: center; font-size: small;">
-            Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
-              Sign Up
-            </a>
-          </p>
-        </b-form>
+        <div class="divider">
+          <hr><span>OR </span> <hr>
+        </div>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
+          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+          Connect Wallet
+        </button>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        </button>
+
+        <p style="text-align: center; font-size: small;">
+          Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
+            Sign Up
+          </a>
+        </p>
       </b-modal>
 
       <!--RECOVER PASSWORD-->
@@ -189,95 +158,66 @@
             icon="material-symbols:close"
           /></span>
         </template>
-        <b-form @submit="onSignUp">
-          <b-form-group
-            id="input-group-1"
+
+        <FormulateForm v-slot="{ isLoading }" v-model="signUpForm" class="login-form" @submit="doSignUp">
+          <FormulateInput
+            name="name"
+            type="text"
             label="Your name"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              v-model="signUpForm.name"
-              placeholder="Enter your full name"
-              required
-            />
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-2"
-            label="Your email"
-            label-for="input-2"
-          >
-            <b-form-input
-              id="input-2"
-              v-model="signUpForm.email"
-              placeholder="Enter your email"
-              required
-              :state="validationEmail"
-            />
-            <b-form-invalid-feedback :state="validationEmail">
-              Please enter a valid email address
-            </b-form-invalid-feedback>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-3"
+            placeholder="Your name"
+            validation="required"
+          />
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+          />
+          <FormulateInput
             label="Password"
-            label-for="input-3"
-            aria-describedby="password-help-block"
-          >
-            <div
-              class="d-flex"
-              style="border: 1px solid #ced4da; border-radius: 0.25rem; align-items: center;"
-            >
-              <b-form-input
-                id="input-3"
-                v-model="signUpForm.password"
-                placeholder="Create password"
-                :type="showPassword === false ? 'password' : 'text'"
-                required
-                style="border:0"
-              />
-
-              <span @click="toggleShowPassword">
-                <Icon
-                  width="32"
-                  color="#888"
-                  :icon="showPassword === false ? 'mdi:eye-outline' : 'mdi:eye-off-outline'"
-                  style="padding:0.25rem; cursor: pointer;"
-                />
-              </span>
-            </div>
-
-            <b-form-invalid-feedback :state="validationPassword">
-              The password should have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <p v-show="validationPassword === null && validationEmail === null" style="font-size: small; color:#dc3545">
-            {{ invalidFormMsg }}
+            type="password"
+            name="password"
+            validation="required|matches:/[0-9]/|min:8,length"
+            :validation-messages="{ matches: 'Passwords must include a number.' }"
+          />
+          <FormulateInput
+            label="Confirm password"
+            type="password"
+            name="password_confirm"
+            validation="required|confirm"
+            validation-name="Password confirmation"
+          />
+          <p class="small" style="font-size: small; color:#960505">
+            {{ invalidMessage }}
           </p>
-          <button class="primary-btn" style="width: 100%;">
-            Sign Up
-          </button>
-          <div class="divider">
-            <hr><span>OR </span> <hr>
-          </div>
-          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
-            <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
-            Connect Wallet
-          </button>
-          <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-            <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-          </button>
+          <FormulateInput
 
-          <p style="text-align: center; font-size: small;">
-            Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
-              Sign In
-            </a>
-          </p>
-        </b-form>
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Sign up'"
+          />
+        </FormulateForm>
+
+        <div class="divider">
+          <hr><span>OR </span> <hr>
+        </div>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
+          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
+          Connect Wallet
+        </button>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        </button>
+
+        <p style="text-align: center; font-size: small;">
+          Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
+            Sign In
+          </a>
+        </p>
       </b-modal>
     </header>
+
     <Nuxt />
     <footer class="m-4">
       <b-container style="max-width: 1240px">
@@ -325,19 +265,11 @@ export default {
   data () {
     return {
       show: true,
-      showPassword: false,
-      validMail: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      validPassword: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-      invalidFormMsg: '',
+      invalidMessage: '',
       signInForm: {
-        email: '',
-        password: ''
       },
 
       signUpForm: {
-        name: '',
-        email: '',
-        password: ''
       }
     }
   },
@@ -349,38 +281,8 @@ export default {
       'isWalletConnected',
       'payload',
       'signedMessage'
-    ]),
-    validationEmail () {
-      if (
-        this.signInForm.email.length === 0 &&
-        this.signUpForm.email.length === 0
-      ) {
-        return null
-      } else if (
-        this.signInForm.email.match(this.validMail) ||
-        this.signUpForm.email.match(this.validMail)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
+    ])
 
-    validationPassword () {
-      if (
-        this.signInForm.password.length === 0 &&
-        this.signUpForm.password.length === 0
-      ) {
-        return null
-      } else if (
-        this.signInForm.password.match(this.validPassword) ||
-        this.signUpForm.password.match(this.validPassword)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    }
   },
   mounted () {
     this.$root.$on('bv::modal::show', (bvEvent, signup) => {
@@ -388,36 +290,27 @@ export default {
     })
   },
   methods: {
-    toggleShowPassword () {
-      this.showPassword = !this.showPassword
-    },
-
-    async onSignIn (event) {
-      if (this.validationEmail && this.validationPassword) {
-        await this.emailConnect()
-        this.$bvModal.hide('signin')
-      } else {
-        this.invalidFormMsg = 'Incorrect email and/or password'
-      }
-    },
-
-    async onSignUp (event) {
-      if (this.validationEmail && this.validationPassword) {
-        await this.doSignUp()
-        this.$bvModal.hide('signup')
-      } else {
-        this.invalidFormMsg = 'Incorrect email and/or password'
-      }
+    async doSignIn () {
+      await this.emailConnect()
     },
 
     async doSignUp () {
-      const signUpForm = this.signUpForm
-      await this.$axios.$post('users', signUpForm)
-      this.$auth.loginWith('local', {
-        data: {
-          ...signUpForm
+      try {
+        const signUpForm = this.signUpForm
+        await this.$axios.$post('users', signUpForm)
+        this.$auth.loginWith('local', {
+          data: {
+            ...signUpForm
+          }
+        })
+        this.$bvModal.hide('signup')
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          this.invalidMessage = 'There is already an existing account with the email address'
+        } else {
+          this.invalidMessage = 'Sing Up error'
         }
-      })
+      }
     },
 
     async doSignUpWallet () {
@@ -440,9 +333,7 @@ export default {
     },
 
     doGoogleConnect () {
-      alert('google connect')
-      console.log('google connect')
-      this.$auth.loginWith('openIDConnect')
+      this.$auth.loginWith('google')
     },
 
     doLogout () {
@@ -453,11 +344,20 @@ export default {
     },
 
     async emailConnect () {
-      await this.$auth.loginWith('local', {
-        data: {
-          ...this.signInForm
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            ...this.signInForm
+          }
+        })
+        this.$bvModal.hide('signin')
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          this.invalidMessage = 'Invalid email or password'
+        } else {
+          this.invalidMessage = 'Sign In error'
         }
-      })
+      }
     },
 
     async walletConnect () {
@@ -480,17 +380,14 @@ export default {
 
     onReset () {
       this.signInForm = {
-        email: '',
-        password: ''
+
       }
 
       this.signUpForm = {
-        name: '',
-        email: '',
-        password: ''
+
       }
 
-      this.invalidFormMsg = ''
+      this.invalidMessage = ''
     }
   }
 }
