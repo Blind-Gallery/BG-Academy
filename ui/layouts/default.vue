@@ -324,9 +324,7 @@ export default {
     },
 
     doGoogleConnect () {
-      alert('google connect')
-      console.log('google connect')
-      this.$auth.loginWith('openIDConnect')
+      this.$auth.loginWith('google')
     },
 
     doLogout () {
