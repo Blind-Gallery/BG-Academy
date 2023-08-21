@@ -4,45 +4,10 @@
     <!--HEADER-->
     <header class="sticky-top">
       <b-container style="max-width: 1240px">
-        <!-- <div class="header-container">
-          <NuxtLink to="/">
-
-          </NuxtLink>
-          <div
-            v-if="!$auth.loggedIn"
-            class="d-lg-flex d-none"
-            style="gap: 1rem"
-          >
-            <button v-b-modal.signup class="tertiary-btn">
-              Sign Up
-            </button><button v-b-modal.signin class="primary-btn">
-              Sign In
-            </button>
-          </div>
-
-          <div v-else>
-            <NuxtLink to="/myCourses">
-              <button class="tertiary-btn">
-                My courses
-              </button>
-              <button class="tertiary-btn" @click="doLogout">
-                Log out
-              </button>
-            </NuxtLink>
-            <b-avatar size="1.5rem" />
-          </div>
-
-          <Icon
-            icon="material-symbols:menu"
-            width="30px"
-            class="d-lg-none d-md-block"
-          />
-        </div> -->
-
         <div>
           <b-navbar toggleable="lg">
             <b-navbar-brand to="/">
-              <img src="../assets/academy-logo.svg" alt="logo" width="160px">
+              <img src="../assets/academy-logo.png" alt="logo" width="160px">
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse" />
