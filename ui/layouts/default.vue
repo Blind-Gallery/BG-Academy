@@ -3,237 +3,247 @@
   <div>
     <!--HEADER-->
     <header class="sticky-top">
-      <b-container style="max-width: 1240px;">
-        <div class="header-container">
-          <NuxtLink to="/">
-            <img
-              src="~/assets/AcademyLogo.png"
-              alt="logo"
-              width="160px"
-            >
-          </NuxtLink>
-          <div v-if="!$auth.loggedIn" class="d-lg-flex d-none" style="gap: 1rem">
-            <button v-b-modal.signup class="tertiary-btn">
-              Sign Up
-            </button><button v-b-modal.signin class="primary-btn">
-              Sign In
-            </button>
-          </div>
+      <b-container style="max-width: 1240px">
+        <div>
+          <b-navbar class="px-0" toggleable="lg">
+            <b-navbar-brand to="/">
+              <img src="../assets/academy-logo.png" alt="logo" width="160px">
+            </b-navbar-brand>
 
-          <div v-else>
-            <NuxtLink to="/myCourses">
-              <button class="tertiary-btn">
-                My courses
-              </button>
-              <button class="tertiary-btn" @click="doLogout">
-                Log out
-              </button>
-            </NuxtLink>
-            <b-avatar size="1.5rem" />
-          </div>
+            <b-navbar-toggle target="nav-collapse" />
 
-          <Icon icon="material-symbols:menu" width="30px" class="d-lg-none d-md-block" />
-          <!--MODAL SIGN IN-->
-          <b-modal id="signin" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Welcome Back!
-              </h2>
-
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-            <FormulateForm
-              v-slot="{ isLoading }"
-              v-model="signInForm"
-              class="login-form"
-
-              @submit="doSignIn"
-            >
-              <FormulateInput
-                name="email"
-                type="email"
-                label="Email address"
-                placeholder="Email address"
-                validation="required|email"
-              />
-              <FormulateInput
-                name="password"
-                type="password"
-                label="Password"
-                placeholder="Your password"
-                validation="required|matches:/[0-9]/|min:8,length"
-              />
-              <p class="small" style="font-size: small; color:#960505">
-                {{ invalidMessage }}
-              </p>
-              <FormulateInput
-                type="submit"
-                :disabled="isLoading"
-                :label="isLoading ? 'Loading...' : 'Sign In'"
-              />
-            </FormulateForm>
-
-            <div class="divider">
-              <hr><span>OR </span> <hr>
-            </div>
-            <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
-              <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
-              Connect Wallet
-            </button>
-            <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-              <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-            </button>
-
-            <p style="text-align: center; font-size: small;">
-              Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
-                Sign Up
-              </a>
-            </p>
-          </b-modal>
-
-          <!--RECOVER PASSWORD-->
-          <b-modal id="recoverPassword" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Recover password
-              </h2>
-
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-            <p style="font-size: small;">
-              Enter the email address you use on the platform. We will send you a link to reset your password.
-            </p>
-            <b-form>
-              <b-form-group
-                id="input-group-1"
-                label="Your email"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  placeholder="Enter your email"
-                  required
-                />
-              </b-form-group>
-              <button class="primary-btn" style="width: 100%; margin-bottom: 1rem;">
-                Recover Password
-              </button>
-
-              <p style="text-align: center; font-size: small;">
-                Back to <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('recoverPassword')">Sign In</a>
-              </p>
-            </b-form>
-          </b-modal>
-
-          <!--MODAL SIGN UP-->
-          <b-modal id="signup" centered hidden-header hide-footer>
-            <template #modal-header="{ close }">
-              <h2>
-                Create new account
-              </h2>
-              <span
-                style="cursor: pointer"
-                @click="close()"
-              ><Icon
-                width="32"
-                color="#888"
-                icon="material-symbols:close"
-              /></span>
-            </template>
-
-            <FormulateForm v-slot="{ isLoading }" v-model="signUpForm" class="login-form" @submit="doSignUp">
-              <FormulateInput
-                name="name"
-                type="text"
-                label="Your name"
-                placeholder="Your name"
-                validation="required"
-              />
-              <FormulateInput
-                name="email"
-                type="email"
-                label="Email address"
-                placeholder="Email address"
-                validation="required|email"
-              />
-              <FormulateInput
-                label="Password"
-                type="password"
-                name="password"
-                validation="required|matches:/[0-9]/|min:8,length"
-                :validation-messages="{ matches: 'Passwords must include a number.' }"
-              />
-              <FormulateInput
-                label="Confirm password"
-                type="password"
-                name="password_confirm"
-                validation="required|confirm"
-                validation-name="Password confirmation"
-              />
-              <p class="small" style="font-size: small; color:#960505">
-                {{ invalidMessage }}
-              </p>
-              <FormulateInput
-
-                type="submit"
-                :disabled="isLoading"
-                :label="isLoading ? 'Loading...' : 'Sign up'"
-              />
-            </FormulateForm>
-
-            <div class="divider">
-              <hr><span>OR </span> <hr>
-            </div>
-            <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
-              <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
-              Connect Wallet
-            </button>
-            <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-              <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
-            </button>
-
-            <p style="text-align: center; font-size: small;">
-              Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
-                Sign In
-              </a>
-            </p>
-          </b-modal>
+            <b-collapse id="nav-collapse" is-nav>
+              <!-- Right aligned nav items -->
+              <b-navbar-nav class="ml-auto">
+                <b-navbar-nav v-if="!$auth.loggedIn" class="d-flex align-items-center" style="gap:1rem">
+                  <b-nav-item v-b-modal.signup>
+                    Sign Up
+                  </b-nav-item>
+                  <button v-b-modal.signin class="primary-btn">
+                    Sign In
+                  </button>
+                </b-navbar-nav>
+                <b-navbar-nav v-else>
+                  <b-nav-item to="/myCourses">
+                    My courses
+                  </b-nav-item>
+                  <b-nav-item @click="doLogout">
+                    Log out
+                  </b-nav-item>
+                </b-navbar-nav>
+              </b-navbar-nav>
+            </b-collapse>
+          </b-navbar>
         </div>
       </b-container>
+
+      <!--MODAL SIGN IN-->
+      <b-modal id="signin" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Welcome Back!
+          </h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="signInForm"
+          class="login-form"
+
+          @submit="doSignIn"
+        >
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+          />
+          <FormulateInput
+            name="password"
+            type="password"
+            label="Password"
+            placeholder="Your password"
+            validation="required|matches:/[0-9]/|min:8,length"
+          />
+          <p class="small" style="font-size: small; color:#960505">
+            {{ invalidMessage }}
+          </p>
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Sign In'"
+          />
+        </FormulateForm>
+
+        <div class="divider">
+          <hr><span>OR </span> <hr>
+        </div>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
+          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+          Connect Wallet
+        </button>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        </button>
+
+        <p style="text-align: center; font-size: small;">
+          Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
+            Sign Up
+          </a>
+        </p>
+      </b-modal>
+
+      <!--RECOVER PASSWORD-->
+      <b-modal id="recoverPassword" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Recover password
+          </h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <p style="font-size: small;">
+          Enter the email address you use on the platform. We will send you a link to reset your password.
+        </p>
+        <b-form>
+          <b-form-group
+            id="input-group-1"
+            label="Your email"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+              placeholder="Enter your email"
+              required
+            />
+          </b-form-group>
+          <button class="primary-btn" style="width: 100%; margin-bottom: 1rem;">
+            Recover Password
+          </button>
+
+          <p style="text-align: center; font-size: small;">
+            Back to <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('recoverPassword')">Sign In</a>
+          </p>
+        </b-form>
+      </b-modal>
+
+      <!--MODAL SIGN UP-->
+      <b-modal id="signup" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Create new account
+          </h2>
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+
+        <FormulateForm v-slot="{ isLoading }" v-model="signUpForm" class="login-form" @submit="doSignUp">
+          <FormulateInput
+            name="name"
+            type="text"
+            label="Your name"
+            placeholder="Your name"
+            validation="required"
+          />
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+          />
+          <FormulateInput
+            label="Password"
+            type="password"
+            name="password"
+            validation="required|matches:/[0-9]/|min:8,length"
+            :validation-messages="{ matches: 'Passwords must include a number.' }"
+          />
+          <FormulateInput
+            label="Confirm password"
+            type="password"
+            name="password_confirm"
+            validation="required|confirm"
+            validation-name="Password confirmation"
+          />
+          <p class="small" style="font-size: small; color:#960505">
+            {{ invalidMessage }}
+          </p>
+          <FormulateInput
+
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Sign up'"
+          />
+        </FormulateForm>
+
+        <div class="divider">
+          <hr><span>OR </span> <hr>
+        </div>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
+          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
+          Connect Wallet
+        </button>
+        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
+          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        </button>
+
+        <p style="text-align: center; font-size: small;">
+          Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
+            Sign In
+          </a>
+        </p>
+      </b-modal>
     </header>
+
     <Nuxt />
-    <footer class="m-4 ">
-      <b-container style="max-width: 1240px;">
+    <footer class="m-4">
+      <b-container style="max-width: 1240px">
         <div class="d-flex flex-column">
           <div class="d-flex gap-2 align-items-end">
             <a target="_blank" href="https://nuxtjs.org">
-              <Icon class="mr-2" icon="entypo-social:twitter-with-circle" color="#888" width="18" />
+              <Icon
+                class="mr-2"
+                icon="entypo-social:twitter-with-circle"
+                color="#888"
+                width="18"
+              />
             </a>
             <a target="blank" href="https://nuxtjs.org">
-
-              <Icon class="mr-2" icon="entypo-social:linkedin-with-circle" color="#888" width="18" />
+              <Icon
+                class="mr-2"
+                icon="entypo-social:linkedin-with-circle"
+                color="#888"
+                width="18"
+              />
             </a>
             <a target="blank" href="https://nuxtjs.org">
               <Icon
                 class="mr-2"
                 icon="bxl:discord-alt"
-                style="background: #888;
-              border-radius: 50%;
-              padding: 0.2rem;"
+                style="background: #888; border-radius: 50%; padding: 0.2rem"
                 color="#fff"
                 width="18"
               />
@@ -261,7 +271,6 @@ export default {
 
       signUpForm: {
       }
-
     }
   },
 
@@ -380,7 +389,6 @@ export default {
 
       this.invalidMessage = ''
     }
-
   }
 }
 </script>
@@ -390,18 +398,18 @@ body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
 
-.course-route{
+.course-route {
   text-decoration: none;
-  color:inherit
+  color: inherit;
 }
 
-.course-route:hover{
+.course-route:hover {
   text-decoration: none;
-  color:inherit;
+  color: inherit;
 }
 
 ::-webkit-scrollbar {
-  width: 6px; /* Ancho de la barra de scroll */
+  width: 10px; /* Ancho de la barra de scroll */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -413,22 +421,26 @@ body {
   background-color: #555; /* Color del pulgar del scroll al hacer hover */
 }
 
-header{
+header {
   background-color: #fff;
+  padding: 0.25rem 0rem;
 }
-a{
-  color:#00b9cd;
-}
-
-a:hover{
-  color:#009cad;
+a {
+  color: #00b9cd;
 }
 
-h1{
+a:hover {
+  color: #009cad;
+}
+
+h1 {
   font-weight: bold;
 }
 
-h2, h3,h4,h5{
+h2,
+h3,
+h4,
+h5 {
   font-weight: 600;
 }
 
@@ -454,7 +466,7 @@ h2, h3,h4,h5{
   background-color: #009cad;
 }
 
-.secondary-btn{
+.secondary-btn {
   border: 1px solid #00b9cd;
   border-radius: 5px;
   color: #00b9cd;
@@ -469,11 +481,11 @@ h2, h3,h4,h5{
   background-color: #f7f7f7;
 }
 
-.secondary-btn-black{
+.secondary-btn-black {
   background-color: transparent;
-  border:1px solid #fff;
+  border: 1px solid #fff;
   border-radius: 5px;
-  color:#fff;
+  color: #fff;
   font-weight: 600;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
@@ -482,7 +494,7 @@ h2, h3,h4,h5{
 
 .secondary-btn-black:hover {
   background-color: #ffffff;
-  color:#1A374B;
+  color: #1a374b;
 }
 
 .tertiary-btn {
@@ -491,17 +503,17 @@ h2, h3,h4,h5{
   color: #888888;
 }
 
-.modal-content{
-  padding:1rem;
+.modal-content {
+  padding: 1rem;
 }
 
-.modal-header > h2{
+.modal-header > h2 {
   font-size: 32px;
   font-weight: bold;
-  color:#00B9CD;
+  color: #00b9cd;
 }
 
-.divider{
+.divider {
   -webkit-box-align: center;
   -webkit-box-pack: justify;
   width: 100%;
@@ -511,7 +523,7 @@ h2, h3,h4,h5{
   margin: 1rem 0rem;
 }
 
-.divider>hr{
+.divider > hr {
   margin: 0px;
   height: 1px;
   border: none;
@@ -519,14 +531,13 @@ h2, h3,h4,h5{
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.divider>span{
+.divider > span {
   font-size: small;
-  color:#888888;
-  padding:0.3rem;
+  color: #888888;
+  padding: 0.3rem;
 }
 
-.invalid-feedback{
+.invalid-feedback {
   font-size: small;
 }
-
 </style>

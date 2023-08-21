@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card mb-4">
+    <div class="card shadow-sm mb-4">
       <div class="card-body">
         <img
           :src="cover"
@@ -91,7 +91,7 @@
           <div ref="certificateContainer" class="d-flex flex-column justify-content-between p-5 certificate-container" style="gap:4rem">
             <div class="w-100">
               <img
-                src="~/assets/AcademyLogo.png"
+                src="~/assets/academy-logo.png"
                 alt="logo"
                 width="250px"
               >
@@ -194,6 +194,16 @@ export default {
 }
 </script>
 <style>
+.card{
+  border: none;
+  transition: ease all 0.3s;
+}
+
+.card:hover{
+  cursor: pointer;
+  transform: scale(1.02);
+}
+
 .card-img-top{
   max-height: 280px;
   object-fit: cover;
