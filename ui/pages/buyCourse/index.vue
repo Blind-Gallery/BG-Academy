@@ -69,7 +69,7 @@
             <div
               v-for="(module, moduleIndex) in courseModules"
               :key="moduleIndex"
-              class="w-100 border p-3 mb-2 rounded"
+              class="w-100 shadow-sm  mb-2 rounded"
             >
               <div @click="toggleCollapse(moduleIndex)">
                 <PxToggleCollapse :icon-width="'24px'" :subtitle-name="`Chapters: ${module.chapter.length} | 1h 30min`" :toggle-name="module.title" />
@@ -84,7 +84,7 @@
                 role="tabpanel"
               >
                 <NuxtLink to="/courseNavigator">
-                  <div class="d-flex justify-content-between py-3 px-2 position-relative  rounded">
+                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
                     <div class="d-flex align-items-center">
                       <Icon
                         icon="material-symbols:smart-display-outline-rounded"
