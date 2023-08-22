@@ -21,7 +21,8 @@
             />
           </span>
           <div v-if="true">
-            <iframe
+            <PxPlayer />
+            <!-- <iframe
               class="
           rounded
           mb-3"
@@ -30,7 +31,7 @@
               src="https://www.youtube.com/embed/qtPi0JvmWbs"
               title="YouTube video player"
               frameborder="0"
-            />
+            /> -->
           </div>
           <div v-else class="d-flex flex-column align-items-center">
             <Transition name="fade" mode="out-in">
@@ -301,12 +302,14 @@ import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
+import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 export default {
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    PxPlayer
   },
 
   data () {
