@@ -1,0 +1,43 @@
+table:
+  name: modules
+  schema: public
+configuration:
+  column_config:
+    next_module_id:
+      custom_name: next_module_id
+    previous_module_id:
+      custom_name: previous_module_id
+  custom_column_names:
+    next_module_id: next_module_id
+    previous_module_id: previous_module_id
+  custom_root_fields: {}
+object_relationships:
+  - name: course
+    using:
+      foreign_key_constraint_on: course_id
+  - name: next_module
+    using:
+      manual_configuration:
+        column_mapping:
+          next_module_id: id
+        insertion_order: null
+        remote_table:
+          name: modules
+          schema: public
+  - name: previous_module
+    using:
+      manual_configuration:
+        column_mapping:
+          previous_module_id: id
+        insertion_order: null
+        remote_table:
+          name: modules
+          schema: public
+array_relationships:
+  - name: chapters
+    using:
+      foreign_key_constraint_on:
+        column: module_id
+        table:
+          name: chapters
+          schema: public
