@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <template>
   <div>
+    <PxAlert ref="alert" />
     <!--HEADER-->
     <header class="sticky-top">
       <b-container style="max-width: 1240px">
@@ -15,7 +16,11 @@
             <b-collapse id="nav-collapse" is-nav>
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
-                <b-navbar-nav v-if="!$auth.loggedIn" class="d-flex align-items-center" style="gap:1rem">
+                <b-navbar-nav
+                  v-if="!$auth.loggedIn"
+                  class="d-flex align-items-center"
+                  style="gap: 1rem"
+                >
                   <b-nav-item v-b-modal.signup>
                     Sign Up
                   </b-nav-item>
@@ -40,9 +45,7 @@
       <!--MODAL SIGN IN-->
       <b-modal id="signin" centered hidden-header hide-footer>
         <template #modal-header="{ close }">
-          <h2>
-            Welcome Back!
-          </h2>
+          <h2>Welcome Back!</h2>
 
           <span
             style="cursor: pointer"
@@ -57,7 +60,6 @@
           v-slot="{ isLoading }"
           v-model="signInForm"
           class="login-form"
-
           @submit="doSignIn"
         >
           <FormulateInput
@@ -73,8 +75,14 @@
             label="Password"
             placeholder="Your password"
             validation="required|matches:/[0-9]/|min:8,length"
+            :validation-messages="{
+              matches: 'Passwords must include a number.',
+            }"
           />
-          <p class="small" style="font-size: small; color:#960505">
+          <a v-b-modal.recoverPassword class="m-0" style="font-size: small;" @click="$bvModal.hide('signin')">
+            Did you forget your password?
+          </a>
+          <p class="small" style="font-size: small; color: #960505">
             {{ invalidMessage }}
           </p>
           <FormulateInput
@@ -85,18 +93,43 @@
         </FormulateForm>
 
         <div class="divider">
-          <hr><span>OR </span> <hr>
+          <hr>
+          <span>OR </span>
+          <hr>
         </div>
-        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="walletConnect">
-          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" />
+        <button
+          class="secondary-btn"
+          style="width: 100%; position: relative; margin-bottom: 1rem"
+          @click="walletConnect"
+        >
+          <Icon
+            icon="material-symbols:account-balance-wallet-outline"
+            color="#00b9cd"
+            width="21"
+            style="position: absolute; left: 24px; top: 9px"
+          />
           Connect Wallet
         </button>
-        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        <button
+          class="secondary-btn"
+          style="width: 100%; position: relative; margin-bottom: 1rem"
+          @click="doGoogleConnect"
+        >
+          <Icon
+            icon="flat-color-icons:google"
+            width="21"
+            style="position: absolute; left: 24px; top: 9px"
+          />
+          Continue with Google
         </button>
 
-        <p style="text-align: center; font-size: small;">
-          Don't have an account yet? <a v-b-modal.signup class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signin')">
+        <p style="text-align: center; font-size: small">
+          Don't have an account yet?
+          <a
+            v-b-modal.signup
+            class="nuxt-link-exact-active nuxt-link-active"
+            @click="$bvModal.hide('signin')"
+          >
             Sign Up
           </a>
         </p>
@@ -105,9 +138,7 @@
       <!--RECOVER PASSWORD-->
       <b-modal id="recoverPassword" centered hidden-header hide-footer>
         <template #modal-header="{ close }">
-          <h2>
-            Recover password
-          </h2>
+          <h2>Recover password</h2>
 
           <span
             style="cursor: pointer"
@@ -118,37 +149,35 @@
             icon="material-symbols:close"
           /></span>
         </template>
-        <p style="font-size: small;">
-          Enter the email address you use on the platform. We will send you a link to reset your password.
+        <p style="font-size: small">
+          Enter the email address you use on the platform. We will send you a
+          link to reset your password.
         </p>
-        <b-form>
-          <b-form-group
-            id="input-group-1"
-            label="Your email"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              placeholder="Enter your email"
-              required
-            />
-          </b-form-group>
-          <button class="primary-btn" style="width: 100%; margin-bottom: 1rem;">
-            Recover Password
-          </button>
-
-          <p style="text-align: center; font-size: small;">
-            Back to <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('recoverPassword')">Sign In</a>
-          </p>
-        </b-form>
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="signInForm"
+          class="login-form"
+          @submit="doRecover"
+        >
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+          />
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Recover password'"
+          />
+        </formulateform>
       </b-modal>
 
       <!--MODAL SIGN UP-->
       <b-modal id="signup" centered hidden-header hide-footer>
         <template #modal-header="{ close }">
-          <h2>
-            Create new account
-          </h2>
+          <h2>Create new account</h2>
           <span
             style="cursor: pointer"
             @click="close()"
@@ -159,7 +188,12 @@
           /></span>
         </template>
 
-        <FormulateForm v-slot="{ isLoading }" v-model="signUpForm" class="login-form" @submit="doSignUp">
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="signUpForm"
+          class="login-form"
+          @submit="doSignUp"
+        >
           <FormulateInput
             name="name"
             type="text"
@@ -179,7 +213,9 @@
             type="password"
             name="password"
             validation="required|matches:/[0-9]/|min:8,length"
-            :validation-messages="{ matches: 'Passwords must include a number.' }"
+            :validation-messages="{
+              matches: 'Passwords must include a number.',
+            }"
           />
           <FormulateInput
             label="Confirm password"
@@ -188,11 +224,10 @@
             validation="required|confirm"
             validation-name="Password confirmation"
           />
-          <p class="small" style="font-size: small; color:#960505">
+          <p class="small" style="font-size: small; color: #960505">
             {{ invalidMessage }}
           </p>
           <FormulateInput
-
             type="submit"
             :disabled="isLoading"
             :label="isLoading ? 'Loading...' : 'Sign up'"
@@ -200,18 +235,44 @@
         </FormulateForm>
 
         <div class="divider">
-          <hr><span>OR </span> <hr>
+          <hr>
+          <span>OR </span>
+          <hr>
         </div>
-        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doSignUpWallet">
-          <Icon icon="material-symbols:account-balance-wallet-outline" color="#00b9cd" width="21" style="position:absolute; left: 24px; top:9px" @click="doSignUpWallet" />
+        <button
+          class="secondary-btn"
+          style="width: 100%; position: relative; margin-bottom: 1rem"
+          @click="doSignUpWallet"
+        >
+          <Icon
+            icon="material-symbols:account-balance-wallet-outline"
+            color="#00b9cd"
+            width="21"
+            style="position: absolute; left: 24px; top: 9px"
+            @click="doSignUpWallet"
+          />
           Connect Wallet
         </button>
-        <button class="secondary-btn" style="width: 100%; position: relative; margin-bottom: 1rem;" @click="doGoogleConnect">
-          <Icon icon="flat-color-icons:google" width="21" style="position:absolute; left: 24px; top:9px" /> Continue with Google
+        <button
+          class="secondary-btn"
+          style="width: 100%; position: relative; margin-bottom: 1rem"
+          @click="doGoogleConnect"
+        >
+          <Icon
+            icon="flat-color-icons:google"
+            width="21"
+            style="position: absolute; left: 24px; top: 9px"
+          />
+          Continue with Google
         </button>
 
-        <p style="text-align: center; font-size: small;">
-          Already have an account? <a v-b-modal.signin class="nuxt-link-exact-active nuxt-link-active" @click="$bvModal.hide('signup')">
+        <p style="text-align: center; font-size: small">
+          Already have an account?
+          <a
+            v-b-modal.signin
+            class="nuxt-link-exact-active nuxt-link-active"
+            @click="$bvModal.hide('signup')"
+          >
             Sign In
           </a>
         </p>
@@ -266,11 +327,9 @@ export default {
     return {
       show: true,
       invalidMessage: '',
-      signInForm: {
-      },
+      signInForm: {},
 
-      signUpForm: {
-      }
+      signUpForm: {}
     }
   },
 
@@ -282,7 +341,6 @@ export default {
       'payload',
       'signedMessage'
     ])
-
   },
   mounted () {
     this.$root.$on('bv::modal::show', (bvEvent, signup) => {
@@ -306,7 +364,8 @@ export default {
         this.$bvModal.hide('signup')
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          this.invalidMessage = 'There is already an existing account with the email address'
+          this.invalidMessage =
+            'There is already an existing account with the email address'
         } else {
           this.invalidMessage = 'Sing Up error'
         }
@@ -351,6 +410,7 @@ export default {
           }
         })
         this.$bvModal.hide('signin')
+        this.$refs.alert.showAlert('Successful login')
       } catch (error) {
         if (error.response && error.response.status === 401) {
           this.invalidMessage = 'Invalid email or password'
@@ -379,13 +439,9 @@ export default {
     },
 
     onReset () {
-      this.signInForm = {
+      this.signInForm = {}
 
-      }
-
-      this.signUpForm = {
-
-      }
+      this.signUpForm = {}
 
       this.invalidMessage = ''
     }
