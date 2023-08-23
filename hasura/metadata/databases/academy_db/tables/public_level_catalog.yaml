@@ -1,0 +1,4 @@
+table:
+  name: level_catalog
+  schema: public
+is_enum: true
