@@ -10,12 +10,12 @@ query ($email: String = "") {
     lastname
     name
     pfp
-    email {
+    email_info {
       email
       password
       verificationCode
     }
-    tezo {
+    tezos_info {
       signedMessage
       wallet
     }
@@ -25,17 +25,17 @@ query ($email: String = "") {
 
 const GET_USER_BY_WALLET = `
 query ($wallet: String = "") {
-  users(where: {tezo: {wallet: {_eq: $wallet}}}) {
+  users(where: {tezos_info: {wallet: {_eq: $wallet}}}) {
     id
     lastname
     name
     pfp
-    email {
+    email_info {
       email
       password
       verificationCode
     }
-    tezo {
+    tezos_info {
       signedMessage
       wallet
     }
@@ -120,7 +120,7 @@ class Login {
       }
       const { users } = await this.gql.request(
         GET_USER_BY_WALLET, { wallet })
-      const user = users.find(user => user.tezo.wallet === wallet)
+      const user = users.find(user => user.tezos_info.wallet === wallet)
       if (!user) {
         throw new Unauthorized('Wallet not found')
       }

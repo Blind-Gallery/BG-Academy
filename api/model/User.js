@@ -9,12 +9,12 @@ query ($email: String = "") {
     lastname
     name
     pfp
-    email {
+    email_info {
       email
       password
       verificationCode
     }
-    tezo {
+    tezos_info {
       signedMessage
       wallet
     }
@@ -29,12 +29,12 @@ query ($wallet: String = "") {
     lastname
     name
     pfp
-    email {
+    email_info {
       email
       password
       verificationCode
     }
-    tezo {
+    tezos_info {
       signedMessage
       wallet
     }
