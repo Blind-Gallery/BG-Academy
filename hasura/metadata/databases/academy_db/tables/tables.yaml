@@ -1,6 +1,7 @@
 - "!include public_chapters.yaml"
 - "!include public_courses.yaml"
 - "!include public_emails.yaml"
+- "!include public_language_catalog.yaml"
 - "!include public_level_catalog.yaml"
 - "!include public_modules.yaml"
 - "!include public_teachers.yaml"

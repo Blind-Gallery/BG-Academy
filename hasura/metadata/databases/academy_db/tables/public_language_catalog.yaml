@@ -1,0 +1,4 @@
+table:
+  name: language_catalog
+  schema: public
+is_enum: true
