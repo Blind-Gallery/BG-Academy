@@ -15,15 +15,6 @@ object_relationships:
   - name: course
     using:
       foreign_key_constraint_on: course_id
-  - name: next_module
-    using:
-      manual_configuration:
-        column_mapping:
-          next_module_id: id
-        insertion_order: null
-        remote_table:
-          name: modules
-          schema: public
   - name: previous_module
     using:
       manual_configuration:
