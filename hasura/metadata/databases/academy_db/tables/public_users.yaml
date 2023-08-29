@@ -2,17 +2,25 @@ table:
   name: users
   schema: public
 object_relationships:
-  - name: email
+  - name: email_info
     using:
       foreign_key_constraint_on:
         column: id
         table:
           name: emails
           schema: public
-  - name: tezo
+  - name: tezos_info
     using:
       foreign_key_constraint_on:
         column: id
         table:
           name: tezos
+          schema: public
+array_relationships:
+  - name: courses
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_course
           schema: public
