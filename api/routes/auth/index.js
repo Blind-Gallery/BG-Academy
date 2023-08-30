@@ -4,7 +4,8 @@ const {
   loginSchema,
   signUpSchema,
   refreshSchema,
-  logoutSchema
+  logoutSchema,
+  userSchema
 } = require('./schemas')
 
 /**
@@ -16,6 +17,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/signup', { schema: signUpSchema }, signUpHandler)
     fastify.post('/refresh', { schema: refreshSchema }, refreshHandler)
     fastify.post('/logout', { schema: logoutSchema }, logoutHandler)
+    fastify.get('/user', { schema: userSchema }, userHandler)
   })
 }
 
@@ -77,4 +79,10 @@ async function logoutHandler (req, reply) {
     maxAge: 0
   })
   return this.login.logOut()
+}
+
+async function userHandler (req, reply) {
+  const token = req.headers.authorization.split(' ')[1]
+  console.log(token)
+  return this.login.user(token)
 }

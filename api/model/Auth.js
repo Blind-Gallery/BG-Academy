@@ -56,8 +56,29 @@ class Login {
     return users.find(user => user.email.email === email)
   }
 
+  async getUserByWallet (wallet) {
+    const { users } = await this.gql.request(
+      GET_USER_BY_WALLET, { wallet })
+    return users.find(user => user.tezos_info.wallet === wallet)
+  }
+
   async signUp ({ name, email, password, wallet, signedMessage }) {
 
+  }
+
+  async user (token) {
+    console.log(token)
+    let user
+    const { loginMechanism, loginPayload } = this.jwt.verifyToken(token)
+    console.log(loginMechanism, loginPayload)
+    if (loginMechanism === 'email') {
+      user = await this.getUserByEmail(loginPayload)
+    }
+    if (loginMechanism === 'wallet') {
+      user = await this.getUserByWallet(loginPayload)
+    }
+    console.log(user)
+    return { user }
   }
 
   async login ({ email, password, wallet, publicKey, signedMessage, payload }) {
@@ -80,7 +101,6 @@ class Login {
 
     try {
       const user = await this.getUserByEmail(email)
-      console.log('HEEEERE', user, user.email.password)
       if (!await bcrypt.compare(password, user.email.password)) {
         throw new Unauthorized('Wrong password')
       }
@@ -103,7 +123,6 @@ class Login {
   }
 
   async walletLogin ({ wallet, publicKey, signedMessage, payload }) {
-    console.log('wallet login', wallet, publicKey, signedMessage, payload)
     if (!wallet) {
       throw new BadRequest('No wallet provided')
     }
