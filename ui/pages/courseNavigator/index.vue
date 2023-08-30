@@ -297,6 +297,7 @@
   </div>
 </template>
 <script>
+import { gql } from 'graphql-tag'
 
 import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
@@ -306,6 +307,29 @@ import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 export default {
+  apollo: {
+    courses_by_pk: {
+      query: gql`query ($id: Int!) {
+        courses_by_pk(id: $id) {
+          modules {
+            id
+            next_module_id
+            title
+            chapters {
+              id
+              title
+            }
+          }
+        }
+      }
+    `,
+      variables () {
+        return {
+          id: this.$route.query.courseId
+        }
+      }
+    }
+  },
   components: {
     Swiper,
     SwiperSlide,

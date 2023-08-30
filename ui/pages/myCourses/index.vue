@@ -39,7 +39,7 @@
 
             <b-row v-else style="height: 65vh">
               <b-col v-for="course in courses" :key="course.id" lg="4">
-                <NuxtLink class="course-route" style="text-decoration: none;" to="/courseNavigator">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
                   <PxCard
                     :is-progress="true"
                     :is-certificate="false"
@@ -79,9 +79,9 @@ import { gql } from 'graphql-tag'
 
 export default {
   apollo: {
-    // Simple query that will update the 'hello' vue property
     courses: gql`query {
       courses {
+        id
         level
         language
         duration
