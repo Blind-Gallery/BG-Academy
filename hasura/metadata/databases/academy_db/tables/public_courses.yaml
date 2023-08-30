@@ -9,6 +9,12 @@ configuration:
     teacher_id: teacher_id
   custom_root_fields: {}
 object_relationships:
+  - name: language_catalog
+    using:
+      foreign_key_constraint_on: language
+  - name: level_catalog
+    using:
+      foreign_key_constraint_on: level
   - name: teacher
     using:
       foreign_key_constraint_on: teacher_id
@@ -19,4 +25,11 @@ array_relationships:
         column: course_id
         table:
           name: modules
+          schema: public
+  - name: user_courses
+    using:
+      foreign_key_constraint_on:
+        column: course_id
+        table:
+          name: user_course
           schema: public

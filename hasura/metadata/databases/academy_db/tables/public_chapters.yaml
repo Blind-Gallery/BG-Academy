@@ -23,3 +23,25 @@ object_relationships:
         remote_table:
           name: chapters
           schema: public
+array_relationships:
+  - name: chapters
+    using:
+      foreign_key_constraint_on:
+        column: next_chapter_id
+        table:
+          name: chapters
+          schema: public
+  - name: chaptersByPreviousChapterId
+    using:
+      foreign_key_constraint_on:
+        column: previous_chapter_id
+        table:
+          name: chapters
+          schema: public
+  - name: user_chapters
+    using:
+      foreign_key_constraint_on:
+        column: chapter_id
+        table:
+          name: user_chapter
+          schema: public

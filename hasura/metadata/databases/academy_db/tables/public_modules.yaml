@@ -15,6 +15,9 @@ object_relationships:
   - name: course
     using:
       foreign_key_constraint_on: course_id
+  - name: module
+    using:
+      foreign_key_constraint_on: next_module_id
   - name: previous_module
     using:
       manual_configuration:
@@ -31,4 +34,25 @@ array_relationships:
         column: module_id
         table:
           name: chapters
+          schema: public
+  - name: modules
+    using:
+      foreign_key_constraint_on:
+        column: next_module_id
+        table:
+          name: modules
+          schema: public
+  - name: modulesByPreviousModuleId
+    using:
+      foreign_key_constraint_on:
+        column: previous_module_id
+        table:
+          name: modules
+          schema: public
+  - name: user_modules
+    using:
+      foreign_key_constraint_on:
+        column: module_id
+        table:
+          name: user_module
           schema: public
