@@ -2,16 +2,16 @@
   <div>
     <b-container style="max-width: 1240px;margin-top: 2rem;">
       <h2 class="mb-3" style="font-weight: bold; color:#00B9CD">
-        My courses  {{ courses }}
+        My courses
       </h2>
       <div class="mb-5">
         <b-tabs content-class="mt-3">
           <b-tab title="All" active>
-            <div v-if="false" class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
+            <div v-if="!courses" class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
               <h3>It looks like you don't have any courses yet</h3>
               <p>Explore our courses and push the limits of your creativity!</p>
               <button class="secondary-btn">
-                Explore courses {{ curses }}
+                Explore courses
               </button>
             </div>
 
@@ -56,7 +56,7 @@
 
           <b-tab title="Certificates">
             <b-row>
-              <b-col lg="4">
+              <b-col v-for="course in courses" :key="course.id" lg="4">
                 <PxCard
                   :is-progress="false"
                   :is-certificate="true"
