@@ -284,7 +284,7 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Resources" active>
-                <p>I'm the first tab {{ courses_by_pk }}</p>
+                <p>I'm the first tab {{ courses_by_pk }} {{ $auth.user }}</p>
               </b-tab>
               <b-tab title="Course info">
                 <p>I'm a disabled tab!</p>
