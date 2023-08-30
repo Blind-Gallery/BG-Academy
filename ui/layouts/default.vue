@@ -372,6 +372,8 @@ export default {
       }
     },
 
+    async doRecover () {},
+
     async doSignUpWallet () {
       await this.$store.dispatch('tezosWallet/connect')
       const data = {
