@@ -143,14 +143,14 @@ export default {
           type: 'Bearer'
         },
         user: {
-          property: 'user'
-          // autoFetch: true
+          property: 'user',
+          autoFetch: true
         },
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
-          // user: { url: '/auth/user', method: 'get' }
-          user: false
+          user: { url: '/auth/user', method: 'get' }
+          // user: false
         }
       }
     }
