@@ -6,5 +6,7 @@
 - "!include public_modules.yaml"
 - "!include public_teachers.yaml"
 - "!include public_tezos.yaml"
+- "!include public_user_chapter.yaml"
 - "!include public_user_course.yaml"
+- "!include public_user_module.yaml"
 - "!include public_users.yaml"

@@ -1,0 +1,2 @@
+CREATE TABLE "public"."user_module" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "user_id" text NOT NULL, "module_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("module_id") REFERENCES "public"."modules"("id") ON UPDATE cascade ON DELETE cascade, UNIQUE ("id"));
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
