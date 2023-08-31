@@ -13,7 +13,12 @@ module.exports = {
   },
   rules: {
     'import/prefer-default-export': ['off'],
-    'no-console': ['off'],
+    'no-console': [
+      'error',
+      {
+        allow: ['info', 'warn', 'error']
+      }
+    ],
     'no-underscore-dangle': ['off'],
     'class-methods-use-this': ['off'],
     'no-param-reassign': ['off'],

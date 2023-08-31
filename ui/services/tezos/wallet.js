@@ -40,6 +40,7 @@ class BeaconWalletService {
 
       this.signedMessage = signedMessage
     } catch (e) {
+      console.warn(e)
     }
   }
 
