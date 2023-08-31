@@ -420,7 +420,7 @@ export default {
         signedMessage: this.signedMessage,
         payload: this.payload
       }
-      this.$auth.loginWith('local', {
+      await this.$auth.loginWith('local', {
         data
       })
       if (this.isWalletConnected && !this.$auth.loggedIn) {

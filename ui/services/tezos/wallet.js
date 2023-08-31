@@ -23,6 +23,10 @@ class BeaconWalletService {
     this.signedMessage = undefined
   }
 
+  getOptions () {
+    return options
+  }
+
   async connect () {
     await this.autoLogin()
     Tezos.setWalletProvider(this.wallet)
@@ -40,6 +44,7 @@ class BeaconWalletService {
 
       this.signedMessage = signedMessage
     } catch (e) {
+      console.warn(e)
     }
   }
 
@@ -94,17 +99,17 @@ class BeaconWalletService {
 
   disconnect () {
     if (this.wallet) {
-      this.wallet.client.clearActiveAccount()
-      this.wallet.client.removeAllAccounts()
-      this.wallet.client.removeAllPeers()
-      this.wallet.client.destroy()
-      this.wallet = undefined
-      this.tezosAddress = undefined
-      this.publicKey = undefined
-      this.isWalletConnected = false
-      this.payload = undefined
-      this.signedMessage = undefined
-      this.wallet = new BeaconWallet(options)
+      // this.wallet.client.clearActiveAccount()
+      // this.wallet.client.removeAllAccounts()
+      // this.wallet.client.removeAllPeers()
+      // this.wallet.client.destroy()
+      // this.wallet = undefined
+      // this.tezosAddress = undefined
+      // this.publicKey = undefined
+      // this.isWalletConnected = false
+      // this.payload = undefined
+      // this.signedMessage = undefined
+      return new BeaconWallet(options)
     }
   }
 }
