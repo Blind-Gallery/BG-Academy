@@ -63,21 +63,18 @@ class Login {
   }
 
   async signUp ({ name, email, password, wallet, signedMessage }) {
-
+    // users are been created on ./User.js
   }
 
   async user (token) {
-    console.log(token)
     let user
     const { loginMechanism, loginPayload } = this.jwt.verifyToken(token)
-    console.log(loginMechanism, loginPayload)
     if (loginMechanism === 'email') {
       user = await this.getUserByEmail(loginPayload)
     }
     if (loginMechanism === 'wallet') {
       user = await this.getUserByWallet(loginPayload)
     }
-    console.log(user)
     return { user }
   }
 
