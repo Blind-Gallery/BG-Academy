@@ -59,13 +59,13 @@ class User {
   async getUserByEmail (email) {
     const { users } = await this.gql.request(
       GET_USER_BY_EMAIL, { email })
-    return users.find(user => user.email.email === email)
+    return users.find(user => user.email_info.email === email)
   }
 
   async getUserByWallet (wallet) {
     const { users } = await this.gql.request(
       GET_USER_BY_WALLET, { wallet })
-    return users.find(user => user.tezo.wallet === wallet)
+    return users.find(user => user.tezos_info.wallet === wallet)
   }
 
   async create ({ name, email, password, wallet, publicKey, signedMessage, payload }) {

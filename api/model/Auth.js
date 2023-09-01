@@ -53,7 +53,7 @@ class Login {
   async getUserByEmail (email) {
     const { users } = await this.gql.request(
       GET_USER_BY_EMAIL, { email })
-    return users.find(user => user.email.email === email)
+    return users.find(user => user.email_info.email === email)
   }
 
   async getUserByWallet (wallet) {
@@ -98,7 +98,7 @@ class Login {
 
     try {
       const user = await this.getUserByEmail(email)
-      if (!await bcrypt.compare(password, user.email.password)) {
+      if (!await bcrypt.compare(password, user.email_info.password)) {
         throw new Unauthorized('Wrong password')
       }
       return {
