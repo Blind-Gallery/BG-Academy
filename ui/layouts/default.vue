@@ -299,7 +299,7 @@
             </p>
             <div>
               <button class="primary-btn small">
-                Join Discord
+                Join on Discord
               </button>
             </div>
           </b-col>
