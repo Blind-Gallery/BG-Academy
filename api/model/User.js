@@ -4,7 +4,7 @@ const { verifySignature } = require('@taquito/utils')
 
 const GET_USER_BY_EMAIL = `
 query ($email: String = "") {
-  users(where: {email: {email: {_eq: $email}}}) {
+  users(where: {email_info: {email: {_eq: $email}}}) {
     id
     lastname
     name
@@ -24,7 +24,7 @@ query ($email: String = "") {
 
 const GET_USER_BY_WALLET = `
 query ($wallet: String = "") {
-  users(where: {tezo: {wallet: {_eq: $wallet}}}) {
+  users(where: {tezos_info: {wallet: {_eq: $wallet}}}) {
     id
     lastname
     name
