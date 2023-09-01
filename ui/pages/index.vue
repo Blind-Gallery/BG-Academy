@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--INTRODUCTION CONTAINER-->
-    <b-container class="main-container pt-5 pb-5 mb-5" fluid>
+    <b-container class="main-container pt-5 pb-5" fluid>
       <b-container style="max-width: 1240px;">
         <b-row class="align-items-center">
           <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
@@ -25,37 +25,44 @@
       </b-container>
     </b-container>
     <!--INFO CONTAINER-->
-    <b-container class="mb-5" style="max-width: 1240px;">
-      <!--PARTNERS CONTAINER-->
-      <p style="text-align: center; font-weight: 600;">
-        Meet our partners
-      </p>
-      <hr class="m-0">
-      <div class="partners-container mb-5">
-        <img
-          width="110px"
-          alt="joyn"
-          src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
-        >
+    <b-container fluid style="background-color: #F6F6F6;">
+      <b-container class="mb-5 py-4" style="max-width: 1240px;">
+        <!--PARTNERS CONTAINER-->
+        <p class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
+          Meet out partners
+        </p>
 
-        <img
-          width="140px"
-          alt="autonomy"
-          src="https://autonomy.io/Logo.svg"
-        >
-        <img
-          width="95px"
-          alt="tezos"
-          src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
-        >
-        <img
-          width="140px"
-          alt="fxhash"
-          src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2"
-        >
-      </div>
-      <!--COURSES ROW-->
-      <h4 class="mb-4 ">
+        <div class="partners-container ">
+          <img
+            width="110px"
+            alt="joyn"
+            src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
+          >
+
+          <img
+            width="140px"
+            alt="autonomy"
+            src="https://autonomy.io/Logo.svg"
+          >
+          <img
+            width="95px"
+            alt="tezos"
+            src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
+          >
+          <img
+            width="140px"
+            alt="fxhash"
+            src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2"
+          >
+        </div>
+      </b-container>
+    </b-container>
+    <!--COURSES ROW-->
+    <b-container
+      style="max-width: 1240px;"
+      class="mt-5"
+    >
+      <h4 class="mb-4">
         Increase your potential with the best courses
       </h4>
 
@@ -119,64 +126,75 @@
         </b-col>
       </b-row>
     </b-container>
+
     <!--COMMUNITY FEEDBACK-->
-    <b-container class="mb-5" fluid style="background-color: #F6F6F6;">
-      <b-container style="max-width: 1240px;">
-        <b-row class="align-items-center pt-5 pb-5">
-          <b-col>
-            <h1>Community feedback</h1>
-          </b-col>
-          <div class="mr-4" style="border:1px solid rgba(0, 0, 0, 0.1); height: 330px;" />
-          <b-col>
-            <div class="d-flex flex-column" style="gap:0.25rem">
-              <b-avatar
-                class="mb-2"
-                size="8rem"
-                src="https://i.seadn.io/gae/565o1Aat2hZV3TQgHJncsd6IDmjszQqQIPrj9s0snHMjD651EaaYpRGnffhMDgXzLL07je83xHlqO-hvmzyk7XAcbjgVze6ADLRzBqE?auto=format&dpr=1&w=1000"
-              />
-              <h4 class="m-0">
-                Jose Gutierrez
-              </h4>
-              <h6>Graphic Designer</h6>
-              <p class="small">
-                The artistic courses offered by this academy are truly exceptional, providing individuals with a platform to explore their creativity and develop their artistic skills.
+
+    <b-container style="max-width: 1240px;" class="my-5">
+      <h3 class="m-0">
+        Community feedback
+      </h3>
+      <b-row class="align-items-center pt-5 pb-5">
+        <b-col cols="12" lg="4">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+            <div class="feedback-info p-4 d-flex align-items-center">
+              <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/kimson-doan-HD8KlyWRYYM-4-300x300.jpg" />
+              <div>
+                <h4 class="m-0">
+                  Sofia Rossi
+                </h4>
+                <p class="m-0">
+                  Graphic Designer
+                </p>
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="small text-secondary m-0">
+                Absolutely captivated by the array of art courses this platform delivers. It's a sanctuary where imagination and skill converge, allowing individuals to paint their aspirations onto the canvas of reality. The fusion of technique, inspiration, and guidance is an artist's dream come true.
               </p>
             </div>
-          </b-col>
-          <b-col>
-            <div class="d-flex flex-column" style="gap:0.25rem">
-              <b-avatar
-                class="mb-2"
-                size="8rem"
-                src="https://i.seadn.io/gcs/files/358f48bac320504b14dc2217ec15af7f.png?auto=format&dpr=1&w=1000"
-              />
-              <h4 class="m-0">
-                Jose Gutierrez
-              </h4>
-              <h6>Graphic Designer</h6>
-              <p class="small">
-                The artistic courses offered by this academy are truly exceptional, providing individuals with a platform to explore their creativity and develop their artistic skills.
+          </div>
+        </b-col>
+        <b-col cols="12" lg="4">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+            <div class="feedback-info p-4 d-flex align-items-center">
+              <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-300x300.jpg" />
+              <div>
+                <h4 class="m-0">
+                  Alex Canales
+                </h4>
+                <p class="m-0">
+                  Digital Artist
+                </p>
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="small text-secondary m-0">
+                The art courses available on this platform are an absolute gem. They don't just teach art techniques; they nurture a deep understanding of artistic concepts. It's a haven for anyone eager to grasp the nuances of visual expression and refine their artistic prowess.
               </p>
             </div>
-          </b-col>
-          <b-col>
-            <div class="d-flex flex-column" style="gap:0.25rem">
-              <b-avatar
-                class="mb-2"
-                size="8rem"
-                src="https://i.seadn.io/gae/565o1Aat2hZV3TQgHJncsd6IDmjszQqQIPrj9s0snHMjD651EaaYpRGnffhMDgXzLL07je83xHlqO-hvmzyk7XAcbjgVze6ADLRzBqE?auto=format&dpr=1&w=1000"
-              />
-              <h4 class="m-0">
-                Jose Gutierrez
-              </h4>
-              <h6>Graphic Designer</h6>
-              <p class="small">
-                The artistic courses offered by this academy are truly exceptional, providing individuals with a platform to explore their creativity and develop their artistic skills.
+          </div>
+        </b-col>
+        <b-col cols="12" lg="4">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+            <div class="feedback-info p-4 d-flex align-items-center">
+              <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/philip-martin-5aGUyCW_PJw-300x300.jpg" />
+              <div>
+                <h4 class="m-0">
+                  William da Silva
+                </h4>
+                <p class="m-0">
+                  Plastic Artist
+                </p>
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="small text-secondary m-0">
+                Enrolling in the art courses offered by this platform was a game-changer for me. The instructors possess an unmatched mastery in their fields, and the courses are structured thoughtfully, catering to beginners and seasoned artists alike.
               </p>
             </div>
-          </b-col>
-        </b-row>
-      </b-container>
+          </div>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -193,6 +211,7 @@
 .partners-container img{
   filter: brightness(-100%);
   justify-self: center;
+  opacity: 0.5;
 
 }
 
@@ -203,6 +222,12 @@
   justify-content: center;
   gap:1.5rem;
   padding:1.25rem
+}
+
+.feedback-info{
+  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
+  color:#fff;
+  border-radius: 5px 5px 0px 0px;
 }
 
 @media(max-width:768px){
