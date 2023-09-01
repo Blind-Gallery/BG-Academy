@@ -249,7 +249,6 @@
             color="#00b9cd"
             width="21"
             style="position: absolute; left: 24px; top: 9px"
-            @click="doSignUpWallet"
           />
           Connect Wallet
         </button>
