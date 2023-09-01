@@ -100,7 +100,7 @@ class User {
     const data = {
       user: {
         name,
-        email: {
+        email_info: {
           data: {
             email,
             password: await bcrypt.hash(password, 10),
@@ -130,7 +130,7 @@ class User {
 
     const data = {
       user: {
-        tezo: {
+        tezos_info: {
           data: {
             wallet,
             publicKey,
