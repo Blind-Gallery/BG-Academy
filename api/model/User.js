@@ -4,7 +4,7 @@ const { verifySignature } = require('@taquito/utils')
 
 const GET_USER_BY_EMAIL = `
 query ($email: String = "") {
-  users(where: {email: {email: {_eq: $email}}}) {
+  users(where: {email_info: {email: {_eq: $email}}}) {
     id
     lastname
     name
@@ -24,7 +24,7 @@ query ($email: String = "") {
 
 const GET_USER_BY_WALLET = `
 query ($wallet: String = "") {
-  users(where: {tezo: {wallet: {_eq: $wallet}}}) {
+  users(where: {tezos_info: {wallet: {_eq: $wallet}}}) {
     id
     lastname
     name
@@ -59,13 +59,13 @@ class User {
   async getUserByEmail (email) {
     const { users } = await this.gql.request(
       GET_USER_BY_EMAIL, { email })
-    return users.find(user => user.email.email === email)
+    return users.find(user => user.email_info.email === email)
   }
 
   async getUserByWallet (wallet) {
     const { users } = await this.gql.request(
       GET_USER_BY_WALLET, { wallet })
-    return users.find(user => user.tezo.wallet === wallet)
+    return users.find(user => user.tezos_info.wallet === wallet)
   }
 
   async create ({ name, email, password, wallet, publicKey, signedMessage, payload }) {
