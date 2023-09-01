@@ -47,7 +47,7 @@
 
         <div v-if="isCertificate">
           <div class="mb-2">
-            <PxToggleCollapse v-b-toggle.collapse-2 icon-width="24px" toggle-name="Properties" />
+            <PxToggleCollapse v-b-toggle.collapse-2 icon-width="24px" toggle-name="Properties" :padding="false" />
             <b-collapse id="collapse-2">
               <p class="m-0 small text-secondary">
                 Minted: 24/07/2023

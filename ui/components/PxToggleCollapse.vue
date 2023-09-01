@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="cursor:pointer" class="d-flex w-100 justify-content-between align-items-center p-3 " @click="doToggleCollapse()">
+    <div style="cursor:pointer" :class="padding === true ? `toggle-down-p`:`toggle-down`" @click="doToggleCollapse()">
       <div class="d-flex flex-column mr-2">
         <h6 :style="smallFont ? 'font-size:0.875em':''" class="m-0">
           {{ toggleName }}
@@ -40,6 +40,11 @@ export default {
     smallFont: {
       type: Boolean,
       required: false
+    },
+    padding: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   data () {
@@ -61,5 +66,21 @@ button{
   border: none;
   padding:0;
   font-weight: 600;
+}
+
+.toggle-down-p{
+  display:flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.toggle-down{
+  display:flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
 }
 </style>
