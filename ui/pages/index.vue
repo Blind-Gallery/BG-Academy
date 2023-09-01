@@ -138,15 +138,19 @@
       <div class="mb-5">
         <b-tabs content-class="mt-3">
           <b-tab title="All" active>
-            <div v-if="!courses" class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
+            <div
+
+              class="d-flex flex-column align-items-center justify-content-center"
+              style="height: 65vh;"
+            >
               <h3>It looks like you don't have any courses yet</h3>
               <p>Explore our courses and push the limits of your creativity!</p>
               <button class="secondary-btn">
                 Explore courses
               </button>
             </div>
-            <b-row v-else :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
-              <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
+            <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
+              <!-- <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
                 <PxCard
                   :is-certificate="false"
                   :pfp="course.teacher.pfp"
@@ -155,7 +159,7 @@
                   :title="course.name"
                   :cover="course.thumbnail"
                 />
-              </b-col>
+              </b-col> -->
             </b-row>
           </b-tab>
           <button class="primary-btn small" @click="showAllCourses = !showAllCourses">
@@ -171,7 +175,7 @@
             </div>
 
             <b-row v-else style="height: 65vh">
-              <b-col v-for="course in courses" :key="course.id" lg="4">
+              <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
                 <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
                   <PxCard
                     :is-progress="true"
@@ -183,13 +187,13 @@
                     :cover="course.thumbnail"
                   />
                 </NuxtLink>
-              </b-col>
+              </b-col> -->
             </b-row>
           </b-tab>
 
           <b-tab title="Certificates">
             <b-row>
-              <b-col v-for="course in courses" :key="course.id" lg="4">
+              <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
                 <PxCard
                   :is-progress="false"
                   :is-certificate="true"
@@ -199,7 +203,7 @@
                   :title="course.name"
                   :cover="course.thumbnail"
                 />
-              </b-col>
+              </b-col> -->
             </b-row>
           </b-tab>
         </b-tabs>
@@ -230,7 +234,7 @@
         <SwiperSlide v-for="courseFicticial in coursesFicticial" :key="courseFicticial.title" ref="slide">
           <PxCard
             :is-progress="false"
-            :is-certificate="false"
+            :is-certificate="true"
             :pfp="courseFicticial.pfp"
             :instructor="courseFicticial.instructor"
             :description="courseFicticial.description"
