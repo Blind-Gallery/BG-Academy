@@ -1,6 +1,25 @@
 const { Unauthorized, BadRequest } = require('http-errors')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
+const { request, gql } = require('graphql-request')
+
+const getUserFromAliasQuery = gql`
+  query Tzprofiles($where: tzprofiles_bool_exp) {
+    tzprofiles(where: $where) {
+      account
+      alias
+      contract
+      description
+      discord
+      domain_name
+      ethereum
+      github
+      logo
+      twitter
+      website
+    }
+  }
+`
 
 const GET_USER_BY_EMAIL = `
 query ($email: String = "") {
@@ -55,6 +74,27 @@ class User {
     this.gql = gql
     this.opts = opts
   }
+
+  /**
+ * Retrieves a user's profile given their alias from the Teztok API.
+ *
+ * @async
+ * @function
+ * @param {string} alias - The user's public key.
+ * @returns {Promise<object>} A Promise that resolves with the user's profile object.
+ * @throws {Error} Throws an error if the Teztok API request fails.
+ */
+  async getUserFromAccount (wallet) {
+    const teztokResponse = await request('https://api.teztok.com/v1/graphql', getUserFromAliasQuery, {
+      where: {
+        account: {
+          _eq: wallet
+        }
+      }
+    })
+
+    return teztokResponse.tzprofiles[0]
+  };
 
   async getUserByEmail (email) {
     const { users } = await this.gql.request(
@@ -128,8 +168,13 @@ class User {
       throw new Unauthorized('Invalid signature')
     }
 
+    // get user data from blockchain
+    const userFromBlockchain = await this.getUserFromAccount(wallet)
+
     const data = {
       user: {
+        name: userFromBlockchain.alias || wallet,
+        pfp: userFromBlockchain.logo,
         tezos_info: {
           data: {
             wallet,

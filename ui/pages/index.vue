@@ -65,7 +65,7 @@
           <div class="d-flex flex-column align-items-center shadow-sm  rounded profile-container justify-content-center">
             <div class="d-flex flex-column align-items-center " style="padding-bottom: 1.5rem;">
               <b-avatar class="mb-2" size="5rem" />
-              <h4>Username</h4>
+              <h4>{{ $auth.user.name }}</h4>
             </div>
             <div class="d-flex flex-row " style="gap:1.25rem; border-top: 1px solid rgb(0 0 0 / 10%); padding-top: 1.5rem;">
               <div class="d-flex flex-column align-items-center">
@@ -119,7 +119,7 @@
 
         <b-col cols="12" lg="8">
           <div class="p-5 d-flex flex-column justify-content-center profile-container welcome-card rounded shadow-sm">
-            <h1>Welcome Back, Username!</h1>
+            <h1>Welcome Back, {{ $auth.user.name }}!</h1>
             <h4 class="mb-4" style="font-weight: 400;">
               What do you want to learn today?
             </h4>
