@@ -13,9 +13,9 @@
               Explore interactive courses led by industry experts, unleashing your artistic potential.
             </p>
             <div class="d-flex gap-2">
-              <button class="secondary-btn-black">
+              <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
                 Explore courses
-              </button>
+              </a>
             </div>
           </b-col>
           <b-col class="d-lg-flex justify-content-end d-none">
@@ -124,7 +124,7 @@
               What do you want to learn today?
             </h4>
             <div class="d-flex">
-              <a href="#explore-courses" class="secondary-btn-black">
+              <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
                 Explore courses
               </a>
             </div>
@@ -139,15 +139,10 @@
         <b-tabs content-class="mt-3">
           <b-tab title="All" active>
             <div
-
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 65vh;"
+              class="d-flex flex-column"
             >
-              <h3>It looks like you don't have any courses yet</h3>
-              <p>Explore our courses and push the limits of your creativity!</p>
-              <button class="secondary-btn">
-                Explore courses
-              </button>
+              <h4>All your courses will appear here</h4>
+              <p>Explore our courses and start learning with us!</p>
             </div>
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
               <!-- <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
@@ -162,16 +157,13 @@
               </b-col> -->
             </b-row>
           </b-tab>
-          <button class="primary-btn small" @click="showAllCourses = !showAllCourses">
+          <button v-if="false" class="primary-btn small" @click="showAllCourses = !showAllCourses">
             {{ showAllCourses === false?`Show ${coursesFicticial.length - 3} more`:'Show less' }}
           </button>
           <b-tab title="In progress">
-            <div v-if="false" class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
-              <h3>It looks like you don't have any courses yet</h3>
-              <p>Explore our courses and push the limits of your creativity!</p>
-              <button class="secondary-btn">
-                Explore courses
-              </button>
+            <div v-if="true" class="d-flex flex-column  ">
+              <h4>Your courses in progress will appear here</h4>
+              <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
             </div>
 
             <b-row v-else style="height: 65vh">
@@ -192,6 +184,12 @@
           </b-tab>
 
           <b-tab title="Certificates">
+            <div
+              class="d-flex flex-column"
+            >
+              <h4>Your certificates will appear here</h4>
+              <p>Complete a course to get your first certificate!</p>
+            </div>
             <b-row>
               <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
                 <PxCard
@@ -212,11 +210,12 @@
 
     <!--COURSES ROW-->
     <b-container
+      id="explore-courses"
       style="max-width: 1240px;"
       class="my-5"
     >
       <h4 class="mb-4">
-        Increase your potential with the best courses
+        See our latest courses
       </h4>
 
       <Swiper
@@ -227,6 +226,9 @@
         :effect="'fade'"
         :slides-per-view="3"
         :space-between="30"
+        :grid="{
+          rows: 2,
+        }"
         :slides-per-group="3"
 
         @slideChange="onSlideChange"
@@ -240,6 +242,7 @@
             :description="courseFicticial.description"
             :title="courseFicticial.title"
             :cover="courseFicticial.cover"
+            :collapse="index"
           />
         </SwiperSlide>
       </Swiper>
