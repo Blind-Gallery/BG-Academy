@@ -242,7 +242,6 @@
             :description="courseFicticial.description"
             :title="courseFicticial.title"
             :cover="courseFicticial.cover"
-            :collapse="index"
           />
         </SwiperSlide>
       </Swiper>
