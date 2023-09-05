@@ -338,30 +338,46 @@ import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
-// import { gql } from 'graphql-tag'
+import { gql } from 'graphql-tag'
 
 SwiperCore.use([Pagination, Navigation])
 
 export default {
-  // apollo: {
-  //   courses: gql`query {
-  //     courses {
-  //       id
-  //       level
-  //       language
-  //       duration
-  //       name
-  //       description
-  //       teacher_id
-  //       thumbnail
-  //       teacher {
-  //         pfp
-  //         name
-  //       }
-  //     }
-  //   }
-  // `
-  // },
+  apollo: {
+    courses: {
+      query: gql`query {
+        courses {
+          id
+          level
+          language
+          duration
+          name
+          description
+          teacher_id
+          thumbnail
+          teacher {
+            pfp
+            name
+          }
+        }
+      }
+    `
+    },
+    user_course: {
+      query: gql`query ($id: String!) {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          course_id
+          progress
+        }
+      }`,
+      variables () {
+        return {
+          id: this.$auth.user.id
+        }
+      }
+    }
+  },
   components: {
     Swiper,
     SwiperSlide
