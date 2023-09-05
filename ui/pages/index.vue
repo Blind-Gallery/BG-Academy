@@ -13,9 +13,9 @@
               Explore interactive courses led by industry experts, unleashing your artistic potential.
             </p>
             <div class="d-flex gap-2">
-              <button class="secondary-btn-black">
+              <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
                 Explore courses
-              </button>
+              </a>
             </div>
           </b-col>
           <b-col class="d-lg-flex justify-content-end d-none">
@@ -124,7 +124,7 @@
               What do you want to learn today?
             </h4>
             <div class="d-flex">
-              <a href="#explore-courses" class="secondary-btn-black">
+              <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
                 Explore courses
               </a>
             </div>
@@ -139,20 +139,15 @@
         <b-tabs content-class="mt-3">
           <b-tab title="All" active>
             <div
-
-              class="d-flex flex-column align-items-center justify-content-center"
-              style="height: 65vh;"
+              class="d-flex flex-column"
             >
-              <h3>It looks like you don't have any courses yet</h3>
-              <p>Explore our courses and push the limits of your creativity!</p>
-              <button class="secondary-btn">
-                Explore courses
-              </button>
+              <h4>All your courses will appear here</h4>
+              <p>Explore our courses and start learning with us!</p>
             </div>
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
               <!-- <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
                 <PxCard
-                  :is-certificate="false"
+
                   :pfp="course.teacher.pfp"
                   :instructor="course.teacher.name"
                   :description="course.description"
@@ -162,16 +157,13 @@
               </b-col> -->
             </b-row>
           </b-tab>
-          <button class="primary-btn small" @click="showAllCourses = !showAllCourses">
+          <button v-if="false" class="primary-btn small" @click="showAllCourses = !showAllCourses">
             {{ showAllCourses === false?`Show ${coursesFicticial.length - 3} more`:'Show less' }}
           </button>
           <b-tab title="In progress">
-            <div v-if="false" class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
-              <h3>It looks like you don't have any courses yet</h3>
-              <p>Explore our courses and push the limits of your creativity!</p>
-              <button class="secondary-btn">
-                Explore courses
-              </button>
+            <div v-if="true" class="d-flex flex-column  ">
+              <h4>Your courses in progress will appear here</h4>
+              <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
             </div>
 
             <b-row v-else style="height: 65vh">
@@ -179,7 +171,7 @@
                 <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
                   <PxCard
                     :is-progress="true"
-                    :is-certificate="false"
+
                     :pfp="course.teacher.pfp"
                     :instructor="course.teacher.name"
                     :description="course.description"
@@ -192,18 +184,25 @@
           </b-tab>
 
           <b-tab title="Certificates">
+            <div
+              v-if="false"
+              class="d-flex flex-column"
+            >
+              <h4>Your certificates will appear here</h4>
+              <p>Complete a course to get your first certificate!</p>
+            </div>
             <b-row>
-              <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
-                <PxCard
-                  :is-progress="false"
-                  :is-certificate="true"
-                  :pfp="course.teacher.pfp"
-                  :instructor="course.teacher.name"
-                  :description="course.description"
-                  :title="course.name"
-                  :cover="course.thumbnail"
+              <b-col v-for="fakeCertificate in fakeCertificates" :key="fakeCertificate.title" lg="6">
+                <PxCertificate
+                  :title="fakeCertificate.title"
+                  :instructor="fakeCertificate.instructor"
+                  :cover="fakeCertificate.cover"
+                  :transaction-u-r-l="fakeCertificate.transactionURL"
+                  :transaction="fakeCertificate.transaction"
+                  :minted-date="fakeCertificate.mintedDate"
+                  :student="fakeCertificate.student"
                 />
-              </b-col> -->
+              </b-col>
             </b-row>
           </b-tab>
         </b-tabs>
@@ -212,11 +211,12 @@
 
     <!--COURSES ROW-->
     <b-container
+      id="explore-courses"
       style="max-width: 1240px;"
       class="my-5"
     >
       <h4 class="mb-4">
-        Increase your potential with the best courses
+        See our latest courses
       </h4>
 
       <Swiper
@@ -227,19 +227,22 @@
         :effect="'fade'"
         :slides-per-view="3"
         :space-between="30"
+        :grid="{
+          rows: 2,
+        }"
         :slides-per-group="3"
 
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="courseFicticial in coursesFicticial" :key="courseFicticial.title" ref="slide">
+        <SwiperSlide v-for="fakeCourse in fakeCourses" :key="fakeCourse.title" ref="slide">
           <PxCard
             :is-progress="false"
-            :is-certificate="true"
-            :pfp="courseFicticial.pfp"
-            :instructor="courseFicticial.instructor"
-            :description="courseFicticial.description"
-            :title="courseFicticial.title"
-            :cover="courseFicticial.cover"
+
+            :pfp="fakeCourse.pfp"
+            :instructor="fakeCourse.instructor"
+            :description="fakeCourse.description"
+            :title="fakeCourse.title"
+            :cover="fakeCourse.cover"
           />
         </SwiperSlide>
       </Swiper>
@@ -391,7 +394,16 @@ export default {
       currentSlide: 1,
       totalSlides: 0,
       modules: [Pagination, EffectFade, Navigation],
-      coursesFicticial: [
+      fakeCertificates: [{
+        cover: 'https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png',
+        title: 'Introduction to digital objects',
+        instructor: 'Hugo Santana',
+        student: 'David Muñoz Guzmán',
+        mintedDate: '04/09/2023',
+        transaction: 'ooRhd...JVYDAM',
+        transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
+      }],
+      fakeCourses: [
         {
           instructor: 'Hugo Santana',
           pfp: 'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg',
