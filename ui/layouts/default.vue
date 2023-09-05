@@ -441,6 +441,9 @@ export default {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
