@@ -365,21 +365,21 @@ export default {
         }
       }
     `
-    },
-    user_course: {
-      query: gql`query ($id: String!) {
-        user_course( where:
-          {user_id: {_eq: $id}}) {
-          course_id
-          progress
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$auth.user.id
-        }
-      }
     }
+    // user_course: {
+    //   query: gql`query ($id: String!) {
+    //     user_course( where:
+    //       {user_id: {_eq: $id}}) {
+    //       course_id
+    //       progress
+    //     }
+    //   }`,
+    //   variables () {
+    //     return {
+    //       id: this.$auth.user.id
+    //     }
+    //   }
+    // }
   },
   components: {
     Swiper,
