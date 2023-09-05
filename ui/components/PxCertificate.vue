@@ -93,7 +93,6 @@
                 </p>
                 <p class="m-0 text-secondary" style="font-size: small;">
                   Minted: {{ mintedDate }}<br>
-                  Chain: {{ chain }}<br>
                   Transaction: {{ transaction }}
                 </p>
               </div>

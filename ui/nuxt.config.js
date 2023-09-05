@@ -69,6 +69,12 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: process.env.HASURA_URL || 'http://localhost:8080/v1/graphql',
+        httpLinkOptions: {
+          // todo: migrate this to the auth server
+          headers: {
+            'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET || 'myadminsecretkey'
+          }
+        },
         wsEndpoint: null
       }
     }
