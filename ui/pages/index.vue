@@ -147,7 +147,7 @@
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
               <!-- <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
                 <PxCard
-                  :is-certificate="false"
+
                   :pfp="course.teacher.pfp"
                   :instructor="course.teacher.name"
                   :description="course.description"
@@ -171,7 +171,7 @@
                 <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
                   <PxCard
                     :is-progress="true"
-                    :is-certificate="false"
+
                     :pfp="course.teacher.pfp"
                     :instructor="course.teacher.name"
                     :description="course.description"
@@ -185,23 +185,24 @@
 
           <b-tab title="Certificates">
             <div
+              v-if="false"
               class="d-flex flex-column"
             >
               <h4>Your certificates will appear here</h4>
               <p>Complete a course to get your first certificate!</p>
             </div>
             <b-row>
-              <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
-                <PxCard
-                  :is-progress="false"
-                  :is-certificate="true"
-                  :pfp="course.teacher.pfp"
-                  :instructor="course.teacher.name"
-                  :description="course.description"
-                  :title="course.name"
-                  :cover="course.thumbnail"
+              <b-col v-for="fakeCertificate in fakeCertificates" :key="fakeCertificate.title" lg="6">
+                <PxCertificate
+                  :title="fakeCertificate.title"
+                  :instructor="fakeCertificate.instructor"
+                  :cover="fakeCertificate.cover"
+                  :transaction-u-r-l="fakeCertificate.transactionURL"
+                  :transaction="fakeCertificate.transaction"
+                  :minted-date="fakeCertificate.mintedDate"
+                  :student="fakeCertificate.student"
                 />
-              </b-col> -->
+              </b-col>
             </b-row>
           </b-tab>
         </b-tabs>
@@ -233,15 +234,15 @@
 
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="courseFicticial in coursesFicticial" :key="courseFicticial.title" ref="slide">
+        <SwiperSlide v-for="fakeCourse in fakeCourses" :key="fakeCourse.title" ref="slide">
           <PxCard
             :is-progress="false"
-            :is-certificate="true"
-            :pfp="courseFicticial.pfp"
-            :instructor="courseFicticial.instructor"
-            :description="courseFicticial.description"
-            :title="courseFicticial.title"
-            :cover="courseFicticial.cover"
+
+            :pfp="fakeCourse.pfp"
+            :instructor="fakeCourse.instructor"
+            :description="fakeCourse.description"
+            :title="fakeCourse.title"
+            :cover="fakeCourse.cover"
           />
         </SwiperSlide>
       </Swiper>
@@ -377,7 +378,16 @@ export default {
       currentSlide: 1,
       totalSlides: 0,
       modules: [Pagination, EffectFade, Navigation],
-      coursesFicticial: [
+      fakeCertificates: [{
+        cover: 'https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png',
+        title: 'Introduction to digital objects',
+        instructor: 'Hugo Santana',
+        student: 'David Muñoz Guzmán',
+        mintedDate: '04/09/2023',
+        transaction: 'ooRhd...JVYDAM',
+        transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
+      }],
+      fakeCourses: [
         {
           instructor: 'Hugo Santana',
           pfp: 'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg',
