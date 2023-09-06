@@ -237,7 +237,7 @@
 
               <!--MODULES-->
               <div
-                v-for="(module, moduleIndex) in courseModules"
+                v-for="(module, moduleIndex) in courses_by_pk.modules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
                 class="border d-flex rounded  mb-2"
@@ -246,12 +246,12 @@
                 <div class="w-100">
                   <!--TOGGLE MODULE-->
                   <div @click="toggleCollapse(moduleIndex)">
-                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapter.length}`" />
+                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
                   </div>
 
                   <!--CHAPTERS COLLAPSE-->
                   <b-collapse
-                    v-for="(chapter, chapterIndex) in module.chapter"
+                    v-for="(chapter, chapterIndex) in courses_by_pk.modules.chapters"
                     :id="`accordion-${moduleIndex}`"
                     :key="chapterIndex"
                     class="mx-2"
@@ -260,7 +260,7 @@
                     <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
                       <Icon
                         class="progress-circle"
-                        :icon="chapter.isCompleted ? 'material-symbols:check-circle' :'material-symbols:lens-outline'"
+
                         color="#00b9cd"
                         width="1rem"
                       />
@@ -284,7 +284,7 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Resources" active>
-                <p>I'm the first tab {{ courses_by_pk }} {{ $auth.user }}</p>
+                <p>I'm the first tab {{ courses_by_pk.modules.id }} {{ $auth.user }}</p>
               </b-tab>
               <b-tab title="Course info">
                 <p>I'm a disabled tab!</p>
@@ -306,7 +306,9 @@ import 'swiper/swiper-bundle.css'
 import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
+
 export default {
+
   apollo: {
     courses_by_pk: {
       query: gql`query ($id: Int!) {
@@ -350,65 +352,7 @@ export default {
       showEvIntro: true,
       navBarHidden: false,
       courseModules: [
-        {
-          title: 'Introduction to generative art',
-          isActive: true,
-          chapter: [
-            {
-              title: 'Exploring the foundation of generative art',
-              isCompleted: true
-            },
-            {
-              title: 'Understanding algorithms and creative coding',
-              isCompleted: false
-            },
-            {
-              title: 'Creating dynamic visual sistems',
-              isCompleted: false
-            },
-            {
-              title: 'Embracing randomness in generative art',
-              isCompleted: false
-            },
-            {
-              title: 'Expressing creativity through generative art techniques',
-              isCompleted: false
-            }
-          ]
-        },
 
-        {
-          title: 'Interactive art with code',
-          chapter: [
-            {
-              title: 'Introduction to Interactive Art and Coding'
-            },
-            {
-              title: 'Creating Immersive Experiences with Interactive Code'
-            },
-            {
-              title: 'Exploring User Engagement and Interaction in Code-based Art'
-            }
-          ]
-        },
-
-        {
-          title: 'Data visualization and art',
-          chapter: [
-            {
-              title: 'Introduction to Data Visualization in Art'
-            },
-            {
-              title: 'Exploring Data Sources and Formats for Artistic Visualizations'
-            },
-            {
-              title: 'Creative Approaches to Data Interpretation and Representation'
-            },
-            {
-              title: 'Interactive Data Visualizations and Engaging Audiences'
-            }
-          ]
-        }
       ],
 
       selected: [],
