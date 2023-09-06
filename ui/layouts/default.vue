@@ -29,9 +29,6 @@
                   </button>
                 </b-navbar-nav>
                 <b-navbar-nav v-else>
-                  <b-nav-item to="/myCourses">
-                    My courses
-                  </b-nav-item>
                   <b-nav-item @click="doLogout">
                     Log out
                   </b-nav-item>
