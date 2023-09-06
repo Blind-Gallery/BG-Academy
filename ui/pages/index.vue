@@ -139,13 +139,14 @@
         <b-tabs content-class="mt-3">
           <b-tab title="All" active>
             <div
+              v-if="!courses"
               class="d-flex flex-column"
             >
               <h4>All your courses will appear here</h4>
               <p>Explore our courses and start learning with us!</p>
             </div>
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
-              <!-- <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
+              <b-col v-for="course in courses" :key="course.id" cols="12" lg="4">
                 <PxCard
 
                   :pfp="course.teacher.pfp"
@@ -154,20 +155,20 @@
                   :title="course.name"
                   :cover="course.thumbnail"
                 />
-              </b-col> -->
+              </b-col>
             </b-row>
           </b-tab>
           <button v-if="false" class="primary-btn small" @click="showAllCourses = !showAllCourses">
             {{ showAllCourses === false?`Show ${coursesFicticial.length - 3} more`:'Show less' }}
           </button>
           <b-tab title="In progress">
-            <div v-if="true" class="d-flex flex-column  ">
+            <div v-if="!courses" class="d-flex flex-column  ">
               <h4>Your courses in progress will appear here</h4>
               <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
             </div>
 
-            <b-row v-else style="height: 65vh">
-              <!-- <b-col v-for="course in courses" :key="course.id" lg="4">
+            <b-row v-else>
+              <b-col v-for="course in courses" :key="course.id" lg="4">
                 <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
                   <PxCard
                     :is-progress="true"
@@ -179,7 +180,7 @@
                     :cover="course.thumbnail"
                   />
                 </NuxtLink>
-              </b-col> -->
+              </b-col>
             </b-row>
           </b-tab>
 
