@@ -236,15 +236,16 @@
         @slideChange="onSlideChange"
       >
         <SwiperSlide v-for="fakeCourse in fakeCourses" :key="fakeCourse.title" ref="slide">
-          <PxCard
-            :is-progress="false"
-
-            :pfp="fakeCourse.pfp"
-            :instructor="fakeCourse.instructor"
-            :description="fakeCourse.description"
-            :title="fakeCourse.title"
-            :cover="fakeCourse.cover"
-          />
+          <NuxtLink class="course-route" style="text-decoration: none;" to="/buyCourse">
+            <PxCard
+              :is-progress="false"
+              :pfp="fakeCourse.pfp"
+              :instructor="fakeCourse.instructor"
+              :description="fakeCourse.description"
+              :title="fakeCourse.title"
+              :cover="fakeCourse.cover"
+            />
+          </NuxtLink>
         </SwiperSlide>
       </Swiper>
       <!--SWIPER CONTROLS-->
