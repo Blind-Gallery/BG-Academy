@@ -20,185 +20,177 @@
               color="#fff"
             />
           </span>
-          <div v-if="true">
-            <PxPlayer />
-            <!-- <iframe
-              class="
-          rounded
-          mb-3"
-              width="100%"
-              height="650px"
-              src="https://www.youtube.com/embed/qtPi0JvmWbs"
-              title="YouTube video player"
-              frameborder="0"
-            /> -->
-          </div>
-          <div v-else class="d-flex flex-column align-items-center">
-            <Transition name="fade" mode="out-in">
-              <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
-                <h1 class="text-light">
-                  Digital objects
-                </h1>
-                <p class="text-light m-0">
-                  Module 1 | Evaluation
-                </p>
-                <hr style=" border-color: #fff;  width: 100%;">
-                <p style="text-align: center;" class="text-light small">
-                  Multiple choice assessment: in each question
-                  you will be able to select one of the options
-                  you consider correct.<br><br>
+          <div>
+            <div>
+              <PxPlayer :id="videoId" />
+            </div>
+            <div v-if="false" class="d-flex flex-column align-items-center">
+              <Transition name="fade" mode="out-in">
+                <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
+                  <h1 class="text-light">
+                    Digital objects
+                  </h1>
+                  <p class="text-light m-0">
+                    Module 1 | Evaluation
+                  </p>
+                  <hr style=" border-color: #fff;  width: 100%;">
+                  <p style="text-align: center;" class="text-light small">
+                    Multiple choice assessment: in each question
+                    you will be able to select one of the options
+                    you consider correct.<br><br>
 
-                  Once completed, you will receive
-                  a note for this module.
-                </p>
-                <div class="d-flex mt-3 w-100">
-                  <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
-                    <div class="d-flex align-items-center justify-content-center">
-                      <p class="m-0">
-                        START
-                      </p>
-                      <Icon
-                        width="24px"
-                        icon="material-symbols:chevron-right"
-                      />
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <div v-else key="2" class="shadow-sm">
-                <swiper
-                  class="ev-Slider"
-                  :allow-touch-move="false"
-                  :modules="modules"
-                  :effect="'fade'"
-                  :space-between="40"
-                  :navigation="{
-                    enabled:true,
-                    nextEl:'.primary-btn',
-                    prevEl:'.secondary-btn'
-                  }"
-                  :pagination="paginationOp"
-                  @reachEnd="paginationHide"
-                  @swiper="hideLastBullet"
-                >
-                  <swiper-slide>
-                    <h4 class="m-0 text-center" style="color:#00b9cd">
-                      1.- What does NFT stand for, and what is its basic definition?
-                    </h4>
-                    <hr class="w-100">
-                    <p>Choose one option</p>
-
-                    <b-form-checkbox-group
-                      v-model="selected"
-                      class="d-flex flex-column align-items-start mb-3"
-                      value-field="item"
-                      text-field="name"
-                      disabled-field="notEnabled"
-                    >
-                      <b-form-checkbox value="orange" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="apple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="grape" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
-                      </b-form-checkbox>
-                    </b-form-checkbox-group>
-                    <div class="d-flex align-items-center justify-content-center">
-                      <button class="secondary-btn mr-3">
-                        LAST
-                      </button>
-                      <button class="primary-btn">
-                        NEXT
-                      </button>
-                    </div>
-                  </swiper-slide>
-
-                  <swiper-slide>
-                    <h4 class="m-0 text-center" style="color:#00b9cd">
-                      1.- What does NFT stand for, and what is its basic definition?
-                    </h4>
-                    <hr class="w-100">
-                    <p>Choose one option</p>
-
-                    <b-form-checkbox-group
-                      v-model="selected"
-                      class="d-flex flex-column align-items-start mb-3"
-                      value-field="item"
-                      text-field="name"
-                      disabled-field="notEnabled"
-                    >
-                      <b-form-checkbox value="orange" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="apple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
-                      </b-form-checkbox>
-                      <b-form-checkbox value="grape" class="text-secondary small mb-4">
-                        <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
-                      </b-form-checkbox>
-                    </b-form-checkbox-group>
-                    <div class="d-flex align-items-center justify-content-center">
-                      <button class="secondary-btn mr-3">
-                        LAST
-                      </button>
-                      <button class="primary-btn">
-                        NEXT
-                      </button>
-                    </div>
-                  </swiper-slide>
-
-                  <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
-                    <h4>Total score</h4>
-                    <h1 style="font-size: 4rem; color:#00b9cd">
-                      100%
-                    </h1>
-                    <hr class="w-100">
-                    <div class="d-flex mb-4">
-                      <div class="d-flex align-items-center mr-4">
-                        <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
-                        <p class="text-success m-0">
-                          Correct: 10
+                    Once completed, you will receive
+                    a note for this module.
+                  </p>
+                  <div class="d-flex mt-3 w-100">
+                    <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <p class="m-0">
+                          START
                         </p>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
-                        <p class="text-danger m-0">
-                          Wrong: 0
-                        </p>
-                      </div>
-                    </div>
-                    <p class="small text-secondary text-center">
-                      ¡Congratulations, you have successfully
-                      passed module 1 of this course!
-                    </p>
-
-                    <div class="d-flex flex-column align-items-center justify-content-center w-100">
-                      <button class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
-                        NEXT MODULE   <Icon
+                        <Icon
                           width="24px"
                           icon="material-symbols:chevron-right"
                         />
-                      </button>
-                      <button class="secondary-btn  w-100  d-flex align-items-center justify-content-center">
-                        TRY IT AGAIN  <Icon
-                          width="21px"
-                          icon="material-symbols:restart-alt"
-                        />
-                      </button>
-                    </div>
-                  </swiper-slide>
-                </swiper>
-              </div>
-            </Transition>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                <div v-else key="2" class="shadow-sm">
+                  <swiper
+                    class="ev-Slider"
+                    :allow-touch-move="false"
+                    :modules="modules"
+                    :effect="'fade'"
+                    :space-between="40"
+                    :navigation="{
+                      enabled:true,
+                      nextEl:'.primary-btn',
+                      prevEl:'.secondary-btn'
+                    }"
+                    :pagination="paginationOp"
+                    @reachEnd="paginationHide"
+                    @swiper="hideLastBullet"
+                  >
+                    <swiper-slide>
+                      <h4 class="m-0 text-center" style="color:#00b9cd">
+                        1.- What does NFT stand for, and what is its basic definition?
+                      </h4>
+                      <hr class="w-100">
+                      <p>Choose one option</p>
+
+                      <b-form-checkbox-group
+                        v-model="selected"
+                        class="d-flex flex-column align-items-start mb-3"
+                        value-field="item"
+                        text-field="name"
+                        disabled-field="notEnabled"
+                      >
+                        <b-form-checkbox value="orange" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="apple" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="grape" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
+                        </b-form-checkbox>
+                      </b-form-checkbox-group>
+                      <div class="d-flex align-items-center justify-content-center">
+                        <button class="secondary-btn mr-3">
+                          LAST
+                        </button>
+                        <button class="primary-btn">
+                          NEXT
+                        </button>
+                      </div>
+                    </swiper-slide>
+
+                    <swiper-slide>
+                      <h4 class="m-0 text-center" style="color:#00b9cd">
+                        1.- What does NFT stand for, and what is its basic definition?
+                      </h4>
+                      <hr class="w-100">
+                      <p>Choose one option</p>
+
+                      <b-form-checkbox-group
+                        v-model="selected"
+                        class="d-flex flex-column align-items-start mb-3"
+                        value-field="item"
+                        text-field="name"
+                        disabled-field="notEnabled"
+                      >
+                        <b-form-checkbox value="orange" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="apple" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
+                        </b-form-checkbox>
+                        <b-form-checkbox value="grape" class="text-secondary small mb-4">
+                          <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
+                        </b-form-checkbox>
+                      </b-form-checkbox-group>
+                      <div class="d-flex align-items-center justify-content-center">
+                        <button class="secondary-btn mr-3">
+                          LAST
+                        </button>
+                        <button class="primary-btn">
+                          NEXT
+                        </button>
+                      </div>
+                    </swiper-slide>
+
+                    <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
+                      <h4>Total score</h4>
+                      <h1 style="font-size: 4rem; color:#00b9cd">
+                        100%
+                      </h1>
+                      <hr class="w-100">
+                      <div class="d-flex mb-4">
+                        <div class="d-flex align-items-center mr-4">
+                          <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
+                          <p class="text-success m-0">
+                            Correct: 10
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
+                          <p class="text-danger m-0">
+                            Wrong: 0
+                          </p>
+                        </div>
+                      </div>
+                      <p class="small text-secondary text-center">
+                        ¡Congratulations, you have successfully
+                        passed module 1 of this course!
+                      </p>
+
+                      <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                        <button class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                          NEXT MODULE   <Icon
+                            width="24px"
+                            icon="material-symbols:chevron-right"
+                          />
+                        </button>
+                        <button class="secondary-btn  w-100  d-flex align-items-center justify-content-center">
+                          TRY IT AGAIN  <Icon
+                            width="21px"
+                            icon="material-symbols:restart-alt"
+                          />
+                        </button>
+                      </div>
+                    </swiper-slide>
+                  </swiper>
+                </div>
+              </Transition>
+            </div>
           </div>
         </b-col>
         <!--HIDE NAV BAR ICON-->
@@ -237,7 +229,7 @@
 
               <!--MODULES-->
               <div
-                v-for="(module, moduleIndex) in courseModules"
+                v-for="(module, moduleIndex) in courses_by_pk.modules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
                 class="border d-flex rounded  mb-2"
@@ -246,12 +238,12 @@
                 <div class="w-100">
                   <!--TOGGLE MODULE-->
                   <div @click="toggleCollapse(moduleIndex)">
-                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapter.length}`" />
+                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
                   </div>
 
                   <!--CHAPTERS COLLAPSE-->
                   <b-collapse
-                    v-for="(chapter, chapterIndex) in module.chapter"
+                    v-for="(chapter, chapterIndex) in module.chapters"
                     :id="`accordion-${moduleIndex}`"
                     :key="chapterIndex"
                     class="mx-2"
@@ -260,7 +252,7 @@
                     <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
                       <Icon
                         class="progress-circle"
-                        :icon="chapter.isCompleted ? 'material-symbols:check-circle' :'material-symbols:lens-outline'"
+                        icon="material-symbols:lens-outline"
                         color="#00b9cd"
                         width="1rem"
                       />
@@ -284,7 +276,7 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Resources" active>
-                <p>I'm the first tab {{ courses_by_pk }} {{ $auth.user }}</p>
+                <p>I'm the first tab </p>
               </b-tab>
               <b-tab title="Course info">
                 <p>I'm a disabled tab!</p>
@@ -306,7 +298,9 @@ import 'swiper/swiper-bundle.css'
 import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
+
 export default {
+
   apollo: {
     courses_by_pk: {
       query: gql`query ($id: Int!) {
@@ -318,6 +312,7 @@ export default {
             chapters {
               id
               title
+              video_id
             }
           }
         }
@@ -338,6 +333,7 @@ export default {
 
   data () {
     return {
+      videoId: '859094052',
       modules: [Pagination, EffectFade, Navigation],
       paginationOp:
       {
@@ -350,65 +346,7 @@ export default {
       showEvIntro: true,
       navBarHidden: false,
       courseModules: [
-        {
-          title: 'Introduction to generative art',
-          isActive: true,
-          chapter: [
-            {
-              title: 'Exploring the foundation of generative art',
-              isCompleted: true
-            },
-            {
-              title: 'Understanding algorithms and creative coding',
-              isCompleted: false
-            },
-            {
-              title: 'Creating dynamic visual sistems',
-              isCompleted: false
-            },
-            {
-              title: 'Embracing randomness in generative art',
-              isCompleted: false
-            },
-            {
-              title: 'Expressing creativity through generative art techniques',
-              isCompleted: false
-            }
-          ]
-        },
 
-        {
-          title: 'Interactive art with code',
-          chapter: [
-            {
-              title: 'Introduction to Interactive Art and Coding'
-            },
-            {
-              title: 'Creating Immersive Experiences with Interactive Code'
-            },
-            {
-              title: 'Exploring User Engagement and Interaction in Code-based Art'
-            }
-          ]
-        },
-
-        {
-          title: 'Data visualization and art',
-          chapter: [
-            {
-              title: 'Introduction to Data Visualization in Art'
-            },
-            {
-              title: 'Exploring Data Sources and Formats for Artistic Visualizations'
-            },
-            {
-              title: 'Creative Approaches to Data Interpretation and Representation'
-            },
-            {
-              title: 'Interactive Data Visualizations and Engaging Audiences'
-            }
-          ]
-        }
       ],
 
       selected: [],
@@ -473,6 +411,23 @@ export default {
   overflow-y: auto;
   padding-right: 5px;
 
+}
+
+.course-nav-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.course-nav-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.course-nav-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.course-nav-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
 }
 
 .chapter-container{

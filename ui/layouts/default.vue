@@ -29,9 +29,6 @@
                   </button>
                 </b-navbar-nav>
                 <b-navbar-nav v-else>
-                  <b-nav-item to="/myCourses">
-                    My courses
-                  </b-nav-item>
                   <b-nav-item @click="doLogout">
                     Log out
                   </b-nav-item>
@@ -459,16 +456,20 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* Ancho de la barra de scroll */
+    width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color del pulgar del scroll */
-  border-radius: 3px; /* Bordes redondeados del pulgar */
+    background-color: #888;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Color del pulgar del scroll al hacer hover */
+    background-color: #555;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
 }
 
 header {

@@ -1,11 +1,18 @@
 <template>
   <div>
-    <div id="player" data-vimeo-id="855016876" data-vimeo-width="900" />
+    <div id="player" :data-vimeo-id="id" data-vimeo-width="900" />
   </div>
 </template>
 <script>
 import Player from '@vimeo/player'
+
 export default {
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       player: null
