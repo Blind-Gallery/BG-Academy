@@ -275,11 +275,11 @@
         <b-col>
           <div class="w-100">
             <b-tabs content-class="mt-3">
-              <b-tab title="Resources" active>
-                <p>I'm the first tab </p>
+              <b-tab title="Course info" active>
+                <p>Course summary, chapters and goals.</p>
               </b-tab>
-              <b-tab title="Course info">
-                <p>I'm a disabled tab!</p>
+              <b-tab title="Resources">
+                <p>In this tab you will find all the course material, information sources and more.</p>
               </b-tab>
             </b-tabs>
           </div>
