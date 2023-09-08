@@ -295,7 +295,7 @@
             </p>
             <div>
               <button class="primary-btn small">
-                Join on Discord
+                Join Discord
               </button>
             </div>
           </b-col>
@@ -372,6 +372,7 @@ export default {
       this.$auth.loginWith('local', {
         data
       })
+
       if (this.isWalletConnected && !this.$auth.loggedIn) {
         this.$store.dispatch('tezosWallet/disconnect')
       }
@@ -409,21 +410,27 @@ export default {
     },
 
     async walletConnect () {
-      await this.$store.dispatch('tezosWallet/connect')
-      const data = {
-        publicKey: this.publicKey,
-        wallet: this.tezosAddress,
-        signedMessage: this.signedMessage,
-        payload: this.payload
-      }
-      await this.$auth.loginWith('local', {
-        data
-      })
-      if (this.isWalletConnected && !this.$auth.loggedIn) {
-        this.$store.dispatch('tezosWallet/disconnect')
-      }
+      try {
+        await this.$store.dispatch('tezosWallet/connect')
+        const data = {
+          publicKey: this.publicKey,
+          wallet: this.tezosAddress,
+          signedMessage: this.signedMessage,
+          payload: this.payload
+        }
+        await this.$auth.loginWith('local', {
+          data
+        })
+        if (this.isWalletConnected && !this.$auth.loggedIn) {
+          this.$store.dispatch('tezosWallet/disconnect')
+        }
 
-      this.$bvModal.hide('signin')
+        this.$bvModal.hide('signin')
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          this.invalidMessage = "This user doesn't exist. Please sign up and create an account first."
+        }
+      }
     },
 
     onReset () {
