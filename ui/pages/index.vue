@@ -6,11 +6,11 @@
         <b-row class="align-items-center">
           <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
             <h1>
-              Your starting point into
-              <span style="color:#00B9CD"> Digital Arts  & Culture</span>
+              Your starting point in
+              <span style="color:#00B9CD"> Digital Art & Culture</span>
             </h1>
             <p>
-              Explore interactive courses led by industry experts, unleashing your artistic potential.
+              Explore interactive courses led by industry experts, paving your way in the digital art revolution.
             </p>
             <div class="d-flex gap-2">
               <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
@@ -28,29 +28,29 @@
     <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
       <b-container class="mb-5 py-4" style="max-width: 1240px;">
         <!--PARTNERS CONTAINER-->
-        <p class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
-          Meet out partners
-        </p>
+        <h4 class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
+          Meet our partners
+        </h4>
 
         <div class="partners-container ">
           <img
-            width="110px"
+            width="120px"
             alt="joyn"
             src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
           >
 
           <img
-            width="140px"
+            width="150px"
             alt="autonomy"
             src="https://autonomy.io/Logo.svg"
           >
           <img
-            width="95px"
+            width="105px"
             alt="tezos"
             src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
           >
           <img
-            width="140px"
+            width="160px"
             alt="fxhash"
             src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2"
           >
@@ -480,7 +480,7 @@ export default {
 }
 
 .partners-container img{
-  filter: brightness(-100%);
+  filter: brightness(0%);
   justify-self: center;
   opacity: 0.5;
 
