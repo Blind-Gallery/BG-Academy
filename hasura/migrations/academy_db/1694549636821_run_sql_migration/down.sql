@@ -59,3 +59,5 @@
 -- BEFORE INSERT ON user_course
 -- FOR EACH ROW
 -- EXECUTE FUNCTION assign_last_chapter_id();
+DROP TRIGGER IF EXISTS assign_last_chapter ON user_course;
+DROP FUNCTION IF EXISTS assign_last_chapter_id();
