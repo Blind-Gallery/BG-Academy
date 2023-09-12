@@ -11,7 +11,8 @@ const {
 
 const {
   GQL,
-  JWT
+  JWT,
+  Email
 } = require('./service')
 
 const {
@@ -33,9 +34,12 @@ async function decorateFastifyInstance (fastify) {
   }
   jwt.init()
 
+  const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
+
   const login = new Login({
     gql,
     jwt,
+    email,
     opts
   })
   const user = new User({

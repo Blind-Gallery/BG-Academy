@@ -44,9 +44,10 @@ query ($wallet: String = "") {
 `
 
 class Login {
-  constructor ({ gql, jwt, opts }) {
+  constructor ({ gql, jwt, email, opts }) {
     this.gql = gql
     this.opts = opts
+    this.email = email
     this.jwt = jwt
   }
 
