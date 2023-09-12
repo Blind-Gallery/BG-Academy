@@ -49,6 +49,13 @@ array_relationships:
         table:
           name: modules
           schema: public
+  - name: questions
+    using:
+      foreign_key_constraint_on:
+        column: module_id
+        table:
+          name: questions
+          schema: public
   - name: user_modules
     using:
       foreign_key_constraint_on:

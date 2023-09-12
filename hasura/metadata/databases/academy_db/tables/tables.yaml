@@ -4,6 +4,8 @@
 - "!include public_language_catalog.yaml"
 - "!include public_level_catalog.yaml"
 - "!include public_modules.yaml"
+- "!include public_question_options.yaml"
+- "!include public_questions.yaml"
 - "!include public_teachers.yaml"
 - "!include public_tezos.yaml"
 - "!include public_user_chapter.yaml"
