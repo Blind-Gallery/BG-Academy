@@ -302,6 +302,51 @@ SwiperCore.use([Pagination, Navigation])
 export default {
 
   apollo: {
+    user_chapter_by_pk: {
+      query: gql`query ($chapter_id: uuid = "", $user_id: String = "") {
+      user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
+        completed
+        updated_at
+        chapter {
+          id
+          info
+          title
+          resources
+          video_id
+          module {
+            id
+            duration
+            description
+            created_at
+            previous_module_id
+            next_module_id
+            title
+            you_will_learn
+            you_will_learn_title
+            course {
+              modules {
+                id
+                next_module_id
+                title
+                chapters {
+                  id
+                  title
+                  video_id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    `,
+      variables () {
+        return {
+          chapter_id: this.$route.query.chapterId,
+          user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
+    },
     chapters_by_pk: {
       query: gql`query ($id: uuid = "") {
       chapters_by_pk(id: $id) {
