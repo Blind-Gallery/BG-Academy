@@ -229,7 +229,7 @@
 
               <!--MODULES-->
               <div
-                v-for="(module, moduleIndex) in courses_by_pk.modules"
+                v-for="(module, moduleIndex) in chapters_by_pk.module.course.modules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
                 class="border d-flex rounded  mb-2"
@@ -339,28 +339,6 @@ export default {
       variables () {
         return {
           id: this.$route.query.chapterId
-        }
-      }
-    },
-    courses_by_pk: {
-      query: gql`query ($id: Int!) {
-        courses_by_pk(id: $id) {
-          modules {
-            id
-            next_module_id
-            title
-            chapters {
-              id
-              title
-              video_id
-            }
-          }
-        }
-      }
-    `,
-      variables () {
-        return {
-          id: this.$route.query.courseId
         }
       }
     }
