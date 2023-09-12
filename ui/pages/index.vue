@@ -168,16 +168,16 @@
             </div>
 
             <b-row v-else>
-              <b-col v-for="course in user_course" :key="course.id" lg="4">
-                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: course.id }, query: { courseId: course.id }}">
+              <b-col v-for="item in user_course" :key="item.id" lg="4">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: item.course_id }, query: { courseId: item.course_id }}">
                   <PxCard
                     :is-progress="true"
 
-                    :pfp="course.course.teacher.pfp"
-                    :instructor="course.course.teacher.name"
-                    :description="course.course.description"
-                    :title="course.course.name"
-                    :cover="course.course.thumbnail"
+                    :pfp="item.course.teacher.pfp"
+                    :instructor="item.course.teacher.name"
+                    :description="item.course.description"
+                    :title="item.course.name"
+                    :cover="item.course.thumbnail"
                   />
                 </NuxtLink>
               </b-col>
@@ -372,6 +372,7 @@ export default {
       query: gql`query ($id: String = "") {
         user_course( where:
           {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
           course_id
           progress
           course {
