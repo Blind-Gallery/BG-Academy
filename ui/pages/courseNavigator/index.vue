@@ -21,10 +21,10 @@
             />
           </span>
           <div>
-            <div>
+            <div v-if="false">
               <PxPlayer :id="videoId" />
             </div>
-            <div v-if="false" class="d-flex flex-column align-items-center">
+            <div v-if="true" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
                   <h1 class="text-light">
@@ -73,77 +73,33 @@
                     @reachEnd="paginationHide"
                     @swiper="hideLastBullet"
                   >
-                    <swiper-slide>
-                      <h4 class="m-0 text-center" style="color:#00b9cd">
-                        1.- What does NFT stand for, and what is its basic definition?
-                      </h4>
-                      <hr class="w-100">
-                      <p>Choose one option</p>
+                    <swiper-slide v-for="(test, index) in tests" :key="index">
+                      <div class="d-flex flex-column justify-content-between " style="height: 90%;">
+                        <div>
+                          <h4 class="m-0 " style="color:#00b9cd">
+                            {{ `${index + 1}.-${test.question}` }}
+                          </h4>
 
-                      <b-form-checkbox-group
-                        v-model="selected"
-                        class="d-flex flex-column align-items-start mb-3"
-                        value-field="item"
-                        text-field="name"
-                        disabled-field="notEnabled"
-                      >
-                        <b-form-checkbox value="orange" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="apple" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="grape" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
-                        </b-form-checkbox>
-                      </b-form-checkbox-group>
-                      <div class="d-flex align-items-center justify-content-center">
-                        <button class="secondary-btn mr-3">
-                          LAST
-                        </button>
-                        <button class="primary-btn">
-                          NEXT
-                        </button>
-                      </div>
-                    </swiper-slide>
-
-                    <swiper-slide>
-                      <h4 class="m-0 text-center" style="color:#00b9cd">
-                        1.- What does NFT stand for, and what is its basic definition?
-                      </h4>
-                      <hr class="w-100">
-                      <p>Choose one option</p>
-
-                      <b-form-checkbox-group
-                        v-model="selected"
-                        class="d-flex flex-column align-items-start mb-3"
-                        value-field="item"
-                        text-field="name"
-                        disabled-field="notEnabled"
-                      >
-                        <b-form-checkbox value="orange" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">A)</span> Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="apple" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">B)</span> Non-Finite Transaction; a blockchain-based process for continuous data exchange.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="pineapple" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">C)</span> Notable Financial Technology; a term used to describe innovative payment systems.
-                        </b-form-checkbox>
-                        <b-form-checkbox value="grape" class="text-secondary small mb-4">
-                          <span style="font-weight: 600;">D)</span> Non-Functional Test; a software testing method for assessing system performance.
-                        </b-form-checkbox>
-                      </b-form-checkbox-group>
-                      <div class="d-flex align-items-center justify-content-center">
-                        <button class="secondary-btn mr-3">
-                          LAST
-                        </button>
-                        <button class="primary-btn">
-                          NEXT
-                        </button>
+                          <hr class="w-100">
+                        </div>
+                        <div>
+                          <FormulateInput
+                            :name="`test_${index}`"
+                            :value="test.selectedOption"
+                            :options="test.options"
+                            type="radio"
+                            class="test"
+                            @input="(value) => test.selectedOption = value"
+                          />
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center">
+                          <button class="secondary-btn mr-3">
+                            LAST
+                          </button>
+                          <button class="primary-btn">
+                            NEXT
+                          </button>
+                        </div>
                       </div>
                     </swiper-slide>
 
@@ -249,20 +205,22 @@
                     class="mx-2"
                     role="tabpanel"
                   >
-                    <div class="d-flex  flex-column justify-content-between mb-2 position-relative chapter-container rounded p-2">
-                      <Icon
-                        class="progress-circle"
-                        icon="material-symbols:lens-outline"
-                        color="#00b9cd"
-                        width="1rem"
-                      />
-                      <p style="font-size: small; font-weight: 600;" class="m-0 text-secondary">
-                        {{ chapter.title }}<br>
-                      </p>
-                      <p style="font-size: small" class="m-0 text-secondary">
-                        5min.<br>
-                      </p>
-                    </div>
+                    <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', query: { courseId: courseId, videoId, }}">
+                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.video_id)">
+                        <Icon
+                          class="progress-circle"
+                          icon="material-symbols:lens-outline"
+                          color="#00b9cd"
+                          width="1rem"
+                        />
+                        <p style="font-size: small;" class="m-0 text-secondary">
+                          {{ chapter.title }}<br>
+                        </p>
+                        <p style="font-size: small" class="m-0 text-secondary">
+                          5min.<br>
+                        </p>
+                      </div>
+                    </NuxtLink>
                   </b-collapse>
                 </div>
               </div>
@@ -333,7 +291,42 @@ export default {
 
   data () {
     return {
-      videoId: '859094052',
+
+      tests: [
+        {
+          question: 'What is an NFT?',
+          options: [
+            { key: 'a', label: 'An NFT is a unique digital asset representing ownership on a blockchain.' },
+            { key: 'b', label: 'NFTs are blockchain-based certificates for digital items authenticity and ownership.' },
+            { key: 'c', label: 'NFTs certify ownership of digital or physical assets, popular in art and gaming.' },
+            { key: 'd', label: 'NFTs are blockchain tokens proving ownership of one-of-a-kind items.' }
+          ],
+          selectedOption: null
+        },
+        {
+          question: 'What is a Blockchain?',
+          options: [
+            { key: 'a', label: 'A blockchain is a decentralized digital ledger for secure and transparent record-keeping.' },
+            { key: 'b', label: 'Blockchain is a distributed ledger technology for transparent data storage.' },
+            { key: 'c', label: 'A blockchain is a decentralized, tamper-resistant digital ledger.' },
+            { key: 'd', label: 'Blockchain is a secure, transparent digital ledger for recording transactions.' }
+          ],
+          selectedOption: null
+        },
+        {
+          question: 'What is Bitcoin?',
+          options: [
+            { key: 'a', label: 'Bitcoin is a decentralized digital currency used for online transactions.' },
+            { key: 'b', label: 'Bitcoin is a peer-to-peer cryptocurrency for digital payments.' },
+            { key: 'c', label: 'Bitcoin is a digital currency operating on a decentralized network.' },
+            { key: 'd', label: 'Bitcoin is a decentralized cryptocurrency for borderless transactions.' }
+          ],
+          selectedOption: null
+        }
+      ],
+
+      videoId: '856807676',
+      courseId: this.$route.query.courseId,
       modules: [Pagination, EffectFade, Navigation],
       paginationOp:
       {
@@ -346,20 +339,23 @@ export default {
       showEvIntro: true,
       navBarHidden: false,
       courseModules: [
-
-      ],
-
-      selected: [],
-      options: [
-        { item: 'A', name: 'A) Non-Fungible Token; a type of digital asset representing ownership of a unique item or piece of content.' },
-        { item: 'B', name: 'B) Non-Finite Transaction; a blockchain-based process for continuous data exchange.' },
-        { item: 'C', name: 'C) Notable Financial Technology; a term used to describe innovative payment systems.' },
-        { item: 'D', name: 'D) Non-Functional Test; a software testing method for assessing system performance.' }
       ]
+
+    }
+  },
+
+  watch: {
+    updateVideoId: function (newVal) {
+      this.videoId = newVal
     }
   },
 
   methods: {
+
+    selectChapter (index) {
+      this.videoId = index
+    },
+
     doHideNavBar () {
       this.navBarHidden = !this.navBarHidden
     },
@@ -400,6 +396,10 @@ export default {
   transition: 0.5s ease all;
 }
 
+input:checked ~ label {
+  border-color: #00b9cd;
+}
+
 .course-video__toggle{
   transition: 0.5s ease all;
   flex: 0 0 91.666667%;
@@ -433,9 +433,29 @@ export default {
 .chapter-container{
   cursor: pointer;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
 }
 
 .chapter-container:hover{
+  background-color: #f7f7f7;
+}
+
+.chapter-container_selected{
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
   background-color: #f7f7f7;
 }
 
@@ -455,6 +475,11 @@ export default {
   padding:2rem;
   border-radius: 5px;
   height: 560px;
+}
+
+.test .formulate-input .formulate-input-label{
+  font-weight: 400;
+  margin-bottom: 1rem;
 }
 
 .fade-enter-active {
