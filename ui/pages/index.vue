@@ -169,7 +169,7 @@
 
             <b-row v-else>
               <b-col v-for="item in user_course" :key="item.id" lg="4">
-                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: item.course_id }, query: { courseId: item.course_id }}">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { courseId: item.course_id, chapterId: item.last_chapter_id_seen }, query: { courseId: item.course_id, chapterId: item.last_chapter_id_seen }}">
                   <PxCard
                     :is-progress="true"
 

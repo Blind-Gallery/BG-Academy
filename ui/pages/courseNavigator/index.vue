@@ -22,7 +22,7 @@
           </span>
           <div>
             <div>
-              <PxPlayer :id="videoId" />
+              <PxPlayer :id="chapters_by_pk.video_id" />
             </div>
             <div v-if="false" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
@@ -276,10 +276,10 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Course info" active>
-                <p>Course summary, chapters and goals.</p>
+                <p>{{ chapters_by_pk.info }}</p>
               </b-tab>
               <b-tab title="Resources">
-                <p>In this tab you will find all the course material, information sources and more.</p>
+                <p>{{ chapters_by_pk.resources }}</p>
               </b-tab>
             </b-tabs>
           </div>
@@ -302,6 +302,23 @@ SwiperCore.use([Pagination, Navigation])
 export default {
 
   apollo: {
+    chapters_by_pk: {
+      query: gql`query ($id: uuid = "") {
+        chapters_by_pk(id: $id) {
+          id
+          info
+          title
+          resources
+          video_id
+        }
+      }
+    `,
+      variables () {
+        return {
+          id: this.$route.query.chapterId
+        }
+      }
+    },
     courses_by_pk: {
       query: gql`query ($id: Int!) {
         courses_by_pk(id: $id) {
