@@ -45,6 +45,7 @@ async function decorateFastifyInstance (fastify) {
   const user = new User({
     gql,
     jwt,
+    email,
     opts
   })
   fastify.decorate('login', login)
