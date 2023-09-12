@@ -304,14 +304,37 @@ export default {
   apollo: {
     chapters_by_pk: {
       query: gql`query ($id: uuid = "") {
-        chapters_by_pk(id: $id) {
+      chapters_by_pk(id: $id) {
+        id
+        info
+        title
+        resources
+        video_id
+        module {
           id
-          info
+          duration
+          description
+          created_at
+          previous_module_id
+          next_module_id
           title
-          resources
-          video_id
+          you_will_learn
+          you_will_learn_title
+          course {
+            modules {
+              id
+              next_module_id
+              title
+              chapters {
+                id
+                title
+                video_id
+              }
+            }
+          }
         }
       }
+    }
     `,
       variables () {
         return {
