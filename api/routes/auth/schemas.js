@@ -71,6 +71,25 @@ const signUpSchema = {
   }
 }
 
+const recoverPasswordSchema = {
+  tags,
+  body: {
+    type: 'object',
+    properties: {
+      email: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 const refreshSchema = {
   tags,
   response: {
@@ -98,6 +117,7 @@ const logoutSchema = {
 }
 
 module.exports = {
+  recoverPasswordSchema,
   loginSchema,
   signUpSchema,
   refreshSchema,

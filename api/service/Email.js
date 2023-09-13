@@ -30,6 +30,16 @@ class Email {
 
     return res
   }
+
+  async sendRecoverPasswordEmail ({ to }) {
+    const subject = 'Recover Password'
+    const text = 'Recover Password'
+    const html = '<strong>Recover Password</strong>'
+
+    const res = await this.sendEmail({ to, subject, text, html })
+
+    return res
+  }
 }
 
 module.exports = Email
