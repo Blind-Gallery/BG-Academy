@@ -21,9 +21,12 @@
             />
           </span>
           <div>
-            <div>
-              <PxPlayer :id="chapters_by_pk.video_id" />
+            <PxPlayer v-if="!chapters_by_pk.loading" :id="chapters_by_pk.video_id" width="100%" />
+
+            <div v-else>
+              <b-skeleton-img />
             </div>
+
             <div v-if="true" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
@@ -205,22 +208,20 @@
                     class="mx-2"
                     role="tabpanel"
                   >
-                    <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', query: { courseId: courseId, videoId, }}">
-                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.video_id)">
-                        <Icon
-                          class="progress-circle"
-                          icon="material-symbols:lens-outline"
-                          color="#00b9cd"
-                          width="1rem"
-                        />
-                        <p style="font-size: small;" class="m-0 text-secondary">
-                          {{ chapter.title }}<br>
-                        </p>
-                        <p style="font-size: small" class="m-0 text-secondary">
-                          5min.<br>
-                        </p>
-                      </div>
-                    </NuxtLink>
+                    <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.video_id)">
+                      <Icon
+                        class="progress-circle"
+                        icon="material-symbols:lens-outline"
+                        color="#00b9cd"
+                        width="1rem"
+                      />
+                      <p style="font-size: small;" class="m-0 text-secondary">
+                        {{ chapter.title }}<br>
+                      </p>
+                      <p style="font-size: small" class="m-0 text-secondary">
+                        5min.<br>
+                      </p>
+                    </div>
                   </b-collapse>
                 </div>
               </div>
@@ -388,7 +389,6 @@ export default {
         }
       ],
 
-      videoId: '856807676',
       courseId: this.$route.query.courseId,
       modules: [Pagination, EffectFade, Navigation],
       paginationOp:
@@ -472,8 +472,8 @@ input:checked ~ label {
 
 .course-video__toggle{
   transition: 0.5s ease all;
-  flex: 0 0 91.666667%;
-  max-width: 91.666667%;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 .course-nav-container{
