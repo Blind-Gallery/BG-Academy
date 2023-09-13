@@ -21,9 +21,9 @@
             />
           </span>
           <div>
-            <PxPlayer v-if="!chapters_by_pk.loading" :id="chapters_by_pk.video_id" width="100%" />
+            <PxPlayer :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" />
 
-            <div v-else>
+            <div>
               <b-skeleton-img />
             </div>
 

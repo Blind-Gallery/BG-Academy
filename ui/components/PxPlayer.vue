@@ -2,7 +2,7 @@
   <div
     :id="playerId"
     data-vimeo-autoplay="true"
-    :data-vimeo-id="id"
+    :data-vimeo-id="videoId"
     :data-vimeo-width="width"
     data-vimeo-responsive="1"
   />
