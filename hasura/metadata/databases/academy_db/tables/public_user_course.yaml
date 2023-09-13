@@ -15,6 +15,9 @@ object_relationships:
   - name: course
     using:
       foreign_key_constraint_on: course_id
+  - name: last_chapter_seen
+    using:
+      foreign_key_constraint_on: last_chapter_id_seen
   - name: user_info
     using:
       foreign_key_constraint_on: user_id

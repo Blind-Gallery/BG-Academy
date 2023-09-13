@@ -152,7 +152,7 @@
         </p>
         <FormulateForm
           v-slot="{ isLoading }"
-          v-model="signInForm"
+          v-model="recoverPasswordForm"
           class="login-form"
           @submit="doRecover"
         >
@@ -163,12 +163,15 @@
             placeholder="Email address"
             validation="required|email"
           />
+          <p style="color: green; font-size: .8em;">
+            {{ successMessage }}
+          </p>
           <FormulateInput
             type="submit"
             :disabled="isLoading"
             :label="isLoading ? 'Loading...' : 'Recover password'"
           />
-        </formulateform>
+        </Formulateform>
       </b-modal>
 
       <!--MODAL SIGN UP-->
@@ -313,8 +316,9 @@ export default {
     return {
       show: true,
       invalidMessage: '',
+      successMessage: '',
       signInForm: {},
-
+      recoverPasswordForm: {},
       signUpForm: {}
     }
   },
@@ -358,7 +362,9 @@ export default {
       }
     },
 
-    async doRecover () {},
+    doRecover () {
+      this.successMessage = 'We have send you an email to recover your password!'
+    },
 
     async doSignUpWallet () {
       await this.$store.dispatch('tezosWallet/connect')
@@ -435,10 +441,10 @@ export default {
 
     onReset () {
       this.signInForm = {}
-
       this.signUpForm = {}
 
       this.invalidMessage = ''
+      this.successMessage = ''
     }
   }
 }

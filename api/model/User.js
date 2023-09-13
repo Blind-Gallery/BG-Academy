@@ -70,9 +70,10 @@ mutation ($user: users_insert_input!) {
 `
 
 class User {
-  constructor ({ gql, opts }) {
+  constructor ({ gql, email, opts }) {
     this.gql = gql
     this.opts = opts
+    this.email = email
   }
 
   /**
@@ -154,6 +155,7 @@ class User {
       CREATE_USER, data)
 
     console.log('User created', user)
+    await this.email.sendWelcomeEmail({ to: email })
     // Todo: send email with verification code
     return { user }
   }

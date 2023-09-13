@@ -21,8 +21,8 @@
             />
           </span>
           <div>
-            <div v-if="false">
-              <PxPlayer :id="videoId" />
+            <div>
+              <PxPlayer :id="chapters_by_pk.video_id" />
             </div>
             <div v-if="true" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
@@ -185,7 +185,7 @@
 
               <!--MODULES-->
               <div
-                v-for="(module, moduleIndex) in courses_by_pk.modules"
+                v-for="(module, moduleIndex) in chapters_by_pk.module.course.modules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
                 class="border d-flex rounded  mb-2"
@@ -234,10 +234,10 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Course info" active>
-                <p>Course summary, chapters and goals.</p>
+                <p>{{ chapters_by_pk.info }}</p>
               </b-tab>
               <b-tab title="Resources">
-                <p>In this tab you will find all the course material, information sources and more.</p>
+                <p>{{ chapters_by_pk.resources }}</p>
               </b-tab>
             </b-tabs>
           </div>
@@ -260,25 +260,88 @@ SwiperCore.use([Pagination, Navigation])
 export default {
 
   apollo: {
-    courses_by_pk: {
-      query: gql`query ($id: Int!) {
-        courses_by_pk(id: $id) {
-          modules {
+    user_chapter_by_pk: {
+      query: gql`query ($chapter_id: uuid = "", $user_id: String = "") {
+      user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
+        completed
+        updated_at
+        chapter {
+          id
+          info
+          title
+          resources
+          video_id
+          module {
             id
+            duration
+            description
+            created_at
+            previous_module_id
             next_module_id
             title
-            chapters {
-              id
-              title
-              video_id
+            you_will_learn
+            you_will_learn_title
+            course {
+              modules {
+                id
+                next_module_id
+                title
+                chapters {
+                  id
+                  title
+                  video_id
+                }
+              }
             }
           }
         }
       }
+    }
     `,
       variables () {
         return {
-          id: this.$route.query.courseId
+          chapter_id: this.$route.query.chapterId,
+          user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
+    },
+    chapters_by_pk: {
+      query: gql`query ($id: uuid = "") {
+      chapters_by_pk(id: $id) {
+        id
+        info
+        title
+        resources
+        video_id
+        module {
+          id
+          duration
+          description
+          created_at
+          previous_module_id
+          next_module_id
+          title
+          you_will_learn
+          you_will_learn_title
+          course {
+            modules {
+              id
+              next_module_id
+              title
+              chapters {
+                id
+                title
+                video_id
+              }
+            }
+          }
+        }
+      }
+    }
+    `,
+      variables () {
+        return {
+          id: this.$route.query.chapterId
         }
       }
     }
