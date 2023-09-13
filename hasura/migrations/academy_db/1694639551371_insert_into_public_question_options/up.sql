@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'Bitcoin is a digital currency operating on a decentralized network.', E'e54a13d9-e2ac-46ad-82af-e646071ee22f', E'8322101a-20c3-4bf9-8065-d79a8f91e9c7');

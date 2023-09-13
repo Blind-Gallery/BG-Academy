@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'An NFT is a unique digital asset representing ownership on a blockchain.', E'4b76067b-5c17-447e-b9b3-91fb4e98c079', E'29056fe5-8d6e-463b-b793-76ba7c0bd2d6');

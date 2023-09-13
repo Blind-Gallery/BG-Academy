@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'Bitcoin is a decentralized cryptocurrency for borderless transactions.', E'7c53c25b-d879-4310-82d5-8ff1bdd7b656', E'8322101a-20c3-4bf9-8065-d79a8f91e9c7');

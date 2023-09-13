@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'NFTs are blockchain tokens proving ownership of one-of-a-kind items.', E'e754a22e-096f-4661-90c7-8245d79ee99a', E'29056fe5-8d6e-463b-b793-76ba7c0bd2d6');
