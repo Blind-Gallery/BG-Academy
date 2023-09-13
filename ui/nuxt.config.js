@@ -156,8 +156,8 @@ export default {
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
-          user: { url: '/auth/user', method: 'get' }
-          // user: false
+          user: { url: '/auth/user', method: 'get' },
+          refresh: { url: '/auth/refresh', method: 'post' }
         }
       }
     }
