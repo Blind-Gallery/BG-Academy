@@ -38,7 +38,7 @@ async function loginHandler (req, reply) {
     user
   } = await this.login.login(req.body)
 
-  reply.setCookie('refreshToken', refreshToken, {
+  reply.setCookie('refresh_token', refreshToken, {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
@@ -55,7 +55,7 @@ async function signUpHandler (req, reply) {
     user
   } = await this.login.signUp(req.body)
 
-  reply.setCookie('refreshToken', refreshToken, {
+  reply.setCookie('refresh_token', refreshToken, {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
@@ -67,7 +67,7 @@ async function signUpHandler (req, reply) {
 
 async function refreshHandler (req, reply) {
   console.info('======================= Refreshing token')
-  console.info('refreshToken: ', JSON.stringify(req.cookies, null, 4))
+  console.info('refresh_token: ', JSON.stringify(req.cookies, null, 4))
   const {
     refreshToken
   } = req.cookies
@@ -75,7 +75,7 @@ async function refreshHandler (req, reply) {
 }
 
 async function logoutHandler (req, reply) {
-  reply.setCookie('refreshToken', null, {
+  reply.setCookie('refresh_token', null, {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
