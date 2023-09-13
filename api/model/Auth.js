@@ -199,7 +199,7 @@ class Login {
   }
 
   async refresh (refreshToken) {
-    console.log(refreshToken)
+    console.info(refreshToken)
     let user
     const { loginMechanism, loginPayload } = this.jwt.verifyToken(refreshToken.refreshToken)
     if (loginMechanism === 'email') {
@@ -212,6 +212,16 @@ class Login {
       token: await this._getJWTToken(
         { id: user.id, role: Role.USER, loginMechanism, loginPayload })
     }
+  }
+
+  async recoverPassword ({ email }) {
+    const user = await this.getUserByEmail(email)
+    if (!user) {
+      throw new Unauthorized('Wrong email')
+    }
+    await this.email.sendRecoverPasswordEmail({ to: email })
+
+    return { success: true }
   }
 }
 

@@ -5,6 +5,7 @@ const {
   signUpSchema,
   refreshSchema,
   logoutSchema,
+  recoverPasswordSchema,
   userSchema
 } = require('./schemas')
 
@@ -18,6 +19,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/refresh', { schema: refreshSchema }, refreshHandler)
     fastify.post('/logout', { schema: logoutSchema }, logoutHandler)
     fastify.get('/user', { schema: userSchema }, userHandler)
+    fastify.post('/recover-password', { schema: recoverPasswordSchema }, recoverPasswordHandler)
   })
 }
 
@@ -64,7 +66,8 @@ async function signUpHandler (req, reply) {
 }
 
 async function refreshHandler (req, reply) {
-  console.log('refreshToken: ', JSON.stringify(req.cookies, null, 4))
+  console.info('======================= Refreshing token')
+  console.info('refreshToken: ', JSON.stringify(req.cookies, null, 4))
   const {
     refreshToken
   } = req.cookies
@@ -83,6 +86,9 @@ async function logoutHandler (req, reply) {
 
 async function userHandler (req, reply) {
   const token = req.headers.authorization.split(' ')[1]
-  console.log(token)
   return this.login.user(token)
+}
+
+async function recoverPasswordHandler (req, reply) {
+  return this.login.recoverPassword(req.body)
 }

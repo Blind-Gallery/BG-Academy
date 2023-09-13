@@ -188,7 +188,7 @@
 
               <!--MODULES-->
               <div
-                v-for="(module, moduleIndex) in chapters_by_pk.module.course.modules"
+                v-for="(module, moduleIndex) in chapterInfo.module.course.modules"
                 :key="moduleIndex"
                 style="cursor: pointer;"
                 class="border d-flex rounded  mb-2"
@@ -235,10 +235,10 @@
           <div class="w-100">
             <b-tabs content-class="mt-3">
               <b-tab title="Course info" active>
-                <p>{{ chapters_by_pk.info }}</p>
+                <p>{{ chapterInfo.info }}</p>
               </b-tab>
               <b-tab title="Resources">
-                <p>{{ chapters_by_pk.resources }}</p>
+                <p>{{ chapterInfo.resources }}</p>
               </b-tab>
             </b-tabs>
           </div>
@@ -258,91 +258,95 @@ import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
+const GET_USER_CHAPTER_QUERY = gql`
+query ($chapter_id: uuid!, $user_id: String!) {
+  user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
+    completed
+    updated_at
+    chapter {
+      id
+      info
+      title
+      resources
+      video_id
+      module {
+        id
+        duration
+        description
+        created_at
+        previous_module_id
+        next_module_id
+        title
+        you_will_learn
+        you_will_learn_title
+        course {
+          modules {
+            id
+            next_module_id
+            title
+            chapters {
+              id
+              title
+              video_id
+            }
+          }
+        }
+      }
+    }
+  }
+}`
+
+const GET_CHAPTER_QUERY = gql`
+query ($id: uuid!) {
+  chapters_by_pk(id: $id) {
+    id
+    info
+    title
+    resources
+    video_id
+    module {
+      id
+      duration
+      description
+      created_at
+      previous_module_id
+      next_module_id
+      title
+      you_will_learn
+      you_will_learn_title
+      questions {
+        id
+        text
+        options {
+          id
+          text
+        }
+      }
+      course {
+        modules {
+          id
+          next_module_id
+          title
+          chapters {
+            id
+            title
+            video_id
+          }
+        }
+      }
+    }
+  }
+}`
+
 export default {
 
   apollo: {
     user_chapter_by_pk: {
-      query: gql`query ($chapter_id: uuid = "", $user_id: String = "") {
-      user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
-        completed
-        updated_at
-        chapter {
-          id
-          info
-          title
-          resources
-          video_id
-          module {
-            id
-            duration
-            description
-            created_at
-            previous_module_id
-            next_module_id
-            title
-            you_will_learn
-            you_will_learn_title
-            course {
-              modules {
-                id
-                next_module_id
-                title
-                chapters {
-                  id
-                  title
-                  video_id
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    `,
+      query: GET_USER_CHAPTER_QUERY,
       variables () {
         return {
           chapter_id: this.$route.query.chapterId,
           user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
-        }
-      }
-    },
-    chapters_by_pk: {
-      query: gql`query ($id: uuid = "") {
-      chapters_by_pk(id: $id) {
-        id
-        info
-        title
-        resources
-        video_id
-        module {
-          id
-          duration
-          description
-          created_at
-          previous_module_id
-          next_module_id
-          title
-          you_will_learn
-          you_will_learn_title
-          course {
-            modules {
-              id
-              next_module_id
-              title
-              chapters {
-                id
-                title
-                video_id
-              }
-            }
-          }
-        }
-      }
-    }
-    `,
-      variables () {
-        return {
-          id: this.$route.query.chapterId
         }
       }
     }
@@ -355,7 +359,15 @@ export default {
 
   data () {
     return {
-
+      loading: false,
+      chapterInfo: {
+        id: '',
+        video_id: '',
+        module: {
+          questions: [],
+          course: { modules: [] }
+        }
+      },
       tests: [
         {
           question: 'What is an NFT?',
@@ -412,8 +424,27 @@ export default {
       this.videoId = newVal
     }
   },
+  created () {
+    this.getChapter()
+  },
 
   methods: {
+    async getChapter () {
+      try {
+        const { data } = await this.$apollo.query({
+          query: GET_CHAPTER_QUERY,
+          variables: {
+            id: this.$route.query.chapterId
+          }
+        })
+        this.chapterInfo = Object.assign({}, data.chapters_by_pk)
+        this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+        console.error(this.$route.query.chapterId)
+      }
+    },
     formatOptions (options) {
       const formattedOptions = {}
       for (const key in options) {

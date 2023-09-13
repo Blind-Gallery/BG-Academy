@@ -143,11 +143,17 @@ export default {
         grantType: 'authorization_code'
       },
       local: {
+        scheme: 'refresh',
         token: {
           property: 'token',
           global: true,
           required: true,
           type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30
         },
         user: {
           property: 'user',
@@ -156,8 +162,8 @@ export default {
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
-          user: { url: '/auth/user', method: 'get' }
-          // user: false
+          user: { url: '/auth/user', method: 'get' },
+          refresh: { url: '/auth/refresh', method: 'post' }
         }
       }
     }
