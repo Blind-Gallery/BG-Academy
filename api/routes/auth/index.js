@@ -66,6 +66,7 @@ async function signUpHandler (req, reply) {
 }
 
 async function refreshHandler (req, reply) {
+  console.info('======================= Refreshing token')
   console.info('refreshToken: ', JSON.stringify(req.cookies, null, 4))
   const {
     refreshToken
