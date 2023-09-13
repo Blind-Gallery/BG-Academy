@@ -86,7 +86,7 @@
                           <FormulateInput
                             :name="`test_${index}`"
                             :value="test.selectedOption"
-                            :options="test.options"
+                            :options="formatOptions(test.options)"
                             type="radio"
                             class="test"
                             @input="(value) => test.selectedOption = value"
@@ -295,33 +295,33 @@ export default {
       tests: [
         {
           question: 'What is an NFT?',
-          options: [
-            { key: 'a', label: 'An NFT is a unique digital asset representing ownership on a blockchain.' },
-            { key: 'b', label: 'NFTs are blockchain-based certificates for digital items authenticity and ownership.' },
-            { key: 'c', label: 'NFTs certify ownership of digital or physical assets, popular in art and gaming.' },
-            { key: 'd', label: 'NFTs are blockchain tokens proving ownership of one-of-a-kind items.' }
-          ],
-          selectedOption: null
+          options: {
+            a: 'An NFT is a unique digital asset representing ownership on a blockchain.',
+            b: 'NFTs are blockchain-based certificates for digital items authenticity and ownership.',
+            c: 'NFTs certify ownership of digital or physical assets, popular in art and gaming.',
+            d: 'NFTs are blockchain tokens proving ownership of one-of-a-kind items.'
+          },
+          selectedOption: 'a'
         },
         {
           question: 'What is a Blockchain?',
-          options: [
-            { key: 'a', label: 'A blockchain is a decentralized digital ledger for secure and transparent record-keeping.' },
-            { key: 'b', label: 'Blockchain is a distributed ledger technology for transparent data storage.' },
-            { key: 'c', label: 'A blockchain is a decentralized, tamper-resistant digital ledger.' },
-            { key: 'd', label: 'Blockchain is a secure, transparent digital ledger for recording transactions.' }
-          ],
-          selectedOption: null
+          options: {
+            a: 'A blockchain is a decentralized digital ledger for secure and transparent record-keeping.',
+            b: 'Blockchain is a distributed ledger technology for transparent data storage.',
+            c: 'A blockchain is a decentralized, tamper-resistant digital ledger.',
+            d: 'Blockchain is a secure, transparent digital ledger for recording transactions.'
+          },
+          selectedOption: 'a'
         },
         {
           question: 'What is Bitcoin?',
-          options: [
-            { key: 'a', label: 'Bitcoin is a decentralized digital currency used for online transactions.' },
-            { key: 'b', label: 'Bitcoin is a peer-to-peer cryptocurrency for digital payments.' },
-            { key: 'c', label: 'Bitcoin is a digital currency operating on a decentralized network.' },
-            { key: 'd', label: 'Bitcoin is a decentralized cryptocurrency for borderless transactions.' }
-          ],
-          selectedOption: null
+          options: {
+            a: 'Bitcoin is a decentralized digital currency used for online transactions.',
+            b: 'Bitcoin is a peer-to-peer cryptocurrency for digital payments.',
+            c: 'Bitcoin is a digital currency operating on a decentralized network.',
+            d: 'Bitcoin is a decentralized cryptocurrency for borderless transactions.'
+          },
+          selectedOption: 'a'
         }
       ],
 
@@ -351,6 +351,13 @@ export default {
   },
 
   methods: {
+    formatOptions (options) {
+      const formattedOptions = {}
+      for (const key in options) {
+        formattedOptions[key] = `${key.toUpperCase()}) ${options[key]}`
+      }
+      return formattedOptions
+    },
 
     selectChapter (index) {
       this.videoId = index
