@@ -143,11 +143,17 @@ export default {
         grantType: 'authorization_code'
       },
       local: {
+        scheme: 'refresh',
         token: {
           property: 'token',
           global: true,
           required: true,
           type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30
         },
         user: {
           property: 'user',
