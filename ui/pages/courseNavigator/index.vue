@@ -22,7 +22,7 @@
           </span>
           <div>
             <div>
-              <PxPlayer :id="chapters_by_pk.video_id" />
+              <PxPlayer :id="chapters_by_pk.video_id" :chapter-id="chapters_by_pk.id" />
             </div>
             <div v-if="false" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
