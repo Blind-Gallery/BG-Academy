@@ -21,10 +21,13 @@
             />
           </span>
           <div>
+            <PxPlayer :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" />
+
             <div>
-              <PxPlayer :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" />
+              <b-skeleton-img />
             </div>
-            <div v-if="chapterInfo.module.questions" class="d-flex flex-column align-items-center">
+
+            <div v-if="true" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
                   <h1 class="text-light">
@@ -398,7 +401,6 @@ export default {
         }
       ],
 
-      videoId: '856807676',
       courseId: this.$route.query.courseId,
       modules: [Pagination, EffectFade, Navigation],
       paginationOp:
@@ -501,8 +503,8 @@ input:checked ~ label {
 
 .course-video__toggle{
   transition: 0.5s ease all;
-  flex: 0 0 91.666667%;
-  max-width: 91.666667%;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 .course-nav-container{

@@ -1,7 +1,11 @@
 <template>
-  <div v-if="videoId">
-    <div :id="playerId" data-vimeo-autoplay="true" :data-vimeo-id="videoId" data-vimeo-width="900" />
-  </div>
+  <div
+    :id="playerId"
+    data-vimeo-autoplay="true"
+    :data-vimeo-id="videoId"
+    :data-vimeo-width="width"
+    data-vimeo-responsive="1"
+  />
 </template>
 <script>
 import Player from '@vimeo/player'
@@ -32,6 +36,11 @@ export default {
     videoId: {
       type: String,
       required: true
+    },
+    width: {
+      type: String,
+      required: true,
+      default: '100%'
     }
   },
   data () {
@@ -68,4 +77,6 @@ export default {
   }
 }
 </script>
-<style></style>
+<style>
+
+</style>
