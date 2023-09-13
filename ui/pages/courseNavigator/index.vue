@@ -23,11 +23,11 @@
           <div>
             <PxPlayer :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" />
 
-            <div>
+            <div v-if="loading">
               <b-skeleton-img />
             </div>
 
-            <div v-if="true" class="d-flex flex-column align-items-center">
+            <div v-if="chapterInfo.module.questions.length > 0" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
                   <h1 class="text-light">
@@ -359,10 +359,11 @@ export default {
 
   data () {
     return {
+      videoId: null,
       loading: false,
       chapterInfo: {
         id: '',
-        video_id: '',
+        video_id: '862461136',
         module: {
           questions: [],
           course: { modules: [] }

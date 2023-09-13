@@ -35,6 +35,7 @@ export default {
     },
     videoId: {
       type: String,
+      default: '862461136',
       required: true
     },
     width: {
