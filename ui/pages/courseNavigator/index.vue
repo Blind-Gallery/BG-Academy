@@ -76,11 +76,11 @@
                     @reachEnd="paginationHide"
                     @swiper="hideLastBullet"
                   >
-                    <swiper-slide v-for="(test, index) in tests" :key="index">
+                    <swiper-slide v-for="(test, index) in chapterInfo.module.questions" :key="index">
                       <div class="d-flex flex-column justify-content-between " style="height: 90%;">
                         <div>
                           <h4 class="m-0 " style="color:#00b9cd">
-                            {{ `${index + 1}.-${test.question}` }}
+                            {{ `${index + 1}.-${test.text}` }}
                           </h4>
 
                           <hr class="w-100">
@@ -448,8 +448,8 @@ export default {
     },
     formatOptions (options) {
       const formattedOptions = {}
-      for (const key in options) {
-        formattedOptions[key] = `${key.toUpperCase()}) ${options[key]}`
+      for (const option of options) {
+        formattedOptions[option.id] = option.text
       }
       return formattedOptions
     },

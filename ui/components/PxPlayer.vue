@@ -9,25 +9,16 @@
 </template>
 <script>
 import Player from '@vimeo/player'
-// import { gql } from 'graphql-tag'
+import { gql } from 'graphql-tag'
+const GET_CHAPTER_QUERY = gql`
+query($id: uuid!) {
+  chapters(where: {previous_chapter_id: {_eq: $id}}) {
+    id
+  }
+}`
 
 export default {
   name: 'PxPlayer',
-  // apollo: {
-  //   chapters: {
-  //     query: gql`query($id: uuid!) {
-  //     chapters(where: {previous_chapter_id: {_eq: $id}}) {
-  //       id
-  //     }
-  //   }
-  // `,
-  //     variables () {
-  //       return {
-  //         id: this.chapterId
-  //       }
-  //     }
-  //   }
-  // },
   props: {
     chapterId: {
       type: String,
@@ -54,6 +45,7 @@ export default {
     videoId: function (newVal) {
       console.warn('newVal', newVal)
       this.updatePlayer(newVal)
+      this.updateUserInfo()
     }
   },
   mounted () {
@@ -65,6 +57,7 @@ export default {
     initPlayer () {
       this.player = new Player(this.playerId)
       this.player.setColors(['#000', '#00b9cd', '#fff', '#00b9cd'])
+      this.updateUserInfo()
     },
     updatePlayer (newVideoId) {
       if (!this.player) {
@@ -74,6 +67,22 @@ export default {
       this.player.loadVideo(newVideoId).then(() => {
         this.player.play()
       })
+    },
+    async updateUserInfo () {
+      if (!this.chapterId) { return }
+      console.info(this.chapterId)
+      try {
+        const { data } = await this.$apollo.query({
+          query: GET_CHAPTER_QUERY,
+          variables: {
+            id: this.chapterId
+          }
+        })
+        console.info(data)
+        console.info(this.$auth.user.id)
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 }
