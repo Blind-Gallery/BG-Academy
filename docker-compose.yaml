@@ -1,12 +1,18 @@
 version: "3.6"
 services:
-  postgres:
-    image: postgres:15
+  action-server:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - ${ACTION_SERVER_PORT}:${ACTION_SERVER_PORT}
+    command: node server.js
     restart: ${RESTART_POLICY}
-    volumes:
-      - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgrespassword
+      PORT: ${ACTION_SERVER_PORT}
+      NODE_ENV: ${NODE_ENV}
+      GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
+      GRAPHQL_SECRET: ${GRAPHQL_SECRET}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
@@ -30,6 +36,13 @@ services:
     depends_on:
       data-connector-agent:
         condition: service_healthy
+  postgres:
+    image: postgres:15
+    restart: ${RESTART_POLICY}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.27.0
     restart: ${RESTART_POLICY}
