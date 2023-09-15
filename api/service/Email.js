@@ -22,9 +22,9 @@ class Email {
   }
 
   async sendWelcomeEmail ({ to }) {
-    const subject = 'Welcome to Blind Gallery'
+    const subject = 'Welcome to the Academy by Blind Gallery'
     const text = 'Welcome to Blind Gallery'
-    const html = '<strong>Welcome to Blind Gallery</strong>'
+    const html = 'Hello there! Welcome to the Academy by Blind Gallery -  SLOGAN.'
 
     const res = await this.sendEmail({ to, subject, text, html })
 
