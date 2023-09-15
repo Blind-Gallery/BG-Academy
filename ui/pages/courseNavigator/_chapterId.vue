@@ -210,8 +210,8 @@
                     class="mx-2"
                     role="tabpanel"
                   >
-                    <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { chapterId: chapter.id }, query: { chapterId: chapter.id }}">
-                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.id)">
+                    <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
+                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'">
                         <Icon
                           class="progress-circle"
                           icon="material-symbols:lens-outline"
@@ -349,7 +349,7 @@ export default {
       query: GET_USER_CHAPTER_QUERY,
       variables () {
         return {
-          chapter_id: this.$route.query.chapterId,
+          chapter_id: this.$route.params.chapterId,
           user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
         }
       }
@@ -374,40 +374,6 @@ export default {
           course: { modules: [] }
         }
       },
-      tests: [
-        {
-          question: 'What is an NFT?',
-          options: {
-            a: 'An NFT is a unique digital asset representing ownership on a blockchain.',
-            b: 'NFTs are blockchain-based certificates for digital items authenticity and ownership.',
-            c: 'NFTs certify ownership of digital or physical assets, popular in art and gaming.',
-            d: 'NFTs are blockchain tokens proving ownership of one-of-a-kind items.'
-          },
-          selectedOption: 'a'
-        },
-        {
-          question: 'What is a Blockchain?',
-          options: {
-            a: 'A blockchain is a decentralized digital ledger for secure and transparent record-keeping.',
-            b: 'Blockchain is a distributed ledger technology for transparent data storage.',
-            c: 'A blockchain is a decentralized, tamper-resistant digital ledger.',
-            d: 'Blockchain is a secure, transparent digital ledger for recording transactions.'
-          },
-          selectedOption: 'a'
-        },
-        {
-          question: 'What is Bitcoin?',
-          options: {
-            a: 'Bitcoin is a decentralized digital currency used for online transactions.',
-            b: 'Bitcoin is a peer-to-peer cryptocurrency for digital payments.',
-            c: 'Bitcoin is a digital currency operating on a decentralized network.',
-            d: 'Bitcoin is a decentralized cryptocurrency for borderless transactions.'
-          },
-          selectedOption: 'a'
-        }
-      ],
-
-      courseId: this.$route.query.courseId,
       modules: [Pagination, EffectFade, Navigation],
       paginationOp:
       {
@@ -431,6 +397,7 @@ export default {
     }
   },
   created () {
+    console.info(this.$route.params.chapterId)
     this.getChapter()
   },
 
@@ -440,7 +407,7 @@ export default {
         const { data } = await this.$apollo.query({
           query: GET_CHAPTER_QUERY,
           variables: {
-            id: this.$route.query.chapterId
+            id: this.$route.params.chapterId
           }
         })
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
@@ -448,7 +415,7 @@ export default {
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
-        console.error(this.$route.query.chapterId)
+        console.error(this.$route.params.chapterId)
       }
     },
     formatOptions (options) {
