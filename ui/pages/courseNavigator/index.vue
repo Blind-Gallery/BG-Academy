@@ -26,7 +26,8 @@
             <div v-if="loading">
               <b-skeleton-img />
             </div>
-
+            <!--  Questions -->
+            <!-- TODO: Update to show only when is the last chapter of the module -->
             <div v-if="chapterInfo.module.questions.length > 0" class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
@@ -34,7 +35,7 @@
                     Digital objects
                   </h1>
                   <p class="text-light m-0">
-                    Module 1 | Evaluation
+                    {{ chapterInfo.module.title }} | Evaluation
                   </p>
                   <hr style=" border-color: #fff;  width: 100%;">
                   <p style="text-align: center;" class="text-light small">
@@ -132,6 +133,7 @@
                       </p>
 
                       <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                        <!-- TODO: Send user to the next module if exists and passed the exam -->
                         <button class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
                           NEXT MODULE   <Icon
                             width="24px"
@@ -208,20 +210,22 @@
                     class="mx-2"
                     role="tabpanel"
                   >
-                    <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.video_id)">
-                      <Icon
-                        class="progress-circle"
-                        icon="material-symbols:lens-outline"
-                        color="#00b9cd"
-                        width="1rem"
-                      />
-                      <p style="font-size: small;" class="m-0 text-secondary">
-                        {{ chapter.title }}<br>
-                      </p>
-                      <p style="font-size: small" class="m-0 text-secondary">
-                        5min.<br>
-                      </p>
-                    </div>
+                    <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { chapterId: chapter.id }, query: { chapterId: chapter.id }}">
+                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'" @click="selectChapter(chapter.id)">
+                        <Icon
+                          class="progress-circle"
+                          icon="material-symbols:lens-outline"
+                          color="#00b9cd"
+                          width="1rem"
+                        />
+                        <p style="font-size: small;" class="m-0 text-secondary">
+                          {{ chapter.title }}<br>
+                        </p>
+                        <p style="font-size: small" class="m-0 text-secondary">
+                          5min.<br>
+                        </p>
+                      </div>
+                    </NuxtLink>
                   </b-collapse>
                 </div>
               </div>
@@ -365,6 +369,7 @@ export default {
         id: '',
         video_id: '862461136',
         module: {
+          title: '',
           questions: [],
           course: { modules: [] }
         }
@@ -455,7 +460,7 @@ export default {
     },
 
     selectChapter (index) {
-      this.videoId = index
+      console.info(index)
     },
 
     doHideNavBar () {
