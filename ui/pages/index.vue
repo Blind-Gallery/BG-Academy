@@ -146,15 +146,17 @@
               <p>Explore our courses and start learning with us!</p>
             </div>
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
-              <b-col v-for="course in user_course" :key="course.id" cols="12" lg="4">
-                <PxCard
+              <b-col v-for="item in user_course" :key="item.id" cols="12" lg="4">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="{ path: 'courseNavigator', params: { chapterId: item.last_chapter_id_seen }, query: { chapterId: item.last_chapter_id_seen }}">
+                  <PxCard
 
-                  :pfp="course.course.teacher.pfp"
-                  :instructor="course.course.teacher.name"
-                  :description="course.course.description"
-                  :title="course.course.name"
-                  :cover="course.course.thumbnail"
-                />
+                    :pfp="item.course.teacher.pfp"
+                    :instructor="item.course.teacher.name"
+                    :description="item.course.description"
+                    :title="item.course.name"
+                    :cover="item.course.thumbnail"
+                  />
+                </NuxtLink>
               </b-col>
             </b-row>
           </b-tab>

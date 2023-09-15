@@ -178,6 +178,11 @@ export default {
       //     ['@nuxt/babel-preset-app', options]
       //   ]
       // },
+      env: {
+        development: {
+          compact: false
+        }
+      },
       presets: [
         [
           '@nuxt/babel-preset-app',
