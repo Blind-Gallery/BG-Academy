@@ -28,7 +28,7 @@
             </div>
             <!--  Questions -->
             <!-- TODO: Update to show only when is the last chapter of the module -->
-            <div v-if="chapterInfo.module.questions.length > 0" class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-column align-items-center">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
                   <h1 class="text-light">
@@ -61,7 +61,7 @@
                   </div>
                 </div>
 
-                <div v-else key="2" class="shadow-sm">
+                <div key="2" class="shadow-sm">
                   <swiper
                     class="ev-Slider"
                     :allow-touch-move="false"
@@ -128,7 +128,7 @@
                         </div>
                       </div>
                       <p class="small text-secondary text-center">
-                        ¡Congratulations, you have successfully
+                        Congratulations, you have successfully
                         passed module 1 of this course!
                       </p>
 
@@ -198,35 +198,73 @@
                 <div class="ml-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
                 <div class="w-100">
                   <!--TOGGLE MODULE-->
-                  <div @click="toggleCollapse(moduleIndex)">
-                    <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
-                  </div>
+                  <div>
+                    <div @click="toggleCollapse(module.id)">
+                      <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
+                    </div>
 
-                  <!--CHAPTERS COLLAPSE-->
-                  <b-collapse
-                    v-for="(chapter, chapterIndex) in module.chapters"
-                    :id="`accordion-${moduleIndex}`"
-                    :key="chapterIndex"
-                    class="mx-2"
-                    role="tabpanel"
-                  >
-                    <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
-                      <div :class=" chapter.video_id === videoId ? 'chapter-container_selected': 'chapter-container'">
+                    <!--CHAPTERS COLLAPSE-->
+                    <b-collapse
+                      v-for="(chapter, chapterIndex) in module.chapters"
+                      :id="`accordion-${module.id}`"
+                      :key="chapterIndex"
+                      class="mx-2"
+                      role="tablist"
+                      appear
+                      :visible="isChapterActive(module.id)"
+                    >
+                      <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
+                        <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+                          <Icon
+                            class="progress-circle"
+                            icon="material-symbols:lens-outline"
+                            color="#00b9cd"
+                            width="1rem"
+                          />
+                          <div class="d-flex align-items-center">
+                            <p style="font-size: small;" class="m-0 text-secondary">
+                              {{ chapter.title }}<br>
+                            </p>
+                            <Icon
+                              v-b-tooltip.hover
+                              title="Video"
+                              icon="material-symbols:smart-display-outline"
+                              color="#00b9cd"
+                              width="1rem"
+                              class="ml-2"
+                            />
+                          </div>
+                          <p style="font-size: small" class="m-0 text-secondary">
+                            5min.<br>
+                          </p>
+                        </div>
+                      </NuxtLink>
+                    </b-collapse>
+                    <div class="chapter-container mx-2">
+                      <Icon
+                        class="progress-circle"
+                        icon="material-symbols:lens-outline"
+                        color="#00b9cd"
+                        width="1rem"
+                      />
+                      <div class="d-flex align-items-center">
+                        <p style="font-size: small;" class="m-0 text-secondary">
+                          Test<br>
+                        </p>
                         <Icon
-                          class="progress-circle"
-                          icon="material-symbols:lens-outline"
+                          v-b-tooltip.hover
+                          title="Test"
+                          icon="material-symbols:checklist-rounded"
                           color="#00b9cd"
                           width="1rem"
+                          class="ml-2"
                         />
-                        <p style="font-size: small;" class="m-0 text-secondary">
-                          {{ chapter.title }}<br>
-                        </p>
-                        <p style="font-size: small" class="m-0 text-secondary">
-                          5min.<br>
-                        </p>
                       </div>
-                    </NuxtLink>
-                  </b-collapse>
+                      <p style="font-size: small" class="m-0 text-secondary">
+                        10 questions.<br>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -363,7 +401,6 @@ export default {
 
   data () {
     return {
-      videoId: null,
       loading: false,
       chapterInfo: {
         id: '',
@@ -391,17 +428,28 @@ export default {
     }
   },
 
-  watch: {
-    updateVideoId: function (newVal) {
-      this.videoId = newVal
+  computed: {
+    activeModuleId () {
+      const chapterIdFromRoute = this.$route.params.chapterId
+      for (const module of this.chapterInfo.module.course.modules) {
+        for (const chapter of module.chapters) {
+          if (chapter.id === chapterIdFromRoute) {
+            return module.id
+          }
+        }
+      } return null
     }
   },
+
   created () {
     console.info(this.$route.params.chapterId)
     this.getChapter()
   },
-
   methods: {
+    isChapterActive (moduleId) {
+      return moduleId === this.activeModuleId
+    },
+
     async getChapter () {
       try {
         const { data } = await this.$apollo.query({
@@ -426,16 +474,12 @@ export default {
       return formattedOptions
     },
 
-    selectChapter (index) {
-      console.info(index)
-    },
-
     doHideNavBar () {
       this.navBarHidden = !this.navBarHidden
     },
 
-    toggleCollapse (moduleIndex) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
+    toggleCollapse (moduleId) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleId}`)
     },
 
     hideLastBullet (swiper) {
