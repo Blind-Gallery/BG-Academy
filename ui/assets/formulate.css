@@ -7,7 +7,7 @@
     display: block;
     line-height: 1.5;
     font-size: .9em;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: .1em
 }
 
@@ -290,7 +290,7 @@
     background-color: #00B9CD;
     color: #fff;
     min-width: 0;
-    font-weight: 600;
+    font-weight: 400;
     cursor: pointer;
     justify-content: center;
     display: inline-flex;
