@@ -21,7 +21,7 @@
             />
           </span>
           <div>
-            <PxPlayer :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" />
+            <PxPlayer :is-ended-video="isEndedVideo" :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" @ended-video="handleEndedVideo" />
 
             <div v-if="loading">
               <b-skeleton-img />
@@ -147,7 +147,7 @@
                             icon="material-symbols:chevron-right"
                           />
                         </button>
-                        <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                        <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doResetTest">
                           Try it again  <Icon
                             width="21px"
                             icon="material-symbols:restart-alt"
@@ -221,7 +221,7 @@
                       :visible="isChapterActive(module.id)"
                     >
                       <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
-                        <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+                        <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'" @click="doResetTest">
                           <Icon
                             class="progress-circle"
                             icon="material-symbols:lens-outline"
@@ -362,6 +362,11 @@ query ($id: uuid!) {
 }`
 
 export default {
+  components: {
+    Swiper,
+    SwiperSlide,
+    PxPlayer
+  },
 
   apollo: {
     user_chapter_by_pk: {
@@ -374,15 +379,11 @@ export default {
       }
     }
   },
-  components: {
-    Swiper,
-    SwiperSlide,
-    PxPlayer
-  },
 
   data () {
     return {
       testMessage: '',
+      isEndedVideo: false,
       loading: false,
       chapterInfo: {
         id: '',
@@ -484,21 +485,30 @@ export default {
       this.testMessage = ''
     },
 
-    doTryAgain () {
-      const swiper = this.$refs.mySwiper.$el.swiper
-      const questions = this.chapterInfo.module.questions
-      const tests = this.$refs.test
+    handleEndedVideo (value) {
+      this.isEndedVideo = value
+      setTimeout(() => {
+        this.isEndedVideo = false
+      }, 5000)
+    },
 
-      swiper.enable()
+    doResetTest () {
+      if (this.$refs.mySwiper) {
+        const swiper = this.$refs.mySwiper.$el.swiper
+        const questions = this.chapterInfo.module.questions
+        const tests = this.$refs.test
 
-      swiper.slideTo(0)
+        swiper.enable()
 
-      for (const question of questions) {
-        question.selectedOption = false
-      }
+        swiper.slideTo(0)
 
-      for (const test of tests) {
-        this.$formulate.reset(test.name)
+        for (const question of questions) {
+          question.selectedOption = false
+        }
+
+        for (const test of tests) {
+          this.$formulate.reset(test.name)
+        }
       }
     },
 
