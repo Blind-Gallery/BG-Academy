@@ -5,6 +5,7 @@
         <b-col
           lg="9"
           cols="12"
+
           :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
         >
           <span
@@ -20,145 +21,164 @@
               color="#fff"
             />
           </span>
+
           <div>
-            <PxPlayer :is-ended-video="isEndedVideo" :video-id="chapterInfo.video_id" :chapter-id="chapterInfo.id" width="100%" @ended-video="handleEndedVideo" />
+            <PxPlayer
+              :is-ended-video="isEndedVideo"
+              :video-id="chapterInfo.video_id"
+              :chapter-id="chapterInfo.id"
+              width="100%"
 
-            <div v-if="loading">
-              <b-skeleton-img />
-            </div>
-            <!--  Questions -->
-            <!-- TODO: Update to show only when is the last chapter of the module -->
-            <div class="d-flex flex-column align-items-center">
-              <Transition name="fade" mode="out-in">
-                <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
-                  <h1 class="text-light">
-                    Digital objects
-                  </h1>
-                  <p class="text-light m-0">
-                    {{ chapterInfo.module.title }} | Evaluation
-                  </p>
-                  <hr style=" border-color: #fff;  width: 100%;">
-                  <p style="text-align: center;" class="text-light small">
-                    Multiple choice assessment: in each question
-                    you will be able to select one of the options
-                    you consider correct.<br><br>
+              @ended-video="handleEndedVideo"
+            />
+          </div>
+          <Transition name="fade">
+            <button v-if="isEndedVideo === true" class="primary-btn my-4">
+              <span>Go to the next chapter</span>
+              <Icon
+                icon="material-symbols:chevron-right"
+                width="28"
+                color="#fff"
+              />
+            </button>
+          </Transition>
 
-                    Once completed, you will receive
-                    a note for this module.
-                  </p>
-                  <div class="d-flex mt-3 w-100">
-                    <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
-                      <div class="d-flex align-items-center justify-content-center">
-                        <p class="m-0">
-                          Start
+          <div v-if="loading">
+            <b-skeleton-img />
+          </div>
+
+          <!--  Questions -->
+          <!-- TODO: Update to show only when is the last chapter of the module -->
+          <div class="d-flex flex-column align-items-center">
+            <Transition name="fade" mode="out-in">
+              <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
+                <h1 class="text-light">
+                  Digital objects
+                </h1>
+                <p class="text-light m-0">
+                  {{ chapterInfo.module.title }} | Evaluation
+                </p>
+                <hr style=" border-color: #fff;  width: 100%;">
+                <p style="text-align: center;" class="text-light small">
+                  Multiple choice assessment: in each question
+                  you will be able to select one of the options
+                  you consider correct.<br><br>
+
+                  Once completed, you will receive
+                  a note for this module.
+                </p>
+                <div class="d-flex mt-3 w-100">
+                  <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
+                    <div class="d-flex align-items-center justify-content-center">
+                      <p class="m-0">
+                        Start
+                      </p>
+                      <Icon
+                        width="24px"
+                        icon="material-symbols:chevron-right"
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div key="2" class="shadow-sm">
+                <swiper
+                  ref="mySwiper"
+                  class="ev-Slider"
+                  :allow-touch-move="false"
+                  :modules="modules"
+                  :effect="'fade'"
+                  :space-between="40"
+                  :navigation="{
+                    enabled:true,
+                    nextEl:'',
+                    prevEl:''
+                  }"
+                  :pagination="paginationOp"
+                  @reachEnd="paginationHide"
+                  @swiper="hideLastBullet"
+                >
+                  <swiper-slide v-for="(test, index) in chapterInfo.module.questions" :key="index">
+                    <div class="d-flex flex-column justify-content-between " style="height: 90%;">
+                      <div>
+                        <h4 class="m-0 " style="color:#00b9cd">
+                          {{ `${index + 1}.-${test.text}` }}
+                        </h4>
+
+                        <hr class="w-100">
+                      </div>
+                      <div>
+                        <FormulateForm ref="test" :name="`test_${index}`">
+                          <FormulateInput
+
+                            :value="test.selectedOption"
+                            :options="formatOptions(test.options)"
+                            type="radio"
+                            class="test"
+                            @input="(value) => test.selectedOption = value"
+                          />
+                        </FormulateForm>
+                        <p style="color:#960505" class="m-0 small text-center">
+                          {{ testMessage }}
                         </p>
-                        <Icon
+                      </div>
+
+                      <div class="d-flex align-items-center justify-content-center">
+                        <button class="last-btn mr-3" @click="lastSlide(test, index)">
+                          Last
+                        </button>
+                        <button class="next-btn" @click="nextSlide(test, index)">
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  </swiper-slide>
+
+                  <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
+                    <h4>Total score</h4>
+                    <h1 style="font-size: 4rem; color:#00b9cd">
+                      100%
+                    </h1>
+                    <hr class="w-100">
+                    <div class="d-flex mb-4">
+                      <div class="d-flex align-items-center mr-4">
+                        <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
+                        <p class="text-success m-0">
+                          Correct: 10
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
+                        <p class="text-danger m-0">
+                          Wrong: 0
+                        </p>
+                      </div>
+                    </div>
+                    <p class="small text-secondary text-center">
+                      Congratulations, you have successfully
+                      passed module 1 of this course!
+                    </p>
+
+                    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                      <!-- TODO: Send user to the next module if exists and passed the exam -->
+                      <button style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                        Next module   <Icon
                           width="24px"
                           icon="material-symbols:chevron-right"
                         />
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                <div key="2" class="shadow-sm">
-                  <swiper
-                    ref="mySwiper"
-                    class="ev-Slider"
-                    :allow-touch-move="false"
-                    :modules="modules"
-                    :effect="'fade'"
-                    :space-between="40"
-                    :navigation="{
-                      enabled:true,
-                      nextEl:'',
-                      prevEl:''
-                    }"
-                    :pagination="paginationOp"
-                    @reachEnd="paginationHide"
-                    @swiper="hideLastBullet"
-                  >
-                    <swiper-slide v-for="(test, index) in chapterInfo.module.questions" :key="index">
-                      <div class="d-flex flex-column justify-content-between " style="height: 90%;">
-                        <div>
-                          <h4 class="m-0 " style="color:#00b9cd">
-                            {{ `${index + 1}.-${test.text}` }}
-                          </h4>
-
-                          <hr class="w-100">
-                        </div>
-                        <div>
-                          <FormulateForm ref="test" :name="`test_${index}`">
-                            <FormulateInput
-
-                              :value="test.selectedOption"
-                              :options="formatOptions(test.options)"
-                              type="radio"
-                              class="test"
-                              @input="(value) => test.selectedOption = value"
-                            />
-                          </FormulateForm>
-                          <p style="color:#960505" class="m-0 small text-center">
-                            {{ testMessage }}
-                          </p>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-center">
-                          <button class="last-btn mr-3" @click="lastSlide(test, index)">
-                            Last
-                          </button>
-                          <button class="next-btn" @click="nextSlide(test, index)">
-                            Next
-                          </button>
-                        </div>
-                      </div>
-                    </swiper-slide>
-
-                    <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
-                      <h4>Total score</h4>
-                      <h1 style="font-size: 4rem; color:#00b9cd">
-                        100%
-                      </h1>
-                      <hr class="w-100">
-                      <div class="d-flex mb-4">
-                        <div class="d-flex align-items-center mr-4">
-                          <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
-                          <p class="text-success m-0">
-                            Correct: 10
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
-                          <p class="text-danger m-0">
-                            Wrong: 0
-                          </p>
-                        </div>
-                      </div>
-                      <p class="small text-secondary text-center">
-                        Congratulations, you have successfully
-                        passed module 1 of this course!
-                      </p>
-
-                      <div class="d-flex flex-column align-items-center justify-content-center w-100">
-                        <!-- TODO: Send user to the next module if exists and passed the exam -->
-                        <button style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
-                          Next module   <Icon
-                            width="24px"
-                            icon="material-symbols:chevron-right"
-                          />
-                        </button>
-                        <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doResetTest">
-                          Try it again  <Icon
-                            width="21px"
-                            icon="material-symbols:restart-alt"
-                          />
-                        </button>
-                      </div>
-                    </swiper-slide>
-                  </swiper>
-                </div>
-              </Transition>
-            </div>
+                      </button>
+                      <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                        Try it again  <Icon
+                          width="21px"
+                          icon="material-symbols:restart-alt"
+                        />
+                      </button>
+                    </div>
+                  </swiper-slide>
+                </swiper>
+              </div>
+            </Transition>
           </div>
         </b-col>
         <!--HIDE NAV BAR ICON-->
@@ -221,7 +241,7 @@
                       :visible="isChapterActive(module.id)"
                     >
                       <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
-                        <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'" @click="doResetTest">
+                        <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
                           <Icon
                             class="progress-circle"
                             icon="material-symbols:lens-outline"
@@ -233,6 +253,8 @@
                               {{ chapter.title }}<br>
                             </p>
                             <Icon
+                              v-b-tooltip.hover
+                              title="Video"
                               icon="material-symbols:smart-display-outline"
                               color="#00b9cd"
                               width="1rem"
@@ -425,9 +447,10 @@ export default {
   },
 
   created () {
-    console.info(this.$route.params.chapterId)
     this.getChapter()
+    this.doResetTest()
   },
+
   methods: {
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
@@ -487,28 +510,34 @@ export default {
 
     handleEndedVideo (value) {
       this.isEndedVideo = value
-      setTimeout(() => {
-        this.isEndedVideo = false
-      }, 5000)
     },
 
     doResetTest () {
-      if (this.$refs.mySwiper) {
-        const swiper = this.$refs.mySwiper.$el.swiper
-        const questions = this.chapterInfo.module.questions
-        const tests = this.$refs.test
+      if (this.getChapter) {
+        setTimeout(() => {
+          const questions = this.chapterInfo.module.questions
+          for (const question of questions) {
+            question.selectedOption = false
+          }
+        }, 1000)
+      }
+    },
 
-        swiper.enable()
+    doTryAgain () {
+      const swiper = this.$refs.mySwiper.$el.swiper
+      const questions = this.chapterInfo.module.questions
+      const tests = this.$refs.test
 
-        swiper.slideTo(0)
+      swiper.enable()
 
-        for (const question of questions) {
-          question.selectedOption = false
-        }
+      swiper.slideTo(0)
 
-        for (const test of tests) {
-          this.$formulate.reset(test.name)
-        }
+      for (const question of questions) {
+        question.selectedOption = false
+      }
+
+      for (const test of tests) {
+        this.$formulate.reset(test.name)
       }
     },
 
@@ -531,6 +560,7 @@ export default {
 .courseNav-parent{
   overflow-x: hidden;
   flex-wrap: nowrap;
+  min-height: 600px;
 }
 
 .course-video{
@@ -686,7 +716,7 @@ input:checked ~ label {
   border: 1px solid #00b9cd;
   border-radius: 5px;
   color: #00b9cd;
-  font-weight: 600;
+
   background-color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
@@ -696,7 +726,7 @@ input:checked ~ label {
   background-color: #00b9cd;
   border-radius: 5px;
   border: none;
-  font-weight: 600;
+
   color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
