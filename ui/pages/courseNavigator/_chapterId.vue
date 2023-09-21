@@ -50,7 +50,7 @@
                     <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
                       <div class="d-flex align-items-center justify-content-center">
                         <p class="m-0">
-                          START
+                          Start
                         </p>
                         <Icon
                           width="24px"
@@ -63,6 +63,7 @@
 
                 <div key="2" class="shadow-sm">
                   <swiper
+                    ref="mySwiper"
                     class="ev-Slider"
                     :allow-touch-move="false"
                     :modules="modules"
@@ -70,8 +71,8 @@
                     :space-between="40"
                     :navigation="{
                       enabled:true,
-                      nextEl:'.primary-btn',
-                      prevEl:'.secondary-btn'
+                      nextEl:'',
+                      prevEl:''
                     }"
                     :pagination="paginationOp"
                     @reachEnd="paginationHide"
@@ -87,21 +88,27 @@
                           <hr class="w-100">
                         </div>
                         <div>
-                          <FormulateInput
-                            :name="`test_${index}`"
-                            :value="test.selectedOption"
-                            :options="formatOptions(test.options)"
-                            type="radio"
-                            class="test"
-                            @input="(value) => test.selectedOption = value"
-                          />
+                          <FormulateForm ref="test" :name="`test_${index}`">
+                            <FormulateInput
+
+                              :value="test.selectedOption"
+                              :options="formatOptions(test.options)"
+                              type="radio"
+                              class="test"
+                              @input="(value) => test.selectedOption = value"
+                            />
+                          </FormulateForm>
+                          <p style="color:#960505" class="m-0 small text-center">
+                            {{ testMessage }}
+                          </p>
                         </div>
+
                         <div class="d-flex align-items-center justify-content-center">
-                          <button class="secondary-btn mr-3">
-                            LAST
+                          <button class="last-btn mr-3" @click="lastSlide(test, index)">
+                            Last
                           </button>
-                          <button class="primary-btn">
-                            NEXT
+                          <button class="next-btn" @click="nextSlide(test, index)">
+                            Next
                           </button>
                         </div>
                       </div>
@@ -134,14 +141,14 @@
 
                       <div class="d-flex flex-column align-items-center justify-content-center w-100">
                         <!-- TODO: Send user to the next module if exists and passed the exam -->
-                        <button class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
-                          NEXT MODULE   <Icon
+                        <button style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                          Next module   <Icon
                             width="24px"
                             icon="material-symbols:chevron-right"
                           />
                         </button>
-                        <button class="secondary-btn  w-100  d-flex align-items-center justify-content-center">
-                          TRY IT AGAIN  <Icon
+                        <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                          Try it again  <Icon
                             width="21px"
                             icon="material-symbols:restart-alt"
                           />
@@ -226,8 +233,6 @@
                               {{ chapter.title }}<br>
                             </p>
                             <Icon
-                              v-b-tooltip.hover
-                              title="Video"
                               icon="material-symbols:smart-display-outline"
                               color="#00b9cd"
                               width="1rem"
@@ -240,30 +245,6 @@
                         </div>
                       </NuxtLink>
                     </b-collapse>
-                    <div class="chapter-container mx-2">
-                      <Icon
-                        class="progress-circle"
-                        icon="material-symbols:lens-outline"
-                        color="#00b9cd"
-                        width="1rem"
-                      />
-                      <div class="d-flex align-items-center">
-                        <p style="font-size: small;" class="m-0 text-secondary">
-                          Test<br>
-                        </p>
-                        <Icon
-                          v-b-tooltip.hover
-                          title="Test"
-                          icon="material-symbols:checklist-rounded"
-                          color="#00b9cd"
-                          width="1rem"
-                          class="ml-2"
-                        />
-                      </div>
-                      <p style="font-size: small" class="m-0 text-secondary">
-                        10 questions.<br>
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -401,6 +382,7 @@ export default {
 
   data () {
     return {
+      testMessage: '',
       loading: false,
       chapterInfo: {
         id: '',
@@ -488,9 +470,42 @@ export default {
       lastBullet.parentNode.removeChild(lastBullet)
     },
 
+    nextSlide (test) {
+      if (test.selectedOption === false || test.selectedOption === '') {
+        this.testMessage = 'Please, select one option'
+      } else {
+        this.testMessage = ''
+        this.$refs.mySwiper.$el.swiper.slideNext()
+      }
+    },
+
+    lastSlide () {
+      this.$refs.mySwiper.$el.swiper.slidePrev()
+      this.testMessage = ''
+    },
+
+    doTryAgain () {
+      const swiper = this.$refs.mySwiper.$el.swiper
+      const questions = this.chapterInfo.module.questions
+      const tests = this.$refs.test
+
+      swiper.enable()
+
+      swiper.slideTo(0)
+
+      for (const question of questions) {
+        question.selectedOption = false
+      }
+
+      for (const test of tests) {
+        this.$formulate.reset(test.name)
+      }
+    },
+
     paginationHide (swiper) {
       swiper.disable()
     }
+
   }
 }
 </script>
@@ -655,6 +670,27 @@ input:checked ~ label {
   border-radius: 5px;
   padding:0.25rem;
   border:1px solid #f7f7f7;
+}
+
+.last-btn{
+  border: 1px solid #00b9cd;
+  border-radius: 5px;
+  color: #00b9cd;
+  font-weight: 600;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+.next-btn{
+  background-color: #00b9cd;
+  border-radius: 5px;
+  border: none;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+  min-width: 120px;
 }
 
 @media (max-width: 990px) {
