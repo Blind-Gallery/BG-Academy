@@ -33,12 +33,19 @@ export default {
       type: String,
       required: true,
       default: '100%'
+    },
+    isEndedVideo: {
+      type: Boolean,
+      required: false,
+      default: false
     }
+
   },
   data () {
     return {
       player: null,
       playerId: 'vimeo-player'
+
     }
   },
   watch: {
@@ -47,6 +54,7 @@ export default {
       this.updatePlayer(newVal)
       this.updateUserInfo()
     }
+
   },
   mounted () {
     if (this.videoId) {
@@ -58,6 +66,9 @@ export default {
       this.player = new Player(this.playerId)
       this.player.setColors(['#000', '#00b9cd', '#fff', '#00b9cd'])
       this.updateUserInfo()
+      this.player.on('ended', () => {
+        this.$emit('ended-video', true)
+      })
     },
     updatePlayer (newVideoId) {
       if (!this.player) {
@@ -66,8 +77,12 @@ export default {
       }
       this.player.loadVideo(newVideoId).then(() => {
         this.player.play()
+        this.player.on('ended', () => {
+          this.$emit('ended-video', true)
+        })
       })
     },
+
     async updateUserInfo () {
       if (!this.chapterId) { return }
       console.info(this.chapterId)
