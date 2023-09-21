@@ -519,7 +519,7 @@ h5 {
   background-color: #00b9cd;
   border-radius: 5px;
   border: none;
-  font-weight: 600;
+
   color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
@@ -534,7 +534,7 @@ h5 {
   border: 1px solid #00b9cd;
   border-radius: 5px;
   color: #00b9cd;
-  font-weight: 600;
+
   background-color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
