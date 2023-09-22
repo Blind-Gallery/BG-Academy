@@ -194,12 +194,12 @@
                 <p class="small" style="font-weight: 600;">
                   Modules
                 </p>
-                <p class="small">
+                <p v-if="false" class="small">
                   Completed: 0/3
                 </p>
               </div>
 
-              <div class="d-flex flex-column">
+              <div v-if="false" class="d-flex flex-column">
                 <b-progress
                   class="mb-2"
                   height="5px"

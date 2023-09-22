@@ -83,20 +83,10 @@
                 {{ student }}
               </h1>
               <p>
-                For having successfully completed the 12-hour <br>course in our online course platform.
+                For having successfully completed the Introduction to digital objects<br>course in our platform.
               </p>
             </div>
             <div class="d-flex justify-content-between align-items-end">
-              <div class="d-flex flex-column">
-                <p class="m-0">
-                  Properties:
-                </p>
-                <p class="m-0 text-secondary" style="font-size: small;">
-                  Minted: {{ mintedDate }}<br>
-                  Transaction: {{ transaction }}
-                </p>
-              </div>
-
               <div class="d-flex flex-column align-items-center ">
                 <img src="https://cdn.discordapp.com/attachments/987378128106168403/1130868334494228551/pngwing.com.png" width="110px" alt="firma">
                 <div style="width:100%; margin:0.2rem 0rem; border-bottom:1px solid #6c757d3b; z-index: 2;" />
