@@ -24,34 +24,58 @@
             appear
             :visible="isChapterActive(module.id)"
           >
-            <!-- chapter -->
-            <PxNavigatorChapterCard :chapter="chapter" />
-          </b-collapse>
-          <!-- question -->
-          <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
-            <Icon
-              class="progress-circle"
-              icon="material-symbols:lens-outline"
-              color="#00b9cd"
-              width="1rem"
-            />
-            <div class="d-flex align-items-center">
-              <p style="font-size: small;" class="m-0 text-secondary">
-                Test<br>
-              </p>
+            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
+              <div :class="$route.path === ('/courseNavigator/chapter/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+                <Icon
+                  class="progress-circle"
+                  icon="material-symbols:lens-outline"
+                  color="#00b9cd"
+                  width="1rem"
+                />
+                <div class="d-flex align-items-center">
+                  <p style="font-size: small;" class="m-0 text-secondary">
+                    {{ chapter.title }}<br>
+                  </p>
+                  <Icon
+                    v-b-tooltip.hover
+                    title="Video"
+                    icon="material-symbols:smart-display-outline"
+                    color="#00b9cd"
+                    width="1rem"
+                    class="ml-2"
+                  />
+                </div>
+                <p style="font-size: small" class="m-0 text-secondary">
+                  5min.<br>
+                </p>
+              </div>
+            </NuxtLink>
+            <!-- question -->
+            <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
               <Icon
-                v-b-tooltip.hover
-                title="Test"
-                icon="material-symbols:checklist-rounded"
+                class="progress-circle"
+                icon="material-symbols:lens-outline"
                 color="#00b9cd"
                 width="1rem"
-                class="ml-2"
               />
+              <div class="d-flex align-items-center">
+                <p style="font-size: small;" class="m-0 text-secondary">
+                  Test<br>
+                </p>
+                <Icon
+                  v-b-tooltip.hover
+                  title="Test"
+                  icon="material-symbols:checklist-rounded"
+                  color="#00b9cd"
+                  width="1rem"
+                  class="ml-2"
+                />
+              </div>
+              <p style="font-size: small" class="m-0 text-secondary">
+                10 questions.<br>
+              </p>
             </div>
-            <p style="font-size: small" class="m-0 text-secondary">
-              10 questions.<br>
-            </p>
-          </div>
+          </b-collapse>
         </div>
       </div>
     </div>
@@ -88,10 +112,7 @@ export default {
   },
   data () {
     return {
-      courseInfo: {
-        modules: [],
-        chapters: []
-      }
+      courseInfo: {}
     }
   },
   created () {
