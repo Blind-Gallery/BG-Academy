@@ -26,32 +26,32 @@
           >
             <!-- chapter -->
             <PxNavigatorChapterCard :chapter="chapter" />
-            <!-- question -->
-            <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+          </b-collapse>
+          <!-- question -->
+          <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+            <Icon
+              class="progress-circle"
+              icon="material-symbols:lens-outline"
+              color="#00b9cd"
+              width="1rem"
+            />
+            <div class="d-flex align-items-center">
+              <p style="font-size: small;" class="m-0 text-secondary">
+                Test<br>
+              </p>
               <Icon
-                class="progress-circle"
-                icon="material-symbols:lens-outline"
+                v-b-tooltip.hover
+                title="Test"
+                icon="material-symbols:checklist-rounded"
                 color="#00b9cd"
                 width="1rem"
+                class="ml-2"
               />
-              <div class="d-flex align-items-center">
-                <p style="font-size: small;" class="m-0 text-secondary">
-                  Test<br>
-                </p>
-                <Icon
-                  v-b-tooltip.hover
-                  title="Test"
-                  icon="material-symbols:checklist-rounded"
-                  color="#00b9cd"
-                  width="1rem"
-                  class="ml-2"
-                />
-              </div>
-              <p style="font-size: small" class="m-0 text-secondary">
-                10 questions.<br>
-              </p>
             </div>
-          </b-collapse>
+            <p style="font-size: small" class="m-0 text-secondary">
+              10 questions.<br>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +88,10 @@ export default {
   },
   data () {
     return {
-      courseInfo: {}
+      courseInfo: {
+        modules: [],
+        chapters: []
+      }
     }
   },
   created () {
