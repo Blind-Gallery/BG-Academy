@@ -24,32 +24,8 @@
             appear
             :visible="isChapterActive(module.id)"
           >
-            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + chapter.id">
-              <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
-                <Icon
-                  class="progress-circle"
-                  icon="material-symbols:lens-outline"
-                  color="#00b9cd"
-                  width="1rem"
-                />
-                <div class="d-flex align-items-center">
-                  <p style="font-size: small;" class="m-0 text-secondary">
-                    {{ chapter.title }}<br>
-                  </p>
-                  <Icon
-                    v-b-tooltip.hover
-                    title="Video"
-                    icon="material-symbols:smart-display-outline"
-                    color="#00b9cd"
-                    width="1rem"
-                    class="ml-2"
-                  />
-                </div>
-                <p style="font-size: small" class="m-0 text-secondary">
-                  5min.<br>
-                </p>
-              </div>
-            </NuxtLink>
+            <!-- chapter -->
+            <PxNavigatorChapterCard :chapter="chapter" />
             <!-- question -->
             <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
               <Icon
