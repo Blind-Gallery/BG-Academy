@@ -1,0 +1,40 @@
+table:
+  name: users
+  schema: public
+object_relationships:
+  - name: email_info
+    using:
+      foreign_key_constraint_on:
+        column: id
+        table:
+          name: emails
+          schema: public
+  - name: tezos_info
+    using:
+      foreign_key_constraint_on:
+        column: id
+        table:
+          name: tezos
+          schema: public
+array_relationships:
+  - name: courses
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_course
+          schema: public
+  - name: user_chapters
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_chapter
+          schema: public
+  - name: user_modules
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_module
+          schema: public

@@ -1,0 +1,23 @@
+table:
+  name: user_course
+  schema: public
+configuration:
+  column_config:
+    course_id:
+      custom_name: course_id
+    user_id:
+      custom_name: user_id
+  custom_column_names:
+    course_id: course_id
+    user_id: user_id
+  custom_root_fields: {}
+object_relationships:
+  - name: course
+    using:
+      foreign_key_constraint_on: course_id
+  - name: last_chapter_seen
+    using:
+      foreign_key_constraint_on: last_chapter_id_seen
+  - name: user_info
+    using:
+      foreign_key_constraint_on: user_id

@@ -2,12 +2,76 @@
 
 const path = require('path')
 const AutoLoad = require('@fastify/autoload')
+const fp = require('fastify-plugin')
+
+const {
+  Login,
+  User
+} = require('./model')
+
+const {
+  GQL,
+  JWT,
+  Email
+} = require('./service')
+
+const {
+  GRAPHQL_ENDPOINT,
+  GRAPHQL_SECRET
+} = process.env
+
+const gqlConfig = {
+  endpoint: GRAPHQL_ENDPOINT,
+  secret: GRAPHQL_SECRET
+}
+
+async function decorateFastifyInstance (fastify) {
+  const gql = new GQL(gqlConfig)
+  const jwt = new JWT({})
+  const opts = {
+    tokenExpirationTimeMins: 60,
+    refreshTokenExpirationTimeMins: 1440
+  }
+  jwt.init()
+
+  const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
+
+  const login = new Login({
+    gql,
+    jwt,
+    email,
+    opts
+  })
+  const user = new User({
+    gql,
+    jwt,
+    email,
+    opts
+  })
+  fastify.decorate('login', login)
+  fastify.decorate('user', user)
+  fastify.decorate('jwt', jwt)
+}
 
 // Pass --options via CLI arguments in command to enable these options.
-module.exports.options = {}
+module.exports.options = {
+  port: 3000,
+  host: '0.0.0.0'
+}
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
+  fastify.register(fp(decorateFastifyInstance))
+  fastify.register(require('@fastify/cookie'), {
+    hook: 'onRequest',
+    parseOptions: {}
+  })
+
+  fastify.register(require('@fastify/cors'), {
+    origin: true,
+    credentials: true,
+    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+  })
 
   // Do not touch the following lines
 

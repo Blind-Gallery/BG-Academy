@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'NFTs certify ownership of digital or physical assets, popular in art and gaming.', E'99d3b912-72be-4fba-a1c9-ce875572b227', E'29056fe5-8d6e-463b-b793-76ba7c0bd2d6');

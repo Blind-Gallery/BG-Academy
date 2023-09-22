@@ -1,0 +1,2 @@
+CREATE TABLE "public"."questions" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "module_id" uuid NOT NULL, "question" text NOT NULL, "answer" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("module_id") REFERENCES "public"."modules"("id") ON UPDATE cascade ON DELETE cascade, UNIQUE ("id"));COMMENT ON TABLE "public"."questions" IS E'questions from quizzes';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

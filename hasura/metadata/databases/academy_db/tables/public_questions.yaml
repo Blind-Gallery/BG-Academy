@@ -1,0 +1,18 @@
+table:
+  name: questions
+  schema: public
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+  - name: module
+    using:
+      foreign_key_constraint_on: module_id
+array_relationships:
+  - name: options
+    using:
+      foreign_key_constraint_on:
+        column: question_id
+        table:
+          name: question_options
+          schema: public

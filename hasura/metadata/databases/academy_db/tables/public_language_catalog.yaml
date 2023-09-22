@@ -1,0 +1,12 @@
+table:
+  name: language_catalog
+  schema: public
+is_enum: true
+array_relationships:
+  - name: courses
+    using:
+      foreign_key_constraint_on:
+        column: language
+        table:
+          name: courses
+          schema: public

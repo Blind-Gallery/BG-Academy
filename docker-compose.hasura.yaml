@@ -1,0 +1,6 @@
+version: "3.6"
+services:
+  graphql-engine:
+      volumes:
+        - ./hasura/migrations:/hasura-migrations
+        - ./hasura/metadata:/hasura-metadata

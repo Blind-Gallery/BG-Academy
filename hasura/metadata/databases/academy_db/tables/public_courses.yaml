@@ -1,0 +1,35 @@
+table:
+  name: courses
+  schema: public
+configuration:
+  column_config:
+    teacher_id:
+      custom_name: teacher_id
+  custom_column_names:
+    teacher_id: teacher_id
+  custom_root_fields: {}
+object_relationships:
+  - name: language_catalog
+    using:
+      foreign_key_constraint_on: language
+  - name: level_catalog
+    using:
+      foreign_key_constraint_on: level
+  - name: teacher
+    using:
+      foreign_key_constraint_on: teacher_id
+array_relationships:
+  - name: modules
+    using:
+      foreign_key_constraint_on:
+        column: course_id
+        table:
+          name: modules
+          schema: public
+  - name: user_courses
+    using:
+      foreign_key_constraint_on:
+        column: course_id
+        table:
+          name: user_course
+          schema: public

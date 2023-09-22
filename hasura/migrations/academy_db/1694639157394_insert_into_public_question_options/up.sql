@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("text", "id", "question_id") VALUES (E'Blockchain is a secure, transparent digital ledger for recording transactions.', E'41073f0b-b4be-4230-be8b-242d83114047', E'cf288069-b50a-4c78-9c40-93e04fb73417');
