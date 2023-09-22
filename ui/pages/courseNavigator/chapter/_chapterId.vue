@@ -132,6 +132,31 @@
                           </p>
                         </div>
                       </NuxtLink>
+
+                      <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+                        <Icon
+                          class="progress-circle"
+                          icon="material-symbols:lens-outline"
+                          color="#00b9cd"
+                          width="1rem"
+                        />
+                        <div class="d-flex align-items-center">
+                          <p style="font-size: small;" class="m-0 text-secondary">
+                            Test<br>
+                          </p>
+                          <Icon
+                            v-b-tooltip.hover
+                            title="Test"
+                            icon="material-symbols:checklist-rounded"
+                            color="#00b9cd"
+                            width="1rem"
+                            class="ml-2"
+                          />
+                        </div>
+                        <p style="font-size: small" class="m-0 text-secondary">
+                          10 questions.<br>
+                        </p>
+                      </div>
                     </b-collapse>
                   </div>
                 </div>
@@ -234,11 +259,11 @@ query ($id: uuid!) {
         }
       }
       course {
-        modules {
+        modules(order_by: {created_at: asc}) {
           id
           next_module_id
           title
-          chapters {
+          chapters(order_by: {created_at: asc}) {
             id
             title
             video_id
