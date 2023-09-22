@@ -368,11 +368,11 @@ query ($id: uuid!) {
         }
       }
       course {
-        modules {
+        modules(order_by: {created_at: asc}) {
           id
           next_module_id
           title
-          chapters {
+          chapters(order_by: {created_at: asc}) {
             id
             title
             video_id
