@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-for="(module, moduleIndex) in courseInfo.modules"
+      v-for="(module, moduleIndex) in courses_by_pk.modules"
       :key="moduleIndex"
       style="cursor: pointer;"
       class="border d-flex rounded  mb-2"
@@ -50,31 +50,6 @@
                 </p>
               </div>
             </NuxtLink>
-            <!-- question -->
-            <div :class="$route.path === ('/courseNavigator/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
-              <Icon
-                class="progress-circle"
-                icon="material-symbols:lens-outline"
-                color="#00b9cd"
-                width="1rem"
-              />
-              <div class="d-flex align-items-center">
-                <p style="font-size: small;" class="m-0 text-secondary">
-                  Test<br>
-                </p>
-                <Icon
-                  v-b-tooltip.hover
-                  title="Test"
-                  icon="material-symbols:checklist-rounded"
-                  color="#00b9cd"
-                  width="1rem"
-                  class="ml-2"
-                />
-              </div>
-              <p style="font-size: small" class="m-0 text-secondary">
-                10 questions.<br>
-              </p>
-            </div>
           </b-collapse>
         </div>
       </div>
@@ -104,10 +79,22 @@ query MyQuery($id: Int!) {
   }
 }`
 export default {
+  apollo: {
+    courses_by_pk: {
+      query: GET_COURSE_SCHEMA,
+      variables () {
+        return {
+          id: this.courseId
+        }
+      },
+      update: data => data.courses_by_pk
+    }
+  },
   props: {
     courseId: {
       type: Number,
-      required: true
+      required: true,
+      default: 1
     }
   },
   data () {
