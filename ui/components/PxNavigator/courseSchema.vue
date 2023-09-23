@@ -24,7 +24,7 @@
             appear
             :visible="isChapterActive(module.id)"
           >
-            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
+            <NuxtLink v-if="chapter.type === 'chapter'" class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
               <div :class="$route.path === ('/courseNavigator/chapter/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
                 <Icon
                   class="progress-circle"
@@ -47,6 +47,32 @@
                 </div>
                 <p style="font-size: small" class="m-0 text-secondary">
                   5min.<br>
+                </p>
+              </div>
+            </NuxtLink>
+            <NuxtLink v-else class="course-route" style="text-decoration: none;" :to="'/courseNavigator/test/' + chapter.id">
+              <div :class="$route.path === ('/courseNavigator/test/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+                <Icon
+                  class="progress-circle"
+                  icon="material-symbols:lens-outline"
+                  color="#00b9cd"
+                  width="1rem"
+                />
+                <div class="d-flex align-items-center">
+                  <p style="font-size: small;" class="m-0 text-secondary">
+                    Test<br>
+                  </p>
+                  <Icon
+                    v-b-tooltip.hover
+                    title="Test"
+                    icon="material-symbols:checklist-rounded"
+                    color="#00b9cd"
+                    width="1rem"
+                    class="ml-2"
+                  />
+                </div>
+                <p style="font-size: small" class="m-0 text-secondary">
+                  {{ chapter.totalQuestions }} questions.<br>
                 </p>
               </div>
             </NuxtLink>
