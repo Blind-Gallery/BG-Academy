@@ -144,6 +144,7 @@ export default {
   // },
   created () {
     this.getCourseSchema()
+    console.info(this.$route.params)
   },
   methods: {
     async getCourseSchema () {
