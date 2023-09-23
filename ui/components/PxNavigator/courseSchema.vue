@@ -130,21 +130,23 @@ export default {
       }
     }
   },
-  // computed: {
-  //   activeModuleId () {
-  //     const chapterIdFromRoute = this.$route.params.chapterId
-  //     for (const module of this.chapterInfo.modules) {
-  //       for (const chapter of module.chapters) {
-  //         if (chapter.id === chapterIdFromRoute) {
-  //           return module.id
-  //         }
-  //       }
-  //     } return null
-  //   }
-  // },
-  created () {
-    this.getCourseSchema()
+  computed: {
+    activeModuleId () {
+      if (this.$route.params.moduleId) { return this.$route.params.moduleId }
+      const chapterIdFromRoute = this.$route.params.chapterId
+      for (const module of this.courseInfo.modules) {
+        for (const chapter of module.chapters) {
+          if (chapter.id === chapterIdFromRoute) {
+            return module.id
+          }
+        }
+      } return null
+    }
+  },
+  async created () {
+    await this.getCourseSchema()
     console.info(this.$route.params)
+    this.courseInfo.modules.forEach(module => console.info(module))
   },
   methods: {
     async getCourseSchema () {
