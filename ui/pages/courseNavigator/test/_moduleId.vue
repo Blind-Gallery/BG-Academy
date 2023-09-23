@@ -191,6 +191,7 @@
               </div>
 
               <!-- add navigator  -->
+              <PxNavigatorCourseSchema :course-id="1" />
             </div>
           </b-col>
         </Transition>

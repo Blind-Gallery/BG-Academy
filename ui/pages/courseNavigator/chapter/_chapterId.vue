@@ -81,7 +81,7 @@
                 </div>
               </div>
 
-              <!--MODULES-->
+              <!-- navigator -->
               <PxNavigatorCourseSchema :course-id="1" />
             </div>
           </b-col>
