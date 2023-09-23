@@ -127,23 +127,24 @@ export default {
           id: this.courseId
         }
       })
-      data.courses_by_pk.modules.forEach((module) => {
+
+      for (const module of data.courses_by_pk.modules) {
         module.chapters = module.chapters.map((chapter) => {
           return {
             ...chapter,
             type: 'chapter'
           }
         })
-      })
-      data.courses_by_pk.modules.forEach((module) => {
-        module.questions = module.questions.map((question) => {
-          return {
-            ...question,
-            type: 'test',
-            id: module.id
-          }
-        })
-      })
+        if (module.questions.length > 0) {
+          module.chapters.push({
+            id: module.id,
+            title: 'Test',
+            type: 'question',
+            totalQuestions: module.questions.length
+          })
+        }
+      }
+
       this.courseInfo = Object.assign({}, data.courses_by_pk)
     },
     isChapterActive (moduleId) {
