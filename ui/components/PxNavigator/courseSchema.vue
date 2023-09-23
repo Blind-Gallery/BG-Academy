@@ -99,9 +99,23 @@ export default {
   },
   data () {
     return {
-      courseInfo: {}
+      courseInfo: {
+        modules: []
+      }
     }
   },
+  // computed: {
+  //   activeModuleId () {
+  //     const chapterIdFromRoute = this.$route.params.chapterId
+  //     for (const module of this.chapterInfo.modules) {
+  //       for (const chapter of module.chapters) {
+  //         if (chapter.id === chapterIdFromRoute) {
+  //           return module.id
+  //         }
+  //       }
+  //     } return null
+  //   }
+  // },
   created () {
     this.getCourseSchema()
   },
@@ -112,6 +126,23 @@ export default {
         variables: {
           id: this.courseId
         }
+      })
+      data.courses_by_pk.modules.forEach((module) => {
+        module.chapters = module.chapters.map((chapter) => {
+          return {
+            ...chapter,
+            type: 'chapter'
+          }
+        })
+      })
+      data.courses_by_pk.modules.forEach((module) => {
+        module.questions = module.questions.map((question) => {
+          return {
+            ...question,
+            type: 'test',
+            id: module.id
+          }
+        })
       })
       this.courseInfo = Object.assign({}, data.courses_by_pk)
     },
