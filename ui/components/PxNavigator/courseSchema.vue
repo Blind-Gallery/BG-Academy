@@ -24,7 +24,7 @@
             appear
             :visible="isChapterActive(module.id)"
           >
-            <NuxtLink v-if="chapter.type === 'chapter'" class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
+            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
               <div :class="$route.path === ('/courseNavigator/chapter/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
                 <Icon
                   class="progress-circle"
@@ -50,8 +50,18 @@
                 </p>
               </div>
             </NuxtLink>
-            <NuxtLink v-else class="course-route" style="text-decoration: none;" :to="'/courseNavigator/test/' + chapter.id">
-              <div :class="$route.path === ('/courseNavigator/test/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
+          </b-collapse>
+          <b-collapse
+            v-if="module.questions.length > 0"
+            :id="`accordion-${module.id}`"
+            :key="chapterIndex"
+            class="mx-2"
+            role="tablist"
+            appear
+            :visible="isChapterActive(module.id)"
+          >
+            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/test/' + module.id">
+              <div :class="$route.path === ('/courseNavigator/test/' + module.id) ? 'chapter-container_selected' : 'chapter-container'">
                 <Icon
                   class="progress-circle"
                   icon="material-symbols:lens-outline"
@@ -72,7 +82,7 @@
                   />
                 </div>
                 <p style="font-size: small" class="m-0 text-secondary">
-                  {{ chapter.totalQuestions }} questions.<br>
+                  {{ module.questions.length }} questions.<br>
                 </p>
               </div>
             </NuxtLink>
@@ -145,8 +155,6 @@ export default {
   },
   async created () {
     await this.getCourseSchema()
-    console.info(this.$route.params)
-    this.courseInfo.modules.forEach(module => console.info(module))
   },
   methods: {
     async getCourseSchema () {
@@ -156,23 +164,6 @@ export default {
           id: this.courseId
         }
       })
-
-      for (const module of data.courses_by_pk.modules) {
-        module.chapters = module.chapters.map((chapter) => {
-          return {
-            ...chapter,
-            type: 'chapter'
-          }
-        })
-        if (module.questions.length > 0) {
-          module.chapters.push({
-            id: module.id,
-            title: 'Test',
-            type: 'question',
-            totalQuestions: module.questions.length
-          })
-        }
-      }
 
       this.courseInfo = Object.assign({}, data.courses_by_pk)
     },
