@@ -1,11 +1,15 @@
 <template>
   <div>
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
-      <b-row>
-        <b-col lg="8">
+      <b-row class="mt-md-3">
+        <b-col
+          order="2"
+          order-lg="1"
+          lg="8"
+        >
           <div class="course-info">
             <iframe
-              class="rounded mb-3"
+              class="rounded mb-3 d-lg-block d-none"
               width="100%"
               height="450px"
               src="https://www.youtube.com/embed/qtPi0JvmWbs"
@@ -19,7 +23,7 @@
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
-            <div class="d-flex mb-3" style="gap:1rem">
+            <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
               <div class="d-flex flex-column shadow-sm rounded p-3">
                 <Icon icon="material-symbols:check-small" color="#00c851" width="32" />
                 <p class="m-0" style="font-weight: 600;">
@@ -92,7 +96,7 @@
                         class="mr-2"
                       />
                       <p
-                        class="m-0 small text-secondary"
+                        class="curriculum-chapter m-0 small text-secondary text-truncate"
                       >
                         {{ chapter.title }}
                       </p>
@@ -108,9 +112,21 @@
             </div>
           </div>
         </b-col>
-        <b-col lg="4">
-          <div class="d-flex flex-column p-3 shadow-sm rounded ml-3" style="gap:0.5rem; position:sticky; top: 77px;">
-            <div v-b-toggle.instructor class="d-flex align-items-center w-100" style="gap:0.5rem" @click="toggleDropdown">
+        <b-col
+          order="1"
+          order-lg="2"
+          lg="4"
+        >
+          <div class="d-flex flex-column p-lg-3 mb-3  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
+            <iframe
+              class="rounded mb-3 d-lg-none"
+              width="100%"
+              height="300px"
+              src="https://www.youtube.com/embed/qtPi0JvmWbs"
+              title="YouTube video player"
+              frameborder="0"
+            />
+            <div v-b-toggle.instructor class="d-flex align-items-center w-100" @click="toggleDropdown">
               <b-avatar src="https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg" size="2rem" />
 
               <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="'Instructor name'" :subtitle-name="'Instructor'" />
@@ -313,6 +329,10 @@ export default {
 }
 </script>
 <style>
+
+.curriculum-chapter {
+  max-width: 100%;
+}
 .description-container{
     mask-image: linear-gradient(to top,transparent 0,transparent 51px,#000 77px,#000 100%);
     height: 200px;
@@ -324,5 +344,15 @@ export default {
     mask-image: inherit;
 
 }
+@media(max-width: 768px){
+  .curriculum-chapter {
+  max-width: 500px;
+}
 
+@media(max-width: 425px){
+  .curriculum-chapter {
+  max-width: 200px;
+}
+}
+}
 </style>
