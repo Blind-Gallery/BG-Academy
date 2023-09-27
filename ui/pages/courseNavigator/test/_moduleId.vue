@@ -89,7 +89,10 @@
                             :options="formatOptions(test.options)"
                             type="radio"
                             class="test"
-                            @input="(value) => test.selectedOption = value"
+                            @input="(value) => {
+                              console.info(value)
+                              test.selectedOption = value
+                            }"
                           />
                         </FormulateForm>
                         <p style="color:#960505" class="m-0 small text-center">
@@ -229,6 +232,7 @@ query ($id: uuid!) {
     questions {
       id
       text
+      answer_id
       options {
         text
         id
@@ -237,23 +241,39 @@ query ($id: uuid!) {
   }
 }`
 
+const GET_ANSWERS_BY_USER = gql`
+query ($moduleId: uuid!, $userId: String!) {
+  user_question(where: {question: {module_id: {_eq: $moduleId}}, user_id: {_eq: $userId}}) {
+    answer_id
+    is_correct_answer
+    id
+  }
+}`
+
+// const UPDATE_USER_ANSWERS = gql`
+// mutation MyMutation($objects: [user_question_insert_input!] = {user_id: ""}) {
+//   insert_user_question(objects: $objects, on_conflict: {constraint: user_question_pkey, update_columns: [answer_id, is_correct_answer, updated_at]}) {
+//     affected_rows
+//   }
+// }`
+
 export default {
   components: {
     Swiper,
     SwiperSlide
   },
 
-  // apollo: {
-  //   user_chapter_by_pk: {
-  //     query: GET_USER_CHAPTER_QUERY,
-  //     variables () {
-  //       return {
-  //         chapter_id: this.$route.params.chapterId,
-  //         user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
-  //       }
-  //     }
-  //   }
-  // },
+  apollo: {
+    user_question: {
+      query: GET_ANSWERS_BY_USER,
+      variables () {
+        return {
+          moduleId: this.$route.params.moduleId,
+          userId: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
+    }
+  },
 
   data () {
     return {
@@ -335,6 +355,9 @@ export default {
       lastBullet.parentNode.removeChild(lastBullet)
     },
 
+    selectOption () {
+
+    },
     nextSlide (test, index) {
       console.info(test, index)
       this.answers[index] = test.selectedOption
@@ -359,6 +382,7 @@ export default {
           const questions = this.module.questions
           for (const question of questions) {
             question.selectedOption = false
+            question.isCorrectOption = false
           }
         }, 1000)
       }
@@ -375,6 +399,7 @@ export default {
 
       for (const question of questions) {
         question.selectedOption = false
+        question.isCorrectOption = false
       }
 
       for (const test of tests) {
