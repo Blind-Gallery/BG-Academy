@@ -61,7 +61,12 @@
     <!--LOGGED CONTAINER-->
     <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
       <b-row class="mb-5">
-        <b-col cols="12" lg="4">
+        <b-col
+          order="2"
+          order-lg="1"
+          cols="12"
+          lg="4"
+        >
           <div class="d-flex flex-column align-items-center shadow-sm  rounded profile-container justify-content-center">
             <div class="d-flex flex-column align-items-center " style="padding-bottom: 1.5rem;">
               <b-avatar class="mb-2" size="5rem" />
@@ -117,7 +122,7 @@
           </div>
         </b-col>
 
-        <b-col cols="12" lg="8">
+        <b-col order="1" order-lg="2" cols="12" lg="8">
           <div class="p-5 d-flex flex-column justify-content-center profile-container welcome-card rounded shadow-sm">
             <h1>{{ $auth.user.name ? `Welcome Back, ${$auth.user.name}!` : "Welcome Back!" }}</h1>
             <h4 class="mb-4" style="font-weight: 400;">
@@ -405,6 +410,7 @@ export default {
 
   data () {
     return {
+      targetBreakpoint: null,
       screenWidth: 0,
       breakpoints: {
         320: {
@@ -487,20 +493,33 @@ export default {
     }
   },
 
-  // watch: {
-  //   screenWidth: function (newValue) {
-  //     this.screenWidth = newValue
-  //     console.info(this.screenWidth)
-  //   }
+  watch: {
+    // This function allows you to listen to changes in screen size in order to determine the total slides of the swiper.
+    screenWidth (newValue) {
+      this.screenWidth = newValue
+      if (this.$refs.swiper) {
+        if (this.screenWidth > 1024) {
+          this.targetBreakpoint = 1024
+        } else if (this.screenWidth > 650) {
+          this.targetBreakpoint = 650
+        } else {
+          this.targetBreakpoint = 320
+        }
 
-  // },
+        this.totalSlides = Math.ceil(
+          this.$refs.swiper.$el.swiper.slides.length /
+        this.breakpoints[this.targetBreakpoint].slidesPerGroup
+        )
+
+        this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
+      }
+    }
+
+  },
 
   mounted () {
     window.addEventListener('resize', this.updateScreenWidth)
     this.updateScreenWidth()
-    if (this.$refs.swiper) {
-      this.totalSlides = Math.ceil(this.$refs.swiper.$el.swiper.slides.length / this.$refs.swiper.slidesPerGroup)
-    }
   },
 
   methods: {
@@ -511,7 +530,7 @@ export default {
       this.isFirstSlide = this.$refs.swiper.$el.swiper.isBeginning
       this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
 
-      this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.$refs.swiper.slidesPerGroup)
+      this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
     }
   }
 
@@ -551,6 +570,7 @@ export default {
 
 .profile-container{
   min-height: 380px;
+  margin: 1rem 0rem;
 }
 
 .last-slide, .next-slide{
