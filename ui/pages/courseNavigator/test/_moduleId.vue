@@ -90,7 +90,6 @@
                             type="radio"
                             class="test"
                             @input="(value) => {
-                              console.info(value)
                               test.selectedOption = value
                             }"
                           />
