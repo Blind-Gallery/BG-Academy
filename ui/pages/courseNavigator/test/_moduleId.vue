@@ -113,37 +113,37 @@
                   <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
                     <h4>Total score</h4>
                     <h1 style="font-size: 4rem; color:#00b9cd">
-                      100%
+                      {{ scorePercentage }}%
                     </h1>
                     <hr class="w-100">
                     <div class="d-flex mb-4">
-                      <div class="d-flex align-items-center mr-4">
+                      <div v-show="correctAnswers" class="d-flex align-items-center mr-4">
                         <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
                         <p class="text-success m-0">
-                          Correct: 10
+                          Correct: {{ correctAnswers }}
                         </p>
                       </div>
-                      <div class="d-flex align-items-center">
+                      <div v-show="correctAnswers !== module.questions.length" class="d-flex align-items-center">
                         <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
                         <p class="text-danger m-0">
-                          Wrong: 0
+                          Wrong: {{ module.questions.length - correctAnswers }}
                         </p>
                       </div>
                     </div>
-                    <p class="small text-secondary text-center">
+                    <p v-show="scorePercentage >= 80" class="small text-secondary text-center">
                       Congratulations, you have successfully
                       passed module 1 of this course!
                     </p>
 
                     <div class="d-flex flex-column align-items-center justify-content-center w-100">
                       <!-- TODO: Send user to the next module if exists and passed the exam -->
-                      <button style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                      <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
                         Next module   <Icon
                           width="24px"
                           icon="material-symbols:chevron-right"
                         />
                       </button>
-                      <button style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                      <button v-show="scorePercentage !== 100" style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
                         Try it again  <Icon
                           width="21px"
                           icon="material-symbols:restart-alt"
@@ -278,6 +278,8 @@ export default {
     return {
       testMessage: '',
       isEndedVideo: false,
+      correctAnswers: 0,
+      scorePercentage: 0,
       loading: false,
       module: {
         id: '',
@@ -295,9 +297,7 @@ export default {
       },
       showEvIntro: true,
       navBarHidden: false,
-      courseModules: [],
-      answers: []
-
+      courseModules: []
     }
   },
 
@@ -354,25 +354,33 @@ export default {
       lastBullet.parentNode.removeChild(lastBullet)
     },
 
-    selectOption () {
-
-    },
     nextSlide (test, index) {
       console.info(test, index)
-      this.answers[index] = test.selectedOption
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
       } else {
         this.testMessage = ''
+        this.updateUserScore()
         this.$refs.mySwiper.$el.swiper.slideNext()
       }
     },
 
     previousSlide (test, index) {
       console.info(test, index)
-      this.answers[index] = test.selectedOption
       this.$refs.mySwiper.$el.swiper.slidePrev()
       this.testMessage = ''
+    },
+
+    updateUserScore () {
+      this.correctAnswers = 0
+      const questions = this.module.questions
+      for (const question of questions) {
+        if (question.selectedOption === question.answer_id) {
+          this.correctAnswers++
+        }
+      }
+
+      this.scorePercentage = Math.floor((this.correctAnswers / questions.length) * 100)
     },
 
     doResetTest () {
@@ -404,6 +412,9 @@ export default {
       for (const test of tests) {
         this.$formulate.reset(test.name)
       }
+
+      this.correctAnswers = 0
+      this.scorePercentage = 0
     },
 
     paginationHide (swiper) {
