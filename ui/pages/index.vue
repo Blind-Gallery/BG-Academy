@@ -147,7 +147,7 @@
             </div>
             <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
               <b-col v-for="item in user_course" :key="item.id" cols="12" lg="4">
-                <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + item.last_chapter_id_seen">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
                   <PxCard
 
                     :pfp="item.course.teacher.pfp"
@@ -171,7 +171,7 @@
 
             <b-row v-else>
               <b-col v-for="item in user_course" :key="item.id" lg="4">
-                <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/' + item.last_chapter_id_seen">
+                <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
                   <PxCard
                     :is-progress="true"
 
