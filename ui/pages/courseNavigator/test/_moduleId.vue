@@ -631,6 +631,11 @@ input:checked ~ label {
 }
 
 @media (max-width: 990px) {
+  .course-video{
+  flex: 0 0 100%;
+  max-width: 100%;
+  transition: 0.5s ease all;
+}
   .courseNav-parent{
     flex-wrap: wrap;
   }
