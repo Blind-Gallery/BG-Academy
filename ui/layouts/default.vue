@@ -550,7 +550,6 @@ h5 {
   border: 1px solid #fff;
   border-radius: 5px;
   color: #fff;
-  font-weight: 600;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
   min-width: 120px;
