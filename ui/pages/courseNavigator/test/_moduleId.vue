@@ -22,8 +22,6 @@
             />
           </span>
 
-          <!--  Questions -->
-          <!-- TODO: Update to show only when is the last chapter of the module -->
           <div class="d-flex flex-column align-items-center">
             <Transition name="fade" mode="out-in">
               <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
@@ -100,8 +98,8 @@
                       </div>
 
                       <div class="d-flex align-items-center justify-content-center">
-                        <button class="last-btn mr-3" @click="lastSlide(test, index)">
-                          Last
+                        <button class="last-btn mr-3" @click="previousSlide(test, index)">
+                          Previous
                         </button>
                         <button class="next-btn" @click="nextSlide(test, index)">
                           Next
@@ -156,7 +154,6 @@
             </Transition>
           </div>
         </b-col>
-        <!--HIDE NAV BAR ICON-->
 
         <!--NAV BAR COLUMN-->
 
@@ -230,6 +227,7 @@ query ($id: uuid!) {
     id
     title
     questions {
+      id
       text
       options {
         text
@@ -278,22 +276,15 @@ export default {
       },
       showEvIntro: true,
       navBarHidden: false,
-      courseModules: [
-      ]
+      courseModules: [],
+      answers: []
 
     }
   },
 
   computed: {
     activeModuleId () {
-      const chapterIdFromRoute = this.$route.params.chapterId
-      for (const module of this.module.module.course.modules) {
-        for (const chapter of module.chapters) {
-          if (chapter.id === chapterIdFromRoute) {
-            return module.id
-          }
-        }
-      } return null
+      return this.$route.params.moduleId
     }
   },
 
@@ -344,7 +335,9 @@ export default {
       lastBullet.parentNode.removeChild(lastBullet)
     },
 
-    nextSlide (test) {
+    nextSlide (test, index) {
+      console.info(test, index)
+      this.answers[index] = test.selectedOption
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
       } else {
@@ -353,13 +346,11 @@ export default {
       }
     },
 
-    lastSlide () {
+    previousSlide (test, index) {
+      console.info(test, index)
+      this.answers[index] = test.selectedOption
       this.$refs.mySwiper.$el.swiper.slidePrev()
       this.testMessage = ''
-    },
-
-    handleEndedVideo (value) {
-      this.isEndedVideo = value
     },
 
     doResetTest () {
