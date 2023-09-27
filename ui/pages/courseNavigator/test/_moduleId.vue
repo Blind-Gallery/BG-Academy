@@ -249,12 +249,12 @@ query ($moduleId: uuid!, $userId: String!) {
   }
 }`
 
-// const UPDATE_USER_ANSWERS = gql`
-// mutation MyMutation($objects: [user_question_insert_input!] = {user_id: ""}) {
-//   insert_user_question(objects: $objects, on_conflict: {constraint: user_question_pkey, update_columns: [answer_id, is_correct_answer, updated_at]}) {
-//     affected_rows
-//   }
-// }`
+const UPDATE_USER_ANSWERS = gql`
+mutation ($objects: [user_question_insert_input!]!) {
+  insert_user_question(objects: $objects, on_conflict: {constraint: user_question_pkey, update_columns: [answer_id, is_correct_answer, updated_at]}) {
+    affected_rows
+  }
+}`
 
 export default {
   components: {
@@ -358,11 +358,16 @@ export default {
       console.info(test, index)
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
-      } else {
-        this.testMessage = ''
-        this.updateUserScore()
-        this.$refs.mySwiper.$el.swiper.slideNext()
+        return
       }
+
+      this.testMessage = ''
+
+      if (index === this.module.questions.length - 1) {
+        console.info('last slide')
+        this.updateUserScore()
+      }
+      this.$refs.mySwiper.$el.swiper.slideNext()
     },
 
     previousSlide (test, index) {
@@ -381,6 +386,22 @@ export default {
       }
 
       this.scorePercentage = Math.floor((this.correctAnswers / questions.length) * 100)
+
+      const { insert_user_question: res } = this.$apollo.mutate({
+        mutation: UPDATE_USER_ANSWERS,
+        variables: {
+          objects: this.module.questions.map((question) => {
+            return {
+              user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
+              question_id: question.id,
+              answer_id: question.selectedOption,
+              is_correct_answer: question.selectedOption === question.answer_id
+            }
+          })
+        }
+      })
+
+      console.info(res)
     },
 
     doResetTest () {
