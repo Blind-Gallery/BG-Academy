@@ -245,7 +245,6 @@ query ($moduleId: uuid!, $userId: String!) {
   user_question(where: {question: {module_id: {_eq: $moduleId}}, user_id: {_eq: $userId}}) {
     answer_id
     is_correct_answer
-    id
   }
 }`
 
