@@ -288,7 +288,7 @@
               © 2023 Blind Gallery Academy. All rights reserved.
             </p>
           </b-col>
-          <b-col lg="auto" style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px;" />
+          <b-col lg="auto" class=" d-none d-lg-block" style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px;" />
           <b-col cols="12" lg="4">
             <p class="m-0" style="font-weight: 600; font-size: 18px;">
               Do you need help?
@@ -298,7 +298,7 @@
             </p>
             <div>
               <button class="primary-btn small">
-                Join Discord
+                Join our Discord
               </button>
             </div>
           </b-col>
@@ -550,7 +550,6 @@ h5 {
   border: 1px solid #fff;
   border-radius: 5px;
   color: #fff;
-  font-weight: 600;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
   min-width: 120px;

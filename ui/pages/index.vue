@@ -61,7 +61,12 @@
     <!--LOGGED CONTAINER-->
     <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
       <b-row class="mb-5">
-        <b-col cols="12" lg="4">
+        <b-col
+          order="2"
+          order-lg="1"
+          cols="12"
+          lg="4"
+        >
           <div class="d-flex flex-column align-items-center shadow-sm  rounded profile-container justify-content-center">
             <div class="d-flex flex-column align-items-center " style="padding-bottom: 1.5rem;">
               <b-avatar class="mb-2" size="5rem" />
@@ -117,7 +122,7 @@
           </div>
         </b-col>
 
-        <b-col cols="12" lg="8">
+        <b-col order="1" order-lg="2" cols="12" lg="8">
           <div class="p-5 d-flex flex-column justify-content-center profile-container welcome-card rounded shadow-sm">
             <h1>{{ $auth.user.name ? `Welcome Back, ${$auth.user.name}!` : "Welcome Back!" }}</h1>
             <h4 class="mb-4" style="font-weight: 400;">
@@ -228,13 +233,11 @@
         :navigation="{ nextEl: '.next-slide', prevEl: '.last-slide-disabled' }"
         :modules="modules"
         :effect="'fade'"
-        :slides-per-view="3"
+        :breakpoints="breakpoints"
         :space-between="30"
         :grid="{
           rows: 2,
         }"
-        :slides-per-group="3"
-
         @slideChange="onSlideChange"
       >
         <SwiperSlide v-for="fakeCourse in fakeCourses" :key="fakeCourse.title" ref="slide">
@@ -271,12 +274,12 @@
     <!--COMMUNITY FEEDBACK-->
 
     <b-container v-if="!$auth.loggedIn" style="max-width: 1240px;" class="my-5">
-      <h3 class="m-0">
+      <h4 class="m-0">
         Community feedback
-      </h3>
+      </h4>
       <b-row class="align-items-center pt-5 pb-5">
         <b-col cols="12" lg="4">
-          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
             <div class="feedback-info p-4 d-flex align-items-center">
               <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/kimson-doan-HD8KlyWRYYM-4-300x300.jpg" />
               <div>
@@ -296,7 +299,7 @@
           </div>
         </b-col>
         <b-col cols="12" lg="4">
-          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
             <div class="feedback-info p-4 d-flex align-items-center">
               <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-300x300.jpg" />
               <div>
@@ -316,7 +319,7 @@
           </div>
         </b-col>
         <b-col cols="12" lg="4">
-          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded ">
+          <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
             <div class="feedback-info p-4 d-flex align-items-center">
               <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/philip-martin-5aGUyCW_PJw-300x300.jpg" />
               <div>
@@ -407,6 +410,26 @@ export default {
 
   data () {
     return {
+      targetBreakpoint: null,
+      screenWidth: 0,
+      breakpoints: {
+        320: {
+          slidesPerGroup: 1,
+          slidesPerView: 1,
+          spaceBetween: 10
+        },
+        650: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+          slidesPerGroup: 2
+        },
+
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          slidesPerGroup: 3
+        }
+      },
       showAllCourses: false,
       isFirstSlide: true,
       isLastSlide: false,
@@ -469,18 +492,45 @@ export default {
       ]
     }
   },
-  mounted () {
-    if (this.$refs.swiper) {
-      this.totalSlides = Math.ceil(this.$refs.swiper.$el.swiper.slides.length / 3)
+
+  watch: {
+    // This function allows you to listen to changes in screen size in order to determine the total slides of the swiper.
+    screenWidth (newValue) {
+      this.screenWidth = newValue
+      if (this.$refs.swiper) {
+        if (this.screenWidth > 1024) {
+          this.targetBreakpoint = 1024
+        } else if (this.screenWidth > 650) {
+          this.targetBreakpoint = 650
+        } else {
+          this.targetBreakpoint = 320
+        }
+
+        this.totalSlides = Math.ceil(
+          this.$refs.swiper.$el.swiper.slides.length /
+        this.breakpoints[this.targetBreakpoint].slidesPerGroup
+        )
+
+        this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
+      }
     }
+
+  },
+
+  mounted () {
+    window.addEventListener('resize', this.updateScreenWidth)
+    this.updateScreenWidth()
   },
 
   methods: {
+    updateScreenWidth () {
+      this.screenWidth = window.innerWidth
+    },
     onSlideChange () {
       this.isFirstSlide = this.$refs.swiper.$el.swiper.isBeginning
       this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
 
-      this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / 3)
+      this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
     }
   }
 
@@ -520,6 +570,7 @@ export default {
 
 .profile-container{
   min-height: 380px;
+  margin: 1rem 0rem;
 }
 
 .last-slide, .next-slide{
@@ -548,5 +599,6 @@ export default {
   .intro-left-col h1, .intro-left-col p{
     text-align: center;
   }
+
 }
 </style>
