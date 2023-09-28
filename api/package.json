@@ -35,6 +35,7 @@
     "graphql-request": "^6.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.1",
+    "pdfjs": "^2.5.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
