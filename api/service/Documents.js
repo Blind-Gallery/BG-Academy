@@ -33,6 +33,18 @@ class Documents {
     }
   }
 
+  /**
+   *
+   * @param {*} data
+   * @returns {Promise<string>} -> CID of the generated certificate
+   *
+   * @example
+   * const data = {
+   *   name: 'John Doe',
+   *   courseTitle: 'Blockchain',
+   *   teacher: 'Hugo'
+   * }
+   */
   async generateCertificate (data) {
     let cid = ''
     this.getTemplateHtml('certificate').then(async (res) => {
