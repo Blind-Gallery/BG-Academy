@@ -38,9 +38,12 @@
     "html-pdf": "^1.5.0",
     "http-errors": "^2.0.0",
     "ipfs-http-client": "^60.0.1",
+    "it-all": "^3.0.3",
     "jsonwebtoken": "^9.0.1",
+    "mime-types": "^2.1.35",
     "pdfjs": "^2.5.2",
     "puppeteer": "^21.3.6",
+    "uint8arrays": "^4.0.6",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
