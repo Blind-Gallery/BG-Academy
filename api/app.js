@@ -12,7 +12,8 @@ const {
 const {
   GQL,
   JWT,
-  Email
+  Email,
+  Documents
 } = require('./service')
 
 const {
