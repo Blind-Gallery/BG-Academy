@@ -4,8 +4,25 @@ const utils = require('util')
 const puppeteer = require('puppeteer')
 const hb = require('handlebars')
 const readFile = utils.promisify(fs.readFile)
+const IPFS = require('./IPFS')
 
 class Documents {
+  constructor () {
+    this.ipfs = new IPFS()
+  }
+
+  /**
+ * Uploads a file to IPFS.
+ *
+ * @param {string} fileName - The name of the file to upload.
+ * @returns {Promise<Object>} An object containing the IPFS upload information.
+ */
+  async ipfsUpload (fileName) {
+    const buffer = fs.readFileSync(`${fileName}`)
+    const ipfs = await this.ipfs.add({ content: buffer })
+    return ipfs
+  }
+
   async getTemplateHtml (name) {
     console.info('Loading template file in memory')
     try {
@@ -16,12 +33,12 @@ class Documents {
     }
   }
 
-  async generateCertificate (data) {
-    // const data = {
-    //   student: 'John Doe',
-    //   courseTitle: 'Course Title',
-    //   teacher: 'Hugo'
-    // }
+  async generateCertificate (_data) {
+    const data = {
+      student: 'John Doe',
+      courseTitle: 'Course Title',
+      teacher: 'Hugo'
+    }
     this.getTemplateHtml('certificate').then(async (res) => {
       const template = hb.compile(res, { strict: true })
       const html = template(data)
@@ -30,7 +47,8 @@ class Documents {
       await page.setContent(html)
       const pdf = await page.pdf({ format: 'A4' })
       await browser.close()
-      return pdf
+      const ipfs = await this.ipfs.add({ content: pdf })
+      return ipfs.path
     }).catch(err => {
       console.error(err)
     })
