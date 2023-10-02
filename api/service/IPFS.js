@@ -1,11 +1,6 @@
-import { create, urlSource } from 'ipfs-http-client'
-import all from 'it-all'
-import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
-import mime from 'mime-types'
-
-// see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-import * as dotenv from 'dotenv'
-dotenv.config()
+const { create, urlSource } = require('ipfs-http-client')
+const mime = require('mime-types')
+require('dotenv').config()
 
 class BaseIpfs {
   constructor () {
@@ -89,14 +84,6 @@ class BaseIpfs {
    */
   async add (data) {
     return this.client.add(data)
-  }
-
-  /**
-   * @param {String} cid of the data that is wanted
-   * @returns {String} data identified by the cid
-   */
-  async cat (cid) {
-    return uint8ArrayConcat(await all(this.client.cat(cid)))
   }
 
   /**
@@ -193,4 +180,4 @@ class BrowserIpfs extends BaseIpfs {
   }
 }
 
-export default new BrowserIpfs()
+module.exports = BrowserIpfs
