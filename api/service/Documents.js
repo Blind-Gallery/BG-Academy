@@ -33,12 +33,7 @@ class Documents {
     }
   }
 
-  async generateCertificate (_data) {
-    const data = {
-      student: 'John Doe',
-      courseTitle: 'Course Title',
-      teacher: 'Hugo'
-    }
+  async generateCertificate (data) {
     this.getTemplateHtml('certificate').then(async (res) => {
       const template = hb.compile(res, { strict: true })
       const html = template(data)
