@@ -2,10 +2,16 @@ const tags = ['documents']
 
 const getCertificateSchema = {
   tags,
+  body: {
+    courseId: { type: 'number' }
+  },
   response: {
     200: {
-      type: 'arraybuffer',
-      required: ['user']
+      type: 'object',
+      required: ['certificate'],
+      properties: {
+        certificate: { type: 'string' }
+      }
     }
   }
 }

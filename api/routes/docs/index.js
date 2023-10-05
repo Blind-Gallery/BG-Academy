@@ -9,7 +9,7 @@ const {
  */
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
-    fastify.get('/', { schema: getCertificateSchema }, getDocumentHandler)
+    fastify.post('/certificate', { schema: getCertificateSchema }, getDocumentHandler)
   })
 }
 
@@ -22,9 +22,11 @@ module.exports[Symbol.for('plugin-meta')] = {
 }
 
 async function getDocumentHandler (req, reply) {
+  const token = req.headers.authorization.split(' ')[1]
+  req.body.token = token
   const {
-    user
-  } = await this.user.create(req.body)
+    cid
+  } = await this.documents.generateCertificate(req.body)
 
   return { user }
 }
