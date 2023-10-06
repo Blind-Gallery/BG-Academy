@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <label>Card Number</label>
-    <div id="card-number" />
-    <label>Card Expiry</label>
-    <div id="card-expiry" />
-    <label>Card CVC</label>
-    <div id="card-cvc" />
+  <div class="d-flex flex-column" style="gap:1rem">
+    <div>
+      <label class="stripe-label">Card Number</label>
+      <div id="card-number" class="stripe-input" />
+    </div>
+    <div class="d-flex align-items-center justify-content-between" style="gap:1rem">
+      <div class="w-100">
+        <label class="stripe-label">Card Expiry</label>
+        <div id="card-expiry" class="stripe-input" />
+      </div>
+      <div class="w-100">
+        <label class="stripe-label">Card CVC</label>
+        <div id="card-cvc" class="stripe-input" />
+      </div>
+    </div>
     <div id="card-error" />
-    <button id="custom-button" @click="createToken">
-      Generate Token
+    <button id="custom-button" class="primary-btn w-100" @click="createToken">
+      Confirm payment
     </button>
   </div>
 </template>
@@ -29,24 +37,28 @@ export default {
     }
   },
   mounted () {
+    console.info(this.stripeElements)
     const style = {
       base: {
-        theme: 'flat',
-
+        iconColor: '#c4f0ff',
         color: 'black',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontWeight: '400',
+        fontFamily: 'Poppins, Open Sans, Segoe UI, sans-serif',
+
         fontSmoothing: 'antialiased',
-        fontSize: '14px',
+        ':-webkit-autofill': {
+          color: '#black'
+        },
         '::placeholder': {
-          color: '#aab7c4'
+          color: '#a8a8a8'
         }
       },
       invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
+        iconColor: '#FFC7EE',
+        color: '#FFC7EE'
       }
     }
-    this.cardNumber = this.stripeElements.create('cardNumber', { style })
+    this.cardNumber = this.stripeElements.create('cardNumber', { style, showIcon: true })
     this.cardNumber.mount('#card-number')
     this.cardExpiry = this.stripeElements.create('cardExpiry', { style })
     this.cardExpiry.mount('#card-expiry')
@@ -75,15 +87,20 @@ export default {
 </script>
 
   <style scoped>
-  #custom-button {
-    height: 30px;
-    outline: 1px solid grey;
-    background-color: green;
-    padding: 5px;
-    color: white;
-  }
 
   #card-error {
     color: red;
+  }
+
+  .stripe-input {
+    border: 1px solid #CECECE;
+    padding: .75em;
+    font-size: 0.9em;
+    border-radius: .3em;
+  }
+
+  .stripe-label{
+    font-size: 0.9em;
+    line-height: 1.5px;
   }
   </style>
