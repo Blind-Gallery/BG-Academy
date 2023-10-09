@@ -37,7 +37,6 @@ export default {
     }
   },
   mounted () {
-    console.info(this.stripeElements)
     const style = {
       base: {
         iconColor: '#c4f0ff',
@@ -54,8 +53,8 @@ export default {
         }
       },
       invalid: {
-        iconColor: '#FFC7EE',
-        color: '#FFC7EE'
+        iconColor: '#960505',
+        color: '#960505'
       }
     }
     this.cardNumber = this.stripeElements.create('cardNumber', { style, showIcon: true })
@@ -86,10 +85,14 @@ export default {
 }
 </script>
 
-  <style scoped>
+  <style>
 
   #card-error {
-    color: red;
+   color: #960505;
+    font-size: .8em;
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 0.25em;
   }
 
   .stripe-input {

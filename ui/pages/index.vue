@@ -546,6 +546,10 @@ export default {
   color:#fff
 }
 
+.modal-header{
+  border-bottom: 0px;
+}
+
 .partners-container img{
   filter: brightness(0%);
   justify-self: center;

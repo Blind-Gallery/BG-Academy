@@ -117,7 +117,7 @@
           order-lg="2"
           lg="4"
         >
-          <div class="d-flex flex-column p-lg-3 mb-3  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
+          <div class="d-flex flex-column p-3 mb-3 shadow-sm  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
             <iframe
               class="rounded mb-3 d-lg-none"
               width="100%"
@@ -158,7 +158,7 @@
             <b-modal id="credit-pay" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
                 <h2>
-                  Payment details
+                  Payment data
                 </h2>
                 <span
                   style="cursor: pointer"
@@ -169,7 +169,18 @@
                   icon="material-symbols:close"
                 /></span>
               </template>
+
+              <p class=" stripe-label">
+                Total price
+              </p>
+              <h1 style="color: #00b9cd;" class="font-weight-bold">
+                $200
+              </h1>
+
               <StripeElements />
+              <p style="font-size: small;" class="mt-4 text-secondary">
+                With your purchase you will be able to access all the course content and receive a certificate hosted on the tezos blockchain.
+              </p>
             </b-modal>
 
             <button class="secondary-btn w-100">
