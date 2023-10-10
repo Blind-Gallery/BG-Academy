@@ -138,28 +138,37 @@
               </p>
             </b-collapse>
 
-            <div class="border rounded p-2">
-              <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                $200
-              </h2>
-              <p class="m-0">
-                Access this course
-              </p>
-            </div>
-            <button v-b-modal.credit-pay class="primary-btn w-100 ">
-              <Icon
-                icon="material-symbols:credit-card"
-                color="#fff"
+            <div>
+              <div class="border rounded p-2 mb-2">
+                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                  $200
+                </h2>
+                <p class="m-0">
+                  Access this course
+                </p>
+              </div>
 
-                width="21"
-              />
-              Credit card
-            </button>
+              <button class="primary-btn w-100 mb-2" @click="!$auth.loggedIn ? $bvModal.show('signin'): $bvModal.show('credit-pay')">
+                <Icon
+                  icon="material-symbols:credit-card"
+                  color="#fff"
+                  width="21"
+                />
+                Credit card
+              </button>
+              <button class="secondary-btn w-100" @click="!$auth.loggedIn ? $bvModal.show('signin'): ''">
+                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+                Tezos
+              </button>
+            </div>
+
             <b-modal id="credit-pay" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
-                <h2>
-                  Payment data
-                </h2>
+                <div>
+                  <h2 style="color:#00b9cd">
+                    Payment data
+                  </h2>
+                </div>
                 <span
                   style="cursor: pointer"
                   @click="close()"
@@ -169,24 +178,11 @@
                   icon="material-symbols:close"
                 /></span>
               </template>
-
-              <p class=" stripe-label">
-                Total price
-              </p>
-              <h1 style="color: #00b9cd;" class="font-weight-bold">
-                $200
-              </h1>
-
-              <StripeElements />
-              <p style="font-size: small;" class="mt-4 text-secondary">
-                With your purchase you will be able to access all the course content and receive a certificate hosted on the tezos blockchain.
-              </p>
+              <div>
+                <StripeElements />
+              </div>
             </b-modal>
 
-            <button class="secondary-btn w-100">
-              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-              Tezos
-            </button>
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">

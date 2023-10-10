@@ -1,34 +1,59 @@
 <template>
-  <div class="d-flex flex-column" style="gap:1rem">
+  <div>
     <div>
-      <label class="stripe-label">Card Number</label>
-      <div id="card-number" class="stripe-input" />
-    </div>
-    <div class="d-flex align-items-center justify-content-between" style="gap:1rem">
-      <div class="w-100">
-        <label class="stripe-label">Card Expiry</label>
-        <div id="card-expiry" class="stripe-input" />
+      <div class="d-flex flex-column" style="gap:1rem">
+        <div>
+          <p class=" stripe-label">
+            Total price
+          </p>
+          <h1 style="color: #00b9cd;" class="font-weight-bold">
+            $200
+          </h1>
+          <label class="stripe-label">Card Number</label>
+          <div id="card-number" class="stripe-input" />
+        </div>
+        <div class="d-flex align-items-center justify-content-between" style="gap:1rem">
+          <div class="w-100">
+            <label class="stripe-label">Card Expiry</label>
+            <div id="card-expiry" class="stripe-input" />
+          </div>
+          <div class="w-100">
+            <label class="stripe-label">Card CVC</label>
+            <div id="card-cvc" class="stripe-input" />
+          </div>
+        </div>
+        <div id="card-error" />
+
+        <button id="custom-button" class="primary-btn w-100" @click="createToken">
+          {{ loading === false ? 'Confirm payment' : 'Loading transaction' }}
+
+          <Icon
+            v-if="loading"
+            class="ml-2"
+            color="#fff"
+            width="1.25rem"
+            icon="eos-icons:loading"
+          />
+        </button>
       </div>
-      <div class="w-100">
-        <label class="stripe-label">Card CVC</label>
-        <div id="card-cvc" class="stripe-input" />
-      </div>
+      <p style="font-size: small;" class="mt-4 text-secondary">
+        With your purchase you will be able to access all the course content and receive a certificate hosted on the tezos blockchain.
+      </p>
     </div>
-    <div id="card-error" />
-    <button id="custom-button" class="primary-btn w-100" @click="createToken">
-      Confirm payment
-    </button>
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
       token: null,
       cardNumber: null,
       cardExpiry: null,
-      cardCvc: null
+      cardCvc: null,
+      success: null,
+      loading: false
     }
   },
   computed: {
@@ -71,15 +96,18 @@ export default {
   },
   methods: {
     async createToken () {
+      this.loading = true
       const { token, error } = await this.$stripe.createToken(this.cardNumber)
       if (error) {
-        // handle error here
+        this.loading = false
+        this.success = false
         document.getElementById('card-error').innerHTML = error.message
         return
       }
+      this.loading = false
       console.info(token)
-      // handle the token
-      // send it to your server
+      this.success = true
+      this.$router.push('/success')
     }
   }
 }
