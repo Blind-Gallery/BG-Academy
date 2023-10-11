@@ -6,15 +6,13 @@ const fp = require('fastify-plugin')
 
 const {
   Login,
-  User,
-  Documents
+  User
 } = require('./model')
 
 const {
   GQL,
   JWT,
-  Email,
-  Documents: Docs
+  Email
 } = require('./service')
 
 const {
@@ -50,17 +48,9 @@ async function decorateFastifyInstance (fastify) {
     email,
     opts
   })
-  const documents = new Documents({
-    gql,
-    jwt,
-    email,
-    opts,
-    docs: new Docs()
-  })
   fastify.decorate('login', login)
   fastify.decorate('user', user)
   fastify.decorate('jwt', jwt)
-  fastify.decorate('documents', documents)
 }
 
 // Pass --options via CLI arguments in command to enable these options.

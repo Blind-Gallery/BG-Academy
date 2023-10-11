@@ -117,7 +117,7 @@
           order-lg="2"
           lg="4"
         >
-          <div class="d-flex flex-column p-3 mb-3 shadow-sm  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
+          <div class="d-flex flex-column p-lg-3 mb-3  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
             <iframe
               class="rounded mb-3 d-lg-none"
               width="100%"
@@ -138,37 +138,28 @@
               </p>
             </b-collapse>
 
-            <div>
-              <div class="border rounded p-2 mb-2">
-                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                  $200
-                </h2>
-                <p class="m-0">
-                  Access this course
-                </p>
-              </div>
-
-              <button class="primary-btn w-100 mb-2" @click="!$auth.loggedIn ? $bvModal.show('signin'): $bvModal.show('credit-pay')">
-                <Icon
-                  icon="material-symbols:credit-card"
-                  color="#fff"
-                  width="21"
-                />
-                Credit card
-              </button>
-              <button class="secondary-btn w-100" @click="!$auth.loggedIn ? $bvModal.show('signin'): ''">
-                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-                Tezos
-              </button>
+            <div class="border rounded p-2">
+              <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                $200
+              </h2>
+              <p class="m-0">
+                Access this course
+              </p>
             </div>
+            <button v-b-modal.credit-pay class="primary-btn w-100 ">
+              <Icon
+                icon="material-symbols:credit-card"
+                color="#fff"
 
+                width="21"
+              />
+              Credit card
+            </button>
             <b-modal id="credit-pay" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
-                <div>
-                  <h2 style="color:#00b9cd">
-                    Payment data
-                  </h2>
-                </div>
+                <h2>
+                  Payment details
+                </h2>
                 <span
                   style="cursor: pointer"
                   @click="close()"
@@ -178,11 +169,52 @@
                   icon="material-symbols:close"
                 /></span>
               </template>
-              <div>
-                <StripeElements />
-              </div>
+              <b-form>
+                <b-form-group
+                  id="input-group-1"
+                  label="Card name"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the number that appears on your card"
+                    required
+                  />
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-1"
+                  label="Card number"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the card number"
+                    required
+                  />
+                </b-form-group>
+
+                <b-form-group
+                  id="input-group-1"
+                  label="Card number"
+                  label-for="input-1"
+                >
+                  <b-form-input
+                    id="input-1"
+
+                    placeholder="Enter the card number"
+                    required
+                  />
+                </b-form-group>
+              </b-form>
             </b-modal>
 
+            <button class="secondary-btn w-100">
+              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+              Tezos
+            </button>
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">

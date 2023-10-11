@@ -25,19 +25,12 @@ export default {
       {
         src: 'https://code.iconify.design/2/2.0.3/iconify.min.js',
         body: true
-      },
-      { src: 'https://js.stripe.com/v3' }
+      }
     ]
   },
   plugins: [
-    { src: '@/plugins/vue-html2pdf', mode: 'client' },
-    { src: '@/plugins/stripe.js', ssr: false, mode: 'client' }
+    { src: '@/plugins/vue-html2pdf', mode: 'client' }
   ],
-
-  env: {
-    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
-    STRIPE_ACCOUNT: process.env.STRIPE_ACCOUNT
-  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
