@@ -286,7 +286,7 @@
     </header>
 
     <Nuxt />
-    <footer class="py-5" fluid style="background-color:rgb(246, 246, 246); ">
+    <footer class="py-5 mt-5" fluid style="background-color:rgb(246, 246, 246); ">
       <b-container style="max-width: 1240px;  ">
         <b-row class="align-items-center justify-content-center">
           <b-col cols="12" lg="4">
