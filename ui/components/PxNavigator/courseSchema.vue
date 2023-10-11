@@ -11,7 +11,7 @@
         <!--TOGGLE MODULE-->
         <div>
           <div @click="toggleCollapse(module.id)">
-            <PxToggleCollapse :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
+            <PxToggleCollapse :id="`toggle-${module.id}`" ref="toggle" :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
           </div>
 
           <!--CHAPTERS COLLAPSE-->
@@ -155,6 +155,7 @@ export default {
   },
   async created () {
     await this.getCourseSchema()
+    this.toggleCollapseActive()
   },
   methods: {
     async getCourseSchema () {
@@ -172,6 +173,14 @@ export default {
     },
     toggleCollapse (moduleId) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleId}`)
+    },
+
+    toggleCollapseActive () {
+      for (const toggle of this.$refs.toggle) {
+        if (toggle.$attrs.id.includes(this.activeModuleId)) {
+          toggle.toggleCollapse = true
+        }
+      }
     }
   }
 }
