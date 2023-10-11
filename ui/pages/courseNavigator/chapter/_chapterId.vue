@@ -32,16 +32,24 @@
               @ended-video="handleEndedVideo"
             />
           </div>
-          <Transition name="fade">
-            <button v-if="isEndedVideo === true" class="primary-btn my-4">
-              <span>Go to the next chapter</span>
-              <Icon
-                icon="material-symbols:chevron-right"
-                width="28"
-                color="#fff"
-              />
-            </button>
-          </Transition>
+          <div class="d-flex justify-content-between mt-2">
+            <div>
+              <h4>{{ chapterInfo.title }}</h4>
+              <p class="small text-secondary m-0">
+                Digital Objects Advanced
+              </p>
+            </div>
+            <div>
+              <button class="primary-btn d-flex align-items-center justify-content-center">
+                <span>Next</span>
+                <Icon
+                  icon="material-symbols:skip-next-rounded"
+                  width="24"
+                  color="#fff"
+                />
+              </button>
+            </div>
+          </div>
 
           <div v-if="loading">
             <b-skeleton-img />
