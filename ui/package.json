@@ -29,7 +29,6 @@
     "@taquito/taquito": "^17.1.0",
     "@taquito/utils": "^17.1.1",
     "@vimeo/player": "^2.20.1",
-    "@vue-stripe/vue-stripe": "^4.5.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.22.0",
