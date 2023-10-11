@@ -11,30 +11,37 @@
               <img src="../assets/academy-logo.png" alt="logo" width="160px">
             </b-navbar-brand>
 
-            <b-navbar-toggle target="nav-collapse" />
+            <b-navbar-toggle v-if="!$auth.loggedIn" target="nav-collapse" />
 
-            <b-collapse id="nav-collapse" is-nav>
+            <b-collapse v-if="!$auth.loggedIn" id="nav-collapse" is-nav>
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
                 <b-navbar-nav
-                  v-if="!$auth.loggedIn"
+
                   class="d-flex align-items-center"
-                  style="gap: 1rem"
                 >
                   <b-nav-item v-b-modal.signup>
-                    Sign Up
+                    <button class="secondary-btn small">
+                      Sign Up
+                    </button>
                   </b-nav-item>
-                  <button v-b-modal.signin class="primary-btn">
-                    Sign In
-                  </button>
-                </b-navbar-nav>
-                <b-navbar-nav v-else>
-                  <b-nav-item @click="doLogout">
-                    Log out
+                  <b-nav-item v-b-modal.signin>
+                    <button v-b-modal.signin class="primary-btn small">
+                      Sign In
+                    </button>
                   </b-nav-item>
                 </b-navbar-nav>
               </b-navbar-nav>
             </b-collapse>
+
+            <button v-else class="tertiary-btn  ml-auto" @click="doLogout">
+              <Icon
+                icon="material-symbols:logout-rounded"
+                width="24"
+                color="#888"
+              />
+              Log out
+            </button>
           </b-navbar>
         </div>
       </b-container>
@@ -519,11 +526,11 @@ h5 {
   background-color: #00b9cd;
   border-radius: 5px;
   border: none;
-
+  border: 1px solid #00b9cd;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   transition: all 0.3s;
-  min-width: 120px;
+
 }
 
 .primary-btn:hover {
@@ -536,9 +543,9 @@ h5 {
   color: #00b9cd;
 
   background-color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   transition: all 0.3s;
-  min-width: 120px;
+
 }
 
 .secondary-btn:hover {
@@ -603,4 +610,10 @@ h5 {
 .invalid-feedback {
   font-size: small;
 }
+
+@media (max-width:425px){
+  .nav-item, .nav-item .primary-btn, .nav-item .secondary-btn{
+    width: 100%;
+  }
+  }
 </style>
