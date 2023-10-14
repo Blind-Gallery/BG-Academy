@@ -179,7 +179,6 @@
                 <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
                   <PxCard
                     :is-progress="true"
-
                     :pfp="item.course.teacher.pfp"
                     :instructor="item.course.teacher.name"
                     :description="item.course.description"
@@ -240,15 +239,15 @@
         }"
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="fakeCourse in fakeCourses" :key="fakeCourse.title" ref="slide">
-          <NuxtLink class="course-route" style="text-decoration: none;" to="/buyCourse">
+        <SwiperSlide v-for="course in courses" :key="course.id" ref="slide">
+          <NuxtLink class="course-route" style="text-decoration: none;" :to="'/buyCourse/' + course.id">
             <PxCard
               :is-progress="false"
-              :pfp="fakeCourse.pfp"
-              :instructor="fakeCourse.instructor"
-              :description="fakeCourse.description"
-              :title="fakeCourse.title"
-              :cover="fakeCourse.cover"
+              :pfp="course.teacher.pfp"
+              :instructor="course.teacher.name"
+              :description="course.description"
+              :title="course.name"
+              :cover="course.thumbnail"
             />
           </NuxtLink>
         </SwiperSlide>
@@ -444,52 +443,8 @@ export default {
         mintedDate: '04/09/2023',
         transaction: 'ooRhd...JVYDAM',
         transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
-      }],
-      fakeCourses: [
-        {
-          instructor: 'Hugo Santana',
-          pfp: 'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'Introduction to digital objects',
-          cover: 'https://cdn.discordapp.com/attachments/995431544019755070/1124593093560254555/anomalyofapes_code_art_black_and_white_tile_texture_flat_graphi_f5d49018-e6de-4513-9679-fcaaef4f7b19.png'
-        },
-        {
-          instructor: 'Kate Vass',
-          pfp: 'https://pbs.twimg.com/profile_images/1581225184127815682/8OvEWkSY_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'Gallery business',
-          cover: 'https://cdn.discordapp.com/attachments/995431473828077618/1126451747213291600/taylankoca_imagine_a_modern_art_gallery_with_the_curator_in_it._799e1c51-2808-4a56-b4ab-31ca85854b9c.png'
-        },
-        {
-          instructor: 'Aleksandra Art',
-          pfp: 'https://pbs.twimg.com/profile_images/1665442400590856195/rZQEm-Vh_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'Getting involved in web 3',
-          cover: 'https://cdn.discordapp.com/attachments/933565701162168371/1126481090173997137/aapertureka_a_minimalist_clean_and_sleek_abstract_illustration__db72e08a-dfb4-4df8-ab0a-89ad77bc24f2.png'
-        },
-        {
-          instructor: 'Sean Moss Pultz',
-          pfp: 'https://pbs.twimg.com/profile_images/1355778841101299713/FUQe7j45_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'What is a crypto wallet?',
-          cover: 'https://cdn.discordapp.com/attachments/933565701162168371/1124863799766302800/DariaSuvorova_Wallet_crypto._Ultra_realistic._728e36ec-35cf-4722-9673-b41849919361.png'
-        },
-        {
-          instructor: 'Hugo Santana',
-          pfp: 'https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'Digital objects advanced',
-          cover: 'https://cdn.discordapp.com/attachments/995431544019755070/1124596257181151243/Hardie_code_art_black_and_white_tile_texture_flat_graphic_Vecto_a0f35d65-195d-4352-a8e9-d6027bab4554.png'
-        },
-        {
-          instructor: 'Anika Meier',
-          pfp: 'https://pbs.twimg.com/profile_images/1506308937687224324/8hR0LB5I_400x400.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis.',
-          title: 'Introduction to digital art curation',
-          cover: 'https://cdn.discordapp.com/attachments/1008571223543922809/1108278018687893514/Ondrej_Bacina_Ultra_photorealistic_canon_DSLR_image_of_an_art_c_87e87c4d-d3eb-4a6c-88e1-5c2ab67bb96e.png'
-        }
+      }]
 
-      ]
     }
   },
 
