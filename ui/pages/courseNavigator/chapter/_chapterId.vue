@@ -1,116 +1,125 @@
 <template>
   <div>
-    <b-container style="margin-top: 2rem; max-width: 1240px">
-      <b-row class="courseNav-parent mb-3">
-        <b-col
-          lg="9"
-          cols="12"
+    <div v-if="!$apollo.loading">
+      <b-container style="margin-top: 2rem; max-width: 1240px">
+        <b-row class="courseNav-parent mb-3">
+          <b-col
+            lg="9"
+            cols="12"
 
-          :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
-        >
-          <span
-            v-b-tooltip.hover
-            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
-            class="toggleNav-icon"
-            @click="doHideNavBar()"
+            :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
           >
-            <Icon
-              icon="material-symbols:menu-open"
-              :rotate="!navBarHidden ? '2':'null'"
-              width="32"
-              color="#fff"
-            />
-          </span>
+            <span
+              v-b-tooltip.hover
+              :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+              class="toggleNav-icon"
+              @click="doHideNavBar()"
+            >
+              <Icon
+                icon="material-symbols:menu-open"
+                :rotate="!navBarHidden ? '2':'null'"
+                width="32"
+                color="#fff"
+              />
+            </span>
 
-          <div>
-            <PxPlayer
-              :is-ended-video="isEndedVideo"
-              :video-id="chapterInfo.video_id"
-              :chapter-id="chapterInfo.id"
-              width="100%"
-
-              @ended-video="handleEndedVideo"
-            />
-          </div>
-          <div class="d-flex justify-content-between mt-2">
             <div>
-              <h4>{{ chapterInfo.title }}</h4>
-              <p class="small text-secondary m-0">
-                Digital Objects Advanced
-              </p>
+              <PxPlayer
+                :is-ended-video="isEndedVideo"
+                :video-id="chapterInfo.video_id"
+                :chapter-id="chapterInfo.id"
+                width="100%"
+
+                @ended-video="handleEndedVideo"
+              />
             </div>
-            <div>
-              <button class="primary-btn d-flex align-items-center justify-content-center">
-                <span>Next</span>
-                <Icon
-                  icon="material-symbols:skip-next-rounded"
-                  width="24"
-                  color="#fff"
-                />
-              </button>
-            </div>
-          </div>
-
-          <div v-if="loading">
-            <b-skeleton-img />
-          </div>
-        </b-col>
-        <!--HIDE NAV BAR ICON-->
-
-        <!--NAV BAR COLUMN-->
-
-        <Transition name="fade">
-          <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
-            <!--NAV BAR PARENT CONTAINER-->
-
-            <div class="course-nav-container">
-              <div class="d-flex justify-content-between">
-                <p class="small" style="font-weight: 600;">
-                  Modules
-                </p>
-                <p v-if="false" class="small">
-                  Completed: 0/3
+            <div class="d-flex justify-content-between mt-2">
+              <div>
+                <h4>{{ chapterInfo.title }}</h4>
+                <p class="small text-secondary m-0">
+                  Digital Objects Advanced
                 </p>
               </div>
-
-              <div v-if="false" class="d-flex flex-column">
-                <b-progress
-                  class="mb-2"
-                  height="5px"
-                  value="2"
-                />
-                <div class="d-flex justify-content-between">
-                  <p class="small">
-                    Progress
-                  </p>
-                  <p class="small">
-                    2%
-                  </p>
-                </div>
+              <div>
+                <button class="primary-btn d-flex align-items-center justify-content-center">
+                  <span>Next</span>
+                  <Icon
+                    icon="material-symbols:skip-next-rounded"
+                    width="24"
+                    color="#fff"
+                  />
+                </button>
               </div>
+            </div>
 
-              <!-- navigator -->
-              <PxNavigatorCourseSchema :course-id="1" />
+            <div v-if="loading">
+              <b-skeleton-img />
             </div>
           </b-col>
-        </Transition>
-      </b-row>
+          <!--HIDE NAV BAR ICON-->
 
-      <b-row>
-        <b-col>
-          <div class="w-100">
-            <b-tabs content-class="mt-3">
-              <b-tab title="Course info" active>
-                <p>{{ chapterInfo.info }}</p>
-              </b-tab>
-              <b-tab title="Resources">
-                <p>{{ chapterInfo.resources }}</p>
-              </b-tab>
-            </b-tabs>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+          <!--NAV BAR COLUMN-->
+
+          <Transition name="fade">
+            <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
+              <!--NAV BAR PARENT CONTAINER-->
+
+              <div class="course-nav-container">
+                <div class="d-flex justify-content-between">
+                  <p class="small" style="font-weight: 600;">
+                    Modules
+                  </p>
+                  <p v-if="false" class="small">
+                    Completed: 0/3
+                  </p>
+                </div>
+
+                <div v-if="false" class="d-flex flex-column">
+                  <b-progress
+                    class="mb-2"
+                    height="5px"
+                    value="2"
+                  />
+                  <div class="d-flex justify-content-between">
+                    <p class="small">
+                      Progress
+                    </p>
+                    <p class="small">
+                      2%
+                    </p>
+                  </div>
+                </div>
+
+                <!-- navigator -->
+                <PxNavigatorCourseSchema :course-id="1" />
+              </div>
+            </b-col>
+          </Transition>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <div class="w-100">
+              <b-tabs content-class="mt-3">
+                <b-tab title="Course info" active>
+                  <p>{{ chapterInfo.info }}</p>
+                </b-tab>
+                <b-tab title="Resources">
+                  <p>{{ chapterInfo.resources }}</p>
+                </b-tab>
+              </b-tabs>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+
+    <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+        <h5>Loading, please wait...</h5>
+      </div>
+    </div>
   </div>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
-      <b-row v-if="courses && courses.length > 0" class="mt-md-3">
+      <b-row v-if="!$apollo.loading" class="mt-md-3">
         <b-col
           order="2"
           order-lg="1"
@@ -248,7 +248,12 @@
         </b-col>
       </b-row>
       <b-row v-else>
-        Loading...
+        <div class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+          <div class="d-flex flex-column align-items-center justify-content-center">
+            <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+            <h5>Loading, please wait...</h5>
+          </div>
+        </div>
       </b-row>
     </b-container>
   </div>
@@ -300,8 +305,8 @@ export default {
   data () {
     return {
       seeMore: false,
-      isOpen: false
-
+      isOpen: false,
+      loading: true
     }
   },
 
