@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
-      <b-row class="mt-md-3">
+      <b-row v-if="!$apollo.loading" class="mt-md-3">
         <b-col
           order="2"
           order-lg="1"
@@ -17,9 +17,9 @@
               frameborder="0"
             />
             <h5 class="mb-3">
-              Digital objects advanced
+              {{ courses[0].name }}
             </h5>
-            <p>Gain insights into the latest tools and technologies used in the industry and develop a deep understanding of their capabilities.</p>
+            <p>{{ courses[0].description }}</p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
@@ -57,9 +57,7 @@
             </h5>
             <div :class="!seeMore ? 'overflow-hidden description-container' : 'overflow-hidden description-container__toggle'">
               <p>
-                The "Digital Objects Advanced" course is a comprehensive program designed to empower participants with the skills to create captivating digital art using coding techniques. Through a hands-on learning experience, students will explore the exciting intersection of art and technology, unlocking endless possibilities for artistic expression.<br><br>
-                During this course, participants will dive into the world of generative art, where they will learn how to harness the power of algorithms and procedural methods to generate dynamic and visually stunning artworks. They will delve into the realm of interactive art, discovering how to combine coding with interactivity to engage viewers and create immersive digital art experiences.<br><br>
-                Furthermore, the course will equip students with the ability to transform complex datasets into visually compelling artworks through data visualization techniques. By leveraging code, they will learn to represent information in meaningful and aesthetically pleasing ways, bridging the gap between data and art.
+                {{ courses[0].summary }}
               </p>
             </div>
             <p style="text-align: center; cursor: pointer;font-weight: 600;" @click="doSeeMore()">
@@ -71,23 +69,23 @@
             </h5>
 
             <div
-              v-for="(module, moduleIndex) in courseModules"
+              v-for="(module, moduleIndex) in courses[0].modules"
               :key="moduleIndex"
               class="w-100 shadow-sm  mb-2 rounded"
             >
               <div @click="toggleCollapse(moduleIndex)">
-                <PxToggleCollapse :icon-width="'24px'" :subtitle-name="`Chapters: ${module.chapter.length} | 1h 30min`" :toggle-name="module.title" />
+                <PxToggleCollapse :icon-width="'24px'" :toggle-name="module.title" />
               </div>
 
               <!--CHAPTERS COLLAPSE-->
               <b-collapse
-                v-for="(chapter, chapterIndex) in module.chapter"
+                v-for="(chapter, chapterIndex) in module.chapters"
                 :id="`accordion-${moduleIndex}`"
                 :key="chapterIndex"
                 class="mt-2"
                 role="tabpanel"
               >
-                <NuxtLink to="/courseNavigator">
+                <NuxtLink :to="'/courseNavigator/chapter/' + chapter.id">
                   <div class="d-flex justify-content-between p-3 position-relative  rounded">
                     <div class="d-flex align-items-center">
                       <Icon
@@ -127,20 +125,19 @@
               frameborder="0"
             />
             <div v-b-toggle.instructor class="d-flex align-items-center w-100" @click="toggleDropdown">
-              <b-avatar src="https://pbs.twimg.com/profile_images/1562353277647339521/UAZlyXN2_400x400.jpg" size="2rem" />
+              <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
 
-              <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="'Instructor name'" :subtitle-name="'Instructor'" />
+              <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="courses[0].teacher.name" :subtitle-name="'Instructor'" />
             </div>
             <b-collapse id="instructor" accordion="intructor" role="tabpanel">
               <p class="small text-secondary">
-                With over a decade of experience, he has taught at prestigious educational institutions and inspired countless students to delve into the fascinating world of creative coding.<br><br>
-                His unique approach combines traditional art with cutting-edge technology, earning him recognition for pushing the boundaries of artistic expression.
+                {{ courses[0].teacher.description }}
               </p>
             </b-collapse>
 
             <div class="border rounded p-2">
               <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                $200
+                ${{ courses[0].price }}
               </h2>
               <p class="m-0">
                 Access this course
@@ -224,7 +221,7 @@
               </div>
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:signal-cellular-alt" class="mr-2" /><p class="small m-0">
-                  Advanced level
+                  {{ courses[0].level }} level
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -238,7 +235,7 @@
               </div>
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:closed-caption-outline" class="mr-2" /><p class="small m-0">
-                  English subtitles
+                  {{ courses[0].language }} subtitles
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -250,71 +247,69 @@
           </div>
         </b-col>
       </b-row>
+      <b-row v-else>
+        <div class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+          <div class="d-flex flex-column align-items-center justify-content-center">
+            <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+            <h5>Loading, please wait...</h5>
+          </div>
+        </div>
+      </b-row>
     </b-container>
   </div>
 </template>
 <script>
+import { gql } from 'graphql-tag'
+
 export default {
+  apollo: {
+    courses: {
+      query: gql`
+        query ($id: Int!) {
+          courses(where: { id: { _eq: $id } }) {
+            id
+            name
+            description
+            language
+            level
+            price
+            summary
+            thumbnail
+            duration
+            modules {
+              title
+              id
+              chapters {
+                id
+                title
+              }
+              you_will_learn_title
+              you_will_learn
+            }
+            teacher {
+              name
+              pfp
+              description
+            }
+            teacher_id
+          }
+        }
+      `,
+      variables () {
+        return {
+          id: this.$route.params.courseId
+        }
+      }
+    }
+  },
   data () {
     return {
       seeMore: false,
       isOpen: false,
-      courseModules: [
-        {
-          collapsed: true,
-          title: 'Introduction to generative art',
-          chapter: [
-            {
-              title: 'Exploring the foundation of generative art'
-            },
-            {
-              title: 'Understanding algorithms and creative coding'
-            },
-            {
-              title: 'Creating dynamic visual sistems'
-            },
-            {
-              title: 'Embracing randomness in generative art'
-            },
-            {
-              title: 'Expressing creativity through generative art techniques'
-            }
-          ]
-        },
-        {
-          title: 'Interactive art with code',
-          chapter: [
-            {
-              title: 'Introduction to Interactive Art and Coding'
-            },
-            {
-              title: 'Creating Immersive Experiences with Interactive Code'
-            },
-            {
-              title: 'Exploring User Engagement and Interaction in Code-based Art'
-            }
-          ]
-        },
-        {
-          title: 'Data visualization and art',
-          chapter: [
-            {
-              title: 'Introduction to Data Visualization in Art'
-            },
-            {
-              title: 'Exploring Data Sources and Formats for Artistic Visualizations'
-            },
-            {
-              title: 'Creative Approaches to Data Interpretation and Representation'
-            },
-            {
-              title: 'Interactive Data Visualizations and Engaging Audiences'
-            }
-          ]
-        }
-      ]
+      loading: true
     }
   },
+
   methods: {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
