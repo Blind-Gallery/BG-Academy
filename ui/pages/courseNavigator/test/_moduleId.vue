@@ -6,7 +6,6 @@
           <b-col
             lg="9"
             cols="12"
-
             :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
           >
             <span
@@ -23,9 +22,9 @@
               />
             </span>
 
-            <div class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-column align-items-center mb-5">
               <Transition name="fade" mode="out-in">
-                <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
+                <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
                   <h1 class="text-light">
                     Digital objects
                   </h1>
@@ -100,8 +99,8 @@
                           </p>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-center">
-                          <button class="last-btn mr-3" @click="previousSlide(test, index)">
+                        <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
+                          <button class="last-btn " @click="previousSlide(test, index)">
                             Previous
                           </button>
                           <button class="next-btn" @click="nextSlide(test, index)">
@@ -363,6 +362,7 @@ export default {
 
     nextSlide (test, index) {
       console.info(test, index)
+
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
         return
@@ -467,20 +467,8 @@ export default {
   min-height: 600px;
 }
 
-.course-video{
-  flex: 0 0 75%;
-  max-width: 75%;
-  transition: 0.5s ease all;
-}
-
 input:checked ~ label {
   border-color: #00b9cd;
-}
-
-.course-video__toggle{
-  transition: 0.5s ease all;
-  flex: 0 0 100%;
-  max-width: 100%;
 }
 
 .course-nav-container{
@@ -551,7 +539,6 @@ input:checked ~ label {
   flex-direction: column;
   padding:2rem;
   border-radius: 5px;
-  height: 560px;
 }
 
 .test .formulate-input .formulate-input-label{
@@ -630,25 +617,34 @@ input:checked ~ label {
   background-color: #00b9cd;
   border-radius: 5px;
   border: none;
-
   color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
   min-width: 120px;
 }
 
+.swiper-slide{
+  height: auto;
+}
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;
   max-width: 100%;
   transition: 0.5s ease all;
 }
+
   .courseNav-parent{
     flex-wrap: wrap;
   }
 
   .toggleNav-icon{
     display:none
+  }
+}
+
+@media(max-width: 375px){
+  .ev-Slider{
+    width: 345px;
   }
 }
 
