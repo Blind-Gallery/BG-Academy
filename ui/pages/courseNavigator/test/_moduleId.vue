@@ -100,10 +100,10 @@
                         </div>
 
                         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
-                          <button class="last-btn " @click="previousSlide(test, index)">
+                          <button class="last-btn w-100" @click="previousSlide(test, index)">
                             Previous
                           </button>
-                          <button class="next-btn" @click="nextSlide(test, index)">
+                          <button class="next-btn w-100" @click="nextSlide(test, index)">
                             Next
                           </button>
                         </div>
@@ -641,7 +641,14 @@ input:checked ~ label {
     display:none
   }
 }
-
+@media(max-width:425px){
+  .ev-Slider{
+    width: 390px
+  }
+  .swiper-slide{
+    width: auto;
+  }
+}
 @media(max-width: 375px){
   .ev-Slider{
     width: 345px;
