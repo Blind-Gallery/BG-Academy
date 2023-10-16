@@ -460,24 +460,6 @@ input:checked ~ label {
   background-color: #f7f7f7;
 }
 
-.ev-intro{
-  background: rgb(26,55,75);
-  background: -moz-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: -webkit-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a374b",endColorstr="#195b88",GradientType=1);
-}
-
-.ev-Slider{
-  width: 450px;
-  display:flex;
-  justify-content: center;
-  flex-direction: column;
-  padding:2rem;
-  border-radius: 5px;
-  height: 560px;
-}
-
 .test .formulate-input .formulate-input-label{
   font-weight: 400;
   margin-bottom: 1rem;
@@ -562,6 +544,10 @@ input:checked ~ label {
 }
 
 @media (max-width: 990px) {
+  .course-video{
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
   .courseNav-parent{
     flex-wrap: wrap;
   }

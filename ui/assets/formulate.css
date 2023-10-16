@@ -455,7 +455,7 @@
     border: 1px solid #cecece;
     position: relative;
     min-width: 1em;
-    margin-right: 1rem;
+    margin-right: 1.3rem;
 }
 
 .formulate-input[data-classification=box] .formulate-input-element-decorator:before {
