@@ -24,62 +24,33 @@
               You will learn
             </h5>
             <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
-              <div class="d-flex flex-column shadow-sm rounded p-3">
-                <Icon icon="material-symbols:check-small" color="#00c851" width="32" />
-                <p class="m-0" style="font-weight: 600;">
-                  Generative Art
-                </p>
-                <p class="small">
-                  You will explore algorithms and procedural methods to generate visually captivating and ever-evolving artworks.
-                </p>
-              </div>
-              <div class="d-flex flex-column shadow-sm rounded p-3">
-                <Icon icon="material-symbols:check-small" color="#00c851" width="32" />
-                <p class="m-0" style="font-weight: 600;">
-                  Interactive Art
-                </p>
-                <p class="small">
-                  Participants will discover how to combine coding with interactivity to develop engaging digital art experiences.
-                </p>
-              </div>
-              <div class="d-flex flex-column shadow-sm rounded p-3">
-                <Icon icon="material-symbols:check-small" color="#00c851" width="32" />
-                <p class="m-0" style="font-weight: 600;">
-                  Creative Coding Techniques:
-                </p>
-                <p class="small">
-                  You will explore algorithms and procParticipants will discover how to combine coding with interactivity to develop engaging digital art experiences.
-                </p>
-              </div>
+              <PxWillLearn v-for="itemModule in courses[0].modules" :key="itemModule.id" :title="itemModule.you_will_learn_title" :description="itemModule.you_will_learn" />
             </div>
             <h5 class="mb-3 mt-4">
               Description
             </h5>
-            <div :class="!seeMore ? 'overflow-hidden description-container' : 'overflow-hidden description-container__toggle'">
+            <div>
               <p>
                 {{ courses[0].summary }}
               </p>
             </div>
-            <p style="text-align: center; cursor: pointer;font-weight: 600;" @click="doSeeMore()">
-              {{ seeMore ? 'SEE LESS' : 'SEE MORE' }}
-            </p>
 
             <h5 class="mb-3 mt-4">
               Course curriculum
             </h5>
 
             <div
-              v-for="(module, moduleIndex) in courses[0].modules"
+              v-for="(itemModule, moduleIndex) in courses[0].modules"
               :key="moduleIndex"
               class="w-100 shadow-sm  mb-2 rounded"
             >
               <div @click="toggleCollapse(moduleIndex)">
-                <PxToggleCollapse :icon-width="'24px'" :toggle-name="module.title" />
+                <PxToggleCollapse :icon-width="'24px'" :toggle-name="itemModule.title" />
               </div>
 
               <!--CHAPTERS COLLAPSE-->
               <b-collapse
-                v-for="(chapter, chapterIndex) in module.chapters"
+                v-for="(chapter, chapterIndex) in itemModule.chapters"
                 :id="`accordion-${moduleIndex}`"
                 :key="chapterIndex"
                 class="mt-2"
@@ -114,8 +85,9 @@
           order="1"
           order-lg="2"
           lg="4"
+          class="mb-3"
         >
-          <div class="d-flex flex-column p-lg-3 mb-3  rounded ml-sm-3" style="gap:0.5rem; position:sticky; top: 77px;">
+          <div class="d-flex flex-column p-3 shadow-sm rounded ml-sm-3 " style="gap:0.5rem; position:sticky; top: 77px;">
             <iframe
               class="rounded mb-3 d-lg-none"
               width="100%"
@@ -124,7 +96,7 @@
               title="YouTube video player"
               frameborder="0"
             />
-            <div v-b-toggle.instructor class="d-flex align-items-center w-100" @click="toggleDropdown">
+            <div v-b-toggle.instructor class="d-flex align-items-center w-100">
               <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
 
               <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="courses[0].teacher.name" :subtitle-name="'Instructor'" />
@@ -276,7 +248,7 @@ export default {
             summary
             thumbnail
             duration
-            modules {
+            modules (order_by: {created_at: asc}) {
               title
               id
               chapters {
@@ -304,21 +276,13 @@ export default {
   },
   data () {
     return {
-      seeMore: false,
-      isOpen: false,
-      loading: true
+
     }
   },
 
   methods: {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
-    },
-    doSeeMore () {
-      this.seeMore = !this.seeMore
-    },
-    toggleDropdown () {
-      this.isOpen = !this.isOpen
     }
   }
 }
@@ -328,17 +292,7 @@ export default {
 .curriculum-chapter {
   max-width: 100%;
 }
-.description-container{
-    mask-image: linear-gradient(to top,transparent 0,transparent 51px,#000 77px,#000 100%);
-    height: 200px;
 
-}
-
-.decription-container__toggle{
-    height: 100%;
-    mask-image: inherit;
-
-}
 @media(max-width: 768px){
   .curriculum-chapter {
   max-width: 500px;
