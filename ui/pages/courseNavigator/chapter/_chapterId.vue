@@ -37,11 +37,11 @@
               <div>
                 <h4>{{ chapterInfo.title }}</h4>
                 <p class="small text-secondary m-0">
-                  Digital Objects Advanced
+                  {{ chapterInfo.module.course.name }}
                 </p>
               </div>
               <div>
-                <button class="primary-btn d-flex align-items-center justify-content-center">
+                <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
                   <span>Next</span>
                   <Icon
                     icon="material-symbols:skip-next-rounded"
@@ -198,6 +198,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        name
         modules(order_by: {created_at: asc}) {
           id
           next_module_id
@@ -264,14 +265,14 @@ export default {
   computed: {
     activeModuleId () {
       const chapterIdFromRoute = this.$route.params.chapterId
-      for (const module of this.chapterInfo.module.course.modules) {
-        for (const chapter of module.chapters) {
-          if (chapter.id === chapterIdFromRoute) {
-            return module.id
-          }
-        }
-      } return null
+
+      const foundModule = this.chapterInfo.module.course.modules.find((module) => {
+        return module.chapters.some(chapter => chapter.id === chapterIdFromRoute)
+      })
+
+      return foundModule ? foundModule.id : null
     }
+
   },
 
   created () {
@@ -366,6 +367,23 @@ export default {
 
       for (const test of tests) {
         this.$formulate.reset(test.name)
+      }
+    },
+
+    nextChapter () {
+      const modules = this.chapterInfo.module.course.modules
+      const activeModule = modules.find(module => module.id === this.activeModuleId)
+
+      if (activeModule) {
+        const chapterArray = activeModule.chapters
+        const targetChapterId = this.$route.params.chapterId
+        const index = chapterArray.findIndex(chapter => chapter.id === targetChapterId)
+
+        if (index !== -1 && index < chapterArray.length - 1) {
+          this.$router.push(`/courseNavigator/chapter/${chapterArray[index + 1].id}`)
+        } else {
+          this.$router.push(`/courseNavigator/test/${this.activeModuleId}`)
+        }
       }
     },
 
