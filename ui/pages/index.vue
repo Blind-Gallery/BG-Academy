@@ -142,7 +142,7 @@
           My courses
         </h4>
         <div class="mb-5">
-          <b-tabs content-class="mt-3">
+          <b-tabs content-class="mt-3 ">
             <b-tab title="All" active>
               <div
                 v-if="!user_course"
