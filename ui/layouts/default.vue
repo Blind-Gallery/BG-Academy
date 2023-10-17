@@ -18,7 +18,7 @@
               <b-navbar-nav class="ml-auto">
                 <b-navbar-nav
 
-                  class="d-flex align-items-center"
+                  class="d-flex align-items-center main-menu"
                 >
                   <b-nav-item v-b-modal.signup>
                     <button class="secondary-btn small">
@@ -612,7 +612,7 @@ h5 {
 }
 
 @media (max-width:425px){
-  .nav-item, .nav-item .primary-btn, .nav-item .secondary-btn{
+ .main-menu .nav-item, .main-menu .nav-item .primary-btn, .nav-item .secondary-btn{
     width: 100%;
   }
   }
