@@ -535,6 +535,7 @@ h5 {
 
 .primary-btn:hover {
   background-color: #009cad;
+  border: 1px solid #009cad;
 }
 
 .secondary-btn {

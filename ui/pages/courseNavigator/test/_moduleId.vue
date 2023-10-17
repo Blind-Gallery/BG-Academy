@@ -25,11 +25,11 @@
             <div class="d-flex flex-column align-items-center mb-5">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
-                  <h1 class="text-light">
-                    Digital objects
+                  <h1 class="text-light text-center">
+                    {{ module.title }}
                   </h1>
                   <p class="text-light m-0">
-                    {{ module.title }} | Evaluation
+                    Evaluation
                   </p>
                   <hr style=" border-color: #fff;  width: 100%;">
                   <p style="text-align: center;" class="text-light small">
@@ -296,7 +296,7 @@ export default {
       paginationOp:
       {
         type: 'bullets',
-        clickable: true,
+        clickable: false,
         renderBullet: function (index, className) {
           return '<span class="' + className + '">' + (index + 1) + '</span>'
         }
@@ -378,6 +378,10 @@ export default {
     },
 
     previousSlide (test, index) {
+      if (test.selectedOption === false || test.selectedOption === '') {
+        this.testMessage = 'Please, select one option'
+        return
+      }
       console.info(test, index)
       this.$refs.mySwiper.$el.swiper.slidePrev()
       this.testMessage = ''
@@ -525,11 +529,8 @@ input:checked ~ label {
 }
 
 .ev-intro{
-  background: rgb(26,55,75);
-  background: -moz-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
   background: -webkit-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a374b",endColorstr="#195b88",GradientType=1);
+  width: 450px;
 }
 
 .ev-Slider{
@@ -642,15 +643,16 @@ input:checked ~ label {
   }
 }
 @media(max-width:425px){
-  .ev-Slider{
+  .ev-Slider, .ev-intro{
     width: 390px
   }
+
   .swiper-slide{
     width: auto;
   }
 }
 @media(max-width: 375px){
-  .ev-Slider{
+  .ev-Slider, .ev-intro{
     width: 345px;
   }
 }
