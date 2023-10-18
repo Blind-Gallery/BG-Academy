@@ -33,18 +33,18 @@
                 @ended-video="handleEndedVideo"
               />
             </div>
-            <div class="d-flex justify-content-between mt-2">
+            <div class="d-flex justify-content-between align-items-center mt-2">
               <div>
-                <h4>{{ chapterInfo.title }}</h4>
+                <h5>{{ chapterInfo.title }}</h5>
                 <p class="small text-secondary m-0">
                   {{ chapterInfo.module.course.name }}
                 </p>
               </div>
               <div>
                 <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
-                  <span>Next</span>
+                  <span class="mr-1">Next</span>
                   <Icon
-                    icon="material-symbols:skip-next-rounded"
+                    icon="material-symbols:skip-next"
                     width="24"
                     color="#fff"
                   />
@@ -561,7 +561,16 @@ input:checked ~ label {
   min-width: 120px;
 }
 
+.player-lg{
+  display: block;
+}
+
+.player-sm{
+  display:none
+}
+
 @media (max-width: 990px) {
+
   .course-video{
     max-width: 100%;
     flex: 0 0 100%;
