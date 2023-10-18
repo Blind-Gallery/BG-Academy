@@ -41,7 +41,7 @@
                     a note for this module.
                   </p>
                   <div class="d-flex mt-3 w-100">
-                    <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
+                    <button class="primary-btn w-100" @click="doResetTest">
                       <div class="d-flex align-items-center justify-content-center">
                         <p class="m-0">
                           Start
@@ -324,7 +324,6 @@ export default {
 
   created () {
     this.getModule()
-    this.doResetTest()
   },
 
   methods: {
@@ -380,7 +379,6 @@ export default {
       this.testMessage = ''
 
       if (index === this.module.questions.length - 1) {
-        console.info('last slide')
         this.updateUserScore()
       }
       this.$refs.mySwiper.$el.swiper.slideNext()
@@ -425,15 +423,12 @@ export default {
     },
 
     doResetTest () {
-      if (this.getChapter) {
-        setTimeout(() => {
-          const questions = this.module.questions
-          for (const question of questions) {
-            question.selectedOption = false
-            question.isCorrectOption = false
-          }
-        }, 1000)
+      const questions = this.module.questions
+      for (const question of questions) {
+        question.selectedOption = false
+        question.isCorrectOption = false
       }
+      this.showEvIntro = false
     },
 
     doTryAgain () {
