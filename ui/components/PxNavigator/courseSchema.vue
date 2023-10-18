@@ -17,9 +17,9 @@
 
             <!--CHAPTERS COLLAPSE-->
             <b-collapse
-              v-for="(chapter, chapterIndex) in module.chapters"
+              v-for="chapter in module.chapters"
               :id="`accordion-${module.id}`"
-              :key="chapterIndex"
+              :key="chapter.id"
               class="mx-2"
               role="tablist"
               appear
@@ -55,7 +55,6 @@
             <b-collapse
               v-if="module.questions.length > 0"
               :id="`accordion-${module.id}`"
-              :key="chapterIndex"
               class="mx-2"
               role="tablist"
               appear
