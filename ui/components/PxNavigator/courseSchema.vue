@@ -183,9 +183,11 @@ export default {
     },
 
     toggleCollapseActive () {
-      for (const toggle of this.$refs.toggle) {
-        if (toggle.$attrs.id.includes(this.activeModuleId)) {
-          toggle.toggleCollapse = true
+      if (this.$refs.toggle) {
+        for (const toggle of this.$refs.toggle) {
+          if (toggle.$attrs.id.includes(this.activeModuleId)) {
+            toggle.toggleCollapse = true
+          }
         }
       }
     }
