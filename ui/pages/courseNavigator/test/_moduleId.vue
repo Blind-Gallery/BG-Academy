@@ -1,216 +1,223 @@
 <template>
   <div>
-    <b-container style="margin-top: 2rem; max-width: 1240px">
-      <b-row class="courseNav-parent mb-3">
-        <b-col
-          lg="9"
-          cols="12"
-
-          :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
-        >
-          <span
-            v-b-tooltip.hover
-            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
-            class="toggleNav-icon"
-            @click="doHideNavBar()"
+    <div v-if="!$apollo.loading">
+      <b-container style="margin-top: 2rem; max-width: 1240px">
+        <b-row class="courseNav-parent mb-3">
+          <b-col
+            lg="9"
+            cols="12"
+            :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
           >
-            <Icon
-              icon="material-symbols:menu-open"
-              :rotate="!navBarHidden ? '2':'null'"
-              width="32"
-              color="#fff"
-            />
-          </span>
+            <span
+              v-b-tooltip.hover
+              :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+              class="toggleNav-icon"
+              @click="doHideNavBar()"
+            >
+              <Icon
+                icon="material-symbols:menu-open"
+                :rotate="!navBarHidden ? '2':'null'"
+                width="32"
+                color="#fff"
+              />
+            </span>
 
-          <div class="d-flex flex-column align-items-center">
-            <Transition name="fade" mode="out-in">
-              <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5 w-50 shadow-sm ev-intro">
-                <h1 class="text-light">
-                  Digital objects
-                </h1>
-                <p class="text-light m-0">
-                  {{ module.title }} | Evaluation
-                </p>
-                <hr style=" border-color: #fff;  width: 100%;">
-                <p style="text-align: center;" class="text-light small">
-                  Multiple choice assessment: in each question
-                  you will be able to select one of the options
-                  you consider correct.<br><br>
+            <div class="d-flex flex-column align-items-center mb-5">
+              <Transition name="fade" mode="out-in">
+                <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
+                  <h1 class="text-light text-center">
+                    {{ module.title }}
+                  </h1>
+                  <p class="text-light m-0">
+                    Evaluation
+                  </p>
+                  <hr style=" border-color: #fff;  width: 100%;">
+                  <p style="text-align: center;" class="text-light small">
+                    Multiple choice assessment: in each question
+                    you will be able to select one of the options
+                    you consider correct.<br><br>
 
-                  Once completed, you will receive
-                  a note for this module.
-                </p>
-                <div class="d-flex mt-3 w-100">
-                  <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
-                    <div class="d-flex align-items-center justify-content-center">
-                      <p class="m-0">
-                        Start
-                      </p>
-                      <Icon
-                        width="24px"
-                        icon="material-symbols:chevron-right"
-                      />
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <div key="2" class="shadow-sm">
-                <swiper
-                  ref="mySwiper"
-                  class="ev-Slider"
-                  :allow-touch-move="false"
-                  :modules="modules"
-                  :effect="'fade'"
-                  :space-between="40"
-                  :navigation="{
-                    enabled:true,
-                    nextEl:'',
-                    prevEl:''
-                  }"
-                  :pagination="paginationOp"
-                  @reachEnd="paginationHide"
-                  @swiper="hideLastBullet"
-                >
-                  <swiper-slide v-for="(test, index) in module.questions" :key="index">
-                    <div class="d-flex flex-column justify-content-between " style="height: 90%;">
-                      <div>
-                        <h4 class="m-0 " style="color:#00b9cd">
-                          {{ `${index + 1}.-${test.text}` }}
-                        </h4>
-
-                        <hr class="w-100">
-                      </div>
-                      <div>
-                        <FormulateForm ref="test" :name="`test_${index}`">
-                          <FormulateInput
-
-                            :value="test.selectedOption"
-                            :options="formatOptions(test.options)"
-                            type="radio"
-                            class="test"
-                            @input="(value) => {
-                              test.selectedOption = value
-                            }"
-                          />
-                        </FormulateForm>
-                        <p style="color:#960505" class="m-0 small text-center">
-                          {{ testMessage }}
-                        </p>
-                      </div>
-
+                    Once completed, you will receive
+                    a note for this module.
+                  </p>
+                  <div class="d-flex mt-3 w-100">
+                    <button class="primary-btn w-100" @click="showEvIntro = !showEvIntro">
                       <div class="d-flex align-items-center justify-content-center">
-                        <button class="last-btn mr-3" @click="previousSlide(test, index)">
-                          Previous
-                        </button>
-                        <button class="next-btn" @click="nextSlide(test, index)">
-                          Next
-                        </button>
-                      </div>
-                    </div>
-                  </swiper-slide>
-
-                  <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
-                    <h4>Total score</h4>
-                    <h1 style="font-size: 4rem; color:#00b9cd">
-                      {{ scorePercentage }}%
-                    </h1>
-                    <hr class="w-100">
-                    <div class="d-flex mb-4">
-                      <div v-show="correctAnswers" class="d-flex align-items-center mr-4">
-                        <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
-                        <p class="text-success m-0">
-                          Correct: {{ correctAnswers }}
+                        <p class="m-0">
+                          Start
                         </p>
-                      </div>
-                      <div v-show="correctAnswers !== module.questions.length" class="d-flex align-items-center">
-                        <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
-                        <p class="text-danger m-0">
-                          Wrong: {{ module.questions.length - correctAnswers }}
-                        </p>
-                      </div>
-                    </div>
-                    <p v-show="scorePercentage >= 80" class="small text-secondary text-center">
-                      Congratulations, you have successfully
-                      passed module 1 of this course!
-                    </p>
-
-                    <div class="d-flex flex-column align-items-center justify-content-center w-100">
-                      <!-- TODO: Send user to the next module if exists and passed the exam -->
-                      <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
-                        Next module   <Icon
+                        <Icon
                           width="24px"
                           icon="material-symbols:chevron-right"
                         />
-                      </button>
-                      <button v-show="scorePercentage !== 100" style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
-                        Try it again  <Icon
-                          width="21px"
-                          icon="material-symbols:restart-alt"
-                        />
-                      </button>
-                    </div>
-                  </swiper-slide>
-                </swiper>
-              </div>
-            </Transition>
-          </div>
-        </b-col>
-
-        <!--NAV BAR COLUMN-->
-
-        <Transition name="fade">
-          <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
-            <!--NAV BAR PARENT CONTAINER-->
-
-            <div class="course-nav-container">
-              <div class="d-flex justify-content-between">
-                <p class="small" style="font-weight: 600;">
-                  Modules
-                </p>
-                <p v-if="false" class="small">
-                  Completed: 0/3
-                </p>
-              </div>
-
-              <div v-if="false" class="d-flex flex-column">
-                <b-progress
-                  class="mb-2"
-                  height="5px"
-                  value="2"
-                />
-                <div class="d-flex justify-content-between">
-                  <p class="small">
-                    Progress
-                  </p>
-                  <p class="small">
-                    2%
-                  </p>
+                      </div>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <!-- add navigator  -->
-              <PxNavigatorCourseSchema :course-id="1" />
+                <div key="2" class="shadow-sm">
+                  <swiper
+                    ref="mySwiper"
+                    class="ev-Slider"
+                    :allow-touch-move="false"
+                    :modules="modules"
+                    :effect="'fade'"
+                    :space-between="40"
+                    :navigation="{
+                      enabled:true,
+                      nextEl:'',
+                      prevEl:''
+                    }"
+                    :pagination="paginationOp"
+                    @reachEnd="paginationHide"
+                    @swiper="hideLastBullet"
+                  >
+                    <swiper-slide v-for="(test, index) in module.questions" :key="index">
+                      <div class="d-flex flex-column justify-content-between " style="height: 90%;">
+                        <div>
+                          <h4 class="m-0 " style="color:#00b9cd">
+                            {{ `${index + 1}.-${test.text}` }}
+                          </h4>
+
+                          <hr class="w-100">
+                        </div>
+                        <div>
+                          <FormulateForm ref="test" :name="`test_${index}`">
+                            <FormulateInput
+
+                              :value="test.selectedOption"
+                              :options="formatOptions(test.options)"
+                              type="radio"
+                              class="test"
+                              @input="(value) => {
+                                test.selectedOption = value
+                              }"
+                            />
+                          </FormulateForm>
+                          <p style="color:#960505" class="m-0 small text-center">
+                            {{ testMessage }}
+                          </p>
+                        </div>
+
+                        <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
+                          <button class="last-btn w-100" @click="previousSlide(test, index)">
+                            Previous
+                          </button>
+                          <button class="next-btn w-100" @click="nextSlide(test, index)">
+                            Next
+                          </button>
+                        </div>
+                      </div>
+                    </swiper-slide>
+
+                    <swiper-slide class="d-flex flex-column align-items-center justify-content-center">
+                      <h4>Total score</h4>
+                      <h1 style="font-size: 4rem; color:#00b9cd">
+                        {{ scorePercentage }}%
+                      </h1>
+                      <hr class="w-100">
+                      <div class="d-flex mb-4">
+                        <div v-show="correctAnswers" class="d-flex align-items-center mr-4">
+                          <Icon class="mr-1" icon="material-symbols:check-circle-rounded" color="#28a745" width="18" />
+                          <p class="text-success m-0">
+                            Correct: {{ correctAnswers }}
+                          </p>
+                        </div>
+                        <div v-show="correctAnswers !== module.questions.length" class="d-flex align-items-center">
+                          <Icon class="mr-1" icon="mdi:close-circle" color="#dc3545" width="18" />
+                          <p class="text-danger m-0">
+                            Wrong: {{ module.questions.length - correctAnswers }}
+                          </p>
+                        </div>
+                      </div>
+                      <p v-show="scorePercentage >= 80" class="small text-secondary text-center">
+                        Congratulations, you have successfully
+                        passed module 1 of this course!
+                      </p>
+
+                      <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                        <!-- TODO: Send user to the next module if exists and passed the exam -->
+                        <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                          Next module   <Icon
+                            width="24px"
+                            icon="material-symbols:chevron-right"
+                          />
+                        </button>
+                        <button v-show="scorePercentage !== 100" style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                          Try it again  <Icon
+                            width="21px"
+                            icon="material-symbols:restart-alt"
+                          />
+                        </button>
+                      </div>
+                    </swiper-slide>
+                  </swiper>
+                </div>
+              </Transition>
             </div>
           </b-col>
-        </Transition>
-      </b-row>
 
-      <b-row>
-        <b-col>
-          <div class="w-100">
-            <b-tabs content-class="mt-3">
-              <b-tab title="Course info" active>
-                <p>{{ module.info }}</p>
-              </b-tab>
-              <b-tab title="Resources">
-                <p>{{ module.resources }}</p>
-              </b-tab>
-            </b-tabs>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+          <!--NAV BAR COLUMN-->
+
+          <Transition name="fade">
+            <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
+              <!--NAV BAR PARENT CONTAINER-->
+
+              <div class="course-nav-container">
+                <div class="d-flex justify-content-between">
+                  <p class="small" style="font-weight: 600;">
+                    Modules
+                  </p>
+                  <p v-if="false" class="small">
+                    Completed: 0/3
+                  </p>
+                </div>
+
+                <div v-if="false" class="d-flex flex-column">
+                  <b-progress
+                    class="mb-2"
+                    height="5px"
+                    value="2"
+                  />
+                  <div class="d-flex justify-content-between">
+                    <p class="small">
+                      Progress
+                    </p>
+                    <p class="small">
+                      2%
+                    </p>
+                  </div>
+                </div>
+
+                <!-- add navigator  -->
+                <PxNavigatorCourseSchema :course-id="1" />
+              </div>
+            </b-col>
+          </Transition>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <div class="w-100">
+              <b-tabs content-class="mt-3">
+                <b-tab title="Course info" active>
+                  <p>{{ module.info }}</p>
+                </b-tab>
+                <b-tab title="Resources">
+                  <p>{{ module.resources }}</p>
+                </b-tab>
+              </b-tabs>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+    <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+        <h5>Loading, please wait...</h5>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -289,7 +296,7 @@ export default {
       paginationOp:
       {
         type: 'bullets',
-        clickable: true,
+        clickable: false,
         renderBullet: function (index, className) {
           return '<span class="' + className + '">' + (index + 1) + '</span>'
         }
@@ -355,6 +362,7 @@ export default {
 
     nextSlide (test, index) {
       console.info(test, index)
+
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
         return
@@ -370,6 +378,10 @@ export default {
     },
 
     previousSlide (test, index) {
+      if (test.selectedOption === false || test.selectedOption === '') {
+        this.testMessage = 'Please, select one option'
+        return
+      }
       console.info(test, index)
       this.$refs.mySwiper.$el.swiper.slidePrev()
       this.testMessage = ''
@@ -459,20 +471,8 @@ export default {
   min-height: 600px;
 }
 
-.course-video{
-  flex: 0 0 75%;
-  max-width: 75%;
-  transition: 0.5s ease all;
-}
-
 input:checked ~ label {
   border-color: #00b9cd;
-}
-
-.course-video__toggle{
-  transition: 0.5s ease all;
-  flex: 0 0 100%;
-  max-width: 100%;
 }
 
 .course-nav-container{
@@ -529,11 +529,8 @@ input:checked ~ label {
 }
 
 .ev-intro{
-  background: rgb(26,55,75);
-  background: -moz-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
   background: -webkit-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a374b",endColorstr="#195b88",GradientType=1);
+  width: 450px;
 }
 
 .ev-Slider{
@@ -543,7 +540,6 @@ input:checked ~ label {
   flex-direction: column;
   padding:2rem;
   border-radius: 5px;
-  height: 560px;
 }
 
 .test .formulate-input .formulate-input-label{
@@ -622,20 +618,42 @@ input:checked ~ label {
   background-color: #00b9cd;
   border-radius: 5px;
   border: none;
-
   color: #fff;
   padding: 0.5rem 1rem;
   transition: all 0.3s;
   min-width: 120px;
 }
 
+.swiper-slide{
+  height: auto;
+}
 @media (max-width: 990px) {
+  .course-video{
+  flex: 0 0 100%;
+  max-width: 100%;
+  transition: 0.5s ease all;
+}
+
   .courseNav-parent{
     flex-wrap: wrap;
   }
 
   .toggleNav-icon{
     display:none
+  }
+}
+@media(max-width:425px){
+  .ev-Slider, .ev-intro{
+    width: 390px
+  }
+
+  .swiper-slide{
+    width: auto;
+  }
+}
+@media(max-width: 375px){
+  .ev-Slider, .ev-intro{
+    width: 345px;
   }
 }
 

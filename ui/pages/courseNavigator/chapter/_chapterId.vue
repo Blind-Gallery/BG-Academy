@@ -1,108 +1,125 @@
 <template>
   <div>
-    <b-container style="margin-top: 2rem; max-width: 1240px">
-      <b-row class="courseNav-parent mb-3">
-        <b-col
-          lg="9"
-          cols="12"
+    <div v-if="!$apollo.loading">
+      <b-container style="margin-top: 2rem; max-width: 1240px">
+        <b-row class="courseNav-parent mb-3">
+          <b-col
+            lg="9"
+            cols="12"
 
-          :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
-        >
-          <span
-            v-b-tooltip.hover
-            :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
-            class="toggleNav-icon"
-            @click="doHideNavBar()"
+            :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
           >
-            <Icon
-              icon="material-symbols:menu-open"
-              :rotate="!navBarHidden ? '2':'null'"
-              width="32"
-              color="#fff"
-            />
-          </span>
-
-          <div>
-            <PxPlayer
-              :is-ended-video="isEndedVideo"
-              :video-id="chapterInfo.video_id"
-              :chapter-id="chapterInfo.id"
-              width="100%"
-
-              @ended-video="handleEndedVideo"
-            />
-          </div>
-          <Transition name="fade">
-            <button v-if="isEndedVideo === true" class="primary-btn my-4">
-              <span>Go to the next chapter</span>
+            <span
+              v-b-tooltip.hover
+              :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
+              class="toggleNav-icon"
+              @click="doHideNavBar()"
+            >
               <Icon
-                icon="material-symbols:chevron-right"
-                width="28"
+                icon="material-symbols:menu-open"
+                :rotate="!navBarHidden ? '2':'null'"
+                width="32"
                 color="#fff"
               />
-            </button>
-          </Transition>
+            </span>
 
-          <div v-if="loading">
-            <b-skeleton-img />
-          </div>
-        </b-col>
-        <!--HIDE NAV BAR ICON-->
+            <div>
+              <PxPlayer
+                :is-ended-video="isEndedVideo"
+                :video-id="chapterInfo.video_id"
+                :chapter-id="chapterInfo.id"
+                width="100%"
 
-        <!--NAV BAR COLUMN-->
-
-        <Transition name="fade">
-          <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
-            <!--NAV BAR PARENT CONTAINER-->
-
-            <div class="course-nav-container">
-              <div class="d-flex justify-content-between">
-                <p class="small" style="font-weight: 600;">
-                  Modules
-                </p>
-                <p v-if="false" class="small">
-                  Completed: 0/3
+                @ended-video="handleEndedVideo"
+              />
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+              <div>
+                <h4>{{ chapterInfo.title }}</h4>
+                <p class="small text-secondary m-0">
+                  {{ chapterInfo.module.course.name }}
                 </p>
               </div>
-
-              <div v-if="false" class="d-flex flex-column">
-                <b-progress
-                  class="mb-2"
-                  height="5px"
-                  value="2"
-                />
-                <div class="d-flex justify-content-between">
-                  <p class="small">
-                    Progress
-                  </p>
-                  <p class="small">
-                    2%
-                  </p>
-                </div>
+              <div>
+                <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                  <span>Next</span>
+                  <Icon
+                    icon="material-symbols:skip-next-rounded"
+                    width="24"
+                    color="#fff"
+                  />
+                </button>
               </div>
+            </div>
 
-              <!-- navigator -->
-              <PxNavigatorCourseSchema :course-id="1" />
+            <div v-if="loading">
+              <b-skeleton-img />
             </div>
           </b-col>
-        </Transition>
-      </b-row>
+          <!--HIDE NAV BAR ICON-->
 
-      <b-row>
-        <b-col>
-          <div class="w-100">
-            <b-tabs content-class="mt-3">
-              <b-tab title="Course info" active>
-                <p>{{ chapterInfo.info }}</p>
-              </b-tab>
-              <b-tab title="Resources">
-                <p>{{ chapterInfo.resources }}</p>
-              </b-tab>
-            </b-tabs>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+          <!--NAV BAR COLUMN-->
+
+          <Transition name="fade">
+            <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
+              <!--NAV BAR PARENT CONTAINER-->
+
+              <div class="course-nav-container">
+                <div class="d-flex justify-content-between">
+                  <p class="small" style="font-weight: 600;">
+                    Modules
+                  </p>
+                  <p v-if="false" class="small">
+                    Completed: 0/3
+                  </p>
+                </div>
+
+                <div v-if="false" class="d-flex flex-column">
+                  <b-progress
+                    class="mb-2"
+                    height="5px"
+                    value="2"
+                  />
+                  <div class="d-flex justify-content-between">
+                    <p class="small">
+                      Progress
+                    </p>
+                    <p class="small">
+                      2%
+                    </p>
+                  </div>
+                </div>
+
+                <!-- navigator -->
+                <PxNavigatorCourseSchema :course-id="1" />
+              </div>
+            </b-col>
+          </Transition>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <div class="w-100">
+              <b-tabs content-class="mt-3">
+                <b-tab title="Course info" active>
+                  <p>{{ chapterInfo.info }}</p>
+                </b-tab>
+                <b-tab title="Resources">
+                  <p>{{ chapterInfo.resources }}</p>
+                </b-tab>
+              </b-tabs>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+
+    <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+        <h5>Loading, please wait...</h5>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -181,6 +198,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        name
         modules(order_by: {created_at: asc}) {
           id
           next_module_id
@@ -247,14 +265,14 @@ export default {
   computed: {
     activeModuleId () {
       const chapterIdFromRoute = this.$route.params.chapterId
-      for (const module of this.chapterInfo.module.course.modules) {
-        for (const chapter of module.chapters) {
-          if (chapter.id === chapterIdFromRoute) {
-            return module.id
-          }
-        }
-      } return null
+
+      const foundModule = this.chapterInfo.module.course.modules.find((module) => {
+        return module.chapters.some(chapter => chapter.id === chapterIdFromRoute)
+      })
+
+      return foundModule ? foundModule.id : null
     }
+
   },
 
   created () {
@@ -352,6 +370,23 @@ export default {
       }
     },
 
+    nextChapter () {
+      const modules = this.chapterInfo.module.course.modules
+      const activeModule = modules.find(module => module.id === this.activeModuleId)
+
+      if (activeModule) {
+        const chapterArray = activeModule.chapters
+        const targetChapterId = this.$route.params.chapterId
+        const index = chapterArray.findIndex(chapter => chapter.id === targetChapterId)
+
+        if (index !== -1 && index < chapterArray.length - 1) {
+          this.$router.push(`/courseNavigator/chapter/${chapterArray[index + 1].id}`)
+        } else {
+          this.$router.push(`/courseNavigator/test/${this.activeModuleId}`)
+        }
+      }
+    },
+
     paginationHide (swiper) {
       swiper.disable()
     }
@@ -443,24 +478,6 @@ input:checked ~ label {
   background-color: #f7f7f7;
 }
 
-.ev-intro{
-  background: rgb(26,55,75);
-  background: -moz-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: -webkit-linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a374b",endColorstr="#195b88",GradientType=1);
-}
-
-.ev-Slider{
-  width: 450px;
-  display:flex;
-  justify-content: center;
-  flex-direction: column;
-  padding:2rem;
-  border-radius: 5px;
-  height: 560px;
-}
-
 .test .formulate-input .formulate-input-label{
   font-weight: 400;
   margin-bottom: 1rem;
@@ -545,6 +562,10 @@ input:checked ~ label {
 }
 
 @media (max-width: 990px) {
+  .course-video{
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
   .courseNav-parent{
     flex-wrap: wrap;
   }

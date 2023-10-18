@@ -17,7 +17,7 @@
           </h1>
         </div>
         <NuxtLink to="/">
-          <button class="primary-btn mt-4">
+          <button class="primary-btn mt-4" @click="reloadPage">
             Home page
           </button>
         </NuxtLink>
@@ -29,6 +29,13 @@
 <script>
 export default {
   layout: 'error',
-  props: ['error'] // you can set a custom layout for the error page
+  props: ['error'],
+  methods: {
+    reloadPage () {
+      if (this.$route.path === '/') {
+        window.location.reload()
+      }
+    }
+  }
 }
 </script>
