@@ -137,7 +137,7 @@
 
                       <div class="d-flex flex-column align-items-center justify-content-center w-100">
                         <!-- TODO: Send user to the next module if exists and passed the exam -->
-                        <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100">
+                        <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100" @click="nextModule">
                           Next module   <Icon
                             width="24px"
                             icon="material-symbols:chevron-right"
@@ -235,6 +235,15 @@ query ($id: uuid!) {
   modules_by_pk(id: $id) {
     id
     title
+    course {
+      id
+      modules(order_by: {created_at: asc}) {
+        id
+        chapters(order_by: {created_at: asc}) {
+          id
+        }
+      }
+    }
     questions {
       id
       text
@@ -447,6 +456,17 @@ export default {
 
       this.correctAnswers = 0
       this.scorePercentage = 0
+    },
+
+    nextModule () {
+      const modules = this.module.course.modules
+      const index = modules.findIndex(module => module.id === this.activeModuleId)
+
+      if (index !== -1 && index < modules.length - 1) {
+        this.$router.push(`/courseNavigator/chapter/${modules[index + 1].chapters[0].id}`)
+      } else {
+        alert("There aren't other modules")
+      }
     },
 
     paginationHide (swiper) {
