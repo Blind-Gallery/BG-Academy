@@ -119,7 +119,6 @@
               <Icon
                 icon="material-symbols:credit-card"
                 color="#fff"
-
                 width="21"
               />
               Credit card
@@ -178,6 +177,9 @@
                   />
                 </b-form-group>
               </b-form>
+              <div>
+                <PxPayments />
+              </div>
             </b-modal>
 
             <button class="secondary-btn w-100">
@@ -232,6 +234,7 @@
 </template>
 <script>
 import { gql } from 'graphql-tag'
+import PxPayments from '~/components/PxPayments.vue'
 
 export default {
   apollo: {
@@ -274,12 +277,10 @@ export default {
       }
     }
   },
+  components: { PxPayments },
   data () {
-    return {
-
-    }
+    return {}
   },
-
   methods: {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
