@@ -45,7 +45,7 @@
               class="w-100 shadow-sm  mb-2 rounded"
             >
               <div @click="toggleCollapse(moduleIndex)">
-                <PxToggleCollapse :icon-width="'24px'" :toggle-name="itemModule.title" />
+                <PxToggleCollapse :icon-width="'24px'" :toggle-name="itemModule.title" :subtitle-name="`Chapters: ${itemModule.chapters.length}`" />
               </div>
 
               <!--CHAPTERS COLLAPSE-->
@@ -53,7 +53,7 @@
                 v-for="(chapter, chapterIndex) in itemModule.chapters"
                 :id="`accordion-${moduleIndex}`"
                 :key="chapterIndex"
-                class="mt-2"
+
                 role="tabpanel"
               >
                 <NuxtLink :to="'/courseNavigator/chapter/' + chapter.id">
@@ -251,7 +251,7 @@ export default {
             modules (order_by: {created_at: asc}) {
               title
               id
-              chapters {
+              chapters  (order_by: {created_at: asc}){
                 id
                 title
               }
