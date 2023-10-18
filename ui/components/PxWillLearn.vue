@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column shadow-sm rounded p-3">
+  <div class="d-flex flex-column shadow-sm rounded p-3 w-100">
     <Icon icon="material-symbols:check-small" color="#00c851" width="32" />
     <p class="m-0" style="font-weight: 600;">
       {{ title }}
