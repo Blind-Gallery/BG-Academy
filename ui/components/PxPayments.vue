@@ -7,7 +7,7 @@
             Total price
           </p>
           <h1 style="color: #00b9cd;" class="font-weight-bold">
-            $200
+            ${{ price }}
           </h1>
           <label class="stripe-label">Card Number</label>
           <div id="card-number" class="stripe-input" />
@@ -46,6 +46,17 @@
 <script>
 
 export default {
+
+  props: {
+    courseId: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  },
   data () {
     return {
       token: null,
@@ -53,7 +64,10 @@ export default {
       cardExpiry: null,
       cardCvc: null,
       success: null,
-      loading: false
+      loading: false,
+      userEmail: null,
+      paymentIntent: null,
+      clientSecret: null
     }
   },
   computed: {
@@ -61,7 +75,7 @@ export default {
       return this.$stripe.elements()
     }
   },
-  mounted () {
+  async mounted () {
     const style = {
       base: {
         iconColor: '#c4f0ff',
@@ -88,6 +102,7 @@ export default {
     this.cardExpiry.mount('#card-expiry')
     this.cardCvc = this.stripeElements.create('cardCvc', { style })
     this.cardCvc.mount('#card-cvc')
+    await this.createIntent()
   },
   beforeDestroy () {
     this.cardNumber.destroy()
@@ -108,6 +123,34 @@ export default {
       console.info(token)
       this.success = true
       this.$router.push('/buyCourse/success')
+    },
+    async createIntent () {
+      this.loading = true
+      const response = await this.$axios.$post('/payments/stripe/create-intent', {
+        amount: this.price * 100,
+        currency: 'usd',
+        paymentMethodTypes: ['card'],
+        receiptEmail: 'desneruda@gmail.com'
+      })
+      console.info('Response payment intent: ', response)
+      this.paymentIntent = response.paymentIntent
+      this.clientSecret = response.paymentIntent.client_secret
+      this.loading = false
+      return response.paymentIntent
+    },
+    async submitPayment () {
+      const result = await this.$stripe.confirmCardPayment(
+        this.clientSecret, {
+          payment_method: {
+            card: this.cardNumber,
+            billing_details: {
+              email: this.userEmail
+            }
+          }
+        }
+      )
+
+      console.info(result)
     }
   }
 }

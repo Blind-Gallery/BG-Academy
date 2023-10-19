@@ -137,48 +137,8 @@
                   icon="material-symbols:close"
                 /></span>
               </template>
-              <b-form>
-                <b-form-group
-                  id="input-group-1"
-                  label="Card name"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the number that appears on your card"
-                    required
-                  />
-                </b-form-group>
-
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-              </b-form>
               <div>
-                <PxPayments />
+                <PxPayments :course-id="courses[0].id" :price="courses[0].price" />
               </div>
             </b-modal>
 
