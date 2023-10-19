@@ -29,7 +29,12 @@
 <script>
 export default {
   layout: 'error',
-  props: ['error'],
+  props: {
+    error: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
     reloadPage () {
       if (this.$route.path === '/') {

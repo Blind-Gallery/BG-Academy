@@ -155,26 +155,3 @@ export default {
   }
 }
 </script>
-
-  <style>
-
-  #card-error {
-   color: #960505;
-    font-size: .8em;
-    font-weight: 300;
-    line-height: 1.5;
-    margin-bottom: 0.25em;
-  }
-
-  .stripe-input {
-    border: 1px solid #CECECE;
-    padding: .75em;
-    font-size: 0.9em;
-    border-radius: .3em;
-  }
-
-  .stripe-label{
-    font-size: 0.9em;
-    line-height: 1.5px;
-  }
-  </style>
