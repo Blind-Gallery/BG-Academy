@@ -3,6 +3,7 @@
 const path = require('path')
 const AutoLoad = require('@fastify/autoload')
 const fp = require('fastify-plugin')
+// const rawBody = require('raw-body')
 
 const {
   Login,
@@ -78,6 +79,24 @@ module.exports = async function (fastify, opts) {
     hook: 'onRequest',
     parseOptions: {}
   })
+  await fastify.register(import('fastify-raw-body'), {
+    field: 'rawBody', // change the default request.rawBody property name
+    global: false, // add the rawBody to every request. **Default true**
+    encoding: 'utf8', // set it to false to set rawBody as a Buffer **Default utf8**
+    runFirst: true, // get the body before any preParsing hook change/uncompress it. **Default false**
+    routes: [] // array of routes, **`global`** will be ignored, wildcard routes not supported
+  })
+
+  // fastify.addContentTypeParser('*', (req, done) => {
+  //   rawBody(req, {
+  //     length: req.headers['content-length'],
+  //     limit: '1mb',
+  //     encoding: 'utf8' // Remove if you want a buffer
+  //   }, (err, body) => {
+  //     if (err) return done(err)
+  //     done(null, parse(body))
+  //   })
+  // })
 
   fastify.register(require('@fastify/cors'), {
     origin: true,

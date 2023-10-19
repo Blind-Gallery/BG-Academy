@@ -9,7 +9,7 @@ const {
  */
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
-    fastify.post('/stripe', { schema: stripeSchema }, stripeVerificationHandler)
+    fastify.post('/stripe', { schema: stripeSchema, config: { rawBody: true } }, stripeVerificationHandler)
   })
 }
 
@@ -23,4 +23,5 @@ module.exports[Symbol.for('plugin-meta')] = {
 
 async function stripeVerificationHandler (req, reply) {
   const sig = req.headers['stripe-signature']
+  const response = await this.payments.verify(sig, req.rawBody)
 }

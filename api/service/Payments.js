@@ -1,3 +1,5 @@
+const { BadRequest } = require('http-errors')
+
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -30,8 +32,28 @@ class Payment {
     return paymentIntent
   }
 
-  async verify () {
+  async verify (signature, body) {
+    const endpointSecret = 'whsec_c1ee615fba4e32ec4941446ea27fc2c5f611bec0fb2205990768f9d390fa61d9'
 
+    let event
+
+    try {
+      event = stripe.webhooks.constructEvent(body, signature, endpointSecret)
+    } catch (err) {
+      console.error(err)
+      throw new BadRequest(`Webhook Error: ${err.message}`)
+    }
+
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntentSucceeded = event.data.object
+        console.info(paymentIntentSucceeded)
+        // Then define and call a function to handle the event payment_intent.succeeded
+        break
+        // ... handle other event types
+      default:
+        console.info(`Unhandled event type ${event.type}`)
+    }
   }
 }
 
