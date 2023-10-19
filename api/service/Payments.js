@@ -29,6 +29,10 @@ class Payment {
     console.info(paymentIntent)
     return paymentIntent
   }
+
+  async verify () {
+
+  }
 }
 
 module.exports = Payment

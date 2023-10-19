@@ -28,5 +28,5 @@ async function getDocumentHandler (req, reply) {
     cid
   } = await this.documents.generateCertificate(req.body)
 
-  return { user }
+  return { cid }
 }

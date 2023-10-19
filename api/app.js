@@ -14,7 +14,8 @@ const {
   GQL,
   JWT,
   Email,
-  Documents: Docs
+  Documents: Docs,
+  Payments
 } = require('./service')
 
 const {
@@ -37,7 +38,7 @@ async function decorateFastifyInstance (fastify) {
   jwt.init()
 
   const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
-
+  const payments = new Payments()
   const login = new Login({
     gql,
     jwt,
@@ -61,6 +62,7 @@ async function decorateFastifyInstance (fastify) {
   fastify.decorate('user', user)
   fastify.decorate('jwt', jwt)
   fastify.decorate('documents', documents)
+  fastify.decorate('payments', payments)
 }
 
 // Pass --options via CLI arguments in command to enable these options.
