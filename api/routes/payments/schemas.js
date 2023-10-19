@@ -20,6 +20,32 @@ const stripeSchema = {
   }
 }
 
+const stripePaymentIntent = {
+  tags,
+  body: {
+    amount: { type: 'number' },
+    currency: { type: 'string' },
+    paymentMethodTypes: { type: 'array' },
+    receiptEmail: { type: 'string' }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['paymentIntent'],
+      properties: {
+        paymentIntent: {
+          type: 'object',
+          required: ['client_secret'],
+          properties: {
+            client_secret: { type: 'string' }
+          }
+        }
+      }
+    }
+  }
+}
+
 module.exports = {
-  stripeSchema
+  stripeSchema,
+  stripePaymentIntent
 }

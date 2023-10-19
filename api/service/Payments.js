@@ -14,9 +14,9 @@ class Payment {
    *
    * @example
    * const pay = new Payment()
-   * const paymentIntent = await pay.createInvoke(5000, 'usd', ['card'], 'email.example.com')
+   * const paymentIntent = await pay.paymentIntent(5000, 'usd', ['card'], 'email.example.com')
    */
-  async createInvoke (amount, currency, paymentMethodTypes, receiptEmail) {
+  async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail) {
     let paymentIntent = null
     try {
       paymentIntent = await stripe.paymentIntents.create({
@@ -28,7 +28,7 @@ class Payment {
     } catch (err) {
       console.error(err)
     }
-    console.info(paymentIntent)
+    console.info({ paymentIntent })
     return paymentIntent
   }
 
@@ -49,6 +49,11 @@ class Payment {
         const paymentIntentSucceeded = event.data.object
         console.info(paymentIntentSucceeded)
         // Then define and call a function to handle the event payment_intent.succeeded
+        break
+
+      case 'payment_intent.payment_failed':
+        const paymentIntentPaymentFailed = event.data.object
+        console.info(paymentIntentPaymentFailed)
         break
         // ... handle other event types
       default:

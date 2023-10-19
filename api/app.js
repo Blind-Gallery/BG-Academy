@@ -99,9 +99,9 @@ module.exports = async function (fastify, opts) {
   // })
 
   fastify.register(require('@fastify/cors'), {
-    origin: true,
+    origin: '*',
     credentials: true,
-    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+    allowedHeaders: 'Authorization, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin'
   })
 
   // Do not touch the following lines
