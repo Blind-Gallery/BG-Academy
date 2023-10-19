@@ -33,7 +33,7 @@ class Payment {
   }
 
   async verify (signature, body) {
-    const endpointSecret = 'whsec_c1ee615fba4e32ec4941446ea27fc2c5f611bec0fb2205990768f9d390fa61d9'
+    const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
 
     let event
 
