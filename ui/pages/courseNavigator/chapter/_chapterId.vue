@@ -409,10 +409,6 @@ export default {
 
     paginationHide (swiper) {
       swiper.disable()
-    },
-
-    handleScreenWidthUpdate (newScreenWidth) {
-      this.screenWidth = newScreenWidth
     }
 
   }
