@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <b-container style="margin-top: 2rem; max-width: 1240px">
+      <b-container style="max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
             lg="9"
@@ -478,12 +478,6 @@ export default {
   top: 10px;
   position: absolute;
   background-color: white
-}
-
-.courseNav-parent{
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  min-height: 600px;
 }
 
 input:checked ~ label {
