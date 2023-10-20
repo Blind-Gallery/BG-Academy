@@ -1,6 +1,16 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
+      <div v-if="screenWidth <= 990" class="sticky-top">
+        <PxPlayer
+          :is-ended-video="isEndedVideo"
+          :video-id="chapterInfo.video_id"
+          :chapter-id="chapterInfo.id"
+          width="100%"
+
+          @ended-video="handleEndedVideo"
+        />
+      </div>
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
@@ -23,7 +33,7 @@
               />
             </span>
 
-            <div>
+            <div v-if="screenWidth > 990">
               <PxPlayer
                 :is-ended-video="isEndedVideo"
                 :video-id="chapterInfo.video_id"
@@ -233,6 +243,7 @@ export default {
 
   data () {
     return {
+      screenWidth: null,
       testMessage: '',
       isEndedVideo: false,
       loading: false,
@@ -275,12 +286,21 @@ export default {
 
   },
 
+  mounted () {
+    this.updateScreenWidth()
+
+    window.addEventListener('resize', this.updateScreenWidth)
+  },
+
   created () {
     this.getChapter()
     this.doResetTest()
   },
 
   methods: {
+    updateScreenWidth () {
+      this.screenWidth = window.innerWidth
+    },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
