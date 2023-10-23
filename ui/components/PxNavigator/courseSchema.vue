@@ -91,12 +91,6 @@
         </div>
       </div>
     </div>
-    <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
-      <div class="d-flex flex-column align-items-center justify-content-center">
-        <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
-        <h5>Loading, please wait...</h5>
-      </div>
-    </div>
   </div>
 </template>
 
