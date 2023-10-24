@@ -464,6 +464,9 @@ html {
 body {
   font-family: Poppins, Arial, Helvetica, sans-serif;
 }
+.modal-header {
+  border-bottom: 0px;
+}
 
 .course-route {
   text-decoration: none;
