@@ -1,21 +1,116 @@
 <template>
   <div>
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
+      <!--PAYMENT MODAL-->
+      <b-modal id="credit-pay" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Payment details
+          </h2>
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <b-form>
+          <b-form-group
+            id="input-group-1"
+            label="Card name"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+
+              placeholder="Enter the number that appears on your card"
+              required
+            />
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-1"
+            label="Card number"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+
+              placeholder="Enter the card number"
+              required
+            />
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-1"
+            label="Card number"
+            label-for="input-1"
+          >
+            <b-form-input
+              id="input-1"
+
+              placeholder="Enter the card number"
+              required
+            />
+          </b-form-group>
+        </b-form>
+      </b-modal>
+      <!--CONFIRM PAYMENT MODAL-->
+      <b-modal id="confirm-buycourse" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>
+            Access course
+          </h2>
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <p class="small">
+          Once you purchase this course, you will have access to:
+        </p>
+        <div class="border rounded text-secondary small p-2 my-4">
+          <ul class="m-0">
+            <li>All modules and classes.</li>
+            <li>Resources provided by the teacher.</li>
+            <li>Certificate which you will also be able to mint on the Tezos blockchain.</li>
+          </ul>
+        </div>
+        <p class="small">
+          Make your payment with:
+        </p>
+        <div class="d-flex align-items-center justify-content-center" style="gap: 1rem;">
+          <button class="secondary-btn w-100" @click="$bvModal.hide('confirm-buycourse')">
+            <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+            Tezos
+          </button>
+          <button class="primary-btn w-100" @click="$bvModal.show('credit-pay'); $bvModal.hide('confirm-buycourse')">
+            <Icon
+              icon="material-symbols:credit-card"
+              color="#fff"
+              width="21"
+            />
+            Credit card
+          </button>
+        </div>
+      </b-modal>
+
       <b-row v-if="!$apollo.loading" class="mt-md-3">
+        <!--COURSE INFO COLUMN-->
         <b-col
           order="2"
           order-lg="1"
           lg="8"
         >
+          <!--INFO-->
           <div class="course-info">
-            <iframe
-              class="rounded mb-3 d-lg-block d-none"
-              width="100%"
-              height="450px"
-              src="https://www.youtube.com/embed/qtPi0JvmWbs"
-              title="YouTube video player"
-              frameborder="0"
-            />
+            <div><img class="w-100 d-lg-block d-none" :src="courses[0].thumbnail"></div>
             <h5 class="mb-3">
               {{ courses[0].name }}
             </h5>
@@ -34,7 +129,7 @@
                 {{ courses[0].summary }}
               </p>
             </div>
-
+            <!--COURSE CORRICULUM COLLAPSE-->
             <h5 class="mb-3 mt-4">
               Course curriculum
             </h5>
@@ -53,34 +148,33 @@
                 v-for="(chapter, chapterIndex) in itemModule.chapters"
                 :id="`accordion-${moduleIndex}`"
                 :key="chapterIndex"
-
                 role="tabpanel"
               >
-                <NuxtLink :to="'/courseNavigator/chapter/' + chapter.id">
-                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                    <div class="d-flex align-items-center">
-                      <Icon
-                        icon="material-symbols:smart-display-outline-rounded"
-                        width="18"
-                        class="mr-2"
-                      />
-                      <p
-                        class="curriculum-chapter m-0 small text-secondary text-truncate"
-                      >
-                        {{ chapter.title }}
-                      </p>
-                    </div>
-                    <div>
-                      <p class="small m-0 text-secondary">
-                        15min
-                      </p>
-                    </div>
+                <div style="cursor: pointer;" class="d-flex justify-content-between p-3 position-relative rounded chapter-collapse" @click="checkNavAccess(chapter.id)">
+                  <div class="d-flex align-items-center">
+                    <Icon
+                      icon="material-symbols:smart-display-outline-rounded"
+                      width="18"
+                      class="mr-2"
+                      color="#00b9cd"
+                    />
+                    <p
+                      class="curriculum-chapter m-0 small text-secondary text-truncate"
+                    >
+                      {{ chapter.title }}
+                    </p>
                   </div>
-                </NuxtLink>
+                  <div>
+                    <p class="small m-0 text-secondary">
+                      15min
+                    </p>
+                  </div>
+                </div>
               </b-collapse>
             </div>
           </div>
         </b-col>
+        <!--PROPERTIES COURSE COLUMN-->
         <b-col
           order="1"
           order-lg="2"
@@ -88,14 +182,7 @@
           class="mb-3"
         >
           <div class="d-flex flex-column p-3 shadow-sm rounded ml-sm-3 " style="gap:0.5rem; position:sticky; top: 77px;">
-            <iframe
-              class="rounded mb-3 d-lg-none"
-              width="100%"
-              height="300px"
-              src="https://www.youtube.com/embed/qtPi0JvmWbs"
-              title="YouTube video player"
-              frameborder="0"
-            />
+            <div><img class="w-100 d-lg-none" :src="courses[0].thumbnail"></div>
             <div v-b-toggle.instructor class="d-flex align-items-center w-100">
               <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
 
@@ -106,84 +193,48 @@
                 {{ courses[0].teacher.description }}
               </p>
             </b-collapse>
-
-            <div class="border rounded p-2">
-              <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                ${{ courses[0].price }}
-              </h2>
-              <p class="m-0">
-                Access this course
-              </p>
-            </div>
-            <button v-b-modal.credit-pay class="primary-btn w-100 ">
-              <Icon
-                icon="material-symbols:credit-card"
-                color="#fff"
-
-                width="21"
-              />
-              Credit card
-            </button>
-            <b-modal id="credit-pay" centered hidden-header hide-footer>
-              <template #modal-header="{ close }">
-                <h2>
-                  Payment details
+            <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
+              <div class="border rounded p-2">
+                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                  ${{ courses[0].price }}
                 </h2>
-                <span
-                  style="cursor: pointer"
-                  @click="close()"
-                ><Icon
-                  width="32"
-                  color="#888"
-                  icon="material-symbols:close"
-                /></span>
-              </template>
-              <b-form>
-                <b-form-group
-                  id="input-group-1"
-                  label="Card name"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
+                <p class="m-0">
+                  Access course
+                </p>
+              </div>
+              <button v-b-modal.credit-pay class="primary-btn w-100 ">
+                <Icon
+                  icon="material-symbols:credit-card"
+                  color="#fff"
 
-                    placeholder="Enter the number that appears on your card"
-                    required
-                  />
-                </b-form-group>
+                  width="21"
+                />
+                Credit card
+              </button>
 
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
+              <button class="secondary-btn w-100">
+                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+                Tezos
+              </button>
+            </div>
 
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-              </b-form>
-            </b-modal>
-
-            <button class="secondary-btn w-100">
-              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-              Tezos
-            </button>
+            <div v-else>
+              <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
+                <button class="primary-btn w-100">
+                  View course
+                </button>
+              </NuxtLink>
+              <div>
+                <b-progress
+                  class="my-2"
+                  height="5px"
+                  :value="userCourses[0].progress"
+                />
+                <p class="m-0 small text-secondary">
+                  Total progress: {{ userCourses[0].progress }}%
+                </p>
+              </div>
+            </div>
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
@@ -233,6 +284,15 @@
 <script>
 import { gql } from 'graphql-tag'
 
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
+
 export default {
   apollo: {
     courses: {
@@ -272,15 +332,61 @@ export default {
           id: this.$route.params.courseId
         }
       }
+    },
+
+    user_course: {
+      query: USER_COURSES,
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
     }
+
   },
   data () {
     return {
-
+      userCourses: []
     }
   },
 
+  computed: {
+    // Function to know if the user has the course or not
+    userHasCourse () {
+      const courseRouteId = parseInt(this.$route.params.courseId)
+      return this.userCourses.find(course => course.course_id === courseRouteId)
+    }
+  },
+  mounted () {
+    this.getUserCourses()
+  },
   methods: {
+
+    getUserCourses () {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          this.userCourses = response.data.user_course
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    // Function validate if the user can access to the courseNavigator view
+    checkNavAccess (chapter) {
+      if (this.$auth.loggedIn && this.userHasCourse) {
+        this.$router.push('/courseNavigator/chapter/' + chapter)
+      } else if (this.$auth.loggedIn && !this.userHasCourse) {
+        this.$bvModal.show('confirm-buycourse')
+      } else {
+        return this.$bvModal.show('signin')
+      }
+    },
+
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     }
@@ -289,6 +395,10 @@ export default {
 </script>
 <style>
 
+.chapter-collapse:hover{
+  transition: all 0.3ms;
+  background-color: #f7f7f7;
+}
 .curriculum-chapter {
   max-width: 100%;
 }
