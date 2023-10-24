@@ -1,6 +1,60 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
+      <b-modal id="claim-certificate" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <div />
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+
+        <div v-if="!reprobado" class="d-flex align-items-center justify-content-center flex-column">
+          <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
+            <Icon style="position: absolute; top:0; right: 0;  background-color: #fff; border-radius: 50%;" icon="material-symbols:check-circle-rounded" color="green" width="32" />
+            <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
+          </div>
+
+          <h2 style="color:#00b9cd">
+            Congratulations!
+          </h2>
+
+          <p class="small text-center">
+            You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
+          </p>
+          <div class="d-flex mt-4" style="gap:1rem">
+            <button class="secondary-btn">
+              Claim certificate
+            </button><button class="primary-btn">
+              Download certificate
+            </button>
+          </div>
+        </div>
+        <div v-else class="d-flex align-items-center justify-content-center flex-column">
+          <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
+            <Icon
+              style="position: absolute; top:0; right: 0; background-color: #fff; border-radius: 50%;"
+              icon="material-symbols:error-rounded"
+              color="red"
+              width="32"
+            />
+            <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
+          </div>
+
+          <h2 class="text-center" style="color:red">
+            Not yet approved
+          </h2>
+          <p class="small text-center">
+            It looks like you have failed the course, try to retake the tests you failed to get your certificate.
+          </p>
+        </div>
+      </b-modal>
+
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
@@ -291,6 +345,7 @@ export default {
 
   data () {
     return {
+      reprobado: false,
       testMessage: '',
       isEndedVideo: false,
       correctAnswers: 0,
@@ -324,9 +379,26 @@ export default {
 
   created () {
     this.getModule()
+    // eslint-disable-next-line nuxt/no-globals-in-created
   },
 
   methods: {
+
+    confetti () {
+      this.$confetti.start(
+        {
+
+          particles: [{
+            type: 'rect'
+          }
+          ]
+        }
+      )
+      setTimeout(() => {
+        this.$confetti.stop()
+      }, 5000)
+    },
+
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
@@ -460,7 +532,8 @@ export default {
       if (index !== -1 && index < modules.length - 1) {
         this.$router.push(`/courseNavigator/chapter/${modules[index + 1].chapters[0].id}`)
       } else {
-        alert("There aren't other modules")
+        this.$bvModal.show('claim-certificate')
+        this.confetti()
       }
     },
 
@@ -472,6 +545,7 @@ export default {
 }
 </script>
 <style>
+
 .progress-circle{
   color: black;
   left: -17px;
