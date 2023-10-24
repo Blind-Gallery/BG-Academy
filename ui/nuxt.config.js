@@ -29,7 +29,8 @@ export default {
     ]
   },
   plugins: [
-    { src: '@/plugins/vue-html2pdf', mode: 'client' }
+    { src: '@/plugins/vue-html2pdf', mode: 'client' },
+    { src: '@/plugins/vue-confetti.js', mode: 'client' }
   ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
