@@ -11,12 +11,11 @@
           @ended-video="handleEndedVideo"
         />
       </div>
-      <b-container style="margin-top: 2rem; max-width: 1240px">
+      <b-container style="margin-top: 1rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
             lg="9"
             cols="12"
-
             :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
           >
             <span
@@ -39,11 +38,10 @@
                 :video-id="chapterInfo.video_id"
                 :chapter-id="chapterInfo.id"
                 width="100%"
-
                 @ended-video="handleEndedVideo"
               />
             </div>
-            <div class="d-flex justify-content-between align-items-center mt-2">
+            <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h5>{{ chapterInfo.title }}</h5>
                 <p class="small text-secondary m-0">
@@ -426,7 +424,7 @@ export default {
 .courseNav-parent{
   overflow-x: hidden;
   flex-wrap: nowrap;
-  min-height: 600px;
+
 }
 
 .course-video{

@@ -554,12 +554,6 @@ export default {
   background-color: white
 }
 
-.courseNav-parent{
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  min-height: 600px;
-}
-
 input:checked ~ label {
   border-color: #00b9cd;
 }
