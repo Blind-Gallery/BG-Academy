@@ -18,9 +18,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap' }
-
     ],
-
     script: [
       {
         src: 'https://code.iconify.design/2/2.0.3/iconify.min.js',
@@ -31,12 +29,13 @@ export default {
   },
   plugins: [
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
-    { src: '@/plugins/stripe.js', ssr: false, mode: 'client' }
+    { src: '~/plugins/vue-stripe.js', ssr: false }
   ],
 
   env: {
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
-    STRIPE_ACCOUNT: process.env.STRIPE_ACCOUNT
+    STRIPE_ACCOUNT: process.env.STRIPE_ACCOUNT,
+    TEZOS_PROTOCOL: process.env.TEZOS_PROTOCOL
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -203,6 +202,7 @@ export default {
         '@babel/plugin-proposal-nullish-coalescing-operator',
         '@babel/plugin-proposal-optional-chaining'
       ]
+
     },
 
     // plugins: [
@@ -239,7 +239,12 @@ export default {
         config.optimization.splitChunks.maxSize = 200000
       }
     }
-  }
+  },
+  transpile: [
+    '/plugins',
+    'vue-stripe-checkout',
+    '@vue-stripe/vue-stripe'
+  ]
 }
 
 // "plugins": ["@babel/plugin-transform-nullish-coalescing-operator"]

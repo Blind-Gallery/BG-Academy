@@ -382,7 +382,7 @@ export default {
         payload: this.payload
       }
       await this.$axios.$post('users', data)
-      this.$auth.loginWith('local', {
+      await this.$auth.loginWith('local', {
         data
       })
 

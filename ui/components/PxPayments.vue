@@ -24,7 +24,7 @@
         </div>
         <div id="card-error" />
 
-        <button id="custom-button" class="primary-btn w-100" @click="createToken">
+        <button id="custom-button" class="primary-btn w-100" @click="submitPayment">
           {{ loading === false ? 'Confirm payment' : 'Loading transaction' }}
 
           <Icon
@@ -139,12 +139,12 @@ export default {
       return response.paymentIntent
     },
     async submitPayment () {
-      const result = await this.$stripe.confirmCardPayment(
+      const result = await this.$stripe.handleCard(
         this.clientSecret, {
           payment_method: {
             card: this.cardNumber,
             billing_details: {
-              email: this.userEmail
+              email: 'desneruda@gmail.com'
             }
           }
         }
