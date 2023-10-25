@@ -17,10 +17,19 @@
     "MICHELINE",
     "Nuxt",
     "tezo",
-    "tezos"
+    "tezos",
+    "ghostnet"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["javascript"]
+  "eslint.validate": ["javascript"],
+  "python.autoComplete.extraPaths": [
+    "~/smartpy-cli/"
+  ],
+  "python.analysis.extraPaths": [
+    "~/smartpy-cli/smartpy.py",
+    "/home/erick/smartpy-cli/",
+    "${userHome}/smartpy-cli/"
+  ],
 }
