@@ -11,6 +11,14 @@ class Payments {
     this.tezos = tezos
   }
 
+  async getCoursePrice (courseId) {
+
+  }
+
+  async getTezosPrice () {
+
+  }
+
   async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail }) {
     let paymentIntent = null
     try {
