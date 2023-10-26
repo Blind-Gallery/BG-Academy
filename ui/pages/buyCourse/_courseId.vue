@@ -142,7 +142,7 @@
               </div>
             </b-modal>
 
-            <button class="secondary-btn w-100">
+            <button class="secondary-btn w-100" @click="buyTezos">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
             </button>
@@ -194,6 +194,7 @@
 </template>
 <script>
 import { gql } from 'graphql-tag'
+import { mapGetters } from 'vuex'
 import PxPayments from '~/components/PxPayments.vue'
 
 export default {
@@ -241,9 +242,22 @@ export default {
   data () {
     return {}
   },
+  computed: {
+    ...mapGetters('tezosWallet', [
+      'publicKey',
+      'tezosAddress',
+      'isWalletConnected'
+    ])
+  },
   methods: {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
+    },
+    buyTezos () {
+      if (!this.isWalletConnected) {
+        return
+      }
+      console.info('buying with tezos')
     }
   }
 }
