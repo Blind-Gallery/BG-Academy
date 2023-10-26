@@ -4,6 +4,8 @@ const Email = require('./Email')
 const Documents = require('./Documents')
 const IPFS = require('./IPFS')
 const Stripe = require('./Stripe')
+const Tezos = require('./Tezos')
+const CoinGecko = require('./CoinGecko')
 
 module.exports = {
   GQL,
@@ -11,5 +13,7 @@ module.exports = {
   Email,
   Documents,
   IPFS,
-  Stripe
+  Stripe,
+  Tezos,
+  CoinGecko
 }

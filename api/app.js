@@ -17,7 +17,8 @@ const {
   JWT,
   Email,
   Documents: Docs,
-  Stripe
+  Stripe,
+  Tezos
 } = require('./service')
 
 const {
@@ -65,7 +66,8 @@ async function decorateFastifyInstance (fastify) {
     email,
     opts,
     jwt,
-    stripe
+    stripe,
+    tezos: Tezos
   })
   fastify.decorate('login', login)
   fastify.decorate('user', user)
