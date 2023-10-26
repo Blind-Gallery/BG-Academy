@@ -13,14 +13,14 @@ test('getCoinPrice returns the correct price', async (t) => {
   const coinGecko = new CoinGecko()
   const ids = ['bitcoin', 'ethereum', 'tezos']
   const currency = 'usd'
-  const expectedPrice = {
+  const expectedFormat = {
     bitcoin: { usd: Number },
     ethereum: { usd: Number },
     tezos: { usd: Number }
   }
 
-  const actualPrice = await coinGecko.getCoinPrice({ ids, currency })
+  const actualFormat = await coinGecko.getCoinPrice({ ids, currency })
 
-  t.match(actualPrice, expectedPrice)
+  t.match(actualFormat, expectedFormat)
   t.end()
 })
