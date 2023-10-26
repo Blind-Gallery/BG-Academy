@@ -12,13 +12,14 @@
     "axios",
     "fastify",
     "formated",
+    "ghostnet",
     "hasura",
     "IPFS",
     "MICHELINE",
     "Nuxt",
+    "SENDGRID",
     "tezo",
-    "tezos",
-    "ghostnet"
+    "tezos"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
