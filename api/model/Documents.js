@@ -5,6 +5,7 @@ class Documents {
   constructor ({ gql, email, opts, jwt, docs }) {
     this.gql = gql
     this.email = email
+    this.jwt = jwt
     this.opts = opts
     this.docs = docs
   }
