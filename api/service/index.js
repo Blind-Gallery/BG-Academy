@@ -3,7 +3,7 @@ const JWT = require('./JWT')
 const Email = require('./Email')
 const Documents = require('./Documents')
 const IPFS = require('./IPFS')
-const Payments = require('./Payments')
+const Stripe = require('./Stripe')
 
 module.exports = {
   GQL,
@@ -11,5 +11,5 @@ module.exports = {
   Email,
   Documents,
   IPFS,
-  Payments
+  Stripe
 }
