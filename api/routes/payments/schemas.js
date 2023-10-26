@@ -45,7 +45,41 @@ const stripePaymentIntent = {
   }
 }
 
+const tezosPaymentIntent = {
+  tags,
+  body: {
+    courseId: { type: 'number' }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['mutez'],
+      properties: {
+        mutez: { type: 'number' }
+      }
+    }
+  }
+}
+
+const tezosPaymentVerify = {
+  tags,
+  body: {
+    transaction: { type: 'string' }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   stripeSchema,
-  stripePaymentIntent
+  stripePaymentIntent,
+  tezosPaymentIntent,
+  tezosPaymentVerify
 }

@@ -31,6 +31,14 @@ class Payments {
     }
     return event
   }
+
+  async createTezosPaymentIntent () {
+
+  }
+
+  async verifyTezosPayment () {
+
+  }
 }
 
 module.exports = Payments
