@@ -46,14 +46,12 @@ class Payment {
 
     switch (event.type) {
       case 'payment_intent.succeeded':
-        const paymentIntentSucceeded = event.data.object
-        console.info(paymentIntentSucceeded)
+        console.info(event.data.object)
         // Then define and call a function to handle the event payment_intent.succeeded
         break
 
       case 'payment_intent.payment_failed':
-        const paymentIntentPaymentFailed = event.data.object
-        console.info(paymentIntentPaymentFailed)
+        console.info(event.data.object)
         break
         // ... handle other event types
       default:
