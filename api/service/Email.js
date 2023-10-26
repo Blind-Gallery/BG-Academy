@@ -1,16 +1,6 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail')
 
-const WELCOME_MESSAGE = `
-Hello there!
-
-Welcome to the Academy by Blind Gallery -  SLOGAN.
-
-You can access our platform here : https://qa-bg-academy-client-c92169fac952.herokuapp.com/
-
-If you have any questions, reply to this email.
-`
-
 const WELCOME_MESSAGE_HTML = `
 <strong>Hello there!</strong>
 
