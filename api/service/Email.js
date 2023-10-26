@@ -42,7 +42,7 @@ class Email {
 
     const res = await this.sendgrid.send(msg)
 
-    return res
+    return res[0]
   }
 
   async sendWelcomeEmail ({ to }) {
