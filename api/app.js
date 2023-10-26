@@ -8,7 +8,8 @@ const fp = require('fastify-plugin')
 const {
   Login,
   User,
-  Documents
+  Documents,
+  Payments
 } = require('./model')
 
 const {
@@ -16,7 +17,7 @@ const {
   JWT,
   Email,
   Documents: Docs,
-  Payments
+  Stripe
 } = require('./service')
 
 const {
@@ -39,7 +40,7 @@ async function decorateFastifyInstance (fastify) {
   jwt.init()
 
   const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
-  const payments = new Payments()
+  const stripe = new Stripe()
   const login = new Login({
     gql,
     jwt,
@@ -58,6 +59,13 @@ async function decorateFastifyInstance (fastify) {
     email,
     opts,
     docs: new Docs()
+  })
+  const payments = new Payments({
+    gql,
+    email,
+    opts,
+    jwt,
+    stripe
   })
   fastify.decorate('login', login)
   fastify.decorate('user', user)

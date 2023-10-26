@@ -27,17 +27,12 @@ module.exports[Symbol.for('plugin-meta')] = {
 
 async function stripeVerificationHandler (req, reply) {
   const sig = req.headers['stripe-signature']
-  const response = await this.payments.verify(sig, req.rawBody)
+  const response = await this.payments.verifyStripeWebhook(sig, req.rawBody)
+  console.info('stripe verify response: ' + JSON.stringify(response))
 }
 
 async function stripePaymentIntentHandler (req, reply) {
-  const paymentIntent = await this.payments.paymentIntent(
-    req.body.amount,
-    req.body.currency,
-    req.body.paymentMethodTypes,
-    req.body.receiptEmail
-  )
-
+  const paymentIntent = await this.payments.createStripePaymentIntent(req.body)
   console.info('Payment intent: ', paymentIntent)
   reply.code(200).send({ paymentIntent })
   return { paymentIntent }
