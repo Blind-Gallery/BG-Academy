@@ -253,11 +253,16 @@ export default {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
-    buyTezos () {
+    async buyTezos () {
       if (!this.isWalletConnected) {
         return
       }
-      console.info('buying with tezos')
+      console.info('buying with tezos', this.courses[0].id)
+      const response = await this.$axios.$post('/payments/tezos/payment-intent', {
+        courseId: this.courses[0].id
+      })
+
+      console.info(response)
     }
   }
 }
