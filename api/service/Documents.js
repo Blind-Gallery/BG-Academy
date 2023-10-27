@@ -40,14 +40,14 @@ class Documents {
    *
    * @example
    * const data = {
-   *   name: 'John Doe',
+   *   student: 'John Doe',
    *   courseTitle: 'Blockchain',
    *   teacher: 'Hugo'
    * }
    */
   async generateCertificate (data) {
-    let cid = ''
-    this.getTemplateHtml('certificate').then(async (res) => {
+    try {
+      const res = await this.getTemplateHtml('certificate')
       const template = hb.compile(res, { strict: true })
       const html = template(data)
       const browser = await puppeteer.launch({ headless: 'new' })
@@ -56,13 +56,12 @@ class Documents {
       const pdf = await page.pdf({ format: 'A4' })
       await browser.close()
       const ipfs = await this.ipfs.add({ content: pdf })
-      cid = ipfs.path
-      return ipfs.path
-    }).catch(err => {
-      console.error(err)
-    })
-
-    return cid
+      const cid = ipfs.path
+      return cid
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
   }
 }
 
