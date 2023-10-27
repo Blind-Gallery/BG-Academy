@@ -1,9 +1,11 @@
 const Login = require('./Auth')
 const User = require('./User')
 const Documents = require('./Documents')
+const Payments = require('./Payments')
 
 module.exports = {
   Login,
   User,
-  Documents
+  Documents,
+  Payments
 }
