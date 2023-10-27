@@ -10,5 +10,5 @@ test('default root route', async (t) => {
     url: '/payments/tezos/payment-intent'
   })
 
-  console.log(res)
+  // console.log(res)
 })
