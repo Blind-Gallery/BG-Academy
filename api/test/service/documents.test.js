@@ -1,6 +1,4 @@
 'use strict'
-const fs = require('fs')
-const path = require('path')
 
 const { test } = require('tap')
 const Documents = require('../../service/Documents.js')
@@ -8,6 +6,14 @@ const Documents = require('../../service/Documents.js')
 test('documents works standalone', async (t) => {
   const documents = new Documents()
   t.ok(documents)
+  t.end()
+})
+
+test('generation of templates works', async (t) => {
+  const documents = new Documents()
+  const template = await documents.getTemplateHtml('certificate')
+  t.ok(template)
+  t.type(template, 'string')
   t.end()
 })
 

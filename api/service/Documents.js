@@ -11,18 +11,6 @@ class Documents {
     this.ipfs = new IPFS()
   }
 
-  /**
- * Uploads a file to IPFS.
- *
- * @param {string} fileName - The name of the file to upload.
- * @returns {Promise<Object>} An object containing the IPFS upload information.
- */
-  async ipfsUpload (fileName) {
-    const buffer = fs.readFileSync(`${fileName}`)
-    const ipfs = await this.ipfs.add({ content: buffer })
-    return ipfs
-  }
-
   async getTemplateHtml (name) {
     console.info('Loading template file in memory')
     try {
