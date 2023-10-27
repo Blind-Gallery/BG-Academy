@@ -18,7 +18,8 @@ const {
   Email,
   Documents: Docs,
   Stripe,
-  Tezos
+  Tezos,
+  CoinGecko
 } = require('./service')
 
 const {
@@ -42,6 +43,8 @@ async function decorateFastifyInstance (fastify) {
 
   const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
   const stripe = new Stripe()
+  const coinGecko = new CoinGecko()
+
   const login = new Login({
     gql,
     jwt,
@@ -67,6 +70,7 @@ async function decorateFastifyInstance (fastify) {
     opts,
     jwt,
     stripe,
+    coinGecko,
     tezos: Tezos
   })
   fastify.decorate('login', login)
