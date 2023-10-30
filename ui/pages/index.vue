@@ -339,6 +339,47 @@
           </b-col>
         </b-row>
       </b-container>
+      <b-container fluid style="background-color: #F6F6F6;">
+        <b-container style="max-width: 1240px;" class="my-5 py-5">
+          <b-row class="align-items-center">
+            <b-col cols="12" lg="6">
+              <div>
+                <h4>About</h4>
+                <p>
+                  At Academy, we're all about nurturing your digital art, crypto art, and digital objects journey. Our mission is to equip you with the tools and knowledge to explore, create, and monetize your artistic talents in the digital realm.<br><br>
+
+                  Join our community of passionate artists and art enthusiasts as we guide you through courses and resources covering everything from digital illustration techniques to crypto art creation.
+                </p>
+              </div>
+            </b-col>
+
+            <b-col cols="12" lg="6">
+              <div><img class="w-100" src="https://23946686.fs1.hubspotusercontent-na1.net/hubfs/23946686/team-crehana-1.png"></div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </b-container>
+
+      <b-container style="max-width: 1240px;" class="my-5 py-5">
+        <b-row class="align-items-center">
+          <b-col cols="12" lg="6">
+            <div>
+              <h4>About</h4>
+              <p>
+                At Academy, we're all about nurturing your digital art, crypto art, and digital objects journey. Our mission is to equip you with the tools and knowledge to explore, create, and monetize your artistic talents in the digital realm.<br><br>
+
+                Join our community of passionate artists and art enthusiasts as we guide you through courses and resources covering everything from digital illustration techniques to crypto art creation.
+              </p>
+            </div>
+          </b-col>
+
+          <b-col cols="12" lg="6">
+            <div>
+              <img class="w-100" src="https://23946686.fs1.hubspotusercontent-na1.net/hubfs/23946686/team-crehana-1.png">
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
     <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
       <div class="d-flex flex-column align-items-center justify-content-center">
