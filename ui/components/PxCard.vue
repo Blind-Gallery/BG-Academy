@@ -8,7 +8,7 @@
           alt="Preview"
         >
         <div class="d-flex align-items-center" style="gap:0.5rem">
-          <b-avatar size="2rem" :src="pfp" />
+          <b-avatar style="border: 1px solid #fff;" size="2rem" :src="pfp" />
           <div class="d-flex flex-column">
             <p class="m-0 small">
               Instructor
