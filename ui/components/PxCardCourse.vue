@@ -3,7 +3,7 @@
     <div class="card-container shadow-sm rounded border">
       <div class="card-data p-4">
         <div class="d-flex align-items-center mb-2">
-          <b-avatar :src="pfp" size="2rem" class="mr-2" /><span class="small">{{ instructor }}</span>
+          <b-avatar style="border: 1px solid #fff;" :src="pfp" size="2rem" class="mr-2" /><span class="small">{{ instructor }}</span>
         </div>
         <div>
           <h5>{{ title }}</h5><p class="small">
