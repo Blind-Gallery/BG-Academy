@@ -20,44 +20,12 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <img style="border-radius: 10px;" src="https://cdn.discordapp.com/attachments/984632520471633920/1125691815249576016/expertacademy.ai_illustration_of_a_young_male_professional_poin_e0a06885-d02b-4ec2-ac6f-ccfa59844d75.png" width="80%">
+              <img style="border-radius: 10px;" src="https://cdn.discordapp.com/attachments/987378128106168403/1168743037866876998/Academy.png?ex=6552dfc6&is=65406ac6&hm=579467a0c9803acfd533fca78c32d42e3fb3186ed779e886ed600f6f9f3aa429&" width="100%">
             </b-col>
           </b-row>
         </b-container>
       </b-container>
       <!--INFO CONTAINER-->
-
-      <b-container v-if="!$auth.loggedIn" class="mb-5 py-4" style="max-width: 1240px;">
-        <!--PARTNERS CONTAINER-->
-        <h4 class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
-          Meet our partners
-        </h4>
-
-        <div class="partners-container ">
-          <img
-            width="120px"
-            alt="fxhash"
-            src="~/assets/fxhash.png"
-          >
-
-          <img
-            width="120px"
-            alt="joyn"
-            src="~/assets/joyn.png"
-          >
-          <img
-            width="150px"
-            alt="autonomy"
-            src="~/assets/autonomy.png"
-          >
-
-          <img
-            width="120px"
-            alt="tezos"
-            src="~/assets/tezos.png"
-          >
-        </div>
-      </b-container>
 
       <!--LOGGED CONTAINER-->
       <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
@@ -354,28 +322,88 @@
             </b-col>
 
             <b-col cols="12" lg="6">
-              <div><img class="w-100" src="https://23946686.fs1.hubspotusercontent-na1.net/hubfs/23946686/team-crehana-1.png"></div>
+              <div><img class="w-100" src="https://cdn.discordapp.com/attachments/987378128106168403/1168613471663947858/Sin-titulo-1.png?ex=6552671b&is=653ff21b&hm=b0b96ab7fa3e80128d173e57a257f4112ab56f4ff4cc8e6804416d58b682c8e3&"></div>
             </b-col>
           </b-row>
         </b-container>
       </b-container>
 
+      <b-container v-if="!$auth.loggedIn" class="mb-5 py-4" style="max-width: 1240px;">
+        <!--PARTNERS CONTAINER-->
+        <h4 class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
+          Meet our partners
+        </h4>
+
+        <div class="partners-container ">
+          <img
+            width="120px"
+            alt="fxhash"
+            src="~/assets/brands/fxhash.png"
+          >
+
+          <img
+            width="120px"
+            alt="joyn"
+            src="~/assets/brands/joyn.png"
+          >
+          <img
+            width="150px"
+            alt="autonomy"
+            src="~/assets/brands/autonomy.png"
+          >
+
+          <img
+            width="120px"
+            alt="tezos"
+            src="~/assets/brands/tezos.png"
+          >
+        </div>
+      </b-container>
+
       <b-container style="max-width: 1240px;" class="my-5 py-5">
-        <b-row class="align-items-center">
+        <b-row class="align-items-end">
           <b-col cols="12" lg="6">
             <div>
-              <h4>About</h4>
-              <p>
-                At Academy, we're all about nurturing your digital art, crypto art, and digital objects journey. Our mission is to equip you with the tools and knowledge to explore, create, and monetize your artistic talents in the digital realm.<br><br>
+              <h4>Frequently Asked Questions</h4>
+              <div
+                v-for="(question, questionIndex) in questions"
+                :key="questionIndex"
+                class="w-100 shadow-sm  mb-2 rounded"
+              >
+                <div @click="toggleCollapse(questionIndex)">
+                  <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
+                </div>
 
-                Join our community of passionate artists and art enthusiasts as we guide you through courses and resources covering everything from digital illustration techniques to crypto art creation.
-              </p>
+                <!--CHAPTERS COLLAPSE-->
+                <b-collapse
+
+                  :id="`accordion-${questionIndex}`"
+                  :key="questionIndex"
+
+                  role="tabpanel"
+                >
+                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                    <span class="text-secondary">{{ question.answer }}</span>
+                  </div>
+                </b-collapse>
+              </div>
             </div>
           </b-col>
 
           <b-col cols="12" lg="6">
-            <div>
-              <img class="w-100" src="https://23946686.fs1.hubspotusercontent-na1.net/hubfs/23946686/team-crehana-1.png">
+            <div class="d-flex flex-column py-2">
+              <div class="d-flex w-100 justify-content-end mb-2">
+                <input
+                  id="subscribe"
+                  type="email"
+                  name="subscribe"
+                  placeholder="Your email"
+                  class="w-50 p-2 small"
+                  style="border-radius: 5px 0px 0px 5px; border: 0.5px solid rgb(187, 187, 187);"
+                > <button style="border-radius: 0px 5px 5px 0px;" class="primary-btn w-25 small">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -491,7 +519,30 @@ export default {
         mintedDate: '04/09/2023',
         transaction: 'ooRhd...JVYDAM',
         transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
-      }]
+      }],
+
+      questions: [
+        {
+          question: 'Question One',
+          answer: 'Answer One'
+        },
+        {
+          question: 'Question Two',
+          answer: 'Answer Two'
+        },
+        {
+          question: 'Question Three',
+          answer: 'Answer Three'
+        },
+        {
+          question: 'Question Four',
+          answer: 'Answer Four'
+        },
+        {
+          question: 'Question Five',
+          answer: 'Answer Five'
+        }
+      ]
 
     }
   },
@@ -534,9 +585,13 @@ export default {
       this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
 
       this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
-    }
-  }
+    },
 
+    toggleCollapse (moduleIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
+    }
+
+  }
 }
 </script>
 <style>
