@@ -307,7 +307,7 @@
           </b-col>
         </b-row>
       </b-container>
-      <b-container fluid style="background-color: #F6F6F6;">
+      <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
         <b-container style="max-width: 1240px;" class="my-5 py-5">
           <b-row class="align-items-center">
             <b-col cols="12" lg="6">
@@ -328,38 +328,6 @@
         </b-container>
       </b-container>
 
-      <b-container v-if="!$auth.loggedIn" class="mb-5 py-4" style="max-width: 1240px;">
-        <!--PARTNERS CONTAINER-->
-        <h4 class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
-          Meet our partners
-        </h4>
-
-        <div class="partners-container ">
-          <img
-            width="120px"
-            alt="fxhash"
-            src="~/assets/brands/fxhash.png"
-          >
-
-          <img
-            width="120px"
-            alt="joyn"
-            src="~/assets/brands/joyn.png"
-          >
-          <img
-            width="150px"
-            alt="autonomy"
-            src="~/assets/brands/autonomy.png"
-          >
-
-          <img
-            width="120px"
-            alt="tezos"
-            src="~/assets/brands/tezos.png"
-          >
-        </div>
-      </b-container>
-
       <b-container style="max-width: 1240px;" class="my-5 py-5">
         <b-row class="align-items-end">
           <b-col cols="12" lg="6">
@@ -376,7 +344,6 @@
 
                 <!--CHAPTERS COLLAPSE-->
                 <b-collapse
-
                   :id="`accordion-${questionIndex}`"
                   :key="questionIndex"
 
@@ -391,19 +358,41 @@
           </b-col>
 
           <b-col cols="12" lg="6">
-            <div class="d-flex flex-column py-2">
-              <div class="d-flex w-100 justify-content-end mb-2">
-                <input
-                  id="subscribe"
-                  type="email"
-                  name="subscribe"
-                  placeholder="Your email"
-                  class="w-50 p-2 small"
-                  style="border-radius: 5px 0px 0px 5px; border: 0.5px solid rgb(187, 187, 187);"
-                > <button style="border-radius: 0px 5px 5px 0px;" class="primary-btn w-25 small">
-                  Subscribe
-                </button>
+            <div class="d-flex flex-column align-items-center mt-4">
+              <h4>Meet our partners</h4>
+              <div class="partners-container ">
+                <img
+                  width="120px"
+                  alt="fxhash"
+                  src="~/assets/brands/fxhash.png"
+                >
+
+                <img
+                  width="120px"
+                  alt="joyn"
+                  src="~/assets/brands/joyn.png"
+                >
+                <img
+                  width="150px"
+                  alt="autonomy"
+                  src="~/assets/brands/autonomy.png"
+                >
+
+                <img
+                  width="120px"
+                  alt="tezos"
+                  src="~/assets/brands/tezos.png"
+                >
               </div>
+            </div>
+            <div>
+              <iframe
+                src="https://blindgallery.substack.com/embed"
+                height="150"
+                width="100%"
+                frameborder="0"
+                scrolling="no"
+              />
             </div>
           </b-col>
         </b-row>
@@ -613,12 +602,12 @@ export default {
 
 .partners-container{
   display:grid;
-  grid-template-columns: repeat(4,0.15fr);
+  grid-template-columns: repeat(2,0.4fr);
   align-items: center;
   justify-content: center;
-  gap:1.5rem;
+
   padding:1.25rem;
-  border-bottom: 1px solid rgb(235, 235, 235);
+  grid-gap: 1.25rem;
 }
 
 .feedback-info{
