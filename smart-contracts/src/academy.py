@@ -221,7 +221,14 @@ class ChangeMetadata:
         self.data.metadata = metadata
 
 class Courses:
-    """ Provide the basics for Courses
+    """ PRovide the Courses for Blind Academy 
+    """
+
+    def get_course_id_type(self):
+        return sp.TNat
+
+class Academy:
+    """ Provide the basics for Blind Academy
     """
 
     def __init__(self):
