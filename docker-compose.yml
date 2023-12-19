@@ -11,8 +11,8 @@ services:
     environment:
       PORT: ${ACTION_SERVER_PORT}
       NODE_ENV: ${NODE_ENV}
-      GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
-      GRAPHQL_SECRET: ${GRAPHQL_SECRET}
+      GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
+      GRAPHQL_SECRET: myadminsecretkey
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
