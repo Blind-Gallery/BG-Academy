@@ -195,6 +195,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
+import Academy from '@/services/bg'
 import PxPayments from '~/components/PxPayments.vue'
 
 export default {
@@ -254,15 +255,23 @@ export default {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
     async buyTezos () {
-      if (!this.isWalletConnected) {
+      if (!this.$auth.user.tezos_info) {
+        console.info('Non blockchain user')
         return
       }
+      if (!this.isWalletConnected) {
+        console.info('Non connected wallet')
+        await this.$store.dispatch('tezosWallet/autoLogin')
+        return this.buyTezos()
+      }
       console.info('buying with tezos', this.courses[0].id)
-      const response = await this.$axios.$post('/payments/tezos/payment-intent', {
+      const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
         courseId: this.courses[0].id
       })
-
-      console.info(response)
+      console.info(tezos)
+      // this.$store.state.tezosWallet.wallet.tezos.contract.transfer({ to: 'tz1WEiCtGPjyrvgv3dMXAVYQH6YyWVbQQdyU', amount: 1 })
+      const academy = new Academy(this.$store.state.tezosWallet.wallet.wallet.getActiveAccount())
+      academy.transfer({ to: 'tz1WEiCtGPjyrvgv3dMXAVYQH6YyWVbQQdyU', amount: 1 })
     }
   }
 }
