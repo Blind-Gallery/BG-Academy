@@ -63,6 +63,7 @@ class Payments {
     const coursePrice = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
+    return { tezos: tezosPrice }
   }
 
   async verifyTezosPayment ({ transaction }) {

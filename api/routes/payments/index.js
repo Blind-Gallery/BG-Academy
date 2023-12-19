@@ -46,6 +46,7 @@ async function stripePaymentIntentHandler (req, reply) {
 
 async function tezosPaymentIntentHandler (req, reply) {
   const paymentIntent = await this.payments.createTezosPaymentIntent(req.body)
+  return paymentIntent
 }
 
 async function tezosPaymentVerifyHandler (req, reply) {

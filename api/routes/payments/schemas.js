@@ -53,9 +53,9 @@ const tezosPaymentIntent = {
   response: {
     200: {
       type: 'object',
-      required: ['mutez'],
+      required: ['tezos'],
       properties: {
-        mutez: { type: 'number' }
+        tezos: { type: 'number' }
       }
     }
   }
