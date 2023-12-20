@@ -26,6 +26,7 @@
     "@sendgrid/mail": "^7.7.0",
     "@taquito/signer": "^17.3.2",
     "@taquito/taquito": "^17.3.2",
+    "@taquito/tzip16": "^17.5.0",
     "@taquito/utils": "^17.1.1",
     "bcrypt": "^5.1.0",
     "coingecko-api-v3": "^0.0.29",
