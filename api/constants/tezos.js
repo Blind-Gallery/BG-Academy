@@ -10,10 +10,12 @@ const endpoints = {
 
 const contractAddresses = {
   mainnet: {
-    academy: ''
+    academy: '',
+    sbt: ''
   },
   ghostnet: {
-    academy: ''
+    academy: 'KT1XMWj1sQKrWbqauz1Sm6D9omsktHetPmCL',
+    sbt: 'KT1CQFNnsKerP3AvjrGJkYPe2LSMvxzNJKgD'
   }
 }
 
