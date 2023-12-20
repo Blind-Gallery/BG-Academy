@@ -22,7 +22,12 @@ class Documents {
   }
 
   async mintSoulBoundCertificate ({ cid, to, amount, student, teacher, courseTitle }) {
-
+    let artifact, thumbnail
+    try {
+      const { pdfCID, imageCID } = await this.docs.generateCertificate({ name: student, courseTitle, teacher })
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
