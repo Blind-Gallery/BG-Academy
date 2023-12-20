@@ -14,7 +14,7 @@ const contractAddresses = {
     sbt: ''
   },
   ghostnet: {
-    academy: 'KT1XMWj1sQKrWbqauz1Sm6D9omsktHetPmCL',
+    academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',
     sbt: 'KT1CQFNnsKerP3AvjrGJkYPe2LSMvxzNJKgD'
   }
 }
