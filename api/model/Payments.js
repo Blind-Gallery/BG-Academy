@@ -82,6 +82,10 @@ class Payments {
     }
     return { tezos: tezosPrice }
   }
+
+  async verifyTezosPayment ({ courseId, user, signature, amount }) {
+
+  }
 }
 
 module.exports = Payments
