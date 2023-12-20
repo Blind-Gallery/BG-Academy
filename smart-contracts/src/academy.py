@@ -307,7 +307,7 @@ class Academy:
         sp.verify(self.data.courses.contains(params.course_id),
                     self.error_message.course_not_found())
 
-        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        key = sp.local('key', sp.pair(params.user, params.course_id))
         sp.verify(~self.data.user_courses.contains(key.value),
                     self.error_message.course_already_active())
         
@@ -338,11 +338,12 @@ class Academy:
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
         sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.user, sp.TAddress)
         sp.set_type(params.soul_bound_token_id, token_id_type)
         sp.verify(self.data.courses.contains(params.course_id),
                     self.error_message.course_not_found())
 
-        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        key = sp.local('key', sp.pair(params.user, params.course_id))
         sp.verify(self.data.user_courses.contains(key.value),
                     self.error_message.course_not_active())
         
@@ -435,6 +436,37 @@ if "templates" not in __name__:
 
         c1 = BlindGallery(admin=admin.address, metadata=METADATA)
         scenario += c1
+
+        scenario.h2("Add moderators")
+        scenario += c1.add_moderator(moderator=mod1.address, name="mod1").run(sender=admin)
+        scenario += c1.add_moderator(moderator=mod2.address, name="mod2").run(sender=admin)
+
+        scenario.h2("Set metadata")
+        scenario += c1.set_metadata(METADATA).run(sender=admin)
+
+        scenario.h2("Create courses")
+        scenario += c1.create_course(id=1, name="Course 1", description="Course 1 description", price=100, content="Course 1 content", is_active=True).run(sender=admin)
+        scenario += c1.create_course(id=2, name="Course 2", description="Course 2 description", price=200, content="Course 2 content", is_active=True).run(sender=admin)
+        scenario += c1.create_course(id=3, name="Course 3", description="Course 3 description", price=300, content="Course 3 content", is_active=True).run(sender=admin)
+
+        scenario.h2("Update tezos price")
+        scenario += c1.update_tezos_price(tezosPrice=89).run(sender=admin)
+
+        scenario.h2("Add courses")
+        scenario += c1.add_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.add_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+
+        scenario.h2("Pay courses")
+        scenario += c1.pay_course(course_id=1).run(sender=alice, amount=sp.tez(10))
+        scenario += c1.pay_course(course_id=1).run(sender=bob, amount=sp.tez(20))
+
+        scenario.h2("Update soul bound token id")
+        scenario += c1.update_soul_bound_token_id(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.update_soul_bound_token_id(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+
+        scenario.h2("Remove courses")
+        scenario += c1.remove_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.remove_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
 
     sp.add_compilation_target("compilation", BlindGallery(
         admin=sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
