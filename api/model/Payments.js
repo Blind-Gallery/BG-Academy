@@ -1,4 +1,4 @@
-const { Unauthorized, BadRequest } = require('http-errors')
+const { Unauthorized, BadRequest, Conflict, InternalServerError } = require('http-errors')
 const { request, gql } = require('graphql-request')
 
 const GET_COURSE_BY_ID = gql`
@@ -65,11 +65,21 @@ class Payments {
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
 
-    await this.academySC.addCourseToUser({
-      courseId,
-      user
-    })
-
+    try {
+      await this.academySC.addCourseToUser({
+        courseId,
+        user
+      })
+    } catch (err) {
+      console.error(err.message)
+      if (err.message.includes('BLIND_GALLERY_COURSE_ALREADY_ACTIVE')) {
+        return { tezos: tezosPrice }
+      } else if (err.message.includes('BLIND_GALLERY_COURSE_NOT_FOUND')) {
+        throw new Conflict('Tezos payment not implemented for this course yet')
+      } else {
+        throw new InternalServerError(err.message)
+      }
+    }
     return { tezos: tezosPrice }
   }
 }
