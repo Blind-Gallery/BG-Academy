@@ -264,11 +264,15 @@ export default {
         return this.buyTezos()
       }
       console.info('buying with tezos', this.courses[0].id)
-      const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
-        courseId: this.courses[0].id,
-        user: this.tezosAddress
-      })
-      console.info(tezos)
+      try {
+        const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
+          courseId: this.courses[0].id,
+          user: this.tezosAddress
+        })
+        console.info(tezos)
+      } catch (error) {
+        console.error(error.message)
+      }
     }
   }
 }
