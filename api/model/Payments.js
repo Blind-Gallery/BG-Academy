@@ -10,13 +10,14 @@ query ($id: Int!) {
 }
 `
 class Payments {
-  constructor ({ gql, email, opts, jwt, stripe, tezos, coinGecko }) {
+  constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
     this.gql = gql
     this.email = email
     this.opts = opts
     this.jwt = jwt
     this.stripe = stripe
     this.tezos = tezos
+    this.academySC = academySC
     this.coinGecko = coinGecko
   }
 
@@ -59,15 +60,17 @@ class Payments {
     return event
   }
 
-  async createTezosPaymentIntent ({ courseId }) {
+  async createTezosPaymentIntent ({ courseId, user }) {
     const coursePrice = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
+
+    await this.academySC.addCourseToUser({
+      courseId,
+      user
+    })
+
     return { tezos: tezosPrice }
-  }
-
-  async verifyTezosPayment ({ transaction }) {
-
   }
 }
 

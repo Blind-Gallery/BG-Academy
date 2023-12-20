@@ -48,7 +48,8 @@ const stripePaymentIntent = {
 const tezosPaymentIntent = {
   tags,
   body: {
-    courseId: { type: 'number' }
+    courseId: { type: 'number' },
+    user: { type: 'string' }
   },
   response: {
     200: {
