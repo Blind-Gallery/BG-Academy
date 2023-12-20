@@ -195,7 +195,6 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
-import Academy from '@/services/bg'
 import PxPayments from '~/components/PxPayments.vue'
 
 export default {
@@ -266,12 +265,10 @@ export default {
       }
       console.info('buying with tezos', this.courses[0].id)
       const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
-        courseId: this.courses[0].id
+        courseId: this.courses[0].id,
+        user: this.tezosAddress
       })
       console.info(tezos)
-      // this.$store.state.tezosWallet.wallet.tezos.contract.transfer({ to: 'tz1WEiCtGPjyrvgv3dMXAVYQH6YyWVbQQdyU', amount: 1 })
-      const academy = new Academy(this.$store.state.tezosWallet.wallet.wallet.getActiveAccount())
-      academy.transfer({ to: 'tz1WEiCtGPjyrvgv3dMXAVYQH6YyWVbQQdyU', amount: 1 })
     }
   }
 }
