@@ -7,8 +7,6 @@ const contract = TezosConstants.CONTRACT_ADDRESSES.academy
 class Academy extends BlindGalleryPermissions {
   constructor () {
     super({ contract })
-    this.contractAddress = contract
-    this._initialized = this._initialize()
   }
 
   /**
