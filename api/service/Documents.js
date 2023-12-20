@@ -42,10 +42,13 @@ class Documents {
       const page = await browser.newPage()
       await page.setContent(html)
       const pdf = await page.pdf({ format: 'A4' })
+      const image = await page.screenshot({ fullPage: true })
       await browser.close()
-      const ipfs = await this.ipfs.add({ content: pdf })
-      const cid = ipfs.path
-      return cid
+      const pdfIPFS = await this.ipfs.add({ content: pdf })
+      const pdfCID = pdfIPFS.path
+      const imageIPFS = await this.ipfs.add({ content: image })
+      const imageCID = imageIPFS.path
+      return { pdfCID, imageCID }
     } catch (error) {
       console.error(error)
       throw error
