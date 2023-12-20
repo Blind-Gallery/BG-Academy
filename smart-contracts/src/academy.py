@@ -291,6 +291,35 @@ class Academy:
         )
 
     @sp.entry_point
+    def update_course(self, params):
+        sp.verify(self.is_admin_or_mod(sp.sender),
+                  self.error_message.not_admin_or_mod())
+        sp.set_type(params.id, self.get_course_id_type())
+        sp.set_type(params.name, sp.TString)
+        sp.set_type(params.description, sp.TString)
+        sp.set_type(params.price, sp.TNat)
+        sp.set_type(params.content, sp.TString)
+        sp.set_type(params.is_active, sp.TBool)
+        sp.verify(self.data.courses.contains(params.id),
+                    self.error_message.course_not_found())
+        
+        self.data.courses[params.id].name = params.name
+        self.data.courses[params.id].description = params.description
+        self.data.courses[params.id].price = params.price
+        self.data.courses[params.id].content = params.content
+        self.data.courses[params.id].is_active = params.is_active
+
+    @sp.entry_point
+    def delete_course(self, params):
+        sp.verify(self.is_admin_or_mod(sp.sender),
+                  self.error_message.not_admin_or_mod())
+        sp.set_type(params.id, self.get_course_id_type())
+        sp.verify(self.data.courses.contains(params.id),
+                    self.error_message.course_not_found())
+        
+        del self.data.courses[params.id]
+
+    @sp.entry_point
     def update_tezos_price(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
@@ -298,7 +327,7 @@ class Academy:
         self.data.tezosPrice = params.tezosPrice
         
     @sp.entry_point
-    def add_course(self, params):
+    def add_course_to_user(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
         sp.set_type(params.course_id, self.get_course_id_type())
@@ -318,12 +347,11 @@ class Academy:
         )
 
     @sp.entry_point
-    def remove_course(self, params):
+    def remove_course_from_user(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
         sp.set_type(params.course_id, self.get_course_id_type())
         sp.set_type(params.user, sp.TAddress)
-        sp.set_type(params.soul_bound_token_id, token_id_type)
         sp.verify(self.data.courses.contains(params.course_id),
                     self.error_message.course_not_found())
 
@@ -375,7 +403,6 @@ class Academy:
                   self.error_message.not_admin_or_mod())
         sp.set_type(params.course_id, self.get_course_id_type())
         sp.set_type(params.user, sp.TAddress)
-        sp.set_type(params.soul_bound_token_id, token_id_type)
         sp.verify(self.data.courses.contains(params.course_id),
                     self.error_message.course_not_found())
 
@@ -393,7 +420,6 @@ class Academy:
                   self.error_message.not_admin_or_mod())
         sp.set_type(params.course_id, self.get_course_id_type())
         sp.set_type(params.user, sp.TAddress)
-        sp.set_type(params.soul_bound_token_id, token_id_type)
         sp.verify(self.data.courses.contains(params.course_id),
                     self.error_message.course_not_found())
 
@@ -449,12 +475,16 @@ if "templates" not in __name__:
         scenario += c1.create_course(id=2, name="Course 2", description="Course 2 description", price=200, content="Course 2 content", is_active=True).run(sender=admin)
         scenario += c1.create_course(id=3, name="Course 3", description="Course 3 description", price=300, content="Course 3 content", is_active=True).run(sender=admin)
 
+        scenario.h2("Update courses")
+        scenario += c1.update_course(id=1, name="Course 1 updated", description="Course 1 description updated", price=100, content="Course 1 content updated", is_active=True).run(sender=admin)
+        scenario += c1.update_course(id=2, name="Course 2 updated", description="Course 2 description updated", price=200, content="Course 2 content updated", is_active=True).run(sender=admin)
+
         scenario.h2("Update tezos price")
         scenario += c1.update_tezos_price(tezosPrice=89).run(sender=admin)
 
         scenario.h2("Add courses")
-        scenario += c1.add_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
-        scenario += c1.add_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+        scenario += c1.add_course_to_user(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.add_course_to_user(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
 
         scenario.h2("Pay courses")
         scenario += c1.pay_course(course_id=1).run(sender=alice, amount=sp.tez(10))
@@ -465,16 +495,21 @@ if "templates" not in __name__:
         scenario += c1.update_soul_bound_token_id(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
 
         scenario.h2("Deactivate courses")
-        scenario += c1.deactivate_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
-        scenario += c1.deactivate_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+        scenario += c1.deactivate_course(course_id=1, user=alice.address).run(sender=admin)
+        scenario += c1.deactivate_course(course_id=1, user=bob.address).run(sender=admin)
 
         scenario.h2("Activate courses")
-        scenario += c1.activate_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
-        scenario += c1.activate_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+        scenario += c1.activate_course(course_id=1, user=alice.address).run(sender=admin)
+        scenario += c1.activate_course(course_id=1, user=bob.address).run(sender=admin)
 
         scenario.h2("Remove courses")
-        scenario += c1.remove_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
-        scenario += c1.remove_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+        scenario += c1.remove_course_from_user(course_id=1, user=alice.address).run(sender=admin)
+        scenario += c1.remove_course_from_user(course_id=1, user=bob.address).run(sender=admin)
+
+        scenario.h2("Delete courses")
+        scenario += c1.delete_course(id=1).run(sender=admin)
+        scenario += c1.delete_course(id=2).run(sender=bob, valid=False)
+        scenario += c1.delete_course(id=2).run(sender=admin)
 
     sp.add_compilation_target("compilation", BlindGallery(
         admin=sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
