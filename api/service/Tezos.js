@@ -9,7 +9,7 @@ Tezos.setProvider({
 })
 class TezosTransactions {
   constructor () {
-    this.tezos = Tezos
+    this.Tezos = Tezos
   }
 
   async getBalance (address) {
