@@ -5,7 +5,7 @@ const TezosTransactions = require('../Tezos')
 class BlindGalleryPermissions extends TezosTransactions {
   constructor ({ contract }) {
     super()
-    this.contract_address = contract
+    this.contractAddress = contract
     this._initialized = this._initialize()
   }
 
@@ -16,7 +16,7 @@ class BlindGalleryPermissions extends TezosTransactions {
    * @private
    */
   async _initialize () {
-    const contract = await this.Tezos.wallet.at(this.contract_address)
+    const contract = await this.Tezos.wallet.at(this.contractAddress)
     this.contract = contract
   }
 
