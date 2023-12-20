@@ -378,6 +378,23 @@ class Academy:
         self.data.user_courses[key.value].soul_bound_token_id = params.soul_bound_token_id
 
     @sp.entry_point
+    def buy_course(self, params):
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
+
+        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        sp.verify(~self.data.user_courses.contains(key.value),
+                    self.error_message.course_already_active())
+        
+        sp.send(blind_gallery_address, sp.amount)
+        self.data.user_courses[key.value] = sp.record(
+            is_paid=True,
+            is_active=True,
+            soul_bound_token_id=0
+        )
+
+    @sp.entry_point
     def pay_course(self, params):
         sp.set_type(params.course_id, self.get_course_id_type())
         sp.verify(self.data.courses.contains(params.course_id),
@@ -489,6 +506,10 @@ if "templates" not in __name__:
         scenario.h2("Pay courses")
         scenario += c1.pay_course(course_id=1).run(sender=alice, amount=sp.tez(10))
         scenario += c1.pay_course(course_id=1).run(sender=bob, amount=sp.tez(20))
+
+        scenario.h2("Buy courses")
+        scenario += c1.buy_course(course_id=2).run(sender=tomas, amount=sp.tez(20))
+        scenario += c1.buy_course(course_id=2).run(sender=pedro, amount=sp.tez(20))
 
         scenario.h2("Update soul bound token id")
         scenario += c1.update_soul_bound_token_id(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
