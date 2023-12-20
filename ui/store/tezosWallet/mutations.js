@@ -1,5 +1,5 @@
 export function setWallet (state, wallet) {
-  state.wallet = wallet
+  state.wallet = wallet.beaconWallet
   state.isWalletConnected = wallet.isWalletConnected
   state.tezosAddress = wallet.tezosAddress
   state.publicKey = wallet.publicKey
@@ -8,11 +8,7 @@ export function setWallet (state, wallet) {
 }
 
 export function disconnectWallet (state, wallet) {
-  // state.wallet.client.clearActiveAccount()
-  // state.wallet.client.removeAllAccounts()
-  // state.wallet.client.removeAllPeers()
-  // state.wallet.client.destroy()
-  state.wallet = wallet
+  state.wallet = wallet.beaconWallet
   state.isWalletConnected = undefined
   state.tezosAddress = undefined
   state.publicKey = undefined
