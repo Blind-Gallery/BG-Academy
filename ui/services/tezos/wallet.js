@@ -15,7 +15,7 @@ const options = {
 
 class BeaconWalletService {
   constructor () {
-    this.wallet = new BeaconWallet(options)
+    this.beaconWallet = new BeaconWallet(options)
     this.tezosAddress = undefined
     this.publicKey = undefined
     this.isWalletConnected = false
@@ -29,16 +29,16 @@ class BeaconWalletService {
 
   async connect () {
     await this.autoLogin()
-    Tezos.setWalletProvider(this.wallet)
-    await this.wallet.requestPermissions({
+    Tezos.setWalletProvider(this.beaconWallet)
+    await this.beaconWallet.requestPermissions({
       network: {
         type: CHAIN_NAME,
         rpcUrl: ENDPOINT
       }
     })
-    this.tezosAddress = await this.wallet.getPKH()
+    this.tezosAddress = await this.beaconWallet.getPKH()
     this.isWalletConnected = true
-    this.publicKey = (await this.wallet.client.getActiveAccount()).publicKey
+    this.publicKey = (await this.beaconWallet.client.getActiveAccount()).publicKey
     try {
       const signedMessage = await this.requestSignPayload()
 
@@ -49,13 +49,13 @@ class BeaconWalletService {
   }
 
   async autoLogin () {
-    const activateAccount = await this.wallet.client.getActiveAccount()
+    const activateAccount = await this.beaconWallet.client.getActiveAccount()
     if (activateAccount) {
-      this.wallet.client.setActiveAccount(activateAccount)
+      this.beaconWallet.client.setActiveAccount(activateAccount)
       this.tezosAddress = activateAccount.address
       this.isWalletConnected = true
-      this.publicKey = this.wallet.client.getActiveAccount().publicKey
-      Tezos.setWalletProvider(this.wallet)
+      this.publicKey = this.beaconWallet.client.getActiveAccount().publicKey
+      Tezos.setWalletProvider(this.beaconWallet)
     }
   }
 
@@ -90,7 +90,7 @@ class BeaconWalletService {
     this.payload = payloadBytes
 
     // The signing
-    const signedPayload = await this.wallet.client.requestSignPayload(payload)
+    const signedPayload = await this.beaconWallet.client.requestSignPayload(payload)
 
     // The signature
     const { signature } = signedPayload
@@ -98,7 +98,7 @@ class BeaconWalletService {
   }
 
   disconnect () {
-    if (this.wallet) {
+    if (this.beaconWallet) {
       // this.wallet.client.clearActiveAccount()
       // this.wallet.client.removeAllAccounts()
       // this.wallet.client.removeAllPeers()
