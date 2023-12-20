@@ -464,6 +464,14 @@ if "templates" not in __name__:
         scenario += c1.update_soul_bound_token_id(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
         scenario += c1.update_soul_bound_token_id(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
 
+        scenario.h2("Deactivate courses")
+        scenario += c1.deactivate_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.deactivate_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+
+        scenario.h2("Activate courses")
+        scenario += c1.activate_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
+        scenario += c1.activate_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
+
         scenario.h2("Remove courses")
         scenario += c1.remove_course(course_id=1, user=alice.address, soul_bound_token_id=1).run(sender=admin)
         scenario += c1.remove_course(course_id=1, user=bob.address, soul_bound_token_id=2).run(sender=admin)
