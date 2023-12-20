@@ -1,0 +1,3 @@
+table:
+  name: tezos_transaction_info
+  schema: public
