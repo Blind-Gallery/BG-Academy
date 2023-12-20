@@ -242,7 +242,7 @@ class Academy:
     """
     def __init__(self):
         self.update_initial_storage(
-            tezosPrice=sp.nat(1),
+            tezosPrice=sp.nat(86), # in usd cents
             courses=sp.map(tkey=self.get_course_id_type(), tvalue=self.get_course_type()),
             user_courses=sp.map(tkey=self.get_user_course_id_type(), tvalue=self.get_user_course_type())
         )
@@ -359,6 +359,11 @@ class Academy:
                     self.error_message.course_not_active())
         sp.verify(~self.data.user_courses[key.value].is_paid,
                     self.error_message.course_already_paid())
+
+        # TODO: check if user has enough balance
+        # sp.verify(sp.amount >= self.data.courses[params.course_id].price * self.data.tezosPrice / 100,
+        #             self.error_message.insufficient_balance())
+
 
         sp.send(blind_gallery_address, sp.amount)
         self.data.user_courses[key.value].is_paid = True 
