@@ -2,9 +2,8 @@ const { OpKind } = require('@taquito/taquito')
 const { TezosConstants } = require('../../constants')
 const BlindGalleryPermissions = require('./base')
 
-const contract = TezosConstants.CONTRACT_ADDRESSES.academy
 class Academy extends BlindGalleryPermissions {
-  constructor () {
+  constructor ({ contract }) {
     super({ contract })
   }
 
@@ -47,7 +46,7 @@ class Academy extends BlindGalleryPermissions {
         {
           kind: OpKind.TRANSACTION,
           ...this.contract.methods
-            .add_course(courseId, soulBoundTokenId, user)
+            .add_course_to_user(courseId, soulBoundTokenId, user)
             .toTransferParams()
         }
       ])
@@ -137,7 +136,7 @@ class Academy extends BlindGalleryPermissions {
         {
           kind: OpKind.TRANSACTION,
           ...this.contract.methods
-            .remove_course(courseId, user)
+            .remove_course_from_user(courseId, user)
             .toTransferParams()
         }
       ])

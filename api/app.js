@@ -3,6 +3,8 @@
 const path = require('path')
 const AutoLoad = require('@fastify/autoload')
 const fp = require('fastify-plugin')
+const { TezosConstants } = require('./constants')
+
 // const rawBody = require('raw-body')
 
 const {
@@ -19,7 +21,9 @@ const {
   Documents: Docs,
   Stripe,
   Tezos,
-  CoinGecko
+  CoinGecko,
+  AcademySmartContract,
+  SbtSmartContract
 } = require('./service')
 
 const {
@@ -44,6 +48,8 @@ async function decorateFastifyInstance (fastify) {
   const email = new Email({ apiKey: process.env.SENDGRID_API_KEY })
   const stripe = new Stripe()
   const coinGecko = new CoinGecko()
+  const academySC = new AcademySmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.academy })
+  const sbtSC = new SbtSmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.sbt })
 
   const login = new Login({
     gql,
@@ -62,7 +68,8 @@ async function decorateFastifyInstance (fastify) {
     jwt,
     email,
     opts,
-    docs: new Docs()
+    docs: new Docs(),
+    sbtSC
   })
   const payments = new Payments({
     gql,
@@ -71,7 +78,8 @@ async function decorateFastifyInstance (fastify) {
     jwt,
     stripe,
     coinGecko,
-    tezos: Tezos
+    tezos: Tezos,
+    academySC
   })
   fastify.decorate('login', login)
   fastify.decorate('user', user)

@@ -3,10 +3,8 @@ const { char2Bytes } = require('@taquito/tzip16')
 const { TezosConstants } = require('../../constants')
 const BlindGalleryPermissions = require('./base')
 
-const contract = TezosConstants.CONTRACT_ADDRESSES.sbt
-
-export class BlindGalleryBadges extends BlindGalleryPermissions {
-  constructor () {
+class SoulBondCertificates extends BlindGalleryPermissions {
+  constructor ({ contract }) {
     super({ contract })
   }
 
@@ -138,3 +136,5 @@ export class BlindGalleryBadges extends BlindGalleryPermissions {
     return confirmation
   }
 }
+
+module.exports = SoulBondCertificates
