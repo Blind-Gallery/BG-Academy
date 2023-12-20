@@ -13,6 +13,14 @@ services:
       NODE_ENV: ${NODE_ENV}
       GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
       GRAPHQL_SECRET: myadminsecretkey
+      INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
+      INFURA_API_KEY: ${INFURA_API_KEY}
+      IPFS_URL: ${IPFS_URL}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_ENDPOINT_SECRET: ${STRIPE_ENDPOINT_SECRET}
+      TEZOS_PROTOCOL: ${TEZOS_PROTOCOL}
+      TEZOS_PRIVATE_KEY: ${TEZOS_PRIVATE_KEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
