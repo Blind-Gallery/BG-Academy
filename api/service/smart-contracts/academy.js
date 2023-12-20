@@ -40,7 +40,7 @@ class Academy extends BlindGalleryPermissions {
    * @param {string} soulBoundTokenId
    * @returns {Promise}
    */
-  async addCourseToUser ({ courseId, user, soulBoundTokenId }) {
+  async addCourseToUser ({ courseId, user, soulBoundTokenId = 0 }) {
     await this._initialized
     const batchOperation = await this.Tezos.wallet
       .batch([
@@ -59,8 +59,11 @@ class Academy extends BlindGalleryPermissions {
 
   /**
    * @param {number} courseId
-   * @param {string} user
-   * @param {string} soulBoundTokenId
+   * @param {string} name
+   * @param {string} description
+   * @param {string} content
+   * @param {number} prince in usd cents
+   * @param {bool} isActive
    * @returns {Promise}
    */
 
