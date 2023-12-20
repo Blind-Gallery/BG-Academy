@@ -91,7 +91,17 @@ class Error_message:
 
     def collection_not_found(self): return self.make("COLLECTION_NOT_FOUND")
     def collection_overflow(self): return self.make("COLLECTION_OVERFLOW")
-    def token_not_found(self): return self.make("TOKEN_NOT_FOUND")
+    def token_not_found(self): return self.make("TOKEN_NOT_FOUND")      
+
+    def course_already_exists(self): return self.make("COURSE_ALREADY_EXISTS")
+    def course_not_found(self): return self.make("COURSE_NOT_FOUND")
+    def course_not_active(self): return self.make("COURSE_NOT_ACTIVE")
+    def course_already_active(self): return self.make("COURSE_ALREADY_ACTIVE")
+    def course_already_paid(self): return self.make("COURSE_ALREADY_PAID")
+    def course_not_paid(self): return self.make("COURSE_NOT_PAID")
+    def course_not_owned(self): return self.make("COURSE_NOT_OWNED")
+    def course_not_owned_by_user(self): return self.make("COURSE_NOT_OWNED_BY_USER")
+
 
 
 class Batch_transfer:
@@ -230,225 +240,170 @@ class Courses:
 class Academy:
     """ Provide the basics for Blind Academy
     """
-
     def __init__(self):
         self.update_initial_storage(
-            TezosPrice=sp.tez(1.41)
+            tezosPrice=sp.nat(1),
+            courses=sp.map(tkey=self.get_course_id_type(), tvalue=self.get_course_type()),
+            user_courses=sp.map(tkey=self.get_user_course_id_type(), tvalue=self.get_user_course_type())
         )
 
+    def get_course_id_type(self):
+        return sp.TNat
     
+    def get_course_type(self):
+        return sp.TRecord(
+            name=sp.TString,
+            description=sp.TString,
+            price=sp.TNat, # in usd cents
+            content=sp.TString,
+            is_active=sp.TBool
+        )
+    
+    def get_user_course_id_type(self):
+        return sp.TPair(sp.TAddress, self.get_course_id_type())
+    
+    def get_user_course_type(self):
+        return sp.TRecord(
+            is_paid=sp.TBool,
+            is_active=sp.TBool,
+            soul_bound_token_id=token_id_type
+        )
+    
+    @sp.entry_point
+    def create_course(self, params):
+        sp.verify(self.is_admin_or_mod(sp.sender),
+                  self.error_message.not_admin_or_mod())
+        sp.set_type(params.name, sp.TString)
+        sp.set_type(params.description, sp.TString)
+        sp.set_type(params.price, sp.TNat)
+        sp.set_type(params.content, sp.TString)
+        sp.set_type(params.is_active, sp.TBool)
+
+        sp.verify(~self.data.courses.contains(params.id),
+                    self.error_message.course_already_exists())
+        
+        self.data.courses[params.id] = sp.record(
+            name=params.name,
+            description=params.description,
+            price=params.price,
+            content=params.content,
+            is_active=params.is_active
+        )
+
     @sp.entry_point
     def update_tezos_price(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
-        1
-
+        sp.set_type(params.tezosPrice, sp.TNat)
+        self.data.tezosPrice = params.tezosPrice
+        
     @sp.entry_point
     def add_course(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
-        1
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.user, sp.TAddress)
+        sp.set_type(params.soul_bound_token_id, token_id_type)
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
+
+        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        sp.verify(~self.data.user_courses.contains(key.value),
+                    self.error_message.course_already_active())
+        
+        self.data.user_courses[key.value] = sp.record(
+            is_paid=False,
+            is_active=True,
+            soul_bound_token_id=params.soul_bound_token_id
+        )
 
     @sp.entry_point
     def remove_course(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
-        1
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.user, sp.TAddress)
+        sp.set_type(params.soul_bound_token_id, token_id_type)
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
 
-    @sp.entry_point
-    def update_course(self, params):
-        sp.verify(self.is_admin_or_mod(sp.sender),
-                  self.error_message.not_admin_or_mod())
-        1
-
-    @sp.entry_point
-    def buy_course(self, params):
-        1
-
-    
-class ExchangeObjkt:
-    """ Provide the basics for having an exchange in the contract.
-
-    Requires the `Admin` mixin.
-    """
-    def __init__(self):
-        """ # Initialize the storage with the fxhash data.
-
-        The objkt data is stored in a map of maps. The first map is the list of mint passes,
-        the second map is the collection. The value is the maximum amount of tokens in the collection.
-
-        Objkt states related to the time of sale, as if its on sale, presale or not for sale.
-        It links to a number as: 0 = not for sale, 1 = on sale, 2 = presale
-        """
-        self.update_initial_storage(
-            ObjktMintPass=sp.map(tkey=sp.TNat, tvalue=sp.TAddress),
-            ObjktSupply=sp.map(tkey=sp.TString, tvalue=sp.TNat),
-            ObjktAllowList=sp.map(tkey=sp.TAddress, tvalue=sp.TNat),
-            ObjktCollections=sp.map(tkey=sp.TString, tvalue=sp.TNat),
-            ObjktExchanges=sp.map(tkey=sp.TNat, tvalue=sp.TAddress),
-            ObjktLastExchange=sp.nat(0),
-            ObjktPrice=sp.tez(0),
-            ObjktPresalePrice=sp.tez(0),
-            ObjktState=sp.nat(0),
-            ObjktPriceSplit=sp.map(tkey=sp.TAddress, tvalue=sp.TNat)
-        )
+        key = sp.local('key', sp.pair(params.user, params.course_id))
+        sp.verify(self.data.user_courses.contains(key.value),
+                    self.error_message.course_not_active())
         
+        del self.data.user_courses[key.value]
 
     @sp.entry_point
-    def configureObjkt(self, batch):
-        """ only moderators can configure the objkt storage """
-        sp.set_type(
-            batch,
-            sp.TList(
-                sp.TRecord(
-                    edition=sp.TString,
-                    config=sp.TVariant(
-                        add_collection=sp.TRecord(
-                            collection=sp.TString, cap=sp.TNat).layout(("collection", "cap")),
-                        set_cap=sp.TRecord(collection=sp.TString, cap=sp.TNat).layout(
-                            ("collection", "cap")),
-                        remove_collection=sp.TString,
-                        add_mint_passes=sp.TMap(sp.TNat, sp.TAddress),
-                        remove_mint_passes=sp.TMap(sp.TNat, sp.TAddress),
-                        add_allow_list=sp.TRecord(address=sp.TAddress, amount=sp.TNat).layout(("address", "amount")),
-                        remove_allow_list=sp.TAddress,
-                        set_price=sp.TMutez,
-                        set_presale_price=sp.TMutez,
-                        set_state=sp.TNat,
-                        add_price_split=sp.TRecord(address=sp.TAddress, amount=sp.TNat).layout(("address", "amount")),
-                        remove_price_split=sp.TAddress
-                    )
-                )
-            )
-        )
+    def update_soul_bound_token_id(self, params):
         sp.verify(self.is_admin_or_mod(sp.sender),
                   self.error_message.not_admin_or_mod())
-        with sp.for_("action", batch) as action:
-            with action.config.match_cases() as arg:
-                with arg.match("add_collection") as new_collection:
-                    self.data.ObjktSupply[new_collection.collection] = new_collection.cap
-                    self.data.ObjktCollections[new_collection.collection] = sp.nat(
-                        0)
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.soul_bound_token_id, token_id_type)
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
 
-                with arg.match("remove_collection") as collection:
-                    del self.data.ObjktSupply[collection]
-                    del self.data.ObjktCollections[collection]
-
-                with arg.match("add_mint_passes") as mint_passes:
-                    with sp.for_("token_id", mint_passes.keys()) as token_id:
-                        self.data.ObjktMintPass[token_id] = mint_passes[token_id]
-
-                with arg.match("remove_mint_passes") as mint_passes:
-                    with sp.for_("token_id", mint_passes.keys()) as token_id:
-                        del self.data.ObjktMintPass[token_id]
-
-                with arg.match("add_allow_list") as allow_list:
-                    self.data.ObjktAllowList[allow_list.address] = allow_list.amount
-
-                with arg.match("remove_allow_list") as address:
-                    del self.data.ObjktAllowList[address]
-
-                with arg.match("set_cap") as info:
-                    self.data.ObjktSupply[info.collection] = info.cap
-
-                with arg.match("set_price") as price:
-                    self.data.ObjktPrice = price
-
-                with arg.match("set_state") as state:
-                    self.data.ObjktState = state
-                
-                with arg.match("set_presale_price") as price:
-                    self.data.ObjktPresalePrice = price
-
-                with arg.match("add_price_split") as split:
-                    self.data.ObjktPriceSplit[split.address] = split.amount
-
-                with arg.match("remove_price_split") as address:
-                    del self.data.ObjktPriceSplit[address]
-
-    @sp.entry_point()
-    def exchangeObjkt(self, params):
-        sp.set_type(params, sp.TVariant(
-            without_mint_pass=sp.TRecord(amount=sp.TNat, 
-                                         collection=sp.TString),
-        ))
-
-        with params.match_cases() as arg:
-            with arg.match("without_mint_pass") as without_mint_pass:
-                sp.verify(self.data.ObjktState > sp.nat(0),
-                          self.error_message.not_on_sale())
-                
-                sp.verify(self.data.ObjktSupply[without_mint_pass.collection] >= without_mint_pass.amount,
-                          self.error_message.sold_out())
-                # sp.verify(self.data.FXcollections.contains(sp.snd(without_mint_pass.collection)),
-                #   self.error_message.collection_not_found())
-                
-                with sp.if_(self.data.ObjktState == sp.nat(1)):
-                    # sale
-                    total_cost = sp.utils.mutez_to_nat(self.data.ObjktPrice) * without_mint_pass.amount
-                    sp.verify(sp.utils.mutez_to_nat(sp.amount) == total_cost, self.error_message.insufficient_balance())
-
-                with sp.if_(self.data.ObjktState == sp.nat(2)):
-                    # presale
-                    # check whitelist
-                    sp.verify(self.data.ObjktAllowList.contains(sp.sender), self.error_message.not_on_allow_list())
-                    sp.verify(self.data.ObjktAllowList[sp.sender] >= without_mint_pass.amount, self.error_message.insufficient_allow_list())
-
-                    self.data.ObjktAllowList[sp.sender] = sp.as_nat(self.data.ObjktAllowList[sp.sender] - without_mint_pass.amount) 
-
-                    # calculate cost
-                    total_cost = sp.utils.mutez_to_nat(self.data.ObjktPresalePrice) * without_mint_pass.amount
-                    sp.verify(sp.utils.mutez_to_nat(sp.amount) == total_cost, self.error_message.insufficient_balance())
-                    
-
-                sp.for x in sp.range(0, without_mint_pass.amount):
-                    self.data.ObjktExchanges[self.data.ObjktCollections[without_mint_pass.collection]] = sp.sender
-                    self.data.ObjktCollections[without_mint_pass.collection] = self.data.ObjktCollections[without_mint_pass.collection] + sp.nat(1)
-                    # self.data.ObjktExchanges[self.data.ObjktLastExchange] = sp.sender
-                    self.data.ObjktLastExchange = self.data.ObjktLastExchange + sp.nat(1)
-                    
-                    self.data.ObjktSupply[without_mint_pass.collection] = abs(self.data.ObjktSupply.get(
-                        without_mint_pass.collection, sp.nat(0)) - sp.nat(1))
-
-        sp.for item in self.data.ObjktPriceSplit.items():
-            sp.send(item.key, sp.split_tokens(sp.amount, item.value, 100))
-
-    @sp.entry_point()
-    def reset(self, params):
-        sp.set_type(params.collection, sp.TString)
-        sp.verify(sp.sender == self.data.administrator,
-                  self.error_message.not_admin())
-
-        sp.for item in self.data.ObjktExchanges.items():
-            del self.data.ObjktExchanges[item.key]
-
-        self.data.ObjktLastExchange = sp.nat(0)
-
-
-    @sp.entry_point()
-    def airdropObjkt(self, params):
-        sp.set_type(params.address, sp.TAddress)
-        sp.set_type(params.amount, sp.TNat)
-        sp.set_type(params.collection, sp.TString)
-
-        sp.verify(self.is_admin_or_mod(sp.sender),
-                  self.error_message.not_admin_or_mod())
+        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        sp.verify(self.data.user_courses.contains(key.value),
+                    self.error_message.course_not_active())
         
-        sp.for x in sp.range(0, params.amount):
-            self.data.ObjktExchanges[self.data.ObjktCollections[params.collection]] = params.address
-            self.data.ObjktCollections[params.collection] = self.data.ObjktCollections[params.collection] + sp.nat(1)
-            # self.data.ObjktExchanges[self.data.ObjktLastExchange] = sp.sender
-            self.data.ObjktLastExchange = self.data.ObjktLastExchange + sp.nat(1)
-                    
-            self.data.ObjktSupply[params.collection] = abs(self.data.ObjktSupply.get(
-                        params.collection, sp.nat(0)) - sp.nat(1))
+        self.data.user_courses[key.value].soul_bound_token_id = params.soul_bound_token_id
 
+    @sp.entry_point
+    def pay_course(self, params):
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
 
-class BlindGallery(Admin, ChangeMetadata, ExchangeObjkt, Base):
+        key = sp.local('key', sp.pair(sp.sender, params.course_id))
+        sp.verify(self.data.user_courses.contains(key.value),
+                    self.error_message.course_not_active())
+        sp.verify(~self.data.user_courses[key.value].is_paid,
+                    self.error_message.course_already_paid())
+
+        sp.send(blind_gallery_address, sp.amount)
+        self.data.user_courses[key.value].is_paid = True 
+
+    @sp.entry_point
+    def activate_course(self, params):
+        sp.verify(self.is_admin_or_mod(sp.sender),
+                  self.error_message.not_admin_or_mod())
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.user, sp.TAddress)
+        sp.set_type(params.soul_bound_token_id, token_id_type)
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
+
+        key = sp.local('key', sp.pair(params.user, params.course_id))
+        sp.verify(self.data.user_courses.contains(key.value),
+                    self.error_message.course_not_active())
+        sp.verify(~self.data.user_courses[key.value].is_active,
+                    self.error_message.course_already_active())
+        
+        self.data.user_courses[key.value].is_active = True
+
+    @sp.entry_point
+    def deactivate_course(self, params):
+        sp.verify(self.is_admin_or_mod(sp.sender),
+                  self.error_message.not_admin_or_mod())
+        sp.set_type(params.course_id, self.get_course_id_type())
+        sp.set_type(params.user, sp.TAddress)
+        sp.set_type(params.soul_bound_token_id, token_id_type)
+        sp.verify(self.data.courses.contains(params.course_id),
+                    self.error_message.course_not_found())
+
+        key = sp.local('key', sp.pair(params.user, params.course_id))
+        sp.verify(self.data.user_courses.contains(key.value),
+                    self.error_message.course_not_active())
+        sp.verify(self.data.user_courses[key.value].is_active,
+                    self.error_message.course_already_active())
+        
+        self.data.user_courses[key.value].is_active = False
+
+class BlindGallery(Admin, ChangeMetadata, Academy, Base):
     def __init__(self, admin, metadata, **kwards):
         Base.__init__(self, "BLIND_GALLERY_", metadata)
         Admin.__init__(self, admin)
-        ExchangeObjkt.__init__(self)
+        Academy.__init__(self)
         ChangeMetadata.__init__(self)
 
 
@@ -480,7 +435,7 @@ if "templates" not in __name__:
         admin=sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
         metadata=sp.big_map({
             "": sp.utils.bytes_of_string("tezos-storage:content"),
-            "content": sp.utils.bytes_of_string("""{"name": "Blind Gallery",
+            "content": sp.utils.bytes_of_string("""{"name": "Blind Gallery Academy",
                 "version": "3.0.0",
                 "description": "Putting art first. Mint an NFT from a mysterious artist. https://www.blindgallery.xyz",
                 "interfaces": [ "TZIP-012", "TZIP-016", "TZIP-020", "TZIP-021" ],
