@@ -1,4 +1,15 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# Ading yarn cache to gitignore to avoid heroku build error
+# https://devcenter.heroku.com/articles/migrating-from-yarn-classic#make-changes-to-source-code
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+
 ### Node template
 # Logs
 /logs
