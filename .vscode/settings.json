@@ -20,7 +20,8 @@
     "Nuxt",
     "SENDGRID",
     "tezo",
-    "tezos"
+    "tezos",
+    "TZIP"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
