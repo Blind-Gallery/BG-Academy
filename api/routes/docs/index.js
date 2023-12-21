@@ -1,7 +1,8 @@
 'use strict'
 
 const {
-  getCertificateSchema
+  getCertificateSchema,
+  mintCertificateSchema
 } = require('./schemas')
 
 /**
@@ -10,6 +11,7 @@ const {
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
     fastify.post('/certificate', { schema: getCertificateSchema }, getDocumentHandler)
+    fastify.post('/mint', { schema: mintCertificateSchema }, mintDocumentHandler)
   })
 }
 
@@ -29,4 +31,12 @@ async function getDocumentHandler (req, reply) {
   } = await this.documents.generateCertificate(req.body)
 
   return { cid }
+}
+
+async function mintDocumentHandler (req, reply) {
+  // const token = req.headers.authorization.split(' ')[1]
+  // req.body.token = token
+  await this.documents.mintSoulBoundCertificate(req.body)
+
+  return { certificate: 'minted' }
 }

@@ -21,10 +21,19 @@ class Documents {
     }
   }
 
-  async mintSoulBoundCertificate ({ cid, to, amount, student, teacher, courseTitle }) {
-    let artifact, thumbnail
+  async mintSoulBoundCertificate ({ to, student, teacher, courseTitle, courseId }) {
     try {
-      const { pdfCID, imageCID } = await this.docs.generateCertificate({ name: student, courseTitle, teacher })
+      const { pdfCID, imageCID } = await this.docs.generateCertificate({ student, courseTitle: 'Title', teacher })
+      const metadata = {
+        name: `${courseTitle} - Certificate of Completion`,
+        description: `Certificate of Completion for ${student} in ${courseTitle}. This certificate is soul bound to ${student} and cannot be transferred.`,
+        artifactUri: { uri: `ipfs://${pdfCID}` },
+        thumbnail: { uri: `ipfs://${imageCID}` },
+        display: { uri: `ipfs://${imageCID}` }
+      }
+
+      const metadataCID = await TZIPFactory.createWithDefaults(metadata).getMetadataCID()
+      console.log(metadataCID)
     } catch (err) {
       console.error(err)
     }

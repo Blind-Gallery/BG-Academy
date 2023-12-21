@@ -38,7 +38,7 @@ class Documents {
       const res = await this.getTemplateHtml('certificate')
       const template = hb.compile(res, { strict: true })
       const html = template(data)
-      const browser = await puppeteer.launch({ headless: 'new' })
+      const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] })
       const page = await browser.newPage()
       await page.setContent(html)
       const pdf = await page.pdf({ format: 'A4' })
