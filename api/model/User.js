@@ -124,12 +124,12 @@ class User {
 
     // Create user
     if (email && password) {
-      console.log('Creating user with email and password')
+      console.info('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
-      console.log('Creating user with wallet and signed message')
+      console.info('Creating user with wallet and signed message')
       return this.createWithWallet({ wallet, publicKey, signedMessage, payload })
     }
 
@@ -154,7 +154,6 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    console.log('User created', user)
     await this.email.sendWelcomeEmail({ to: email })
     // Todo: send email with verification code
     return { user }
@@ -190,7 +189,7 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    console.log('User created', user)
+    console.info('User created', user)
 
     // Todo: retrieve user data from blockchain and save it
 

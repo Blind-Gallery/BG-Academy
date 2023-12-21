@@ -11,8 +11,16 @@ services:
     environment:
       PORT: ${ACTION_SERVER_PORT}
       NODE_ENV: ${NODE_ENV}
-      GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
-      GRAPHQL_SECRET: ${GRAPHQL_SECRET}
+      GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
+      GRAPHQL_SECRET: myadminsecretkey
+      INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
+      INFURA_API_KEY: ${INFURA_API_KEY}
+      IPFS_URL: ${IPFS_URL}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_ENDPOINT_SECRET: ${STRIPE_ENDPOINT_SECRET}
+      TEZOS_PROTOCOL: ${TEZOS_PROTOCOL}
+      TEZOS_PRIVATE_KEY: ${TEZOS_PRIVATE_KEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
@@ -31,7 +39,7 @@ services:
       ## uncomment next line to run console offline (i.e load console assets from server instead of CDN)
       # HASURA_GRAPHQL_CONSOLE_ASSETS_DIR: /srv/console-assets
       ## uncomment next line to set an admin secret
-      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://data-connector-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://data-connector-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://data-connector-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://data-connector-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://data-connector-agent:8081/api/v1/snowflake"}}}}'
     depends_on:
       data-connector-agent:
@@ -59,5 +67,17 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
+  hasura-migrations:
+    image: hasura/graphql-engine:v2.36.0.cli-migrations-v3
+    restart: ${RESTART_POLICY}
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: "myadminsecretkey"
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT: 200
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+
 volumes:
   db_data:

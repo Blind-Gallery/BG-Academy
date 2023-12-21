@@ -119,7 +119,6 @@
               <Icon
                 icon="material-symbols:credit-card"
                 color="#fff"
-
                 width="21"
               />
               Credit card
@@ -138,49 +137,12 @@
                   icon="material-symbols:close"
                 /></span>
               </template>
-              <b-form>
-                <b-form-group
-                  id="input-group-1"
-                  label="Card name"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the number that appears on your card"
-                    required
-                  />
-                </b-form-group>
-
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-
-                <b-form-group
-                  id="input-group-1"
-                  label="Card number"
-                  label-for="input-1"
-                >
-                  <b-form-input
-                    id="input-1"
-
-                    placeholder="Enter the card number"
-                    required
-                  />
-                </b-form-group>
-              </b-form>
+              <div>
+                <PxPayments :course-id="courses[0].id" :price="courses[0].price" />
+              </div>
             </b-modal>
 
-            <button class="secondary-btn w-100">
+            <button class="secondary-btn w-100" @click="buyTezos">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
             </button>
@@ -232,6 +194,9 @@
 </template>
 <script>
 import { gql } from 'graphql-tag'
+import { mapGetters } from 'vuex'
+import { CONTRACT_ADDRESS } from '~/constants'
+import PxPayments from '~/components/PxPayments.vue'
 
 export default {
   apollo: {
@@ -274,15 +239,47 @@ export default {
       }
     }
   },
+  components: { PxPayments },
   data () {
-    return {
-
-    }
+    return {}
   },
-
+  computed: {
+    ...mapGetters('tezosWallet', [
+      'wallet',
+      'publicKey',
+      'tezosAddress',
+      'isWalletConnected'
+    ])
+  },
   methods: {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
+    },
+    async buyTezos () {
+      if (!this.$auth.user.tezos_info) {
+        console.info('Non blockchain user')
+        return
+      }
+      if (!this.isWalletConnected) {
+        console.info('Non connected wallet')
+        await this.$store.dispatch('tezosWallet/autoLogin')
+        return this.buyTezos()
+      }
+      console.info('buying with tezos', this.courses[0].id)
+      try {
+        const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
+          courseId: this.courses[0].id,
+          user: this.tezosAddress
+        })
+        console.info(tezos)
+        const Tezos = this.wallet.client
+        console.info(CONTRACT_ADDRESS.academy)
+        // const contract = await Tezos.wallet.at(CONTRACT_ADDRESS.academy)
+        // console.info(contract)
+        console.info(Tezos)
+      } catch (error) {
+        console.error(error.message)
+      }
     }
   }
 }

@@ -21,3 +21,7 @@ export function isValidAddress (pkh) {
   if (validation !== 0) { return true }
   return false
 };
+
+export function transfer ({ to, amount }) {
+  return Tezos.contract.transfer({ to, amount })
+}

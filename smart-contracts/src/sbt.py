@@ -313,16 +313,16 @@ if "templates" not in __name__:
             admin = sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
             metadata = sp.big_map({
                     "": sp.utils.bytes_of_string("tezos-storage:content"),
-                    "content": sp.utils.bytes_of_string("""{"name": "Blind Gallery Batch",
+                    "content": sp.utils.bytes_of_string("""{"name": "Blind Gallery Soul Bound Certificates",
                 "version": "3.0.0",
-                "description": "Blind gallery smart contract",
+                "description": "Blind gallery soul bound certificates",
                 "interfaces": [ "TZIP-012", "TZIP-016", "TZIP-020", "TZIP-021" ],
                 "authors": [ "kaloh", "tlalocman", "crissthiandi", "datzel"],
                 "homepage": "https://www.blindgallery.xyz",
                 "source": { "tools": [ "SmartPy" ], 
                     "location": "https://github.com/Blind-Gallery" },
                 "date": "2022-3-10",
-                "tags": [ "NFT", "cleanNFTs", "Renewable Energies" ],
+                "tags": [ "NFT"],
                 "language": "en",
                 "pictures": [ { "link": "ipfs://QmawzWk2y9Q6KYTYBQvRNuRH5KtojgeGPUxUqycaNbvb9z", "type": "logo" } ]}""")})
                                             

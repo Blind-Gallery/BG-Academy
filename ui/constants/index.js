@@ -39,7 +39,7 @@ const endpoints = {
   ghostnet: 'https://rpc.ghostnet.teztnets.xyz'
 }
 
-export const CHAIN = 'mainnet'
+export const CHAIN = process.env.TEZOS_PROTOCOL
 export const DEFAULT_CONFIRMATION_BLOCKS = 1
 
 export const CHAIN_NAME = betterCallDevChainNames[CHAIN]
@@ -48,52 +48,14 @@ export const ENDPOINT = endpoints[CHAIN]
 // Beacon
 export const DEFAULT_MATRIX_NODE = 'beacon-node-1.sky.papers.tech'
 
-// Marketplaces
-export const MARKETPLACES = {
-  fxhash: {
-    name: 'FXHASH',
-    articles: 'KT1GtbuswcNMGhHF2TSuH1Yfaqn16do8Qtva',
-    marketplaceV1: 'KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9',
-    marketplaceV2: 'KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u',
-    marketplaceV3: 'KT1M1NyU9X4usEimt2f3kDaijZnDMNBu42Ja',
-    gentkV1: 'KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE',
-    gentkV2: 'KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi',
-    gentkV3: 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr'
+const contractAddresses = {
+  mainnet: {
+    academy: ''
   },
-  objkt: {
-    name: 'OBJKT',
-    marketplaceV1: 'KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq',
-    marketplaceV4: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC'
-  },
-  hen: {
-    name: 'HEN',
-    fa2: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'
+  ghostnet: {
+    academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',
+    sbt: 'KT1CQFNnsKerP3AvjrGJkYPe2LSMvxzNJKgD'
   }
 }
-// Discord
-export const DISCORD_WEBHOOK = {
-  feedback: {
-    url: 'https://discord.com/api/webhooks/1080923718366265365/pyCb9WcBGtHTwZeKBowau-R-71IyDOwIQPgoZJkhOqBz3cjsiJv1_shMwp4t4NY1WOjx',
-    color: 13454573
-  },
-  logger: {
-    url: 'https://discord.com/api/webhooks/1082394638196949043/CYONQt8J_w2Y7lACNMgJ09U6MdLM6_lVx5sQTstZAZF0ZKzZKarlWveu7I3KzMfqYokU',
-    color: 10100000
-  },
-  allowList: {
-    url: 'https://discord.com/api/webhooks/1105497171857514638/5C4K47qQIGRTkFAUAJsdSN7V-C_LH3tCjSGzUdULyAIVY0naOzPBdUuofgVNKTkmEbe5',
-    color: 15257231
-  },
-  subscription: {
-    url: 'https://discord.com/api/webhooks/1105497171857514638/5C4K47qQIGRTkFAUAJsdSN7V-C_LH3tCjSGzUdULyAIVY0naOzPBdUuofgVNKTkmEbe5',
-    color: 7669673
-  },
-  referralSubscribed: {
-    url: 'https://discord.com/api/webhooks/1105497171857514638/5C4K47qQIGRTkFAUAJsdSN7V-C_LH3tCjSGzUdULyAIVY0naOzPBdUuofgVNKTkmEbe5',
-    color: 13456473
-  },
-  referralBenefit: {
-    url: 'https://discord.com/api/webhooks/1105497171857514638/5C4K47qQIGRTkFAUAJsdSN7V-C_LH3tCjSGzUdULyAIVY0naOzPBdUuofgVNKTkmEbe5',
-    color: 7663673
-  }
-}
+
+export const CONTRACT_ADDRESS = contractAddresses[CHAIN]
