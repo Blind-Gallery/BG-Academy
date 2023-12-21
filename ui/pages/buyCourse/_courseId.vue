@@ -195,6 +195,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
+import { CONTRACT_ADDRESS } from '~/constants'
 import PxPayments from '~/components/PxPayments.vue'
 
 export default {
@@ -244,6 +245,7 @@ export default {
   },
   computed: {
     ...mapGetters('tezosWallet', [
+      'wallet',
       'publicKey',
       'tezosAddress',
       'isWalletConnected'
@@ -270,6 +272,11 @@ export default {
           user: this.tezosAddress
         })
         console.info(tezos)
+        const Tezos = this.wallet.client
+        console.info(CONTRACT_ADDRESS.academy)
+        // const contract = await Tezos.wallet.at(CONTRACT_ADDRESS.academy)
+        // console.info(contract)
+        console.info(Tezos)
       } catch (error) {
         console.error(error.message)
       }

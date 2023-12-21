@@ -53,7 +53,8 @@ const contractAddresses = {
     academy: ''
   },
   ghostnet: {
-    academy: ''
+    academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',
+    sbt: 'KT1CQFNnsKerP3AvjrGJkYPe2LSMvxzNJKgD'
   }
 }
 

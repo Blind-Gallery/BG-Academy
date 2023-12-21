@@ -61,13 +61,13 @@ class BeaconWalletService {
 
   async requestSignPayload () {
     // The data to format
-    const dappUrl = 'tezos-test-d.app'
+    const dappUrl = 'https://blindgallery.xyz/'
     const ISO8601formatedTimestamp = new Date().toISOString()
-    const input = 'Hello world!'
+    const input = 'Signed message to prove ownership of the wallet'
 
     // The full string
     const formattedInput = [
-      'Tezos Signed Message:',
+      'Message to sign:',
       dappUrl,
       ISO8601formatedTimestamp,
       input
@@ -99,16 +99,6 @@ class BeaconWalletService {
 
   disconnect () {
     if (this.beaconWallet) {
-      // this.wallet.client.clearActiveAccount()
-      // this.wallet.client.removeAllAccounts()
-      // this.wallet.client.removeAllPeers()
-      // this.wallet.client.destroy()
-      // this.wallet = undefined
-      // this.tezosAddress = undefined
-      // this.publicKey = undefined
-      // this.isWalletConnected = false
-      // this.payload = undefined
-      // this.signedMessage = undefined
       return new BeaconWallet(options)
     }
   }
