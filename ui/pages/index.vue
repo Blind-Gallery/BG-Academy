@@ -242,26 +242,28 @@
         </div>
       </b-container>
 
-      <!--ABOUT-->
-      <b-container style="max-width: 1240px;" class="my-5">
-        <b-row class="align-items-center justify-content-center">
-          <b-col cols="12" lg="6">
-            <div>
-              <h4>About</h4>
-              <p>
-                Academy is an educational platform focused on the artistic and creative field. Our platform is designed for those who seek to express their creativity and develop their artistic skills.
-                <br><br>
-                Explore our courses, choose a path, connect with the community and turn your passion into your profession.
-              </p>
-            </div>
-          </b-col>
-          <b-col cols="12" lg="6">
-            <div class="w-100">
-              <img width="100%" src="/videos/test.gif" alt="Funny image">
-            </div>
-          </b-col>
-        </b-row>
+      <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
+        <b-container style="max-width: 1240px;" class="my-5 py-5">
+          <b-row class="align-items-center">
+            <b-col cols="12" lg="6">
+              <div>
+                <h4>About</h4>
+                <p>
+                  Academy is an educational platform focused on the artistic and creative field. Our platform is designed for those who seek to express their creativity and develop their artistic skills.
+                  <br><br>
+                  Explore our courses, choose a path, connect with the community and turn your passion into your profession.
+                </p>
+              </div>
+            </b-col>
+            <b-col cols="12" lg="6">
+              <div class="w-100">
+                <img width="100%" src="/videos/test.gif" alt="Funny image">
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
       </b-container>
+
       <!--COMMUNITY FEEDBACK-->
 
       <b-container v-if="!$auth.loggedIn" style="max-width: 1240px;" class="my-5">
