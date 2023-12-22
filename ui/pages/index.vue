@@ -4,7 +4,7 @@
       <!--INTRODUCTION CONTAINER-->
       <b-container v-if="!$auth.loggedIn" class="main-container pt-5 pb-5" fluid>
         <b-container style="max-width: 1240px;">
-          <b-row class="align-items-center">
+          <b-row class="align-items-center py-4">
             <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
               <h1>
                 Your starting point to
@@ -242,6 +242,26 @@
         </div>
       </b-container>
 
+      <!--ABOUT-->
+      <b-container style="max-width: 1240px;" class="my-5">
+        <b-row class="align-items-center justify-content-center">
+          <b-col cols="12" lg="6">
+            <div>
+              <h4>About</h4>
+              <p>
+                Academy is an educational platform focused on the artistic and creative field. Our platform is designed for those who seek to express their creativity and develop their artistic skills.
+                <br><br>
+                Explore our courses, choose a path, connect with the community and turn your passion into your profession.
+              </p>
+            </div>
+          </b-col>
+          <b-col cols="12" lg="6">
+            <div class="w-100">
+              <img width="100%" src="/videos/test.gif" alt="Funny image">
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
       <!--COMMUNITY FEEDBACK-->
 
       <b-container v-if="!$auth.loggedIn" style="max-width: 1240px;" class="my-5">
