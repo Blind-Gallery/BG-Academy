@@ -1,5 +1,5 @@
 const { create } = require('ipfs-http-client')
-const { CONTRACT_ADDRESSES } = require('../constants')
+const { TezosConstants } = require('../constants')
 require('dotenv').config()
 
 class TZIP {
@@ -195,7 +195,7 @@ class TZIPFactory {
       formats.push(thumbnail)
     }
 
-    const minter = CONTRACT_ADDRESSES.sbt
+    const minter = TezosConstants.CONTRACT_ADDRESSES.sbt
     const mintingTool = 'Blind Gallery Academy'
     const image = artifact.uri
     const date = new Date().toISOString()
