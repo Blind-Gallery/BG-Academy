@@ -333,6 +333,49 @@
           </b-col>
         </b-row>
       </b-container>
+
+      <b-container style="max-width: 1240px;" class="my-5 py-5">
+        <b-row class="align-items-end">
+          <b-col cols="12" lg="6">
+            <div>
+              <h4>Frequently Asked Questions</h4>
+              <div
+                v-for="(question, questionIndex) in questions"
+                :key="questionIndex"
+                class="w-100 shadow-sm  mb-2 rounded"
+              >
+                <div @click="toggleCollapse(questionIndex)">
+                  <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
+                </div>
+
+                <!--CHAPTERS COLLAPSE-->
+                <b-collapse
+                  :id="`accordion-${questionIndex}`"
+                  :key="questionIndex"
+
+                  role="tabpanel"
+                >
+                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                    <span class="text-secondary">{{ question.answer }}</span>
+                  </div>
+                </b-collapse>
+              </div>
+            </div>
+          </b-col>
+
+          <b-col cols="12" lg="6">
+            <div>
+              <iframe
+                src="https://blindgallery.substack.com/embed"
+                height="150"
+                width="100%"
+                frameborder="0"
+                scrolling="no"
+              />
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
     <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
       <div class="d-flex flex-column align-items-center justify-content-center">
