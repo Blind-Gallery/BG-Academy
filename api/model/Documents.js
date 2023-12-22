@@ -1,6 +1,7 @@
 const { Unauthorized, BadRequest } = require('http-errors')
 const { request, gql } = require('graphql-request')
 const { TZIPFactory } = require('../service')
+const { GET_USER_COURSE_INFO, UPDATE_USER_COURSE_CERTIFICATE } = require('../graphQL')
 
 class Documents {
   constructor ({ gql, email, opts, jwt, docs, sbtSC }) {
@@ -12,10 +13,9 @@ class Documents {
     this.sbtSC = sbtSC
   }
 
-  async generateCertificate ({ name, courseTitle, teacher, token }) {
-    let cid = ''
+  async generateCertificate ({ courseId, userId }) {
     try {
-      cid = await this.docs.generateCertificate({ name, courseTitle, teacher })
+      const { pdfCID, imageCID } = await this.docs.generateCertificate({ student, courseTitle: 'Title', teacher })
     } catch (err) {
       console.error(err)
     }
