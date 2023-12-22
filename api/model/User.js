@@ -1,73 +1,13 @@
 const { Unauthorized, BadRequest } = require('http-errors')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
-const { request, gql } = require('graphql-request')
-
-const getUserFromAliasQuery = gql`
-  query Tzprofiles($where: tzprofiles_bool_exp) {
-    tzprofiles(where: $where) {
-      account
-      alias
-      contract
-      description
-      discord
-      domain_name
-      ethereum
-      github
-      logo
-      twitter
-      website
-    }
-  }
-`
-
-const GET_USER_BY_EMAIL = `
-query ($email: String = "") {
-  users(where: {email_info: {email: {_eq: $email}}}) {
-    id
-    lastname
-    name
-    pfp
-    email_info {
-      email
-      password
-      verificationCode
-    }
-    tezos_info {
-      signedMessage
-      wallet
-    }
-  }
-}
-`
-
-const GET_USER_BY_WALLET = `
-query ($wallet: String = "") {
-  users(where: {tezos_info: {wallet: {_eq: $wallet}}}) {
-    id
-    lastname
-    name
-    pfp
-    email_info {
-      email
-      password
-      verificationCode
-    }
-    tezos_info {
-      signedMessage
-      wallet
-    }
-  }
-}
-`
-
-const CREATE_USER = `
-mutation ($user: users_insert_input!) {
-  insert_users_one(object: $user) {
-    id
-  }
-}
-`
+const { request } = require('graphql-request')
+const {
+  GET_USER_FROM_ALIAS,
+  GET_USER_BY_EMAIL,
+  GET_USER_BY_WALLET,
+  CREATE_USER
+} = require('../graphQL')
 
 class User {
   constructor ({ gql, email, opts }) {
@@ -86,7 +26,7 @@ class User {
  * @throws {Error} Throws an error if the Teztok API request fails.
  */
   async getUserFromAccount (wallet) {
-    const teztokResponse = await request('https://api.teztok.com/v1/graphql', getUserFromAliasQuery, {
+    const teztokResponse = await request('https://api.teztok.com/v1/graphql', GET_USER_FROM_ALIAS, {
       where: {
         account: {
           _eq: wallet
