@@ -20,7 +20,10 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <img style="border-radius: 10px;" src="https://cdn.discordapp.com/attachments/984632520471633920/1125691815249576016/expertacademy.ai_illustration_of_a_young_male_professional_poin_e0a06885-d02b-4ec2-ac6f-ccfa59844d75.png" width="80%">
+              <video autoplay width="100%">
+                <source src="/videos/teaser.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+              </video>
             </b-col>
           </b-row>
         </b-container>
