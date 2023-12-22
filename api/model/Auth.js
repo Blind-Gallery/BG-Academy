@@ -2,46 +2,10 @@ const { Unauthorized, BadRequest } = require('http-errors')
 const { Role } = require('../constants')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
-
-const GET_USER_BY_EMAIL = `
-query ($email: String = "") {
-  users(where: {email_info: {email: {_eq: $email}}}) {
-    id
-    lastname
-    name
-    pfp
-    email_info {
-      email
-      password
-      verificationCode
-    }
-    tezos_info {
-      signedMessage
-      wallet
-    }
-  }
-}
-`
-
-const GET_USER_BY_WALLET = `
-query ($wallet: String = "") {
-  users(where: {tezos_info: {wallet: {_eq: $wallet}}}) {
-    id
-    lastname
-    name
-    pfp
-    email_info {
-      email
-      password
-      verificationCode
-    }
-    tezos_info {
-      signedMessage
-      wallet
-    }
-  }
-}
-`
+const {
+  GET_USER_BY_EMAIL,
+  GET_USER_BY_WALLET
+} = require('../graphQL')
 
 class Login {
   constructor ({ gql, jwt, email, opts }) {
