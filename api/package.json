@@ -11,7 +11,8 @@
     "start-old": "fastify start --options -l info app.js",
     "start": "node server.js",
     "lint": "eslint . --ext .js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev": "fastify start -w -l info -P app.js",
+    "heroku-postbuild": "mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
   },
   "keywords": [],
   "author": "",
