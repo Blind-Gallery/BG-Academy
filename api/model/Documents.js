@@ -27,7 +27,7 @@ class Documents {
       const metadata = {
         name: `${courseTitle} - Certificate of Completion`,
         description: `Certificate of Completion for ${student} in ${courseTitle}. This certificate is soul bound to ${student} and cannot be transferred.`,
-        artifactUri: { uri: `ipfs://${pdfCID}` },
+        artifact: { uri: `ipfs://${pdfCID}` },
         thumbnail: { uri: `ipfs://${imageCID}` },
         display: { uri: `ipfs://${imageCID}` }
       }
