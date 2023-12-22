@@ -80,10 +80,13 @@ class Documents {
         thumbnail: { uri: userCourse.certificate_image_cid },
         display: { uri: userCourse.certificate_image_cid }
       }
-
-      console.log(metadata)
       const metadataCID = await TZIPFactory.createWithDefaults(metadata).getMetadataCID()
-      console.log(metadataCID)
+      if (!metadataCID) throw new BadRequest('Error creating metadata')
+      const calls = []
+      calls.push(this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1))
+      this.sbtSC.mint(calls).then(async (confirmation) => {
+        console.log(confirmation)
+      })
     } catch (err) {
       console.error(err)
     }
