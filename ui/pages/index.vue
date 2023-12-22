@@ -20,8 +20,14 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <video autoplay width="100%">
-                <source src="/videos/teaser.mp4" type="video/mp4">
+              <video
+                controls
+                autoplay
+                loop
+                width="100%"
+                style="border-radius: 15px;"
+              >
+                <source style="border-radius: 15px;" src="/videos/teaser.mp4" type="video/mp4">
                 Tu navegador no soporta el elemento de video.
               </video>
             </b-col>
@@ -552,6 +558,10 @@ export default {
       this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
 
       this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
+    },
+
+    toggleCollapse (moduleIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     }
   }
 
