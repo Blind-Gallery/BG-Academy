@@ -453,6 +453,28 @@ export default {
 
   data () {
     return {
+      questions: [
+        {
+          question: 'Question One',
+          answer: 'Answer One'
+        },
+        {
+          question: 'Question Two',
+          answer: 'Answer Two'
+        },
+        {
+          question: 'Question Three',
+          answer: 'Answer Three'
+        },
+        {
+          question: 'Question Four',
+          answer: 'Answer Four'
+        },
+        {
+          question: 'Question Five',
+          answer: 'Answer Five'
+        }
+      ],
       targetBreakpoint: null,
       screenWidth: 0,
       breakpoints: {
