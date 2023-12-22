@@ -120,6 +120,20 @@ class TZIPFactory {
     tags,
     thumbnail
   }) {
+    console.log('createWithDefaults', {
+      artifact,
+      attributes,
+      creators,
+      decimals,
+      description,
+      display,
+      name,
+      rights,
+      royalties,
+      symbol,
+      tags,
+      thumbnail
+    })
     if (!name) {
       name = 'Blind Gallery Academy Certificate'
     }
