@@ -32,6 +32,7 @@ class Documents {
         display: { uri: `ipfs://${imageCID}` }
       }
 
+      console.log(metadata)
       const metadataCID = await TZIPFactory.createWithDefaults(metadata).getMetadataCID()
       console.log(metadataCID)
     } catch (err) {
