@@ -263,7 +263,7 @@
             </b-col>
             <b-col cols="12" lg="6">
               <div class="w-100">
-                <img width="100%" src="/videos/test.gif" alt="Funny image">
+                <img width="100%" src="/videos/about.gif" alt="about">
               </div>
             </b-col>
           </b-row>
