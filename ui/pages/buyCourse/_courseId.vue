@@ -19,7 +19,7 @@
             <h5 class="mb-3">
               {{ courses[0].name }}
             </h5>
-            <p>{{ courses[0].description }}</p>
+            <p>{{ courses[0].summary }}</p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
@@ -31,7 +31,7 @@
             </h5>
             <div>
               <p>
-                {{ courses[0].summary }}
+                {{ courses[0].description }}
               </p>
             </div>
 
@@ -56,27 +56,20 @@
                 class="mt-2"
                 role="tabpanel"
               >
-                <NuxtLink :to="'/courseNavigator/chapter/' + chapter.id">
-                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                    <div class="d-flex align-items-center">
-                      <Icon
-                        icon="material-symbols:smart-display-outline-rounded"
-                        width="18"
-                        class="mr-2"
-                      />
-                      <p
-                        class="curriculum-chapter m-0 small text-secondary text-truncate"
-                      >
-                        {{ chapter.title }}
-                      </p>
-                    </div>
-                    <div>
-                      <p class="small m-0 text-secondary">
-                        15min
-                      </p>
-                    </div>
+                <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                  <div class="d-flex align-items-center">
+                    <Icon
+                      icon="material-symbols:smart-display-outline-rounded"
+                      width="18"
+                      class="mr-2"
+                    />
+                    <p
+                      class="curriculum-chapter m-0 small text-secondary text-truncate"
+                    >
+                      {{ chapter.title }}
+                    </p>
                   </div>
-                </NuxtLink>
+                </div>
               </b-collapse>
             </div>
           </div>
@@ -106,23 +99,39 @@
                 {{ courses[0].teacher.description }}
               </p>
             </b-collapse>
+            <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
+              <div class="border rounded p-2">
+                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                  ${{ courses[0].price }}
+                </h2>
+                <p class="m-0">
+                  Access course
+                </p>
+              </div>
+              <button class="primary-btn w-100 " @click="openModal">
+                <Icon
+                  icon="material-symbols:credit-card"
+                  color="#fff"
 
-            <div class="border rounded p-2">
-              <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                ${{ courses[0].price }}
-              </h2>
-              <p class="m-0">
-                Access this course
-              </p>
+                  width="21"
+                />
+                Credit card
+              </button>
+
+              <button v-if="!loggedWithEmail" class="secondary-btn w-100">
+                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+                Tezos
+              </button>
             </div>
-            <button v-b-modal.credit-pay class="primary-btn w-100 ">
-              <Icon
-                icon="material-symbols:credit-card"
-                color="#fff"
-                width="21"
-              />
-              Credit card
-            </button>
+
+            <div v-else>
+              <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
+                <button class="primary-btn w-100">
+                  View course
+                </button>
+              </NuxtLink>
+            </div>
+
             <b-modal id="credit-pay" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
                 <h2>
@@ -142,15 +151,11 @@
               </div>
             </b-modal>
 
-            <button class="secondary-btn w-100" @click="buyTezos">
-              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-              Tezos
-            </button>
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:alarm-outline" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 4 hours
+                  Aprox. duration  {{ formattedDuration }}
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -167,11 +172,7 @@
                   100% Online
                 </p>
               </div>
-              <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:closed-caption-outline" class="mr-2" /><p class="small m-0">
-                  {{ courses[0].language }} subtitles
-                </p>
-              </div>
+
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:verified-outline" class="mr-2" /><p class="small m-0">
                   Certificate
@@ -197,6 +198,15 @@ import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
 import { CONTRACT_ADDRESS } from '~/constants'
 import PxPayments from '~/components/PxPayments.vue'
+
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
 
 export default {
   apollo: {
@@ -236,12 +246,21 @@ export default {
         return {
           id: this.$route.params.courseId
         }
+      },
+
+      user_course: {
+        query: USER_COURSES,
+        variables () {
+          return {
+            id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          }
+        }
       }
     }
   },
   components: { PxPayments },
   data () {
-    return {}
+    return { userCourses: [] }
   },
   computed: {
     ...mapGetters('tezosWallet', [
@@ -249,17 +268,57 @@ export default {
       'publicKey',
       'tezosAddress',
       'isWalletConnected'
-    ])
+    ]),
+
+    formattedDuration: function () {
+      const hours = Math.floor(this.courses[0].duration / 60)
+      const minutes = this.courses[0].duration % 60
+
+      if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`
+      } else {
+        return `${minutes} minutes${minutes > 1 ? 's' : ''}`
+      }
+    },
+
+    userHasCourse () {
+      const courseRouteId = parseInt(this.$route.params.courseId)
+      return this.userCourses.find(course => course.course_id === courseRouteId)
+    },
+
+    loggedWithEmail () {
+      if (this.$auth.user) {
+        return !!this.$auth.user.email
+      } else {
+        return null
+      }
+    }
+  },
+
+  mounted () {
+    this.getUserCourses()
   },
   methods: {
+
+    getUserCourses () {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          this.userCourses = response.data.user_course
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
     async buyTezos () {
-      if (!this.$auth.user.tezos_info) {
-        console.info('Non blockchain user')
-        return
-      }
       if (!this.isWalletConnected) {
         console.info('Non connected wallet')
         await this.$store.dispatch('tezosWallet/autoLogin')
@@ -279,6 +338,14 @@ export default {
         console.info(Tezos)
       } catch (error) {
         console.error(error.message)
+      }
+    },
+
+    openModal () {
+      if (this.$auth.loggedIn) {
+        return this.$bvModal.show('credit-pay')
+      } else {
+        return this.$bvModal.show('signin')
       }
     }
   }
