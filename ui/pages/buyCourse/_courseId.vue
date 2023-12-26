@@ -135,7 +135,7 @@
               </div>
             </b-modal>
 
-            <button class="secondary-btn w-100" @click="buyTezos">
+            <button v-if="!$auth.user.email" class="secondary-btn w-100" @click="buyTezos">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
             </button>
