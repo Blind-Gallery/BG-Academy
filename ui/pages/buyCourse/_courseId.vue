@@ -187,6 +187,15 @@ import { mapGetters } from 'vuex'
 import { CONTRACT_ADDRESS } from '~/constants'
 import PxPayments from '~/components/PxPayments.vue'
 
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
+
 export default {
   apollo: {
     courses: {
@@ -225,12 +234,21 @@ export default {
         return {
           id: this.$route.params.courseId
         }
+      },
+
+      user_course: {
+        query: USER_COURSES,
+        variables () {
+          return {
+            id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          }
+        }
       }
     }
   },
   components: { PxPayments },
   data () {
-    return {}
+    return { userCourses: [] }
   },
   computed: {
     ...mapGetters('tezosWallet', [
@@ -249,9 +267,30 @@ export default {
       } else {
         return `${minutes} minutes${minutes > 1 ? 's' : ''}`
       }
+    },
+
+    userHasCourse () {
+      const courseRouteId = parseInt(this.$route.params.courseId)
+      return this.userCourses.find(course => course.course_id === courseRouteId)
     }
   },
   methods: {
+
+    getUserCourses () {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          this.userCourses = response.data.user_course
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
