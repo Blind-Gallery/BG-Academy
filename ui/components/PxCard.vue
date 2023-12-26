@@ -23,7 +23,7 @@
             {{ title }}
           </h6>
         </div>
-        <p class="card-text small text-secondary">
+        <p class="card-text small text-secondary formatted-card-description">
           {{ description }}
         </p>
         <div v-if="isProgress">
