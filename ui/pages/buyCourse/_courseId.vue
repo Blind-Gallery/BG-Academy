@@ -274,6 +274,10 @@ export default {
       return this.userCourses.find(course => course.course_id === courseRouteId)
     }
   },
+
+  mounted () {
+    this.getUserCourses()
+  },
   methods: {
 
     getUserCourses () {
