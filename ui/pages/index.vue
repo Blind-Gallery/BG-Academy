@@ -122,7 +122,7 @@
           <b-tabs content-class="mt-3 ">
             <b-tab title="All" active>
               <div
-                v-if="!user_course"
+                v-if="user_course.length === 0"
                 class="d-flex flex-column"
               >
                 <h4>All your courses will appear here</h4>
@@ -147,7 +147,7 @@
               {{ showAllCourses === false?`Show ${coursesFicticial.length - 3} more`:'Show less' }}
             </button>
             <b-tab title="In progress">
-              <div v-if="!user_course" class="d-flex flex-column  ">
+              <div v-if="user_course.length === 0" class="d-flex flex-column  ">
                 <h4>Your courses in progress will appear here</h4>
                 <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
               </div>
@@ -196,6 +196,7 @@
 
       <!--COURSES ROW-->
       <b-container
+        v-if="user_course.length === 0"
         id="explore-courses"
         style="max-width: 1240px;"
         class="my-5"
