@@ -28,7 +28,7 @@
                 style="border-radius: 15px;"
               >
                 <source style="border-radius: 15px;" src="/videos/teaser.mp4" type="video/mp4">
-                Tu navegador no soporta el elemento de video.
+                Your browser does not support the video element.
               </video>
             </b-col>
           </b-row>
