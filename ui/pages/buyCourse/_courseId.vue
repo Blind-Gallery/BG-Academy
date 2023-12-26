@@ -143,7 +143,7 @@
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:alarm-outline" class="mr-2" /><p class="small m-0">
-                  Aprox. duration 4 hours
+                  Aprox. duration  {{ formattedDuration }}
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -160,11 +160,7 @@
                   100% Online
                 </p>
               </div>
-              <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:closed-caption-outline" class="mr-2" /><p class="small m-0">
-                  {{ courses[0].language }} subtitles
-                </p>
-              </div>
+
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:verified-outline" class="mr-2" /><p class="small m-0">
                   Certificate
@@ -242,7 +238,18 @@ export default {
       'publicKey',
       'tezosAddress',
       'isWalletConnected'
-    ])
+    ]),
+
+    formattedDuration: function () {
+      const hours = Math.floor(this.courses[0].duration / 60)
+      const minutes = this.courses[0].duration % 60
+
+      if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`
+      } else {
+        return `${minutes} minutes${minutes > 1 ? 's' : ''}`
+      }
+    }
   },
   methods: {
     toggleCollapse (moduleIndex) {
