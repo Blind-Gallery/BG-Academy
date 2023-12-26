@@ -19,7 +19,7 @@
             <h5 class="mb-3">
               {{ courses[0].name }}
             </h5>
-            <p>{{ courses[0].description }}</p>
+            <p>{{ courses[0].summary }}</p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
@@ -31,7 +31,7 @@
             </h5>
             <div>
               <p>
-                {{ courses[0].summary }}
+                {{ courses[0].description }}
               </p>
             </div>
 
