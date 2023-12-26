@@ -99,23 +99,39 @@
                 {{ courses[0].teacher.description }}
               </p>
             </b-collapse>
+            <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
+              <div class="border rounded p-2">
+                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                  ${{ courses[0].price }}
+                </h2>
+                <p class="m-0">
+                  Access course
+                </p>
+              </div>
+              <button class="primary-btn w-100 " @click="openModal">
+                <Icon
+                  icon="material-symbols:credit-card"
+                  color="#fff"
 
-            <div class="border rounded p-2">
-              <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                ${{ courses[0].price }}
-              </h2>
-              <p class="m-0">
-                Access this course
-              </p>
+                  width="21"
+                />
+                Credit card
+              </button>
+
+              <button v-if="!loggedWithEmail" class="secondary-btn w-100">
+                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+                Tezos
+              </button>
             </div>
-            <button class="primary-btn w-100 " @click="openModal">
-              <Icon
-                icon="material-symbols:credit-card"
-                color="#fff"
-                width="21"
-              />
-              Credit card
-            </button>
+
+            <div v-else>
+              <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
+                <button class="primary-btn w-100">
+                  View course
+                </button>
+              </NuxtLink>
+            </div>
+
             <b-modal id="credit-pay" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
                 <h2>
@@ -135,10 +151,6 @@
               </div>
             </b-modal>
 
-            <button v-if="!loggedWithEmail" class="secondary-btn w-100" @click="buyTezos">
-              <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-              Tezos
-            </button>
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
