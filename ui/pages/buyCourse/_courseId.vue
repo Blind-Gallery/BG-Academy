@@ -135,7 +135,7 @@
               </div>
             </b-modal>
 
-            <button v-if="!$auth.user.email" class="secondary-btn w-100" @click="buyTezos">
+            <button v-if="!userEmail" class="secondary-btn w-100" @click="buyTezos">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
             </button>
@@ -272,6 +272,14 @@ export default {
     userHasCourse () {
       const courseRouteId = parseInt(this.$route.params.courseId)
       return this.userCourses.find(course => course.course_id === courseRouteId)
+    },
+
+    userEmail () {
+      if (this.$auth.user) {
+        return !!this.$auth.user.email
+      } else {
+        return null
+      }
     }
   },
 
@@ -299,10 +307,6 @@ export default {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
     async buyTezos () {
-      if (!this.$auth.user.tezos_info) {
-        console.info('Non blockchain user')
-        return
-      }
       if (!this.isWalletConnected) {
         console.info('Non connected wallet')
         await this.$store.dispatch('tezosWallet/autoLogin')
