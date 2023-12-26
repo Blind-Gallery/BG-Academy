@@ -56,27 +56,20 @@
                 class="mt-2"
                 role="tabpanel"
               >
-                <NuxtLink :to="'/courseNavigator/chapter/' + chapter.id">
-                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                    <div class="d-flex align-items-center">
-                      <Icon
-                        icon="material-symbols:smart-display-outline-rounded"
-                        width="18"
-                        class="mr-2"
-                      />
-                      <p
-                        class="curriculum-chapter m-0 small text-secondary text-truncate"
-                      >
-                        {{ chapter.title }}
-                      </p>
-                    </div>
-                    <div>
-                      <p class="small m-0 text-secondary">
-                        15min
-                      </p>
-                    </div>
+                <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                  <div class="d-flex align-items-center">
+                    <Icon
+                      icon="material-symbols:smart-display-outline-rounded"
+                      width="18"
+                      class="mr-2"
+                    />
+                    <p
+                      class="curriculum-chapter m-0 small text-secondary text-truncate"
+                    >
+                      {{ chapter.title }}
+                    </p>
                   </div>
-                </NuxtLink>
+                </div>
               </b-collapse>
             </div>
           </div>
