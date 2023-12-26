@@ -232,7 +232,7 @@
           </SwiperSlide>
         </Swiper>
         <!--SWIPER CONTROLS-->
-        <div class="d-flex align-items-center justify-content-end" style="gap:1rem">
+        <div v-if="totalSlides > 1" class="d-flex align-items-center justify-content-end" style="gap:1rem">
           <p class="m-0">
             <b> {{ currentSlide }} </b>/{{ totalSlides }}
           </p>
