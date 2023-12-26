@@ -4,11 +4,11 @@
       <!--INTRODUCTION CONTAINER-->
       <b-container v-if="!$auth.loggedIn" class="main-container pt-5 pb-5" fluid>
         <b-container style="max-width: 1240px;">
-          <b-row class="align-items-center">
+          <b-row class="align-items-center py-4">
             <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
               <h1>
-                Your starting point in
-                <span style="color:#00B9CD"> Digital Art & Culture</span>
+                Your starting point to
+                <span style="color:#00B9CD"> learn blockchain art</span>
               </h1>
               <p>
                 Explore interactive courses led by industry experts, paving your way in the digital art revolution.
@@ -20,44 +20,21 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <img style="border-radius: 10px;" src="https://cdn.discordapp.com/attachments/984632520471633920/1125691815249576016/expertacademy.ai_illustration_of_a_young_male_professional_poin_e0a06885-d02b-4ec2-ac6f-ccfa59844d75.png" width="80%">
+              <video
+                controls
+                autoplay
+                loop
+                width="100%"
+                style="border-radius: 15px;"
+              >
+                <source style="border-radius: 15px;" src="/videos/teaser.mp4" type="video/mp4">
+                Your browser does not support the video element.
+              </video>
             </b-col>
           </b-row>
         </b-container>
       </b-container>
       <!--INFO CONTAINER-->
-      <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
-        <b-container class="mb-5 py-4" style="max-width: 1240px;">
-          <!--PARTNERS CONTAINER-->
-          <h4 class="m-0" style="text-align: center; font-weight: 600; opacity: 0.7;">
-            Meet our partners
-          </h4>
-
-          <div class="partners-container ">
-            <img
-              width="120px"
-              alt="joyn"
-              src="https://app.joyn.xyz/_next/static/media/logo-dark.1d2f9f52.svg"
-            >
-
-            <img
-              width="150px"
-              alt="autonomy"
-              src="https://autonomy.io/Logo.svg"
-            >
-            <img
-              width="105px"
-              alt="tezos"
-              src="https://imgs.search.brave.com/Ni4B87Cq07txaSZWBtEEf8YjF5llOTY-L8WPXow5tZs/rs:fit:1200:778:1/g:ce/aHR0cHM6Ly9icmFu/ZHBhbGV0dGVzLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MS8wNS90ZXpvcy0w/Mi5wbmc"
-            >
-            <img
-              width="160px"
-              alt="fxhash"
-              src="https://fxhash.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F84947e48-fba3-4cbb-b203-aaad507b315b%2Ffxhash_tbg_bt_01.png?table=block&id=b34cff0e-7784-40ec-9020-cea678fe9d41&spaceId=f9d1e984-50ed-4650-a543-95d2b6c0ba90&width=1860&userId=&cache=v2"
-            >
-          </div>
-        </b-container>
-      </b-container>
 
       <!--LOGGED CONTAINER-->
       <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
@@ -271,6 +248,41 @@
         </div>
       </b-container>
 
+      <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
+        <b-container style="max-width: 1240px;">
+          <b-row class="align-items-center">
+            <b-col cols="12" lg="6">
+              <div>
+                <h4>About</h4>
+                <p>
+                  Academy is an educational platform focused on the artistic and creative field.
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Made for digital art professionals</span>
+                  <br>
+                  Artists, curators, gallerists, collectors
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Educational Content</span>
+                  <br>
+                  Video material, exams, certificates of completion
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Created by experts</span>
+                  <br>
+                  The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.
+                </p>
+              </div>
+            </b-col>
+            <b-col cols="12" lg="6">
+              <div class="w-100">
+                <img width="100%" src="/videos/about.gif" alt="about">
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </b-container>
+
       <!--COMMUNITY FEEDBACK-->
 
       <b-container v-if="!$auth.loggedIn" style="max-width: 1240px;" class="my-5">
@@ -336,6 +348,49 @@
                   Enrolling in the art courses offered by this platform was a game-changer for me. The instructors possess an unmatched mastery in their fields, and the courses are structured thoughtfully, catering to beginners and seasoned artists alike.
                 </p>
               </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+
+      <b-container style="max-width: 1240px;" class="my-5 py-5">
+        <b-row class="align-items-end">
+          <b-col cols="12" lg="6">
+            <div>
+              <h4>Frequently Asked Questions</h4>
+              <div
+                v-for="(question, questionIndex) in questions"
+                :key="questionIndex"
+                class="w-100 shadow-sm  mb-2 rounded"
+              >
+                <div @click="toggleCollapse(questionIndex)">
+                  <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
+                </div>
+
+                <!--CHAPTERS COLLAPSE-->
+                <b-collapse
+                  :id="`accordion-${questionIndex}`"
+                  :key="questionIndex"
+
+                  role="tabpanel"
+                >
+                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                    <span class="text-secondary">{{ question.answer }}</span>
+                  </div>
+                </b-collapse>
+              </div>
+            </div>
+          </b-col>
+
+          <b-col cols="12" lg="6">
+            <div>
+              <iframe
+                src="https://blindgallery.substack.com/embed"
+                height="150"
+                width="100%"
+                frameborder="0"
+                scrolling="no"
+              />
             </div>
           </b-col>
         </b-row>
@@ -417,6 +472,28 @@ export default {
 
   data () {
     return {
+      questions: [
+        {
+          question: 'Question One',
+          answer: 'Answer One'
+        },
+        {
+          question: 'Question Two',
+          answer: 'Answer Two'
+        },
+        {
+          question: 'Question Three',
+          answer: 'Answer Three'
+        },
+        {
+          question: 'Question Four',
+          answer: 'Answer Four'
+        },
+        {
+          question: 'Question Five',
+          answer: 'Answer Five'
+        }
+      ],
       targetBreakpoint: null,
       screenWidth: 0,
       breakpoints: {
@@ -494,6 +571,10 @@ export default {
       this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
 
       this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
+    },
+
+    toggleCollapse (moduleIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     }
   }
 
