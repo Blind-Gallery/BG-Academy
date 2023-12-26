@@ -108,7 +108,7 @@
                 Access this course
               </p>
             </div>
-            <button v-b-modal.credit-pay class="primary-btn w-100 ">
+            <button class="primary-btn w-100 " @click="openModal">
               <Icon
                 icon="material-symbols:credit-card"
                 color="#fff"
@@ -326,6 +326,14 @@ export default {
         console.info(Tezos)
       } catch (error) {
         console.error(error.message)
+      }
+    },
+
+    openModal () {
+      if (this.$auth.loggedIn) {
+        return this.$bvModal.show('credit-pay')
+      } else {
+        return this.$bvModal.show('signin')
       }
     }
   }
