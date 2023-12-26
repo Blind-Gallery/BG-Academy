@@ -135,7 +135,7 @@
               </div>
             </b-modal>
 
-            <button v-if="!userEmail" class="secondary-btn w-100" @click="buyTezos">
+            <button v-if="!loggedWithEmail" class="secondary-btn w-100" @click="buyTezos">
               <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
               Tezos
             </button>
@@ -274,7 +274,7 @@ export default {
       return this.userCourses.find(course => course.course_id === courseRouteId)
     },
 
-    userEmail () {
+    loggedWithEmail () {
       if (this.$auth.user) {
         return !!this.$auth.user.email
       } else {
