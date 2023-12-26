@@ -249,15 +249,28 @@
       </b-container>
 
       <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
-        <b-container style="max-width: 1240px;" class="my-5 py-5">
+        <b-container style="max-width: 1240px;">
           <b-row class="align-items-center">
             <b-col cols="12" lg="6">
               <div>
                 <h4>About</h4>
                 <p>
-                  Academy is an educational platform focused on the artistic and creative field. Our platform is designed for those who seek to express their creativity and develop their artistic skills.
-                  <br><br>
-                  Explore our courses, choose a path, connect with the community and turn your passion into your profession.
+                  Academy is an educational platform focused on the artistic and creative field.
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Made for digital art professionals</span>
+                  <br>
+                  Artists, curators, gallerists, collectors
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Educational Content</span>
+                  <br>
+                  Video material, exams, certificates of completion
+                </p>
+                <p>
+                  <span style="font-weight: 600;">•Created by experts</span>
+                  <br>
+                  The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.
                 </p>
               </div>
             </b-col>
