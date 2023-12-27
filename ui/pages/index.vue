@@ -20,16 +20,13 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <video
-                controls
-                autoplay
-                loop
-                width="100%"
-                style="border-radius: 15px;"
-              >
-                <source style="border-radius: 15px;" src="/videos/teaser.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
+              <div class="w-100" style="border-radius: 5px;overflow: hidden;">
+                <PxPlayer
+                  video-id="898151728"
+                  chapter-id=""
+                  width="100%"
+                />
+              </div>
             </b-col>
           </b-row>
         </b-container>
@@ -413,6 +410,7 @@ import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
 import { gql } from 'graphql-tag'
+import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
@@ -469,7 +467,8 @@ export default {
   },
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    PxPlayer
   },
 
   data () {
