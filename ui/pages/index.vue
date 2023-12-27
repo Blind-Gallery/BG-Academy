@@ -122,8 +122,7 @@
                 v-if="user_course.length === 0"
                 class="d-flex flex-column"
               >
-                <h4>All your courses will appear here</h4>
-                <p>Explore our courses and start learning with us!</p>
+                <p>Your purchased courses will appear here.</p>
               </div>
               <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
                 <b-col v-for="item in user_course" :key="item.id" cols="12" lg="4">
@@ -145,8 +144,7 @@
             </button>
             <b-tab title="In progress">
               <div v-if="user_course.length === 0" class="d-flex flex-column  ">
-                <h4>Your courses in progress will appear here</h4>
-                <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
+                <p>Your in progress courses will appear here.</p>
               </div>
 
               <b-row v-else>
