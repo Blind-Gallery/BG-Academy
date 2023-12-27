@@ -1,5 +1,9 @@
 <template>
-  <button class="secondary-btn w-100" @click="pay">
+  <button
+    v-show="tezosPrice > 0"
+    class="secondary-btn w-100"
+    @click="pay"
+  >
     <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
     {{ tezosPrice }} Tezos
   </button>
@@ -34,7 +38,7 @@ export default {
   },
   methods: {
     async createPaymentIntent () {
-      if (!this.$auth.user.tezos_info) {
+      if (!this.$auth.user?.tezos_info) {
         console.info('Non blockchain user')
         return
       }
