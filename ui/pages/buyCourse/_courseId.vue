@@ -266,7 +266,7 @@ export default {
   },
   components: { PxPayments },
   data () {
-    return { userCourses: [], showFullDescription: false, maxLength: 550 }
+    return { userCourses: [], showFullDescription: false, maxLength: 700 }
   },
   computed: {
     ...mapGetters('tezosWallet', [
