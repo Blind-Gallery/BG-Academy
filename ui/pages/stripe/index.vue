@@ -39,6 +39,8 @@ export default {
       })
       console.info('Payment intent: ', paymentIntent)
       this.elementsOptions.clientSecret = paymentIntent.client_secret
+      console.info('route:', this.$nuxt.$route)
+
       this.$forceUpdate()
     },
     pay () {
