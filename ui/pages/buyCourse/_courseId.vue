@@ -16,7 +16,7 @@
               title="YouTube video player"
               frameborder="0"
             />
-            <h5 class="mb-3">
+            <h5>
               {{ courses[0].name }}
             </h5>
             <p class="formatted-text">
@@ -28,7 +28,7 @@
             <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
               <PxWillLearn v-for="itemModule in courses[0].modules" :key="itemModule.id" :title="itemModule.you_will_learn_title" :description="itemModule.you_will_learn" />
             </div>
-            <h5 class="mb-3 mt-4">
+            <h5 class="mt-4">
               Description
             </h5>
             <div>
