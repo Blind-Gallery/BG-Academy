@@ -48,8 +48,6 @@ export default {
         paymentMethodTypes: ['card'],
         receiptEmail: this.email
       })
-      console.info('Payment intent: ', paymentIntent)
-      console.info('route:', this.$nuxt.$route)
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
     },
