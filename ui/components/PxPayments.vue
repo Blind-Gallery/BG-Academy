@@ -136,6 +136,7 @@ export default {
       this.paymentIntent = response.paymentIntent
       this.clientSecret = response.paymentIntent.client_secret
       this.loading = false
+      this.elementsOptions.clientSecret = response.paymentIntent.client_secret
       return response.paymentIntent
     },
     async submitPayment () {
