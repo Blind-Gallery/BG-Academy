@@ -30,9 +30,13 @@
               Description
             </h5>
             <div>
-              <p>
+              <p v-if="showFullDescription">
                 {{ courses[0].description }}
               </p>
+              <p v-else>
+                {{ shortDescription }}
+              </p>
+              <span v-if="isLargeDescription" style="cursor: pointer; font-weight: 600; font-size: small;" @click="toggleDescription">{{ readDescriptionText }}</span>
             </div>
 
             <h5 class="mb-3 mt-4">
@@ -260,7 +264,7 @@ export default {
   },
   components: { PxPayments },
   data () {
-    return { userCourses: [] }
+    return { userCourses: [], showFullDescription: false, maxLength: 550 }
   },
   computed: {
     ...mapGetters('tezosWallet', [
@@ -292,6 +296,21 @@ export default {
       } else {
         return null
       }
+    },
+
+    shortDescription () {
+      const description = this.courses[0].description
+      return description.length > this.maxLength
+        ? description.substring(0, this.maxLength) + '...'
+        : description
+    },
+    readDescriptionText () {
+      return this.showFullDescription ? 'Read less' : 'Read more'
+    },
+
+    isLargeDescription () {
+      const description = this.courses[0].description
+      return description.length > this.maxLength
     }
   },
 
@@ -300,6 +319,9 @@ export default {
   },
   methods: {
 
+    toggleDescription () {
+      this.showFullDescription = !this.showFullDescription
+    },
     getUserCourses () {
       this.$apollo.query({
         query: USER_COURSES,
