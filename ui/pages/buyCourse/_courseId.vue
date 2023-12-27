@@ -16,23 +16,29 @@
               title="YouTube video player"
               frameborder="0"
             />
-            <h5 class="mb-3">
+            <h5>
               {{ courses[0].name }}
             </h5>
-            <p>{{ courses[0].summary }}</p>
+            <p class="formatted-text">
+              {{ courses[0].summary }}
+            </p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
             <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
               <PxWillLearn v-for="itemModule in courses[0].modules" :key="itemModule.id" :title="itemModule.you_will_learn_title" :description="itemModule.you_will_learn" />
             </div>
-            <h5 class="mb-3 mt-4">
+            <h5 class="mt-4">
               Description
             </h5>
             <div>
-              <p>
+              <p v-if="showFullDescription" class="formatted-text">
                 {{ courses[0].description }}
               </p>
+              <p v-else class="formatted-text">
+                {{ shortDescription }}
+              </p>
+              <span v-if="isLargeDescription" style="cursor: pointer; font-weight: 600; font-size: small;" @click="toggleDescription">{{ readDescriptionText }}</span>
             </div>
 
             <h5 class="mb-3 mt-4">
@@ -260,7 +266,7 @@ export default {
   },
   components: { PxPayments },
   data () {
-    return { userCourses: [] }
+    return { userCourses: [], showFullDescription: false, maxLength: 700 }
   },
   computed: {
     ...mapGetters('tezosWallet', [
@@ -292,6 +298,21 @@ export default {
       } else {
         return null
       }
+    },
+
+    shortDescription () {
+      const description = this.courses[0].description
+      return description.length > this.maxLength
+        ? description.substring(0, this.maxLength) + '...'
+        : description
+    },
+    readDescriptionText () {
+      return this.showFullDescription ? 'Read less' : 'Read more'
+    },
+
+    isLargeDescription () {
+      const description = this.courses[0].description
+      return description.length > this.maxLength
     }
   },
 
@@ -300,6 +321,9 @@ export default {
   },
   methods: {
 
+    toggleDescription () {
+      this.showFullDescription = !this.showFullDescription
+    },
     getUserCourses () {
       this.$apollo.query({
         query: USER_COURSES,
@@ -355,6 +379,12 @@ export default {
 
 .curriculum-chapter {
   max-width: 100%;
+}
+
+.formatted-text {
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: pre-line;
 }
 
 @media(max-width: 768px){

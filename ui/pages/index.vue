@@ -254,21 +254,20 @@
                   <p>
                     Academy is an educational platform focused on the artistic and creative field.
                   </p>
-                  <p>
-                    <span style="font-weight: 600;">•Made for digital art professionals</span>
-                    <br>
-                    Artists, curators, gallerists, collectors
-                  </p>
-                  <p>
-                    <span style="font-weight: 600;">•Educational Content</span>
-                    <br>
-                    Video material, exams, certificates of completion
-                  </p>
-                  <p>
-                    <span style="font-weight: 600;">•Created by experts</span>
-                    <br>
-                    The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.
-                  </p>
+                  <ul>
+                    <li style="font-weight: 600;">
+                      Made for digital art professionals
+                    </li>
+                    <span>Artists, curators, gallerists, collectors</span>
+                    <li class="mt-4" style="font-weight: 600;">
+                      Educational Content
+                    </li>
+                    <span>Video material, exams, certificates of completion</span>
+                    <li class="mt-4" style="font-weight: 600;">
+                      Created by experts
+                    </li>
+                    <span>The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.</span>
+                  </ul>
                 </div>
               </b-col>
               <b-col cols="12" lg="6">
