@@ -1,6 +1,7 @@
 <template>
   <div>
     <stripe-element-payment
+      v-if="elementsOptions.clientSecret"
       ref="paymentRef"
       :pk="pk"
       :elements-options="elementsOptions"
@@ -38,6 +39,7 @@ export default {
       })
       console.info('Payment intent: ', paymentIntent)
       this.elementsOptions.clientSecret = paymentIntent.client_secret
+      this.$forceUpdate()
     },
     pay () {
       this.$refs.paymentRef.submit()
