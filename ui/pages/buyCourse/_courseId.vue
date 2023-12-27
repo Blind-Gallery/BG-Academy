@@ -19,7 +19,9 @@
             <h5 class="mb-3">
               {{ courses[0].name }}
             </h5>
-            <p>{{ courses[0].summary }}</p>
+            <p class="formatted-text">
+              {{ courses[0].summary }}
+            </p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
@@ -30,10 +32,10 @@
               Description
             </h5>
             <div>
-              <p v-if="showFullDescription">
+              <p v-if="showFullDescription" class="formatted-text">
                 {{ courses[0].description }}
               </p>
-              <p v-else>
+              <p v-else class="formatted-text">
                 {{ shortDescription }}
               </p>
               <span v-if="isLargeDescription" style="cursor: pointer; font-weight: 600; font-size: small;" @click="toggleDescription">{{ readDescriptionText }}</span>
@@ -377,6 +379,12 @@ export default {
 
 .curriculum-chapter {
   max-width: 100%;
+}
+
+.formatted-text {
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: pre-line;
 }
 
 @media(max-width: 768px){
