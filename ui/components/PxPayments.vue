@@ -75,7 +75,7 @@ export default {
       return this.$stripe.elements()
     }
   },
-  async mounted () {
+  mounted () {
     const style = {
       base: {
         iconColor: '#c4f0ff',
@@ -102,7 +102,6 @@ export default {
     this.cardExpiry.mount('#card-expiry')
     this.cardCvc = this.stripeElements.create('cardCvc', { style })
     this.cardCvc.mount('#card-cvc')
-    await this.createIntent()
   },
   beforeDestroy () {
     this.cardNumber.destroy()
@@ -110,48 +109,8 @@ export default {
     this.cardCvc.destroy()
   },
   methods: {
-    async createToken () {
-      this.loading = true
-      const { token, error } = await this.$stripe.createToken(this.cardNumber)
-      if (error) {
-        this.loading = false
-        this.success = false
-        document.getElementById('card-error').innerHTML = error.message
-        return
-      }
-      this.loading = false
-      console.info(token)
-      this.success = true
-      this.$router.push('/buyCourse/success')
-    },
-    async createIntent () {
-      this.loading = true
-      const response = await this.$axios.$post('/payments/stripe/create-intent', {
-        amount: this.price * 100,
-        currency: 'usd',
-        paymentMethodTypes: ['card'],
-        receiptEmail: 'desneruda@gmail.com'
-      })
-      console.info('Response payment intent: ', response)
-      this.paymentIntent = response.paymentIntent
-      this.clientSecret = response.paymentIntent.client_secret
-      this.loading = false
-      this.elementsOptions.clientSecret = response.paymentIntent.client_secret
-      return response.paymentIntent
-    },
-    async submitPayment () {
-      const result = await this.$stripe.handleCard(
-        this.clientSecret, {
-          payment_method: {
-            card: this.cardNumber,
-            billing_details: {
-              email: 'desneruda@gmail.com'
-            }
-          }
-        }
-      )
-
-      console.info(result)
+    submitPayment () {
+      alert('submit payment')
     }
   }
 }
