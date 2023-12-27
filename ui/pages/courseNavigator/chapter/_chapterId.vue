@@ -97,11 +97,11 @@
           </Transition>
         </b-row>
 
-        <b-row>
+        <b-row v-if="false">
           <b-col>
             <div class="w-100">
               <b-tabs content-class="mt-3">
-                <b-tab title="Course info" active>
+                <b-tab title="Chapter info" active>
                   <p>{{ chapterInfo.info }}</p>
                 </b-tab>
                 <b-tab title="Resources">

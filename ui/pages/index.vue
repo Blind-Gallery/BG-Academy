@@ -20,16 +20,13 @@
               </div>
             </b-col>
             <b-col class="d-lg-flex justify-content-end d-none">
-              <video
-                controls
-                autoplay
-                loop
-                width="100%"
-                style="border-radius: 15px;"
-              >
-                <source style="border-radius: 15px;" src="/videos/teaser.mp4" type="video/mp4">
-                Your browser does not support the video element.
-              </video>
+              <div class="w-100" style="border-radius: 5px;overflow: hidden;">
+                <PxPlayer
+                  video-id="898151728"
+                  chapter-id=""
+                  width="100%"
+                />
+              </div>
             </b-col>
           </b-row>
         </b-container>
@@ -125,8 +122,7 @@
                 v-if="user_course.length === 0"
                 class="d-flex flex-column"
               >
-                <h4>All your courses will appear here</h4>
-                <p>Explore our courses and start learning with us!</p>
+                <p>Your purchased courses will appear here.</p>
               </div>
               <b-row :style="showAllCourses === false ? 'max-height: 550px; overflow: hidden':'height: auto; overflow: hidden'">
                 <b-col v-for="item in user_course" :key="item.id" cols="12" lg="4">
@@ -148,8 +144,7 @@
             </button>
             <b-tab title="In progress">
               <div v-if="user_course.length === 0" class="d-flex flex-column  ">
-                <h4>Your courses in progress will appear here</h4>
-                <p>Start a course right now by purchasing a new one or viewing one of your existing ones.</p>
+                <p>Your in progress courses will appear here.</p>
               </div>
 
               <b-row v-else>
@@ -249,153 +244,155 @@
           </div>
         </div>
       </b-container>
+      <div v-if="!$auth.loggedIn">
+        <b-container fluid style="background-color: #F6F6F6;">
+          <b-container style="max-width: 1240px;">
+            <b-row class="align-items-center">
+              <b-col cols="12" lg="6">
+                <div>
+                  <h4>About</h4>
+                  <p>
+                    Academy is an educational platform focused on the artistic and creative field.
+                  </p>
+                  <p>
+                    <span style="font-weight: 600;">•Made for digital art professionals</span>
+                    <br>
+                    Artists, curators, gallerists, collectors
+                  </p>
+                  <p>
+                    <span style="font-weight: 600;">•Educational Content</span>
+                    <br>
+                    Video material, exams, certificates of completion
+                  </p>
+                  <p>
+                    <span style="font-weight: 600;">•Created by experts</span>
+                    <br>
+                    The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.
+                  </p>
+                </div>
+              </b-col>
+              <b-col cols="12" lg="6">
+                <div class="w-100">
+                  <img width="100%" src="/videos/about.gif" alt="about">
+                </div>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-container>
 
-      <b-container v-if="!$auth.loggedIn" fluid style="background-color: #F6F6F6;">
-        <b-container style="max-width: 1240px;">
-          <b-row class="align-items-center">
-            <b-col cols="12" lg="6">
-              <div>
-                <h4>About</h4>
-                <p>
-                  Academy is an educational platform focused on the artistic and creative field.
-                </p>
-                <ul>
-                  <li style="font-weight: 600;">
-                    Made for digital art professionals
-                  </li>
-                  <span>Artists, curators, gallerists, collectors</span>
-                  <li class="mt-4" style="font-weight: 600;">
-                    Educational Content
-                  </li>
-                  <span>Video material, exams, certificates of completion</span>
-                  <li class="mt-4" style="font-weight: 600;">
-                    Created by experts
-                  </li>
-                  <span>The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.</span>
-                </ul>
+        <!--COMMUNITY FEEDBACK-->
+
+        <b-container style="max-width: 1240px;" class="my-5">
+          <h4 class="m-0">
+            Community feedback
+          </h4>
+          <b-row class="align-items-center pt-5 pb-5">
+            <b-col cols="12" lg="4">
+              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
+                <div class="feedback-info p-4 d-flex align-items-center">
+                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/kimson-doan-HD8KlyWRYYM-4-300x300.jpg" />
+                  <div>
+                    <h4 class="m-0">
+                      Sofia Rossi
+                    </h4>
+                    <p class="m-0">
+                      Graphic Designer
+                    </p>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <p class="small text-secondary m-0">
+                    Absolutely captivated by the array of art courses this platform delivers. It's a sanctuary where imagination and skill converge, allowing individuals to paint their aspirations onto the canvas of reality. The fusion of technique, inspiration, and guidance is an artist's dream come true.
+                  </p>
+                </div>
               </div>
             </b-col>
-            <b-col cols="12" lg="6">
-              <div class="w-100">
-                <img width="100%" src="/videos/about.gif" alt="about">
+            <b-col cols="12" lg="4">
+              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
+                <div class="feedback-info p-4 d-flex align-items-center">
+                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-300x300.jpg" />
+                  <div>
+                    <h4 class="m-0">
+                      Alex Canales
+                    </h4>
+                    <p class="m-0">
+                      Digital Artist
+                    </p>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <p class="small text-secondary m-0">
+                    The art courses available on this platform are an absolute gem. They don't just teach art techniques; they nurture a deep understanding of artistic concepts. It's a haven for anyone eager to grasp the nuances of visual expression and refine their artistic prowess.
+                  </p>
+                </div>
+              </div>
+            </b-col>
+            <b-col cols="12" lg="4">
+              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
+                <div class="feedback-info p-4 d-flex align-items-center">
+                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/philip-martin-5aGUyCW_PJw-300x300.jpg" />
+                  <div>
+                    <h4 class="m-0">
+                      William da Silva
+                    </h4>
+                    <p class="m-0">
+                      Plastic Artist
+                    </p>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <p class="small text-secondary m-0">
+                    Enrolling in the art courses offered by this platform was a game-changer for me. The instructors possess an unmatched mastery in their fields, and the courses are structured thoughtfully, catering to beginners and seasoned artists alike.
+                  </p>
+                </div>
               </div>
             </b-col>
           </b-row>
         </b-container>
-      </b-container>
 
-      <!--COMMUNITY FEEDBACK-->
-
-      <b-container v-if="!$auth.loggedIn" style="max-width: 1240px;" class="my-5">
-        <h4 class="m-0">
-          Community feedback
-        </h4>
-        <b-row class="align-items-center pt-5 pb-5">
-          <b-col cols="12" lg="4">
-            <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-              <div class="feedback-info p-4 d-flex align-items-center">
-                <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/kimson-doan-HD8KlyWRYYM-4-300x300.jpg" />
-                <div>
-                  <h4 class="m-0">
-                    Sofia Rossi
-                  </h4>
-                  <p class="m-0">
-                    Graphic Designer
-                  </p>
-                </div>
-              </div>
-              <div class="p-4">
-                <p class="small text-secondary m-0">
-                  Absolutely captivated by the array of art courses this platform delivers. It's a sanctuary where imagination and skill converge, allowing individuals to paint their aspirations onto the canvas of reality. The fusion of technique, inspiration, and guidance is an artist's dream come true.
-                </p>
-              </div>
-            </div>
-          </b-col>
-          <b-col cols="12" lg="4">
-            <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-              <div class="feedback-info p-4 d-flex align-items-center">
-                <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-300x300.jpg" />
-                <div>
-                  <h4 class="m-0">
-                    Alex Canales
-                  </h4>
-                  <p class="m-0">
-                    Digital Artist
-                  </p>
-                </div>
-              </div>
-              <div class="p-4">
-                <p class="small text-secondary m-0">
-                  The art courses available on this platform are an absolute gem. They don't just teach art techniques; they nurture a deep understanding of artistic concepts. It's a haven for anyone eager to grasp the nuances of visual expression and refine their artistic prowess.
-                </p>
-              </div>
-            </div>
-          </b-col>
-          <b-col cols="12" lg="4">
-            <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-              <div class="feedback-info p-4 d-flex align-items-center">
-                <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/philip-martin-5aGUyCW_PJw-300x300.jpg" />
-                <div>
-                  <h4 class="m-0">
-                    William da Silva
-                  </h4>
-                  <p class="m-0">
-                    Plastic Artist
-                  </p>
-                </div>
-              </div>
-              <div class="p-4">
-                <p class="small text-secondary m-0">
-                  Enrolling in the art courses offered by this platform was a game-changer for me. The instructors possess an unmatched mastery in their fields, and the courses are structured thoughtfully, catering to beginners and seasoned artists alike.
-                </p>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-
-      <b-container style="max-width: 1240px;" class="my-5 py-5">
-        <b-row class="align-items-end">
-          <b-col cols="12" lg="6">
-            <div>
-              <h4>Frequently Asked Questions</h4>
-              <div
-                v-for="(question, questionIndex) in questions"
-                :key="questionIndex"
-                class="w-100 shadow-sm  mb-2 rounded"
-              >
-                <div @click="toggleCollapse(questionIndex)">
-                  <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
-                </div>
-
-                <!--CHAPTERS COLLAPSE-->
-                <b-collapse
-                  :id="`accordion-${questionIndex}`"
+        <b-container style="max-width: 1240px;" class="my-5 py-5">
+          <b-row class="align-items-end">
+            <b-col cols="12" lg="6">
+              <div>
+                <h4>Frequently Asked Questions</h4>
+                <div
+                  v-for="(question, questionIndex) in questions"
                   :key="questionIndex"
-
-                  role="tabpanel"
+                  class="w-100 shadow-sm  mb-2 rounded"
                 >
-                  <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                    <span class="text-secondary">{{ question.answer }}</span>
+                  <div @click="toggleCollapse(questionIndex)">
+                    <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
                   </div>
-                </b-collapse>
-              </div>
-            </div>
-          </b-col>
 
-          <b-col cols="12" lg="6">
-            <div>
-              <iframe
-                src="https://blindgallery.substack.com/embed"
-                height="150"
-                width="100%"
-                frameborder="0"
-                scrolling="no"
-              />
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
+                  <!--CHAPTERS COLLAPSE-->
+                  <b-collapse
+                    :id="`accordion-${questionIndex}`"
+                    :key="questionIndex"
+
+                    role="tabpanel"
+                  >
+                    <div class="d-flex justify-content-between p-3 position-relative  rounded">
+                      <span class="text-secondary">{{ question.answer }}</span>
+                    </div>
+                  </b-collapse>
+                </div>
+              </div>
+            </b-col>
+
+            <b-col cols="12" lg="6">
+              <div>
+                <iframe
+                  src="https://blindgallery.substack.com/embed"
+                  height="150"
+                  width="100%"
+                  frameborder="0"
+                  scrolling="no"
+                />
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
     </div>
     <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
       <div class="d-flex flex-column align-items-center justify-content-center">
@@ -412,6 +409,7 @@ import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
 import { gql } from 'graphql-tag'
+import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
@@ -468,7 +466,8 @@ export default {
   },
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
+    PxPlayer
   },
 
   data () {
