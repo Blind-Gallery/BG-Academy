@@ -124,10 +124,7 @@
                 Credit card
               </button>
 
-              <button v-if="!loggedWithEmail" class="secondary-btn w-100">
-                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-                Tezos
-              </button>
+              <payments-tezos-generate :course-id="courses[0].id" />
             </div>
 
             <div v-else>
