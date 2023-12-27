@@ -35,9 +35,10 @@ const stripePaymentIntent = {
       properties: {
         paymentIntent: {
           type: 'object',
-          required: ['client_secret'],
+          required: ['client_secret', 'id'],
           properties: {
-            client_secret: { type: 'string' }
+            client_secret: { type: 'string' },
+            id: { type: 'string' }
           }
         }
       }
