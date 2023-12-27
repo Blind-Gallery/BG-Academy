@@ -1,5 +1,8 @@
 <template>
-  <div />
+  <button class="secondary-btn w-100" @click="pay">
+    <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+    {{ tezosPrice }} Tezos
+  </button>
 </template>
 
 <script>
@@ -26,7 +29,7 @@ export default {
       'tezosAddress'
     ])
   },
-  created () {
+  mounted () {
     this.createPaymentIntent()
   },
   methods: {
@@ -46,13 +49,13 @@ export default {
           user: this.tezosAddress
         })
         this.tezosPrice = tezos
-        const Tezos = this.wallet.client
-        console.info(CONTRACT_ADDRESS.academy)
-        // const contract = await Tezos.wallet.at(CONTRACT_ADDRESS.academy)
-        // console.info(contract)
-        console.info(Tezos)
       } catch (error) {
         console.error(error.message)
+      }
+    },
+    pay () {
+      if (!this.$auth.user.tezos_info) {
+        console.info('Non blockchain user')
       }
     }
   }
