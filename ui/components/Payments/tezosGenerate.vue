@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { dappClient } from '~/services/tezos'
 import { CONTRACT_ADDRESS } from '~/constants'
 
 export default {
@@ -22,35 +22,22 @@ export default {
   },
   data () {
     return {
-      contractAddress: CONTRACT_ADDRESS,
+      contractAddress: CONTRACT_ADDRESS.academy,
       tezosPrice: 0
     }
-  },
-  computed: {
-    ...mapGetters('tezosWallet', [
-      'wallet',
-      'isWalletConnected',
-      'tezosAddress'
-    ])
   },
   mounted () {
     this.createPaymentIntent()
   },
   methods: {
     async createPaymentIntent () {
-      if (!this.$auth.user?.tezos_info) {
-        console.info('Non blockchain user')
-        return
-      }
-      if (!this.isWalletConnected) {
-        console.info('Non connected wallet')
-        await this.$store.dispatch('tezosWallet/autoLogin')
-        return this.createPaymentIntent()
-      }
       try {
+        const { getClientWallet } = dappClient()
+        const wallet = await getClientWallet()
+        const tezosAddress = await wallet.getPKH()
         const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
           courseId: this.courseId,
-          user: this.tezosAddress
+          user: tezosAddress
         })
         this.tezosPrice = tezos
       } catch (error) {
@@ -60,7 +47,11 @@ export default {
     pay () {
       if (!this.$auth.user.tezos_info) {
         console.info('Non blockchain user')
+        return
       }
+
+      const { tezos } = dappClient()
+      console.info(tezos)
     }
   }
 }
