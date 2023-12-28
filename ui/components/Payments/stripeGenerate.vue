@@ -57,6 +57,9 @@ export default {
             '.Input': {
               boxShadow: 'none'
             },
+            '.Input--empty': {
+              borderColor: '#cecece'
+            },
             '.Input--invalid': {
               borderColor: '#cecece',
               color: 'transparent',
