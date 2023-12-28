@@ -57,12 +57,19 @@ export default {
             '.Input': {
               boxShadow: 'none'
             },
+            '.Input--invalid': {
+              borderColor: '#cecece',
+              color: 'transparent',
+              boxShadow: 'none'
+            },
 
             '.Input::placeholder': {
-              fontSize: '12px'
+              fontSize: '12px',
+              color: '#a8a8a8'
             },
             '.Error': {
-
+              fontSize: '.8em',
+              fontWeight: '300'
             }
 
           },
@@ -106,6 +113,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>
