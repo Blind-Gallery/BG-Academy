@@ -1,15 +1,29 @@
 <template>
   <div>
-    <stripe-element-payment
-      v-if="elementsOptions.clientSecret"
-      ref="paymentRef"
-      :pk="pk"
-      :elements-options="elementsOptions"
-      :confirm-params="confirmParams"
-    />
-    <button class="primary-btn mt-4 w-100" @click="pay">
-      Confirm purchase
-    </button>
+    <FormulateForm>
+      <FormulateInput
+        v-model="email"
+        name="email"
+        type="email"
+        label="Email address"
+        placeholder="Email address"
+        validation="required|email"
+      />
+      <stripe-element-payment
+        v-if="elementsOptions.clientSecret"
+        ref="paymentRef"
+        :pk="pk"
+        :elements-options="elementsOptions"
+        :confirm-params="confirmParams"
+      />
+      <FormulateInput
+        class="mt-4"
+        type="submit"
+        :disabled="isLoading"
+        :label="isLoading ? 'Loading...' : 'Confirm payment'"
+        @click="pay"
+      />
+    </FormulateForm>
   </div>
 </template>
 
@@ -20,21 +34,21 @@ export default {
       type: Number,
       required: true,
       default: 1
-    },
-    email: {
-      type: String,
-      required: true
     }
+
   },
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
+      email: 'youremail@email.com',
+
       elementsOptions: {
         appearance: {} // appearance options
       },
       confirmParams: {
         return_url: 'http://localhost:8082/buyCourse/success' // success url
       }
+
     }
   },
   created () {
@@ -50,6 +64,7 @@ export default {
       })
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
+      this.email = ''
     },
     pay () {
       this.$refs.paymentRef.submit()
@@ -57,3 +72,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+
+</style>
