@@ -150,7 +150,7 @@
                 /></span>
               </template>
               <div>
-                <payments-stripe-generate :price="courses[0].price" :email="$auth.user.email" />
+                <payments-stripe-generate :price="courses[0].price" />
               </div>
             </b-modal>
 
