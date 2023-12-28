@@ -35,17 +35,6 @@ export const dappClient = () => {
     return wallet
   }
 
-  async function connectAccount () {
-    const client = getClient()
-    await client.clearActiveAccount()
-    return client.requestPermissions({
-      network: {
-        type: CHAIN_NAME,
-        rpcUrl: ENDPOINT
-      }
-    })
-  }
-
   async function disconnectWallet () {
     const response = {
       success: false,
@@ -62,7 +51,7 @@ export const dappClient = () => {
     return response
   }
 
-  async function CheckIfWalletConnected () {
+  async function connectAccount () {
     const response = {
       success: false
     }
@@ -70,13 +59,32 @@ export const dappClient = () => {
       const client = getClient()
       const activeAccount = await client.getActiveAccount()
       if (!activeAccount) {
-        console.info('No active account found')
         await client.requestPermissions({
           network: {
             type: CHAIN_NAME,
             rpcUrl: ENDPOINT
           }
         })
+      }
+      response.success = true
+    } catch (e) {
+      console.error(e)
+      response.error = e
+    }
+
+    return response
+  }
+
+  async function checkIfWalletIsConnected () {
+    const response = {
+      success: false,
+      connected: false
+    }
+    try {
+      const wallet = getClientWallet()
+      const activeAccount = await wallet.client.getActiveAccount()
+      if (activeAccount) {
+        response.connected = true
       }
       response.success = true
     } catch (e) {
@@ -149,7 +157,7 @@ export const dappClient = () => {
     getClientWallet,
     connectAccount,
     disconnectWallet,
-    CheckIfWalletConnected,
+    checkIfWalletIsConnected,
     requestLoginSignPayload,
     tezos
   }

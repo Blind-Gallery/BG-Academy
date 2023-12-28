@@ -370,8 +370,8 @@ export default {
     },
 
     async getWalletAccessData () {
-      const { CheckIfWalletConnected, requestLoginSignPayload } = dappClient()
-      const wallet = await CheckIfWalletConnected()
+      const { connectAccount, requestLoginSignPayload } = dappClient()
+      const wallet = await connectAccount()
       if (!wallet.success) {
         console.error('Wallet not connected')
       }
