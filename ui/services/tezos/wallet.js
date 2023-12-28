@@ -12,10 +12,9 @@ const options = {
   featuredWallets: ['autonomy', 'kukai', 'temple', 'naan'],
   disableDefaultEvents: false
 }
-
-class BeaconWalletService {
+export default class BeaconWalletService {
   constructor () {
-    this.beaconWallet = new BeaconWallet(options)
+    this.beaconWallet = undefined
     this.tezosAddress = undefined
     this.publicKey = undefined
     this.isWalletConnected = false
@@ -23,8 +22,38 @@ class BeaconWalletService {
     this.signedMessage = undefined
   }
 
-  getOptions () {
-    return options
+  init () {
+    this.beaconWallet = BeaconWallet(options)
+    return this.beaconWallet
+  }
+
+  loadWallet () {
+    if (!this.beaconWallet) {
+      this.init()
+    }
+
+    return this.beaconWallet
+  }
+
+  getClient () {
+    const wallet = this.loadWallet()
+    return wallet.client
+  }
+
+  getClientWallet () {
+    const wallet = this.loadWallet()
+    return wallet
+  }
+
+  async connectAccount () {
+    const client = this.getClient()
+    await client.clearActiveAccount()
+    return client.requestPermissions({
+      network: {
+        type: CHAIN_NAME,
+        rpcUrl: ENDPOINT
+      }
+    })
   }
 
   async connect () {
@@ -46,6 +75,11 @@ class BeaconWalletService {
     } catch (e) {
       console.warn(e)
     }
+  }
+
+  async contractInteraction (contractAddress, entryPoint, parameter) {
+    const contract = await Tezos.wallet.at(contractAddress)
+    console.info('contract', contract)
   }
 
   async autoLogin () {
@@ -103,5 +137,3 @@ class BeaconWalletService {
     }
   }
 }
-
-export default BeaconWalletService
