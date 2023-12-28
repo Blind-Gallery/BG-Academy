@@ -322,7 +322,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { dappClient } from '~/services/tezos'
 
 export default {
   data () {
@@ -334,16 +334,6 @@ export default {
       recoverPasswordForm: {},
       signUpForm: {}
     }
-  },
-
-  computed: {
-    ...mapGetters('tezosWallet', [
-      'publicKey',
-      'tezosAddress',
-      'isWalletConnected',
-      'payload',
-      'signedMessage'
-    ])
   },
   mounted () {
     this.$root.$on('bv::modal::show', (bvEvent, signup) => {
@@ -379,14 +369,23 @@ export default {
       this.successMessage = 'We have send you an email to recover your password!'
     },
 
-    async doSignUpWallet () {
-      await this.$store.dispatch('tezosWallet/connect')
-      const data = {
-        publicKey: this.publicKey,
-        wallet: this.tezosAddress,
-        signedMessage: this.signedMessage,
-        payload: this.payload
+    async getWalletAccessData () {
+      const { CheckIfWalletConnected, requestLoginSignPayload } = dappClient()
+      const wallet = await CheckIfWalletConnected()
+      if (!wallet.success) {
+        console.error('Wallet not connected')
       }
+      const { publicKey, wallet: tezosAddress, signedPayload: signedMessage, payload } = await requestLoginSignPayload()
+      const data = {
+        publicKey,
+        wallet: tezosAddress,
+        signedMessage,
+        payload
+      }
+      return data
+    },
+    async doSignUpWallet () {
+      const data = await this.getWalletAccessData()
       await this.$axios.$post('users', data)
       await this.$auth.loginWith('local', {
         data
@@ -403,9 +402,11 @@ export default {
       this.$auth.loginWith('google')
     },
 
-    doLogout () {
-      if (this.isWalletConnected) {
-        this.$store.dispatch('tezosWallet/disconnect')
+    async doLogout () {
+      const { CheckIfWalletConnected, disconnectWallet } = dappClient()
+      const wallet = await CheckIfWalletConnected()
+      if (wallet.success) {
+        await disconnectWallet()
       }
       this.$auth.logout()
     },
@@ -430,13 +431,7 @@ export default {
 
     async walletConnect () {
       try {
-        await this.$store.dispatch('tezosWallet/connect')
-        const data = {
-          publicKey: this.publicKey,
-          wallet: this.tezosAddress,
-          signedMessage: this.signedMessage,
-          payload: this.payload
-        }
+        const data = await this.getWalletAccessData()
         await this.$auth.loginWith('local', {
           data
         })
