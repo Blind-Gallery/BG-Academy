@@ -65,6 +65,8 @@ class Payment {
       default:
         console.info(`Unhandled event type ${event.type}`)
     }
+
+    return event
   }
 }
 

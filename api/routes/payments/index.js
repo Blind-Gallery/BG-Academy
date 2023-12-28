@@ -13,7 +13,7 @@ const {
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
     // This is a webhook for stripe
-    fastify.post('/stripe-webhook', { schema: stripeSchema, config: { rawBody: true } }, stripeVerificationHandler)
+    fastify.post('/stripe', { schema: stripeSchema, config: { rawBody: true } }, stripeVerificationHandler)
     // Endpoint when a user wants to pay
     fastify.post('/stripe/create-intent', { schema: stripePaymentIntent }, stripePaymentIntentHandler)
     // Endpoint when a user wants to pay with tezos
@@ -35,6 +35,7 @@ async function stripeVerificationHandler (req, reply) {
   const sig = req.headers['stripe-signature']
   const response = await this.payments.verifyStripeWebhook(sig, req.rawBody)
   console.info('stripe verify response: ' + JSON.stringify(response))
+  reply.code(200).send(response)
 }
 
 async function stripePaymentIntentHandler (req, reply) {

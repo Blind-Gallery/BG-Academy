@@ -11,11 +11,7 @@ const stripeSchema = {
   },
   response: {
     200: {
-      type: 'object',
-      required: ['success'],
-      properties: {
-        success: { type: 'boolean' }
-      }
+      type: 'object'
     }
   }
 }
