@@ -1,4 +1,4 @@
-alter table "public"."chapters" add constraint "chapters_resources_key" unique ("resources");
+alter table "public"."chapters" alter column "resources" drop not null;
 
 alter table "public"."chapters" alter column "description" drop not null;
 
@@ -41,6 +41,3 @@ AFTER INSERT ON modules
 FOR EACH ROW
 WHEN (NEW.previous_module_id IS NOT NULL)
 EXECUTE FUNCTION update_next_module_id();
-
-alter table "public"."chapters" alter column "resources" drop not null;
-alter table "public"."chapters" drop constraint "chapters_resources_key";
