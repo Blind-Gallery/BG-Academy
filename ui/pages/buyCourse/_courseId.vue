@@ -190,6 +190,7 @@
 </template>
 <script>
 import { gql } from 'graphql-tag'
+import { mapGetters } from 'vuex'
 import PxPayments from '~/components/PxPayments.vue'
 
 const USER_COURSES = gql`query ($id: String = "") {
@@ -256,6 +257,13 @@ export default {
     return { userCourses: [], showFullDescription: false, maxLength: 700 }
   },
   computed: {
+    ...mapGetters('tezosWallet', [
+      'wallet',
+      'publicKey',
+      'tezosAddress',
+      'isWalletConnected'
+    ]),
+
     formattedDuration: function () {
       const hours = Math.floor(this.courses[0].duration / 60)
       const minutes = this.courses[0].duration % 60
