@@ -17,12 +17,20 @@ class Payment {
    * const paymentIntent = await pay.paymentIntent(5000, 'usd', ['card'], 'email.example.com')
    */
   async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail) {
+    console.log('paymentIntent', {
+      amount,
+      currency,
+      paymentMethodTypes,
+      receiptEmail
+    })
     let paymentIntent = null
     try {
       paymentIntent = await stripe.paymentIntents.create({
         amount,
         currency,
-        payment_method_types: paymentMethodTypes,
+        automatic_payment_methods: {
+          enabled: true
+        },
         receipt_email: receiptEmail
       })
     } catch (err) {

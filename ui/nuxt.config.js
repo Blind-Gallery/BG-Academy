@@ -243,6 +243,7 @@ export default {
   transpile: [
     '/plugins',
     'vue-stripe-checkout',
+    'stripe-element-payment',
     '@vue-stripe/vue-stripe'
   ]
 }

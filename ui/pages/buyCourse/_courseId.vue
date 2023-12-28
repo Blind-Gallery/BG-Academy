@@ -124,10 +124,7 @@
                 Credit card
               </button>
 
-              <button v-if="!loggedWithEmail" class="secondary-btn w-100">
-                <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-                Tezos
-              </button>
+              <payments-tezos-generate :course-id="courses[0].id" />
             </div>
 
             <div v-else>
@@ -202,7 +199,6 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
-import { CONTRACT_ADDRESS } from '~/constants'
 import PxPayments from '~/components/PxPayments.vue'
 
 const USER_COURSES = gql`query ($id: String = "") {
@@ -320,7 +316,6 @@ export default {
     this.getUserCourses()
   },
   methods: {
-
     toggleDescription () {
       this.showFullDescription = !this.showFullDescription
     },
@@ -338,33 +333,9 @@ export default {
           console.error(error)
         })
     },
-
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
-    async buyTezos () {
-      if (!this.isWalletConnected) {
-        console.info('Non connected wallet')
-        await this.$store.dispatch('tezosWallet/autoLogin')
-        return this.buyTezos()
-      }
-      console.info('buying with tezos', this.courses[0].id)
-      try {
-        const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
-          courseId: this.courses[0].id,
-          user: this.tezosAddress
-        })
-        console.info(tezos)
-        const Tezos = this.wallet.client
-        console.info(CONTRACT_ADDRESS.academy)
-        // const contract = await Tezos.wallet.at(CONTRACT_ADDRESS.academy)
-        // console.info(contract)
-        console.info(Tezos)
-      } catch (error) {
-        console.error(error.message)
-      }
-    },
-
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')
