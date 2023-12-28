@@ -105,7 +105,7 @@
                 {{ courses[0].teacher.description }}
               </p>
             </b-collapse>
-            <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
+            <div class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
                   ${{ courses[0].price }}
@@ -125,14 +125,6 @@
               </button>
 
               <payments-tezos-generate :course-id="courses[0].id" />
-            </div>
-
-            <div v-else>
-              <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
-                <button class="primary-btn w-100">
-                  View course
-                </button>
-              </NuxtLink>
             </div>
 
             <b-modal id="credit-pay" centered hidden-header hide-footer>
@@ -198,7 +190,6 @@
 </template>
 <script>
 import { gql } from 'graphql-tag'
-import { mapGetters } from 'vuex'
 import PxPayments from '~/components/PxPayments.vue'
 
 const USER_COURSES = gql`query ($id: String = "") {
@@ -265,13 +256,6 @@ export default {
     return { userCourses: [], showFullDescription: false, maxLength: 700 }
   },
   computed: {
-    ...mapGetters('tezosWallet', [
-      'wallet',
-      'publicKey',
-      'tezosAddress',
-      'isWalletConnected'
-    ]),
-
     formattedDuration: function () {
       const hours = Math.floor(this.courses[0].duration / 60)
       const minutes = this.courses[0].duration % 60
