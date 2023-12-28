@@ -2,13 +2,13 @@
   <div>
     <FormulateForm v-if="elementsOptions.clientSecret">
       <FormulateInput
-
         v-model="email"
         name="email"
         type="email"
         label="Email address"
         placeholder="Email address"
         validation="required|email"
+        style="margin-bottom: 0.6rem;"
       />
       <stripe-element-payment
         ref="paymentRef"
@@ -48,7 +48,36 @@ export default {
       email: 'youremail@email.com',
 
       elementsOptions: {
-        appearance: {} // appearance options
+        appearance: {
+          rules: {
+            '.Input:focus': {
+              border: '1px solid #00B9CD;',
+              boxShadow: ''
+            },
+            '.Input': {
+              boxShadow: 'none'
+            },
+
+            '.Input::placeholder': {
+              fontSize: '12px'
+            },
+            '.Error': {
+
+            }
+
+          },
+          variables: {
+            colorPrimary: '#0570de',
+            colorBackground: '#ffffff',
+            colorText: '#30313d',
+            colorDanger: '#960505',
+            fontFamily: 'Poppins, system-ui, sans-serif',
+            spacingUnit: '3.5px',
+            borderRadius: '5px'
+            // See all possible variables below
+          }
+
+        } // appearance options
       },
       confirmParams: {
         return_url: 'http://localhost:8082/buyCourse/success' // success url
