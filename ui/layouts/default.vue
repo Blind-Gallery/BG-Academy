@@ -403,11 +403,8 @@ export default {
     },
 
     async doLogout () {
-      const { CheckIfWalletConnected, disconnectWallet } = dappClient()
-      const wallet = await CheckIfWalletConnected()
-      if (wallet.success) {
-        await disconnectWallet()
-      }
+      const { disconnectWallet } = dappClient()
+      await disconnectWallet()
       this.$auth.logout()
     },
 
