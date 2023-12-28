@@ -50,7 +50,6 @@ export default {
   },
   watch: {
     videoId: function (newVal) {
-      console.warn('newVal', newVal)
       this.updatePlayer(newVal)
       this.updateUserInfo()
     }
