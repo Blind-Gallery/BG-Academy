@@ -150,7 +150,7 @@
                 /></span>
               </template>
               <div>
-                <PxPayments :course-id="courses[0].id" :price="courses[0].price" />
+                <payments-stripe-generate :price="courses[0].price" />
               </div>
             </b-modal>
 
@@ -199,7 +199,6 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
-import PxPayments from '~/components/PxPayments.vue'
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -260,7 +259,7 @@ export default {
       }
     }
   },
-  components: { PxPayments },
+
   data () {
     return { userCourses: [], showFullDescription: false, maxLength: 700 }
   },
