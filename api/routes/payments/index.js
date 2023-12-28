@@ -35,6 +35,7 @@ async function stripeVerificationHandler (req, reply) {
   const sig = req.headers['stripe-signature']
   const response = await this.payments.verifyStripeWebhook(sig, req.rawBody)
   console.info('stripe verify response: ' + JSON.stringify(response))
+  reply.code(200).send(response)
 }
 
 async function stripePaymentIntentHandler (req, reply) {
