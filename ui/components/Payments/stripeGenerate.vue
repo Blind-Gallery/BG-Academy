@@ -1,7 +1,8 @@
 <template>
   <div>
-    <FormulateForm>
+    <FormulateForm v-if="elementsOptions.clientSecret">
       <FormulateInput
+
         v-model="email"
         name="email"
         type="email"
@@ -10,7 +11,6 @@
         validation="required|email"
       />
       <stripe-element-payment
-        v-if="elementsOptions.clientSecret"
         ref="paymentRef"
         :pk="pk"
         :elements-options="elementsOptions"
@@ -24,6 +24,11 @@
         @click="pay"
       />
     </FormulateForm>
+    <div v-else class="d-flex align-items-center justify-content-center w-100">
+      <div class="d-flex flex-column align-items-center justify-content-center my-4">
+        <Icon icon="eos-icons:bubble-loading" width="3rem" />
+      </div>
+    </div>
   </div>
 </template>
 
