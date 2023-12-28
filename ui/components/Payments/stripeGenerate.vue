@@ -46,7 +46,7 @@ export default {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
       email: 'youremail@email.com',
-
+      domain: window.location.origin,
       elementsOptions: {
         appearance: {
           rules: {
@@ -90,14 +90,16 @@ export default {
         } // appearance options
       },
       confirmParams: {
-        return_url: 'http://localhost:8082/buyCourse/success' // success url
+
       }
 
     }
   },
   created () {
     this.generatePaymentIntent()
+    this.defineConfirmParams()
   },
+
   methods: {
     async generatePaymentIntent () {
       const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
@@ -109,6 +111,12 @@ export default {
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
       this.email = ''
+    },
+
+    defineConfirmParams () {
+      this.confirmParams = {
+        return_url: `${this.domain}/buyCourse/success`
+      }
     },
     pay () {
       this.$refs.paymentRef.submit()
