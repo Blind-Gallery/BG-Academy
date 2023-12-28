@@ -7,8 +7,8 @@
       :elements-options="elementsOptions"
       :confirm-params="confirmParams"
     />
-    <button @click="pay">
-      Checkout
+    <button class="primary-btn mt-4 w-100" @click="pay">
+      Confirm purchase
     </button>
   </div>
 </template>
