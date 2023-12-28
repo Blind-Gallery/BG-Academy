@@ -12,6 +12,7 @@
 <script>
 import { dappClient } from '~/services/tezos'
 import { CONTRACT_ADDRESS } from '~/constants'
+const { OpKind } = require('@taquito/taquito')
 
 export default {
   props: {
@@ -44,14 +45,33 @@ export default {
         console.error(error.message)
       }
     },
-    pay () {
+    async pay () {
       if (!this.$auth.user.tezos_info) {
         console.info('Non blockchain user')
         return
       }
 
-      const { tezos } = dappClient()
-      console.info(tezos)
+      const Tezos = await dappClient().tezos()
+      const academyContract = await Tezos.contract.at(this.contractAddress)
+      const calls = [
+        {
+          kind: OpKind.TRANSACTION,
+          ...academyContract.methods
+            .pay_course(this.courseId)
+            .toTransferParams({ amount: this.tezosPrice })
+        }
+      ]
+
+      const batch = Tezos.wallet.batch(calls)
+      const batchOp = await batch.send()
+
+      await batchOp.confirmation(1)
+      const status = await batchOp.status()
+      if (status === 'applied') {
+        console.info('Payment successful')
+      } else {
+        console.error('Payment failed')
+      }
     }
   }
 }
