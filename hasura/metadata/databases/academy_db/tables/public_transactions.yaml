@@ -1,4 +1,3 @@
 table:
   name: transactions
   schema: public
-is_enum: true
