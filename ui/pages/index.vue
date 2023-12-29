@@ -353,25 +353,83 @@
             <b-col cols="12" lg="6">
               <div>
                 <h4>Frequently Asked Questions</h4>
-                <div
-                  v-for="(question, questionIndex) in questions"
-                  :key="questionIndex"
-                  class="w-100 shadow-sm  mb-2 rounded"
-                >
-                  <div @click="toggleCollapse(questionIndex)">
-                    <PxToggleCollapse :icon-width="'24px'" :toggle-name="question.question" />
-                  </div>
 
-                  <!--CHAPTERS COLLAPSE-->
-                  <b-collapse
-                    :id="`accordion-${questionIndex}`"
-                    :key="questionIndex"
+                <div v-b-toggle.accordion-1 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    What is the Academy by Blind Gallery?
+                  </p>
+                  <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      The Academy aims to provide educational content for anyone interested in learning the digital art market.
+                    </p>
+                  </b-collapse>
+                </div>
 
-                    role="tabpanel"
-                  >
-                    <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                      <span class="text-secondary">{{ question.answer }}</span>
-                    </div>
+                <div v-b-toggle.accordion-2 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    What is the Blind Gallery?
+                  </p>
+                  <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      The <a href="https://www.blindgallery.xyz/" target="_blank">
+                        Blind Gallery
+                      </a> is a digital gallery specializing in blockchain art. It has collaborated with over 70 artists, reaching over 1,000 collectors worldwide.
+                    </p>
+                  </b-collapse>
+                </div>
+
+                <div v-b-toggle.accordion-3 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    Who is the founder of the Blind Gallery?
+                  </p>
+                  <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      <a href="https://www.kaloh.xyz/" target="_blank"> Kaloh</a> founded the Blind Gallery in 2022, and we are a team of five blockchain art enthusiasts.
+                    </p>
+                  </b-collapse>
+                </div>
+
+                <div v-b-toggle.accordion-4 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    Who creates the content?
+                  </p>
+                  <b-collapse id="accordion-4" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      The Blind Gallery team.
+                      <br><br>
+                      In addition, we are looking for experts interested in sharing their knowledge in the blockchain art space. Please reach out <a href="#" target="_blank">here</a> if interested.
+                    </p>
+                  </b-collapse>
+                </div>
+                <div v-b-toggle.accordion-5 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    What payment methods are available?
+                  </p>
+                  <b-collapse id="accordion-5" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      You can purchase the courses using a Credit Card via Stripe or XTZ (Tezos) cryptocurrency.
+                    </p>
+                  </b-collapse>
+                </div>
+
+                <div v-b-toggle.accordion-6 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    What login methods are available?
+                  </p>
+                  <b-collapse id="accordion-6" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      You can create an account using an email or a Tezos crypto wallet.
+                    </p>
+                  </b-collapse>
+                </div>
+                <div v-b-toggle.accordion-7 class="shadow-sm p-3 mb-2" block>
+                  <p class="m-0">
+                    Where can I ask questions and get support?
+                  </p>
+                  <b-collapse id="accordion-7" accordion="my-accordion" role="tabpanel">
+                    <p class="text-secondary my-2">
+                      You can find the customer support team on our <a href="https://discord.gg/zxxZv6HUfr" target="_blank">Discord server </a>
+                    </p>
                   </b-collapse>
                 </div>
               </div>
@@ -470,36 +528,7 @@ export default {
 
   data () {
     return {
-      questions: [
-        {
-          question: 'What is the Academy by Blind Gallery?',
-          answer: 'The Academy aims to provide educational content for anyone interested in learning the digital art market.'
-        },
-        {
-          question: 'What is the Blind Gallery?',
-          answer: 'The Blind Gallery is a digital gallery specializing in blockchain art. It has collaborated with over 70 artists, reaching over 1,000 collectors worldwide.'
-        },
-        {
-          question: 'Who is the founder of the Blind Gallery?',
-          answer: 'Kaloh founded the Blind Gallery in 2022, and we are a team of five blockchain art enthusiasts.'
-        },
-        {
-          question: 'Who creates the content?',
-          answer: 'The Blind Gallery team. In addition, we are looking for experts interested in sharing their knowledge in the blockchain art space. Please reach out here if interested.'
-        },
-        {
-          question: 'What payment methods are available?',
-          answer: 'You can purchase the courses using a Credit Card via Stripe or XTZ (Tezos) cryptocurrency.'
-        },
-        {
-          question: 'What login methods are available?',
-          answer: 'You can create an account using an email or a Tezos crypto wallet.'
-        },
-        {
-          question: 'Where can I ask questions and get support?',
-          answer: 'You can find the customer support team on our Discord server.'
-        }
-      ],
+
       targetBreakpoint: null,
       screenWidth: 0,
       breakpoints: {
