@@ -473,24 +473,32 @@ export default {
     return {
       questions: [
         {
-          question: 'Question One',
-          answer: 'Answer One'
+          question: 'What is the Academy by Blind Gallery?',
+          answer: 'The Academy aims to provide educational content for anyone interested in learning the digital art market.'
         },
         {
-          question: 'Question Two',
-          answer: 'Answer Two'
+          question: 'What is the Blind Gallery?',
+          answer: 'The Blind Gallery is a digital gallery specializing in blockchain art. It has collaborated with over 70 artists, reaching over 1,000 collectors worldwide.'
         },
         {
-          question: 'Question Three',
-          answer: 'Answer Three'
+          question: 'Who is the founder of the Blind Gallery?',
+          answer: 'Kaloh founded the Blind Gallery in 2022, and we are a team of five blockchain art enthusiasts.'
         },
         {
-          question: 'Question Four',
-          answer: 'Answer Four'
+          question: 'Who creates the content?',
+          answer: 'The Blind Gallery team. In addition, we are looking for experts interested in sharing their knowledge in the blockchain art space. Please reach out here if interested.'
         },
         {
-          question: 'Question Five',
-          answer: 'Answer Five'
+          question: 'What payment methods are available?',
+          answer: 'You can purchase the courses using a Credit Card via Stripe or XTZ (Tezos) cryptocurrency.'
+        },
+        {
+          question: 'What login methods are available?',
+          answer: 'You can create an account using an email or a Tezos crypto wallet.'
+        },
+        {
+          question: 'Where can I ask questions and get support?',
+          answer: 'You can find the customer support team on our Discord server.'
         }
       ],
       targetBreakpoint: null,
