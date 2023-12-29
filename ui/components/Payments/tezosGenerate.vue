@@ -40,7 +40,8 @@ export default {
           courseId: this.courseId,
           user: tezosAddress
         })
-        this.tezosPrice = tezos
+        // floor price to 2 decimals
+        this.tezosPrice = Math.floor(tezos * 100) / 100
       } catch (error) {
         console.error(error.message)
       }
