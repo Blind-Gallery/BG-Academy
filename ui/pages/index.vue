@@ -250,23 +250,20 @@
             <b-row class="align-items-center">
               <b-col cols="12" lg="6">
                 <div>
-                  <h4>About</h4>
+                  <h4>Where Art Meets Innovation</h4>
                   <p>
-                    Academy is an educational platform focused on the artistic and creative field.
+                    Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
+                  </p>
+                  <p style="font-weight: 600;">
+                    Tailored for the Digital Art Vanguard
                   </p>
                   <ul>
-                    <li style="font-weight: 600;">
-                      Made for digital art professionals
+                    <li>
+                      <span style="font-weight: 600;">For Creators and Connoisseurs:</span> Whether you're starting out, shaping the future of digital art or curating shows and exhibitions for the world to see, Academy is your partner in progress.
                     </li>
-                    <span>Artists, curators, gallerists, collectors</span>
-                    <li class="mt-4" style="font-weight: 600;">
-                      Educational Content
+                    <li class="mt-4 ">
+                      <span style="font-weight: 600;">Immersive Learning Experience:</span> Dive into our high quality educational content. From in-depth video tutorials to interactive exams, we provide a comprehensive learning journey.
                     </li>
-                    <span>Video material, exams, certificates of completion</span>
-                    <li class="mt-4" style="font-weight: 600;">
-                      Created by experts
-                    </li>
-                    <span>The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.</span>
                   </ul>
                 </div>
               </b-col>
@@ -473,24 +470,32 @@ export default {
     return {
       questions: [
         {
-          question: 'Question One',
-          answer: 'Answer One'
+          question: 'What is the Academy by Blind Gallery?',
+          answer: 'The Academy aims to provide educational content for anyone interested in learning the digital art market.'
         },
         {
-          question: 'Question Two',
-          answer: 'Answer Two'
+          question: 'What is the Blind Gallery?',
+          answer: 'The Blind Gallery is a digital gallery specializing in blockchain art. It has collaborated with over 70 artists, reaching over 1,000 collectors worldwide.'
         },
         {
-          question: 'Question Three',
-          answer: 'Answer Three'
+          question: 'Who is the founder of the Blind Gallery?',
+          answer: 'Kaloh founded the Blind Gallery in 2022, and we are a team of five blockchain art enthusiasts.'
         },
         {
-          question: 'Question Four',
-          answer: 'Answer Four'
+          question: 'Who creates the content?',
+          answer: 'The Blind Gallery team. In addition, we are looking for experts interested in sharing their knowledge in the blockchain art space. Please reach out here if interested.'
         },
         {
-          question: 'Question Five',
-          answer: 'Answer Five'
+          question: 'What payment methods are available?',
+          answer: 'You can purchase the courses using a Credit Card via Stripe or XTZ (Tezos) cryptocurrency.'
+        },
+        {
+          question: 'What login methods are available?',
+          answer: 'You can create an account using an email or a Tezos crypto wallet.'
+        },
+        {
+          question: 'Where can I ask questions and get support?',
+          answer: 'You can find the customer support team on our Discord server.'
         }
       ],
       targetBreakpoint: null,
