@@ -64,14 +64,19 @@ export default {
       ]
 
       const batch = Tezos.wallet.batch(calls)
-      const batchOp = await batch.send()
-
-      await batchOp.confirmation(1)
-      const status = await batchOp.status()
-      if (status === 'applied') {
-        console.info('Payment successful')
-      } else {
-        console.error('Payment failed')
+      try {
+        const batchOp = await batch.send()
+        await batchOp.confirmation(1)
+        const status = await batchOp.status()
+        console.info(batchOp)
+        if (status === 'applied') {
+          console.info('Payment successful')
+          this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.courseId}`)
+        } else {
+          console.error('Payment failed')
+        }
+      } catch (error) {
+        console.error(error.message)
       }
     }
   }
