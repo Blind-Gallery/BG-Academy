@@ -391,8 +391,11 @@ export default {
         data
       })
 
-      if (this.isWalletConnected && !this.$auth.loggedIn) {
-        this.$store.dispatch('tezosWallet/disconnect')
+      const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
+      const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+
+      if (isWalletConnected && !this.$auth.loggedIn) {
+        await disconnectWallet()
       }
 
       this.$bvModal.hide('signup')
@@ -403,8 +406,11 @@ export default {
     },
 
     async doLogout () {
-      const { disconnectWallet } = dappClient()
-      await disconnectWallet()
+      const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
+      const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+      if (isWalletConnected) {
+        await disconnectWallet()
+      }
       this.$auth.logout()
     },
 
