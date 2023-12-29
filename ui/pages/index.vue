@@ -250,23 +250,20 @@
             <b-row class="align-items-center">
               <b-col cols="12" lg="6">
                 <div>
-                  <h4>About</h4>
+                  <h4>Where Art Meets Innovation</h4>
                   <p>
-                    Academy is an educational platform focused on the artistic and creative field.
+                    Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
+                  </p>
+                  <p style="font-weight: 600;">
+                    Tailored for the Digital Art Vanguard
                   </p>
                   <ul>
-                    <li style="font-weight: 600;">
-                      Made for digital art professionals
+                    <li>
+                      <span style="font-weight: 600;">For Creators and Connoisseurs:</span> Whether you're starting out, shaping the future of digital art or curating shows and exhibitions for the world to see, Academy is your partner in progress.
                     </li>
-                    <span>Artists, curators, gallerists, collectors</span>
-                    <li class="mt-4" style="font-weight: 600;">
-                      Educational Content
+                    <li class="mt-4 ">
+                      <span style="font-weight: 600;">Immersive Learning Experience:</span> Dive into our high quality educational content. From in-depth video tutorials to interactive exams, we provide a comprehensive learning journey.
                     </li>
-                    <span>Video material, exams, certificates of completion</span>
-                    <li class="mt-4" style="font-weight: 600;">
-                      Created by experts
-                    </li>
-                    <span>The Academy courses are crafted by digital art experts. If you are interested in being an educator, reach out here.</span>
                   </ul>
                 </div>
               </b-col>
