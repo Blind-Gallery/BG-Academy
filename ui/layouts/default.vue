@@ -64,7 +64,7 @@
           v-slot="{ isLoading }"
           v-model="signInForm"
           class="login-form"
-          @submit="doSignIn"
+          @submit="emailConnect"
         >
           <FormulateInput
             name="email"
@@ -199,7 +199,7 @@
           v-slot="{ isLoading }"
           v-model="signUpForm"
           class="login-form"
-          @submit="doSignUp"
+          @submit="doEmailSignUp"
         >
           <FormulateInput
             name="name"
@@ -341,11 +341,7 @@ export default {
     })
   },
   methods: {
-    async doSignIn () {
-      await this.emailConnect()
-    },
-
-    async doSignUp () {
+    async doEmailSignUp () {
       try {
         const signUpForm = this.signUpForm
         await this.$axios.$post('users', signUpForm)
@@ -438,8 +434,10 @@ export default {
         await this.$auth.loginWith('local', {
           data
         })
-        if (this.isWalletConnected && !this.$auth.loggedIn) {
-          this.$store.dispatch('tezosWallet/disconnect')
+        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
+        const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+        if (isWalletConnected && !this.$auth.loggedIn) {
+          await disconnectWallet()
         }
 
         this.$bvModal.hide('signin')
