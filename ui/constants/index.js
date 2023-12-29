@@ -32,11 +32,7 @@ const betterCallDevChainNames = {
 
 const endpoints = {
   mainnet: 'https://rpc.tzkt.io/mainnet',
-  granadanet: 'https://granadanet.smartpy.io',
-  florencenet: 'https://florencenet.smartpy.io',
-  hangzhounet: 'https://hangzhounet.smartpy.io',
-  ithacanet: 'https://ithacanet.smartpy.io',
-  ghostnet: 'https://rpc.ghostnet.teztnets.xyz'
+  ghostnet: 'https://rpc.tzkt.io/ghostnet'
 }
 
 export const CHAIN = process.env.TEZOS_PROTOCOL
