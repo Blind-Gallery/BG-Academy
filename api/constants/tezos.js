@@ -9,8 +9,8 @@ const endpoints = {
 }
 
 const tzktEndpoints = {
-  mainnet: 'https://api.tzkt.io/',
-  ghostnet: 'https://api.ghostnet.tzkt.io/'
+  mainnet: 'https://api.tzkt.io',
+  ghostnet: 'https://api.ghostnet.tzkt.io'
 }
 
 const contractAddresses = {
