@@ -255,14 +255,16 @@
                     Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
                   </p>
                   <p style="font-weight: 600;">
-                    Tailored for the Digital Art Vanguard
+                    Crafted by Art and Tech Enthusiasts
                   </p>
                   <ul>
                     <li>
-                      <span style="font-weight: 600;">For Creators and Connoisseurs:</span> Whether you're starting out, shaping the future of digital art or curating shows and exhibitions for the world to see, Academy is your partner in progress.
+                      <span style="font-weight: 600;">Expertly Designed Curriculum:</span>  Every course at Academy is meticulously designed by connoisseurs of digital art.
                     </li>
                     <li class="mt-4 ">
-                      <span style="font-weight: 600;">Immersive Learning Experience:</span> Dive into our high quality educational content. From in-depth video tutorials to interactive exams, we provide a comprehensive learning journey.
+                      <span style="font-weight: 600;">Join Our Educator Community:</span> Are you a experienced in the field of digital art? We welcome trailblazers to join our educator team. Share your expertise and shape the future of digital art education. Interested? Reach out <NuxtLink to="#">
+                        here.
+                      </NuxtLink>
                     </li>
                   </ul>
                 </div>
