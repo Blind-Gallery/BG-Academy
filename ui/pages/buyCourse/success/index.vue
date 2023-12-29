@@ -61,7 +61,7 @@ export default {
      */
     checkParams () {
       if (!this.$auth.loggedIn) {
-        alert('You need to be logged in to access this page')
+        console.error('You need to be logged in to access this page')
         return
       }
       const { payment_intent: paymentIntent, payment_intent_client_secret: paymentIntentClientSecret, opHash, courseId } = this.$route.query
