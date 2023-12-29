@@ -5,7 +5,7 @@ const DEFAULT_CONFIRMATION_BLOCKS = 1
 
 const endpoints = {
   mainnet: 'https://rpc.tzkt.io/mainnet',
-  ghostnet: 'https://rpc.ghostnet.teztnets.xyz'
+  ghostnet: 'https://rpc.tzkt.io/ghostnet'
 }
 
 const tzktEndpoints = {
