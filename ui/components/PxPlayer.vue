@@ -50,7 +50,6 @@ export default {
   },
   watch: {
     videoId: function (newVal) {
-      console.warn('newVal', newVal)
       this.updatePlayer(newVal)
       this.updateUserInfo()
     }
@@ -85,16 +84,13 @@ export default {
 
     async updateUserInfo () {
       if (!this.chapterId) { return }
-      console.info(this.chapterId)
       try {
-        const { data } = await this.$apollo.query({
+        await this.$apollo.query({
           query: GET_CHAPTER_QUERY,
           variables: {
             id: this.chapterId
           }
         })
-        console.info(data)
-        console.info(this.$auth.user.id)
       } catch (err) {
         console.error(err)
       }

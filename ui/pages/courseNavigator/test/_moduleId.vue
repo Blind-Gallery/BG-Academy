@@ -361,8 +361,6 @@ export default {
     },
 
     nextSlide (test, index) {
-      console.info(test, index)
-
       if (test.selectedOption === false || test.selectedOption === '') {
         this.testMessage = 'Please, select one option'
         return
@@ -371,7 +369,6 @@ export default {
       this.testMessage = ''
 
       if (index === this.module.questions.length - 1) {
-        console.info('last slide')
         this.updateUserScore()
       }
       this.$refs.mySwiper.$el.swiper.slideNext()
@@ -382,7 +379,6 @@ export default {
         this.testMessage = 'Please, select one option'
         return
       }
-      console.info(test, index)
       this.$refs.mySwiper.$el.swiper.slidePrev()
       this.testMessage = ''
     },
@@ -398,7 +394,7 @@ export default {
 
       this.scorePercentage = Math.floor((this.correctAnswers / questions.length) * 100)
 
-      const { insert_user_question: res } = this.$apollo.mutate({
+      this.$apollo.mutate({
         mutation: UPDATE_USER_ANSWERS,
         variables: {
           objects: this.module.questions.map((question) => {
@@ -411,8 +407,6 @@ export default {
           })
         }
       })
-
-      console.info(res)
     },
 
     doResetTest () {
