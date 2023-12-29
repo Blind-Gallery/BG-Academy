@@ -311,7 +311,9 @@
             </p>
             <div>
               <button class="primary-btn small">
-                Join our Discord
+                <a style="color:#ffff; text-decoration: none;" href="https://discord.gg/zxxZv6HUfr" target="_blank">
+                  Join our Discord
+                </a>
               </button>
             </div>
           </b-col>
