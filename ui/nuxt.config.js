@@ -12,7 +12,15 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { hid: 'description', name: 'description', content: 'Your starting point to learn blockchain art' },
+      { hid: 'og:title', property: 'og:title', content: 'Academy by Blind Gallery' },
+      { hid: 'og:description', property: 'og:description', content: 'Your starting point to learn blockchain art' },
+      { hid: 'og:image', property: 'og:image', content: 'https://cdn.discordapp.com/attachments/987378128106168403/1190353495740661780/academy-thumbnail.png?ex=65a17e15&is=658f0915&hm=909a7a3326080fc55f6f2f07b41bebbde5f70462e0ecb2af757dc317bcdb6392&' },
+      { hid: 'twitter:card', name: 'twitter:card', content: 'https://cdn.discordapp.com/attachments/987378128106168403/1190353495740661780/academy-thumbnail.png?ex=65a17e15&is=658f0915&hm=909a7a3326080fc55f6f2f07b41bebbde5f70462e0ecb2af757dc317bcdb6392&' },
+      { hid: 'twitter:title', name: 'twitter:title', content: 'Academy by Blind Gallery' },
+      { hid: 'twitter:description', name: 'twitter:description', content: 'Your starting point to learn blockchain art' },
+      { hid: 'twitter:image', name: 'twitter:image', content: 'https://cdn.discordapp.com/attachments/987378128106168403/1190353495740661780/academy-thumbnail.png?ex=65a17e15&is=658f0915&hm=909a7a3326080fc55f6f2f07b41bebbde5f70462e0ecb2af757dc317bcdb6392&' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
