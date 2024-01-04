@@ -67,7 +67,7 @@ export default {
       }
 
       this.statusColor = statusColors[status] || 'info-alert'
-      this.statusIcon = statusIcon[status] || 'info-alert'
+      this.statusIcon = statusIcon[status] || 'material-symbols:info-outline-rounded'
     }
   }
 }
