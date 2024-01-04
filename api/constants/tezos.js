@@ -5,7 +5,12 @@ const DEFAULT_CONFIRMATION_BLOCKS = 1
 
 const endpoints = {
   mainnet: 'https://rpc.tzkt.io/mainnet',
-  ghostnet: 'https://rpc.ghostnet.teztnets.xyz'
+  ghostnet: 'https://rpc.tzkt.io/ghostnet'
+}
+
+const tzktEndpoints = {
+  mainnet: 'https://api.tzkt.io',
+  ghostnet: 'https://api.ghostnet.tzkt.io'
 }
 
 const contractAddresses = {
@@ -19,11 +24,13 @@ const contractAddresses = {
   }
 }
 
+const TZKT_ENDPOINT = tzktEndpoints[CHAIN]
 const ENDPOINT = endpoints[CHAIN]
 const CONTRACT_ADDRESSES = contractAddresses[CHAIN]
 
 module.exports = {
   CHAIN,
+  TZKT_ENDPOINT,
   ENDPOINT,
   CONTRACT_ADDRESSES,
   DEFAULT_CONFIRMATION_BLOCKS

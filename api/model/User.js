@@ -2,6 +2,7 @@ const { Unauthorized, BadRequest } = require('http-errors')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
 const { request } = require('graphql-request')
+const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
   GET_USER_FROM_ALIAS,
   GET_USER_BY_EMAIL,
@@ -17,24 +18,34 @@ class User {
   }
 
   /**
- * Retrieves a user's profile given their alias from the Teztok API.
+ * Retrieves a user's profile given their alias from the TZKT API.
  *
  * @async
  * @function
  * @param {string} alias - The user's public key.
  * @returns {Promise<object>} A Promise that resolves with the user's profile object.
- * @throws {Error} Throws an error if the Teztok API request fails.
+ * @throws {Error} Throws an error if the TZKT API request fails.
  */
   async getUserFromAccount (wallet) {
-    const teztokResponse = await request('https://api.teztok.com/v1/graphql', GET_USER_FROM_ALIAS, {
-      where: {
-        account: {
-          _eq: wallet
-        }
-      }
-    })
+    let metadata = {
+      account: null,
+      alias: null
+    }
+    const axios = require('axios').default
 
-    return teztokResponse.tzprofiles[0]
+    const options = {
+      method: 'GET',
+      url: `${TZKT_ENDPOINT}/v1/accounts/${wallet}`,
+      headers: { Accept: '*/*', 'User-Agent': 'Thunder Client (https://www.thunderclient.com)' }
+    }
+
+    const response = await axios.request(options)
+    if (response.data.metadata) {
+      metadata = response.data.metadata
+    }
+
+    metadata.account = wallet
+    return metadata
   };
 
   async getUserByEmail (email) {
@@ -110,18 +121,26 @@ class User {
     }
 
     // get user data from blockchain
-    const userFromBlockchain = await this.getUserFromAccount(wallet)
+    const userBlockchainMetadata = await this.getUserFromAccount(wallet)
 
     const data = {
       user: {
-        name: userFromBlockchain.alias || wallet,
-        pfp: userFromBlockchain.logo,
+        name: userBlockchainMetadata.alias || wallet,
+        pfp: userBlockchainMetadata.logo,
         tezos_info: {
           data: {
             wallet,
             publicKey,
             signedMessage
           }
+        }
+      }
+    }
+
+    if (userBlockchainMetadata.email) {
+      data.user.email_info = {
+        data: {
+          email: userBlockchainMetadata.email
         }
       }
     }

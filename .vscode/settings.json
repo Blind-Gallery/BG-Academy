@@ -21,7 +21,8 @@
     "SENDGRID",
     "tezo",
     "tezos",
-    "TZIP"
+    "TZIP",
+    "tzkt"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"

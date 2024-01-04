@@ -124,7 +124,7 @@ export default class BeaconWalletService {
     this.payload = payloadBytes
 
     // The signing
-    const signedPayload = await this.beaconWallet.client.requestSignPayload(payload)
+    const signedPayload = await this.beaconWallet.client.requestLoginSignPayload(payload)
 
     // The signature
     const { signature } = signedPayload
