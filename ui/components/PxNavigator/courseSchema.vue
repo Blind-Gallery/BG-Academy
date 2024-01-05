@@ -35,7 +35,7 @@
                   />
                   <div class="d-flex  ">
                     <p
-                      style="font-size: small; width: 180px;"
+                      style="font-size: small; width: 190px;"
                       class="m-0  text-secondary "
                     >
                       {{ chapter.title }}<br>
