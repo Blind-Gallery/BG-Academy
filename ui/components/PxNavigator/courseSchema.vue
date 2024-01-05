@@ -150,14 +150,7 @@ export default {
     }
   },
   computed: {
-    // formattedDuration () {
-    //   const duration = this.chapter.duration
-    //   const minutes = Math.floor(duration / 60)
-    //   const seconds = duration % 60
 
-    //   // Puedes ajustar el formato según tus preferencias
-    //   return `${minutes} min ${seconds} sec`
-    // },
     activeModuleId () {
       if (this.$route.params.moduleId) { return this.$route.params.moduleId }
       const chapterIdFromRoute = this.$route.params.chapterId
