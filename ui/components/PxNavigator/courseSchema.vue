@@ -33,10 +33,14 @@
                     color="#00b9cd"
                     width="1rem"
                   />
-                  <div class="d-flex align-items-center">
-                    <p style="font-size: small;" class="m-0 text-secondary">
+                  <div class="d-flex  ">
+                    <p
+                      style="font-size: small; width: 180px;"
+                      class="m-0  text-secondary "
+                    >
                       {{ chapter.title }}<br>
                     </p>
+
                     <Icon
                       v-b-tooltip.hover
                       title="Video"
