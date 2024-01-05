@@ -33,7 +33,7 @@
                     color="#00b9cd"
                     width="1rem"
                   />
-                  <div class="d-flex  ">
+                  <div class="d-flex justify-content-between ">
                     <p
                       style="font-size: small; width: 190px;"
                       class="m-0  text-secondary "
@@ -73,7 +73,7 @@
                     color="#00b9cd"
                     width="1rem"
                   />
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex justify-content-between">
                     <p style="font-size: small;" class="m-0 text-secondary">
                       Test<br>
                     </p>
