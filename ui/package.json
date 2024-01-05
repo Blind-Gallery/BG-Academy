@@ -42,6 +42,7 @@
     "swiper": "6.8.4",
     "swiper-vue2": "1.0.9",
     "vue": "^2.7.10",
+    "vue-confetti": "^2.3.0",
     "vue-html2pdf": "^1.8.0",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
