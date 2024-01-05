@@ -14,7 +14,7 @@
           /></span>
         </template>
 
-        <div v-if="!reprobado" class="d-flex align-items-center justify-content-center flex-column">
+        <div v-if="approved" class="d-flex align-items-center justify-content-center flex-column">
           <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
             <Icon style="position: absolute; top:0; right: 0;  background-color: #fff; border-radius: 50%;" icon="material-symbols:check-circle-rounded" color="green" width="32" />
             <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
@@ -28,11 +28,8 @@
             You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
           </p>
           <div class="d-flex mt-4" style="gap:1rem">
-            <button class="secondary-btn">
-              Claim certificate
-            </button><button class="primary-btn">
-              Download certificate
-            </button>
+            <certificates-mint-button />
+            <certificates-download-button />
           </div>
         </div>
         <div v-else class="d-flex align-items-center justify-content-center flex-column">
@@ -345,7 +342,7 @@ export default {
 
   data () {
     return {
-      reprobado: false,
+      approved: false,
       testMessage: '',
       isEndedVideo: false,
       correctAnswers: 0,
