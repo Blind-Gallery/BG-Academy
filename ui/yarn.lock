@@ -21617,6 +21617,7 @@ __metadata:
     swiper: 6.8.4
     swiper-vue2: 1.0.9
     vue: ^2.7.10
+    vue-confetti: ^2.3.0
     vue-html2pdf: ^1.8.0
     vue-jest: ^3.0.4
     vue-server-renderer: ^2.7.10
@@ -22360,6 +22361,13 @@ __metadata:
   version: 1.0.0
   resolution: "vue-coerce-props@npm:1.0.0"
   checksum: 50a1a6fd858b99d669eeabe076bf60000189405f5358e197a321ed7cd4a3ba17e0620eb8d9d43cda88d10c160e9c6984379ef121df33528520525c19516e0549
+  languageName: node
+  linkType: hard
+
+"vue-confetti@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "vue-confetti@npm:2.3.0"
+  checksum: 9062b0d9d0b93afcacbcd004cf92151c3632cfa455e86fa39a12d6651ac8e7dd8c200bf2f51e59a7b774a55808b9068bfd61d3fc2522a25c1502300b47eb6ad4
   languageName: node
   linkType: hard
 

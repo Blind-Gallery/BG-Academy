@@ -515,7 +515,31 @@ export default {
         this.$router.push(`/courseNavigator/chapter/${modules[index + 1].chapters[0].id}`)
       } else {
         this.$bvModal.show('claim-certificate')
+        this.confettiStart()
       }
+    },
+
+    confettiStart () {
+      this.$confetti.start({
+        canvasElement: this.$refs.customCanvas,
+        particles: [
+          {
+            type: 'rect'
+          }
+        ],
+        defaultColors: [
+          'red',
+          'blue',
+          'green',
+          'yellow',
+          'purple',
+          'pink'
+        ],
+        size: 2
+      })
+      setTimeout(() => {
+        this.$confetti.stop()
+      }, 5000)
     },
 
     paginationHide (swiper) {

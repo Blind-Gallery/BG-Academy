@@ -37,7 +37,8 @@ export default {
   },
   plugins: [
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
-    { src: '~/plugins/vue-stripe.js', ssr: false }
+    { src: '~/plugins/vue-stripe.js', ssr: false },
+    { src: '~/plugins/vue-confetti.js', mode: 'client' }
   ],
 
   env: {
