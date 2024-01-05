@@ -47,7 +47,7 @@
                     />
                   </div>
                   <p style="font-size: small" class="m-0 text-secondary">
-                    5min.<br>
+                    {{ formatDuration(chapter.duration) }}
                   </p>
                 </div>
               </NuxtLink>
@@ -118,6 +118,7 @@ query MyQuery($id: Int!) {
         id
         title
         video_id
+        duration
       }
     }
   }
@@ -149,6 +150,14 @@ export default {
     }
   },
   computed: {
+    // formattedDuration () {
+    //   const duration = this.chapter.duration
+    //   const minutes = Math.floor(duration / 60)
+    //   const seconds = duration % 60
+
+    //   // Puedes ajustar el formato según tus preferencias
+    //   return `${minutes} min ${seconds} sec`
+    // },
     activeModuleId () {
       if (this.$route.params.moduleId) { return this.$route.params.moduleId }
       const chapterIdFromRoute = this.$route.params.chapterId
@@ -165,7 +174,23 @@ export default {
     await this.getCourseSchema()
     this.toggleCollapseActive()
   },
+
+  mounted () {
+    console.info(this.$data.courses_by_pk.modules)
+  },
   methods: {
+    formatDuration (duration) {
+      const minutes = Math.floor(duration / 60)
+      const seconds = duration % 60
+
+      if (minutes > 0 && seconds > 0) {
+        return `${minutes} min ${seconds} sec`
+      } else if (minutes > 0) {
+        return `${minutes} min`
+      } else {
+        return `${seconds} sec`
+      }
+    },
     async getCourseSchema () {
       const { data } = await this.$apollo.query({
         query: GET_COURSE_SCHEMA,
