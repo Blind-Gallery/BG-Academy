@@ -168,9 +168,6 @@ export default {
     this.toggleCollapseActive()
   },
 
-  mounted () {
-    console.info(this.$data.courses_by_pk.modules)
-  },
   methods: {
     formatDuration (duration) {
       const minutes = Math.floor(duration / 60)
