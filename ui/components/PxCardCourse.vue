@@ -21,7 +21,7 @@
       </div>
       <div class="layer" />
       <div class="background-img">
-        <img :src="cover" alt="cover">
+        <img class="w-100" :src="cover" alt="cover">
       </div>
     </div>
   </div>

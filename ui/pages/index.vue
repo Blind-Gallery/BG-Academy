@@ -226,7 +226,7 @@
                 :description="course.description"
                 :title="course.name"
                 :url="'/buyCourse/' + course.id"
-                cover="https://cdn.discordapp.com/attachments/987378128106168403/1168315895974735995/cover.png?ex=655151f7&is=653edcf7&hm=2459b7d82d3aeec2ee3ea91dfcaa894321fd2d3fa27de1e06f19a78c7ed31e4e&"
+                :cover="course.thumbnail"
               />
             </NuxtLink>
           </SwiperSlide>

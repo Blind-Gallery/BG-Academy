@@ -12,7 +12,7 @@
           <!--TOGGLE MODULE-->
           <div>
             <div @click="toggleCollapse(module.id)">
-              <PxToggleCollapse :id="`toggle-${module.id}`" ref="toggle" :small-font="true" :toggle-name="module.title" :subtitle-name="`Chapters: 0 / ${module.chapters.length}`" />
+              <PxToggleCollapse :id="`toggle-${module.id}`" ref="toggle" :small-font="true" :toggle-name="module.title" />
             </div>
 
             <!--CHAPTERS COLLAPSE-->
