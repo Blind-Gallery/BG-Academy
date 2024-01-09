@@ -3,7 +3,7 @@
     <b-container style="max-width: 1240px">
       <PxAlert ref="alert" />
       <div class="d-flex flex-column align-items-center justify-content-center" style="height: 65vh;">
-        <div class="w-50">
+        <div>
           <h4>Change your password</h4>
           <FormulateForm
             v-slot="{ isLoading }"
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     doChangePassword () {
-      this.$refs.alert.showAlert('Password successfully changed!')
+      this.$refs.alert.showAlert('Success', 'Password successfully changed!')
       setTimeout(() => {
         this.$router.push('/')
       }, 3000)
