@@ -12,6 +12,7 @@
               :video-id="courses[0].thumbnail_video"
               chapter-id=""
               width="100%"
+              class="mb-4"
             />
             <h5>
               {{ courses[0].name }}
