@@ -253,7 +253,7 @@
           <b-container style="max-width: 1240px;">
             <b-row class="align-items-center">
               <b-col cols="12" lg="6">
-                <div class="mx-4">
+                <div class="my-4">
                   <h4>Where Art Meets Innovation</h4>
                   <p>
                     Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
