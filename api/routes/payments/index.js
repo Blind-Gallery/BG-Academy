@@ -3,6 +3,7 @@
 const {
   stripeSchema,
   stripePaymentIntent,
+  stripePaymentVerify,
   tezosPaymentIntent,
   tezosPaymentVerify
 } = require('./schemas')
@@ -16,10 +17,12 @@ module.exports = async function (fastify, opts) {
     fastify.post('/stripe', { schema: stripeSchema, config: { rawBody: true } }, stripeVerificationHandler)
     // Endpoint when a user wants to pay
     fastify.post('/stripe/create-intent', { schema: stripePaymentIntent }, stripePaymentIntentHandler)
+    // Endpoint when a user wants to verify a stripe payment
+    fastify.post('/stripe/verify-payment', { schema: stripePaymentVerify }, stripePaymentVerifyHandler)
     // Endpoint when a user wants to pay with tezos
     fastify.post('/tezos/payment-intent', { schema: tezosPaymentIntent }, tezosPaymentIntentHandler)
     // Endpoint when a user wants to verify a tezos payment
-    fastify.post('/tezos/payment-verify', { schema: tezosPaymentVerify }, tezosPaymentVerifyHandler)
+    fastify.post('/tezos/verify-payment', { schema: tezosPaymentVerify }, tezosPaymentVerifyHandler)
   })
 }
 
@@ -41,7 +44,6 @@ async function stripeVerificationHandler (req, reply) {
 async function stripePaymentIntentHandler (req, reply) {
   const paymentIntent = await this.payments.createStripePaymentIntent(req.body)
   console.info('Payment intent: ', paymentIntent)
-  reply.code(200).send({ paymentIntent })
   return { paymentIntent }
 }
 
@@ -52,4 +54,8 @@ async function tezosPaymentIntentHandler (req, reply) {
 
 async function tezosPaymentVerifyHandler (req, reply) {
   const sucess = await this.payments.verifyTezosPayment(req.body)
+}
+
+async function stripePaymentVerifyHandler (req, reply) {
+  const sucess = await this.payments.verifyStripePayment(req.body)
 }

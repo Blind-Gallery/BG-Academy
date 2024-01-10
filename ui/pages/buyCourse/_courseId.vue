@@ -12,6 +12,7 @@
               :video-id="courses[0].thumbnail_video"
               chapter-id=""
               width="100%"
+              class="mb-4"
             />
             <h5>
               {{ courses[0].name }}
@@ -147,7 +148,10 @@
                 /></span>
               </template>
               <div>
-                <payments-stripe-generate :price="courses[0].price" />
+                <payments-stripe-generate
+                  :price="courses[0].price"
+                  :course-id="courses[0].id"
+                />
               </div>
             </b-modal>
 
