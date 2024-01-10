@@ -83,9 +83,9 @@ const tezosPaymentVerify = {
 const stripePaymentVerify = {
   tags,
   body: {
-    paymentIntentId: { type: 'string' },
+    userId: { type: 'string' },
+    paymentIntent: { type: 'string' },
     paymentIntentClientSecret: { type: 'string' }
-
   },
   response: {
     200: {

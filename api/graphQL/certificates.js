@@ -19,7 +19,6 @@ query ($userId: String!, $courseId: Int!) {
     }
   }
 }
-
 `
 
 const UPDATE_USER_COURSE_CERTIFICATE = gql`

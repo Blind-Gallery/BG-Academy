@@ -8,6 +8,7 @@ query ($id: Int!) {
   }
 }
 `
+
 const GET_PAYMENT_INTENT_INFO = gql`
 query ($userId: String!, $courseId: Int!) {
   payments(where: {user_id: {_eq: $userId}, course_id: {_eq: $courseId}}) {
@@ -27,33 +28,58 @@ query ($userId: String!, $courseId: Int!) {
 }
 `
 
+const CREATE_PAYMENT_INTENT = gql`
+mutation ($courseId: Int!, $userId: String!) {
+  insert_payments_one(
+    object: {
+      course_id: $courseId,
+      user_id: $userId,
+      transaction_info: {data: {transactions_stripe_transaction_info: {data: {}}, transactions_tezos_transaction_info: {data: {}}}}}, on_conflict: {constraint: payments_pkey, update_columns: updated_at}) {
+    user_id
+    course_id
+    transaction_info {
+      id
+      stripe_transaction_id
+      tezos_transaction_id
+    }
+  }
+}
+`
+
 const CREATE_STRIPE_PAYMENT_INTENT = gql`
 mutation (
   $courseId: Int!,
   $userId: String!,
   $paymentIntent: String!,
   $paymentIntentClientSecret: String!,
-  $amount: numeric!) {
+  $amount: numeric!,
+  $transactionId: String!
+  ) {
   insert_payments_one(
     object: {
       course_id: $courseId,
       user_id: $userId,
-      transaction_type: stripe
+      transaction_type: stripe,
       transaction_info: {
-        data: {
-          transactions_stripe_transaction_info: {
-            data: {
-              payment_intent: $paymentIntent,
-              payment_intent_client_secret: $paymentIntentClientSecret,
-              amount: $amount
-            }},
-      }}},
-      on_conflict: {
-        constraint: payments_pkey,
-        update_columns: [transaction_id, transaction_type]}
-      ) {
-        transaction_id
+        data: {transactions_stripe_transaction_info: {
+          data: {
+            payment_intent: $paymentIntent,
+            payment_intent_client_secret: $paymentIntentClientSecret,
+            amount: $amount}
+          },
+          id: $transactionId
+        },
+        on_conflict: {
+          constraint: transactions_pkey,
+          update_columns: stripe_transaction_id
+        }}},
+        on_conflict: {constraint: payments_pkey, update_columns: updated_at}) {
+    transaction_id
+    transaction_info {
+      stripe_transaction_id
+      tezos_transaction_id
     }
+  }
 }
 `
 
@@ -62,31 +88,40 @@ mutation (
   $courseId: Int!,
   $userId: String!,
   $wallet: String!,
-  $amount: numeric!) {
+  $amount: numeric!,
+  $transactionId: String!
+  ) {
   insert_payments_one(
     object: {
       course_id: $courseId,
       user_id: $userId,
-      transaction_type: tezos
+      transaction_type: tezos,
       transaction_info: {
-        data: {
-          transactions_tezos_transaction_info: {
-            data: {
-              wallet: $wallet,
-              amount: $amount
-            }},
-      }}},
-      on_conflict: {
-        constraint: payments_pkey,
-        update_columns: [transaction_id, transaction_type]}
-      ) {
-        transaction_id
+        data: {transactions_tezos_transaction_info: {
+          data: {
+            wallet: $wallet,
+            amount: $amount}
+          },
+          id: $transactionId
+        },
+        on_conflict: {
+          constraint: transactions_pkey,
+          update_columns: tezos_transaction_id
+        }}},
+        on_conflict: {constraint: payments_pkey, update_columns: updated_at}) {
+    transaction_id
+    transaction_info {
+      stripe_transaction_id
+      tezos_transaction_id
     }
-}`
+  }
+}
+`
 
 module.exports = {
   GET_COURSE_BY_ID,
   GET_PAYMENT_INTENT_INFO,
+  CREATE_PAYMENT_INTENT,
   CREATE_STRIPE_PAYMENT_INTENT,
   CREATE_TEZOS_PAYMENT_INTENT
 }

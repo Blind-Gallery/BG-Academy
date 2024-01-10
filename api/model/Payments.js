@@ -53,6 +53,7 @@ class Payments {
     paymentIntent, courseId,
     userId, paymentIntentClientSecret, amount
   }) {
+    // const oldPayment = await this.getStripePayment(userId, courseId)
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_STRIPE_PAYMENT_INTENT,
       {
@@ -148,14 +149,13 @@ class Payments {
     return { tezos: tezosPrice }
   }
 
-  async verifyStripePayment ({ courseId, userId }) {
-    console.info('verify stripe payment')
-    console.info(courseId, userId)
+  async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret, userId }) {
+    console.log('paymentIntent', paymentIntent, paymentIntentClientSecret, userId)
   }
 
   async verifyTezosPayment ({ courseId, userId, opHash }) {
-    console.info('verify tezos payment')
-    console.info(courseId, userId, opHash)
+    const payment = await this.getTezosPayment(userId, courseId)
+    console.log('payment', payment)
   }
 }
 

@@ -3,7 +3,8 @@ const tags = ['documents']
 const getCertificateSchema = {
   tags,
   body: {
-    courseId: { type: 'number' }
+    courseId: { type: 'number' },
+    userId: { type: 'string' }
   },
   response: {
     200: {
