@@ -38,7 +38,8 @@ export default {
         const tezosAddress = await wallet.getPKH()
         const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
           courseId: this.courseId,
-          user: tezosAddress
+          wallet: tezosAddress,
+          userId: this.$auth.user.id
         })
         // floor price to 2 decimals
         this.tezosPrice = Math.floor(tezos * 100) / 100
