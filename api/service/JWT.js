@@ -5,8 +5,8 @@ class JWT {
   constructor (opts) {
     this.opts = opts
     this.opts.jwtSecret = 'secret'
-    this.opts.tokenExpirationTimeMins = 60
-    this.opts.refreshTokenExpirationTimeMins = 1440
+    this.opts.tokenExpirationTimeMins = 3600
+    this.opts.refreshTokenExpirationTimeMins = 14400
   }
 
   init () {

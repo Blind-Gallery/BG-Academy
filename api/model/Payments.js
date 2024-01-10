@@ -1,14 +1,6 @@
-const { Unauthorized, BadRequest, Conflict, InternalServerError } = require('http-errors')
-const { request, gql } = require('graphql-request')
+const { BadRequest, Conflict, InternalServerError } = require('http-errors')
+const { GET_COURSE_BY_ID, GET_PAYMENT_INTENT_INFO, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
 
-const GET_COURSE_BY_ID = gql`
-query ($id: Int!) {
-  courses_by_pk(id: $id) {
-    id
-    price
-  }
-}
-`
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
     this.gql = gql
@@ -39,10 +31,51 @@ class Payments {
     return conversion
   }
 
-  async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail }) {
+  async getStripePayment (userId, courseId) {
+    const { payments } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO,
+      { userId, courseId }
+    )
+    const stripePayment = payments[0]?.transaction_info?.transactions_stripe_transaction_info
+    return stripePayment
+  }
+
+  async storePayment ({
+    paymentIntent, courseId,
+    userId, paymentIntentClientSecret, amount
+  }) {
+    const { insert_stripe_transaction_info_one: stripePayment } = await this.gql.request(
+      CREATE_STRIPE_PAYMENT_INTENT,
+      {
+        paymentIntent,
+        courseId,
+        userId,
+        paymentIntentClientSecret,
+        amount
+      }
+    )
+    return stripePayment
+  }
+
+  async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail, userId, courseId }) {
     let paymentIntent = null
+    const oldPayment = await this.getStripePayment(userId, courseId)
+    if (oldPayment) {
+      paymentIntent = {
+        id: oldPayment?.payment_intent,
+        client_secret: oldPayment?.payment_intent_client_secret
+      }
+      return paymentIntent
+    }
     try {
       paymentIntent = await this.stripe.paymentIntent(amount, currency, paymentMethodTypes, receiptEmail)
+      await this.storePayment({
+        paymentIntent: paymentIntent.id,
+        courseId,
+        userId,
+        paymentIntentClientSecret: paymentIntent.client_secret,
+        amount
+      })
     } catch (err) {
       console.error(err)
     }
@@ -83,8 +116,14 @@ class Payments {
     return { tezos: tezosPrice }
   }
 
-  async verifyTezosPayment ({ courseId, user, signature, amount }) {
+  async verifyStripePayment ({ courseId, userId }) {
+    console.info('verify stripe payment')
+    console.info(courseId, userId)
+  }
 
+  async verifyTezosPayment ({ courseId, userId, opHash }) {
+    console.info('verify tezos payment')
+    console.info(courseId, userId, opHash)
   }
 }
 
