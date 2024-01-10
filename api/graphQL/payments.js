@@ -47,7 +47,11 @@ mutation (
               payment_intent_client_secret: $paymentIntentClientSecret,
               amount: $amount
             }},
-      }}}) {
+      }}},
+      on_conflict: {
+        constraint: payments_pkey,
+        update_columns: [transaction_id, transaction_type]}
+      ) {
         transaction_id
     }
 }
@@ -71,7 +75,11 @@ mutation (
               wallet: $wallet,
               amount: $amount
             }},
-      }}}) {
+      }}},
+      on_conflict: {
+        constraint: payments_pkey,
+        update_columns: [transaction_id, transaction_type]}
+      ) {
         transaction_id
     }
 }`
