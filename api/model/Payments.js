@@ -1,14 +1,14 @@
-const { Unauthorized, BadRequest, Conflict, InternalServerError } = require('http-errors')
-const { request, gql } = require('graphql-request')
+const { BadRequest, Conflict, InternalServerError } = require('http-errors')
+const {
+  GET_COURSE_BY_ID,
+  CREATE_PAYMENT_INTENT,
+  GET_PAYMENT_INTENT_INFO,
+  CREATE_TEZOS_PAYMENT_INTENT,
+  CREATE_STRIPE_PAYMENT_INTENT,
+  ADD_USER_TO_COURSE,
+  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
+} = require('../graphQL/payments')
 
-const GET_COURSE_BY_ID = gql`
-query ($id: Int!) {
-  courses_by_pk(id: $id) {
-    id
-    price
-  }
-}
-`
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
     this.gql = gql
@@ -19,6 +19,19 @@ class Payments {
     this.tezos = tezos
     this.academySC = academySC
     this.coinGecko = coinGecko
+  }
+
+  async getOrCreatePaymentIntent ({ courseId, userId }) {
+    const { insert_payments_one: payment } = await this.gql.request(
+      CREATE_PAYMENT_INTENT,
+      { courseId, userId }
+    )
+
+    return {
+      transactionId: payment?.transaction_info?.id,
+      stripeTransactionId: payment?.transaction_info?.stripe_transaction_id,
+      tezosTransactionId: payment?.transaction_info?.tezos_transaction_id
+    }
   }
 
   async getCoursePrice (courseId) {
@@ -39,10 +52,77 @@ class Payments {
     return conversion
   }
 
-  async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail }) {
+  async getStripePayment (userId, courseId) {
+    const { payments } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO,
+      { userId, courseId }
+    )
+    const stripePayment = payments[0]?.transaction_info?.transactions_stripe_transaction_info
+    return stripePayment
+  }
+
+  async getTezosPayment (userId, courseId) {
+    const { payments } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO,
+      { userId, courseId }
+    )
+    const stripePayment = payments[0]?.transaction_info?.transactions_tezos_transaction_info
+    return stripePayment
+  }
+
+  async storeStripePayment ({
+    paymentIntent, courseId,
+    userId, paymentIntentClientSecret, amount
+  }) {
+    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
+    const { insert_payments_one: payment } = await this.gql.request(
+      CREATE_STRIPE_PAYMENT_INTENT,
+      {
+        paymentIntent,
+        courseId,
+        userId,
+        paymentIntentClientSecret,
+        amount,
+        transactionId
+      }
+    )
+    return payment
+  }
+
+  async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
+    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
+    const { insert_payments_one: payment } = await this.gql.request(
+      CREATE_TEZOS_PAYMENT_INTENT,
+      {
+        courseId,
+        userId,
+        amount,
+        wallet,
+        transactionId
+      }
+    )
+    return payment
+  }
+
+  async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail, userId, courseId }) {
     let paymentIntent = null
+    const oldPayment = await this.getStripePayment(userId, courseId)
+    if (oldPayment?.payment_intent) {
+      paymentIntent = {
+        id: oldPayment?.payment_intent,
+        client_secret: oldPayment?.payment_intent_client_secret
+      }
+      return paymentIntent
+    }
     try {
       paymentIntent = await this.stripe.paymentIntent(amount, currency, paymentMethodTypes, receiptEmail)
+      await this.storeStripePayment({
+        paymentIntent: paymentIntent.id,
+        courseId,
+        userId,
+        paymentIntentClientSecret: paymentIntent.client_secret,
+        amount
+      })
     } catch (err) {
       console.error(err)
     }
@@ -60,15 +140,25 @@ class Payments {
     return event
   }
 
-  async createTezosPaymentIntent ({ courseId, user }) {
+  async createTezosPaymentIntent ({ courseId, userId, wallet }) {
     const coursePrice = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
+    const oldPayment = await this.getTezosPayment(userId, courseId)
+    if (oldPayment) {
+      return { tezos: tezosPrice }
+    }
 
     try {
+      await this.storeTezosPaymentIntent({
+        courseId,
+        userId,
+        amount: tezosPrice,
+        wallet
+      })
       await this.academySC.addCourseToUser({
         courseId,
-        user
+        user: wallet
       })
     } catch (err) {
       console.error(err.message)
@@ -83,8 +173,36 @@ class Payments {
     return { tezos: tezosPrice }
   }
 
-  async verifyTezosPayment ({ courseId, user, signature, amount }) {
+  async addCourseToUser ({ courseId, userId }) {
+    const { insert_user_course_one: userCourse } = await this.gql.request(
+      ADD_USER_TO_COURSE,
+      { courseId, userId }
+    )
+    return userCourse
+  }
 
+  async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret }) {
+    const { stripe_transaction_info: stripePayment } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
+      { paymentIntent }
+    )
+
+    if (!stripePayment) {
+      throw new BadRequest('Payment not found')
+    }
+    const userCourse = await this.addCourseToUser({
+      courseId: stripePayment[0]?.transaction_info?.payment_info?.course_id,
+      userId: stripePayment[0]?.transaction_info?.payment_info?.user_id
+    })
+    return { success: true }
+  }
+
+  async verifyTezosPayment ({ courseId, userId, opHash }) {
+    const payment = await this.getTezosPayment(userId, courseId)
+    console.log('payment', payment)
+
+    const userCourse = await this.addCourseToUser({ courseId, userId })
+    return { success: true }
   }
 }
 

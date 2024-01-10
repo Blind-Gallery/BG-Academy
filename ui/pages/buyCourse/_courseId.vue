@@ -150,7 +150,10 @@
                 /></span>
               </template>
               <div>
-                <payments-stripe-generate :price="courses[0].price" />
+                <payments-stripe-generate
+                  :price="courses[0].price"
+                  :course-id="courses[0].id"
+                />
               </div>
             </b-modal>
 

@@ -1,3 +1,7 @@
 table:
   name: payments
   schema: public
+object_relationships:
+  - name: transaction_info
+    using:
+      foreign_key_constraint_on: transaction_id

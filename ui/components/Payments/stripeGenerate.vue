@@ -39,8 +39,11 @@ export default {
       type: Number,
       required: true,
       default: 1
+    },
+    courseId: {
+      type: Number,
+      required: true
     }
-
   },
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
@@ -106,7 +109,9 @@ export default {
         amount: this.price * 100,
         currency: 'usd',
         paymentMethodTypes: ['card'],
-        receiptEmail: this.email
+        receiptEmail: this.email,
+        userId: this.$auth.user.id,
+        courseId: this.courseId
       })
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
