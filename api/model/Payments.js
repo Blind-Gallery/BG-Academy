@@ -1,5 +1,5 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
-const { GET_COURSE_BY_ID, GET_PAYMENT_INTENT_INFO, CREATE_TEZOS_PAYMENT_INTENT, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
+const { GET_COURSE_BY_ID, CREATE_PAYMENT_INTENT, GET_PAYMENT_INTENT_INFO, CREATE_TEZOS_PAYMENT_INTENT, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
 
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
@@ -11,6 +11,19 @@ class Payments {
     this.tezos = tezos
     this.academySC = academySC
     this.coinGecko = coinGecko
+  }
+
+  async getOrCreatePaymentIntent ({ courseId, userId }) {
+    const { insert_payments_one: payment } = await this.gql.request(
+      CREATE_PAYMENT_INTENT,
+      { courseId, userId }
+    )
+
+    return {
+      transactionId: payment?.transaction_info?.id,
+      stripeTransactionId: payment?.transaction_info?.stripe_transaction_id,
+      tezosTransactionId: payment?.transaction_info?.tezos_transaction_id
+    }
   }
 
   async getCoursePrice (courseId) {
@@ -53,7 +66,7 @@ class Payments {
     paymentIntent, courseId,
     userId, paymentIntentClientSecret, amount
   }) {
-    // const oldPayment = await this.getStripePayment(userId, courseId)
+    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_STRIPE_PAYMENT_INTENT,
       {
@@ -61,20 +74,23 @@ class Payments {
         courseId,
         userId,
         paymentIntentClientSecret,
-        amount
+        amount,
+        transactionId
       }
     )
     return payment
   }
 
   async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
+    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_TEZOS_PAYMENT_INTENT,
       {
         courseId,
         userId,
         amount,
-        wallet
+        wallet,
+        transactionId
       }
     )
     return payment
