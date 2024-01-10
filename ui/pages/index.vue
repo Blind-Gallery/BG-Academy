@@ -253,7 +253,7 @@
           <b-container style="max-width: 1240px;">
             <b-row class="align-items-center">
               <b-col cols="12" lg="6">
-                <div>
+                <div class="my-4">
                   <h4>Where Art Meets Innovation</h4>
                   <p>
                     Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
@@ -291,22 +291,25 @@
           <b-row class="align-items-center pt-5 pb-5">
             <b-col cols="12" lg="4">
               <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-                <div class="feedback-info p-4 d-flex align-items-center">
-                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/kimson-doan-HD8KlyWRYYM-4-300x300.jpg" />
-                  <div>
-                    <h4 class="m-0">
-                      Sofia Rossi
-                    </h4>
-                    <p class="m-0">
-                      Graphic Designer
+                <a href="https://twitter.com/Datzel3" target="_blank" style="text-decoration: none;">
+                  <div class="feedback-info p-4 d-flex align-items-center">
+                    <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://pbs.twimg.com/profile_images/1603791594762604549/RmkcXqLF_400x400.jpg" />
+                    <div>
+                      <h4 class="m-0">
+                        Datzel
+                      </h4>
+                      <p class="m-0">
+                        Graphic Designer and Artist
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="p-4">
+                    <p class="small text-secondary m-0">
+                      I wish I had discovered this platform when I first started my journey as a blockchain artist. A platform that teaches you everything about the ecosystem is a great advantage!
                     </p>
                   </div>
-                </div>
-                <div class="p-4">
-                  <p class="small text-secondary m-0">
-                    Absolutely captivated by the array of art courses this platform delivers. It's a sanctuary where imagination and skill converge, allowing individuals to paint their aspirations onto the canvas of reality. The fusion of technique, inspiration, and guidance is an artist's dream come true.
-                  </p>
-                </div>
+                </a>
               </div>
             </b-col>
             <b-col cols="12" lg="4">
@@ -318,7 +321,7 @@
                       Alex Canales
                     </h4>
                     <p class="m-0">
-                      Digital Artist
+                      Curator
                     </p>
                   </div>
                 </div>
@@ -338,7 +341,7 @@
                       William da Silva
                     </h4>
                     <p class="m-0">
-                      Plastic Artist
+                      Gallerist
                     </p>
                   </div>
                 </div>
