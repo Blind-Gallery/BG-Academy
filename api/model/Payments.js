@@ -66,13 +66,14 @@ class Payments {
     return payment
   }
 
-  async storeTezosPaymentIntent ({ courseId, userId, amount }) {
+  async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_TEZOS_PAYMENT_INTENT,
       {
         courseId,
         userId,
-        amount
+        amount,
+        wallet
       }
     )
     return payment
@@ -118,8 +119,18 @@ class Payments {
     const coursePrice = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
+    const oldPayment = await this.getTezosPayment(userId, courseId)
+    if (oldPayment) {
+      return { tezos: tezosPrice }
+    }
 
     try {
+      await this.storeTezosPaymentIntent({
+        courseId,
+        userId,
+        amount: tezosPrice,
+        wallet
+      })
       await this.academySC.addCourseToUser({
         courseId,
         user: wallet

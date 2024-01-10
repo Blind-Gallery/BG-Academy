@@ -38,6 +38,7 @@ mutation (
     object: {
       course_id: $courseId,
       user_id: $userId,
+      transaction_type: stripe
       transaction_info: {
         data: {
           transactions_stripe_transaction_info: {
@@ -46,8 +47,7 @@ mutation (
               payment_intent_client_secret: $paymentIntentClientSecret,
               amount: $amount
             }},
-      type: stripe }}}) {
-        id
+      }}}) {
         transaction_id
     }
 }
@@ -57,19 +57,21 @@ const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
   $courseId: Int!,
   $userId: String!,
+  $wallet: String!,
   $amount: numeric!) {
   insert_payments_one(
     object: {
       course_id: $courseId,
       user_id: $userId,
+      transaction_type: tezos
       transaction_info: {
         data: {
           transactions_tezos_transaction_info: {
             data: {
+              wallet: $wallet,
               amount: $amount
             }},
-      type: tezos }}}) {
-        id
+      }}}) {
         transaction_id
     }
 }`
