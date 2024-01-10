@@ -8,18 +8,16 @@
           lg="8"
         >
           <div class="course-info">
-            <iframe
-              class="rounded mb-3 d-lg-block d-none"
+            <PxPlayer
+              :video-id="courses[0].thumbnail_video"
+              chapter-id=""
               width="100%"
-              height="450px"
-              src="https://www.youtube.com/embed/qtPi0JvmWbs"
-              title="YouTube video player"
-              frameborder="0"
+              class="mb-4"
             />
             <h5>
               {{ courses[0].name }}
             </h5>
-            <p class="formatted-text">
+            <p>
               {{ courses[0].summary }}
             </p>
             <h5 class="mb-3 mt-4">
@@ -32,10 +30,10 @@
               Description
             </h5>
             <div>
-              <p v-if="showFullDescription" class="formatted-text">
+              <p v-if="showFullDescription">
                 {{ courses[0].description }}
               </p>
-              <p v-else class="formatted-text">
+              <p v-else>
                 {{ shortDescription }}
               </p>
               <span v-if="isLargeDescription" style="cursor: pointer; font-weight: 600; font-size: small;" @click="toggleDescription">{{ readDescriptionText }}</span>
@@ -226,6 +224,7 @@ export default {
             price
             summary
             thumbnail
+            thumbnail_video
             duration
             modules (order_by: {created_at: asc}) {
               title
