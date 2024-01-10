@@ -2,6 +2,13 @@ table:
   name: transactions
   schema: public
 object_relationships:
+  - name: payment_info
+    using:
+      foreign_key_constraint_on:
+        column: transaction_id
+        table:
+          name: payments
+          schema: public
   - name: transactions_stripe_transaction_info
     using:
       foreign_key_constraint_on: stripe_transaction_id
