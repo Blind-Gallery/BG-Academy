@@ -1,5 +1,13 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
-const { GET_COURSE_BY_ID, CREATE_PAYMENT_INTENT, GET_PAYMENT_INTENT_INFO, CREATE_TEZOS_PAYMENT_INTENT, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
+const {
+  GET_COURSE_BY_ID,
+  CREATE_PAYMENT_INTENT,
+  GET_PAYMENT_INTENT_INFO,
+  CREATE_TEZOS_PAYMENT_INTENT,
+  CREATE_STRIPE_PAYMENT_INTENT,
+  ADD_USER_TO_COURSE,
+  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
+} = require('../graphQL/payments')
 
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
@@ -165,13 +173,36 @@ class Payments {
     return { tezos: tezosPrice }
   }
 
-  async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret, userId }) {
-    console.log('paymentIntent', paymentIntent, paymentIntentClientSecret, userId)
+  async addCourseToUser ({ courseId, userId }) {
+    const { insert_user_course_one: userCourse } = await this.gql.request(
+      ADD_USER_TO_COURSE,
+      { courseId, userId }
+    )
+    return userCourse
+  }
+
+  async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret }) {
+    const { stripe_transaction_info: stripePayment } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
+      { paymentIntent }
+    )
+
+    if (!stripePayment) {
+      throw new BadRequest('Payment not found')
+    }
+    const userCourse = await this.addCourseToUser({
+      courseId: stripePayment[0]?.transaction_info?.payment_info?.course_id,
+      userId: stripePayment[0]?.transaction_info?.payment_info?.user_id
+    })
+    return { success: true }
   }
 
   async verifyTezosPayment ({ courseId, userId, opHash }) {
     const payment = await this.getTezosPayment(userId, courseId)
     console.log('payment', payment)
+
+    const userCourse = await this.addCourseToUser({ courseId, userId })
+    return { success: true }
   }
 }
 
