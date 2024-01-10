@@ -99,7 +99,6 @@ class Payments {
   async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail, userId, courseId }) {
     let paymentIntent = null
     const oldPayment = await this.getStripePayment(userId, courseId)
-    console.log('oldPayment', oldPayment)
     if (oldPayment?.payment_intent) {
       paymentIntent = {
         id: oldPayment?.payment_intent,
