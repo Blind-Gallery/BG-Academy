@@ -57,18 +57,21 @@ const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
   $courseId: Int!,
   $userId: String!,
-  $operationHash: String!,
-  $amount: numeric!
-  ) {
-  insert_tezos_transaction_info_one(
+  $amount: numeric!) {
+  insert_payments_one(
     object: {
       course_id: $courseId,
       user_id: $userId,
-      operation_hash: $operationHash,
-      amount: $amount}
-      ) {
-    id
-  }
+      transaction_info: {
+        data: {
+          transactions_tezos_transaction_info: {
+            data: {
+              amount: $amount
+            }},
+      type: tezos }}}) {
+        id
+        transaction_id
+    }
 }`
 
 module.exports = {

@@ -48,7 +48,8 @@ const tezosPaymentIntent = {
   tags,
   body: {
     courseId: { type: 'number' },
-    user: { type: 'string' }
+    userId: { type: 'string' },
+    wallet: { type: 'string' }
   },
   response: {
     200: {

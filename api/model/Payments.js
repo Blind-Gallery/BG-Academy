@@ -1,5 +1,5 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
-const { GET_COURSE_BY_ID, GET_PAYMENT_INTENT_INFO, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
+const { GET_COURSE_BY_ID, GET_PAYMENT_INTENT_INFO, CREATE_TEZOS_PAYMENT_INTENT, CREATE_STRIPE_PAYMENT_INTENT } = require('../graphQL/payments')
 
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
@@ -40,11 +40,20 @@ class Payments {
     return stripePayment
   }
 
-  async storePayment ({
+  async getTezosPayment (userId, courseId) {
+    const { payments } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO,
+      { userId, courseId }
+    )
+    const stripePayment = payments[0]?.transaction_info?.transactions_tezos_transaction_info
+    return stripePayment
+  }
+
+  async storeStripePayment ({
     paymentIntent, courseId,
     userId, paymentIntentClientSecret, amount
   }) {
-    const { insert_stripe_transaction_info_one: stripePayment } = await this.gql.request(
+    const { insert_payments_one: payment } = await this.gql.request(
       CREATE_STRIPE_PAYMENT_INTENT,
       {
         paymentIntent,
@@ -54,7 +63,19 @@ class Payments {
         amount
       }
     )
-    return stripePayment
+    return payment
+  }
+
+  async storeTezosPaymentIntent ({ courseId, userId, amount }) {
+    const { insert_payments_one: payment } = await this.gql.request(
+      CREATE_TEZOS_PAYMENT_INTENT,
+      {
+        courseId,
+        userId,
+        amount
+      }
+    )
+    return payment
   }
 
   async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail, userId, courseId }) {
@@ -69,7 +90,7 @@ class Payments {
     }
     try {
       paymentIntent = await this.stripe.paymentIntent(amount, currency, paymentMethodTypes, receiptEmail)
-      await this.storePayment({
+      await this.storeStripePayment({
         paymentIntent: paymentIntent.id,
         courseId,
         userId,
@@ -93,7 +114,7 @@ class Payments {
     return event
   }
 
-  async createTezosPaymentIntent ({ courseId, user }) {
+  async createTezosPaymentIntent ({ courseId, userId, wallet }) {
     const coursePrice = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(coursePrice)
     console.info(coursePrice, tezosPrice)
@@ -101,7 +122,7 @@ class Payments {
     try {
       await this.academySC.addCourseToUser({
         courseId,
-        user
+        user: wallet
       })
     } catch (err) {
       console.error(err.message)
