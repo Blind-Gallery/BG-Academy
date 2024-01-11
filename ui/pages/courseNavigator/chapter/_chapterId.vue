@@ -280,9 +280,19 @@ export default {
     this.doResetTest()
   },
 
+  mounted () {
+    this.redirectionHome()
+  },
+
   methods: {
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
+    },
+
+    redirectionHome () {
+      if (!this.$auth.loggedIn && this.chapterInfo.module) {
+        this.$router.push('/')
+      }
     },
 
     async getChapter () {
