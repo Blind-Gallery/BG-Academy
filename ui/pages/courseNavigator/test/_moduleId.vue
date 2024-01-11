@@ -247,7 +247,7 @@
           </Transition>
         </b-row>
 
-        <b-row>
+        <b-row v-if="false">
           <b-col>
             <div class="w-100">
               <b-tabs content-class="mt-3">
