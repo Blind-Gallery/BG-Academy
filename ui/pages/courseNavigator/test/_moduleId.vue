@@ -375,7 +375,16 @@ export default {
     this.doResetTest()
   },
 
+  mounted () {
+    this.redirectionHome()
+  },
+
   methods: {
+    redirectionHome () {
+      if (!this.$auth.loggedIn) {
+        this.$router.push('/')
+      }
+    },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
