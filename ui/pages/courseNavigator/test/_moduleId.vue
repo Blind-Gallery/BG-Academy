@@ -14,7 +14,7 @@
           /></span>
         </template>
 
-        <div v-if="approved" class="d-flex align-items-center justify-content-center flex-column">
+        <div class="d-flex align-items-center justify-content-center flex-column">
           <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
             <Icon style="position: absolute; top:0; right: 0;  background-color: #fff; border-radius: 50%;" icon="material-symbols:check-circle-rounded" color="green" width="32" />
             <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
@@ -31,24 +31,6 @@
             <certificates-mint-button />
             <certificates-download-button />
           </div>
-        </div>
-        <div v-else class="d-flex align-items-center justify-content-center flex-column">
-          <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
-            <Icon
-              style="position: absolute; top:0; right: 0; background-color: #fff; border-radius: 50%;"
-              icon="material-symbols:error-rounded"
-              color="red"
-              width="32"
-            />
-            <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
-          </div>
-
-          <h2 class="text-center" style="color:red">
-            Not yet approved
-          </h2>
-          <p class="small text-center">
-            It looks like you have failed the course, try to retake the tests you failed to get your certificate.
-          </p>
         </div>
       </b-modal>
 
@@ -183,18 +165,19 @@
                       </div>
                       <p v-show="scorePercentage >= 80" class="small text-secondary text-center">
                         Congratulations, you have successfully
-                        passed module 1 of this course!
+                        passed the test!
                       </p>
 
                       <div class="d-flex flex-column align-items-center justify-content-center w-100">
                         <!-- TODO: Send user to the next module if exists and passed the exam -->
-                        <button v-show="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100" @click="nextModule">
-                          Next module   <Icon
+                        <button v-if="scorePercentage >= 80" style="cursor:pointer" class="primary-btn d-flex align-items-center justify-content-center mb-2 w-100" @click="nextModule">
+                          {{ isLastModule ? 'Claim certificate':'Next module' }}
+                          <Icon
                             width="24px"
                             icon="material-symbols:chevron-right"
                           />
                         </button>
-                        <button v-show="scorePercentage !== 100" style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
+                        <button v-if="scorePercentage !== 100" style="cursor:pointer" class="secondary-btn  w-100  d-flex align-items-center justify-content-center" @click="doTryAgain">
                           Try it again  <Icon
                             width="21px"
                             icon="material-symbols:restart-alt"
@@ -342,9 +325,10 @@ export default {
 
   data () {
     return {
-      approved: false,
+
       testMessage: '',
       isEndedVideo: false,
+
       correctAnswers: 0,
       scorePercentage: 0,
       loading: false,
@@ -371,7 +355,19 @@ export default {
   computed: {
     activeModuleId () {
       return this.$route.params.moduleId
+    },
+
+    isLastModule () {
+      const modules = this.module && this.module.course && this.module.course.modules
+
+      if (modules && modules.length > 0) {
+        const lastIndex = modules.length - 1
+        return this.activeModuleId === modules[lastIndex].id
+      }
+
+      return false
     }
+
   },
 
   created () {
@@ -512,6 +508,7 @@ export default {
         this.$router.push(`/courseNavigator/chapter/${modules[index + 1].chapters[0].id}`)
       } else {
         this.$bvModal.show('claim-certificate')
+
         this.confettiStart()
       }
     },
