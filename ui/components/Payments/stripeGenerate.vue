@@ -1,34 +1,40 @@
 <template>
   <div>
-    <FormulateForm v-if="elementsOptions.clientSecret">
-      <FormulateInput
-        v-model="email"
-        name="email"
-        type="email"
-        label="Email address"
-        placeholder="Email address"
-        validation="required|email"
-        style="margin-bottom: 0.6rem;"
-      />
-      <stripe-element-payment
-        ref="paymentRef"
-        :pk="pk"
-        :elements-options="elementsOptions"
-        :confirm-params="confirmParams"
-      />
-      <FormulateInput
-        class="mt-4"
-        type="submit"
-        :disabled="isLoading"
-        :label="isLoading ? 'Loading...' : 'Confirm payment'"
-        @click="pay"
-      />
-    </FormulateForm>
-    <div v-else class="d-flex align-items-center justify-content-center w-100">
-      <div class="d-flex flex-column align-items-center justify-content-center my-4">
-        <Icon icon="eos-icons:bubble-loading" width="3rem" />
+    <transition name="fade" mode="out-in">
+      <div v-if="!emailRegistered" key="1">
+        <FormulateForm @submit="sendEmail">
+          <FormulateInput
+            v-model="email"
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="Email address"
+            validation="required|email"
+            style="margin-bottom: 0.6rem;"
+          />
+
+          <FormulateInput
+            class="mt-4"
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Next'"
+          />
+        </FormulateForm>
       </div>
-    </div>
+      <div v-else>
+        <div v-if="elementsOptions.clientSecret">
+          <stripe-element-payment
+            ref="paymentRef"
+            :pk="pk"
+            :elements-options="elementsOptions"
+            :confirm-params="confirmParams"
+          />
+          <button @click="pay">
+            Confirm payment
+          </button>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -48,7 +54,8 @@ export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
-      email: 'youremail@email.com',
+      emailRegistered: false,
+      email: '',
       domain: window.location.origin,
       elementsOptions: {
         appearance: {
@@ -104,6 +111,9 @@ export default {
   },
 
   methods: {
+    sendEmail () {
+      this.emailRegistered = true
+    },
     async generatePaymentIntent () {
       const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
         amount: this.price * 100,
@@ -129,3 +139,11 @@ export default {
   }
 }
 </script>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+</style>
