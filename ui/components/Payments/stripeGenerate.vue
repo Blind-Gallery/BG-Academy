@@ -29,7 +29,7 @@
             :elements-options="elementsOptions"
             :confirm-params="confirmParams"
           />
-          <button @click="pay">
+          <button class="primary-btn mt-4 w-100" @click="pay">
             Confirm payment
           </button>
         </div>
@@ -55,7 +55,7 @@ export default {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
       emailRegistered: false,
-      email: '',
+      email: this.$auth.user.email_info?.email || '',
       domain: window.location.origin,
       elementsOptions: {
         appearance: {
@@ -124,7 +124,6 @@ export default {
       })
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
-      this.email = ''
     },
 
     defineConfirmParams () {

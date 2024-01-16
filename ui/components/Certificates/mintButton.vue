@@ -16,13 +16,21 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      loading: false,
+      url: null
+    }
+  },
   methods: {
     async getCertificate () {
-      const { cid } = await this.$axios.$post('/docs/certificate', {
+      if (this.loading) { return }
+      this.loading = true
+      const { status, opHash } = await this.$axios.$post('/docs/mint', {
         userId: this.$auth.user.id,
         courseId: this.courseId
       })
-      console.info(cid)
+      console.info(status, opHash)
     }
   }
 }

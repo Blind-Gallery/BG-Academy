@@ -21,16 +21,14 @@ const mintCertificateSchema = {
   tags,
   body: {
     courseId: { type: 'number' },
-    to: { type: 'string' },
-    student: { type: 'string' },
-    teacher: { type: 'string' }
+    userId: { type: 'string' }
   },
   response: {
     200: {
       type: 'object',
       properties: {
-        certificate: { type: 'string' },
-        cid: { type: 'string' }
+        status: { type: 'string' },
+        opHash: { type: 'string' }
       }
     }
   }

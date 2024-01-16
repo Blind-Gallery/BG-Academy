@@ -74,8 +74,15 @@ class Documents {
     return { cid }
   }
 
-  async mintSoulBoundCertificate ({ userId, courseId }) {
-    const userCourse = await this.getCertificate({ courseId, userId })
+  async mintSoulBoundCertificate ({ userId, courseId, intent = 0 }) {
+    const userCourses = await this.getCertificate({ courseId, userId })
+    const userCourse = userCourses[0]
+    if (!userCourse) throw new BadRequest('No certificate found')
+    if (!userCourse.certificate_cid || !userCourse.certificate_image_cid) {
+      if (intent > 3) throw new BadRequest('Certificate not generated')
+      await this.generateCertificate({ courseId, userId })
+      return this.mintSoulBoundCertificate({ userId, courseId, intent: intent + 1 })
+    }
     try {
       const metadata = {
         name: `${userCourse.course.name} - Certificate of Completion`,
@@ -88,9 +95,8 @@ class Documents {
       if (!metadataCID) throw new BadRequest('Error creating metadata')
       const calls = []
       calls.push(this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1))
-      this.sbtSC.mint(calls).then(async (confirmation) => {
-        console.log(confirmation)
-      })
+      const { status, opHash } = await this.sbtSC.mint(calls)
+      return { status, opHash }
     } catch (err) {
       console.error(err)
     }
