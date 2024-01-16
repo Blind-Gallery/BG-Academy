@@ -106,13 +106,12 @@ export default {
     }
   },
   created () {
-    this.generatePaymentIntent()
     this.defineConfirmParams()
   },
-
   methods: {
     sendEmail () {
       this.emailRegistered = true
+      this.generatePaymentIntent()
     },
     async generatePaymentIntent () {
       const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
