@@ -35,6 +35,7 @@ export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
+      courseId: null,
       error: null
     }
   },
@@ -73,9 +74,9 @@ export default {
         this.error = 'Something went wrong'
       }
     },
-    stripeVerify (paymentIntent, paymentIntentClientSecret) {
+    async stripeVerify (paymentIntent, paymentIntentClientSecret) {
       try {
-        this.$axios.$post('/payments/stripe/verify-payment', {
+        const { courseId } = await this.$axios.$post('/payments/stripe/verify-payment', {
           userId: this.$auth.user.id,
           paymentIntent,
           paymentIntentClientSecret
@@ -84,9 +85,9 @@ export default {
         this.error = error.message
       }
     },
-    tezosVerify (opHash, courseId) {
+    async tezosVerify (opHash, courseId) {
       try {
-        this.$axios.$post('/payments/tezos/verify-payment', {
+        const { courseId } = await this.$axios.$post('/payments/tezos/verify-payment', {
           userId: this.$auth.user.id,
           opHash,
           courseId
