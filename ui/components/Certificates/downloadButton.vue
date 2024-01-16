@@ -1,10 +1,9 @@
 <template>
-  <button
+  <a
     class="primary-btn"
-    @click="getCertificate"
-  >
-    Download certificate
-  </button>
+    :href="url"
+    download
+  >Download certificate</a>
 </template>
 
 <script>
@@ -36,6 +35,7 @@ export default {
       const url = `https://blind-gallery.infura-ipfs.io/ipfs/${cid}`
       console.info(url)
       this.url = url
+      this.$forceUpdate()
     }
   }
 }
