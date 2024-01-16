@@ -25,14 +25,17 @@ class Payment {
     })
     let paymentIntent = null
     try {
-      paymentIntent = await stripe.paymentIntents.create({
+      const paymentIntentParams = {
         amount,
         currency,
         automatic_payment_methods: {
           enabled: true
-        },
-        receipt_email: receiptEmail
-      })
+        }
+      }
+      if (receiptEmail) {
+        paymentIntentParams.receipt_email = receiptEmail
+      }
+      paymentIntent = await stripe.paymentIntents.create(paymentIntentParams)
     } catch (err) {
       console.error(err)
     }
