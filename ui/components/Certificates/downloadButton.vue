@@ -1,5 +1,8 @@
 <template>
-  <button class="primary-btn">
+  <button
+    class="primary-btn"
+    @click="getCertificate"
+  >
     Download certificate
   </button>
 </template>
