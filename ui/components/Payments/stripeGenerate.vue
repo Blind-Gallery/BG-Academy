@@ -55,7 +55,7 @@ export default {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
       emailRegistered: false,
-      email: 'example@example.com',
+      email: this.$auth.user.email_info?.email || '',
       domain: window.location.origin,
       elementsOptions: {
         appearance: {
@@ -107,11 +107,11 @@ export default {
   },
   created () {
     this.defineConfirmParams()
-    this.generatePaymentIntent()
   },
   methods: {
     sendEmail () {
       this.emailRegistered = true
+      this.generatePaymentIntent()
     },
     async generatePaymentIntent () {
       const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
