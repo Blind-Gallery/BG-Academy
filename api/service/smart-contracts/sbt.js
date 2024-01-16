@@ -58,7 +58,12 @@ class SoulBondCertificates extends BlindGalleryPermissions {
       .send()
 
     const confirmation = await batchOperation.confirmation(c)
-    return confirmation
+    const status = await batchOperation.status()
+    const opHash = batchOperation.opHash
+    if (status === 'applied') {
+      console.log('Minted')
+    }
+    return { confirmation, status, opHash }
   }
 
   /**
