@@ -52,6 +52,7 @@ class Documents {
   }
 
   async generateCertificate ({ courseId, userId }) {
+    let cid = ''
     const userCourse = await this.getCertificate({ courseId, userId })
     try {
       const { pdfCID, imageCID } = await this.docs.generateCertificate({
@@ -65,9 +66,13 @@ class Documents {
         certificateCID: `ipfs://${pdfCID}`,
         certificateImageCID: `ipfs://${imageCID}`
       })
+
+      cid = pdfCID
     } catch (err) {
       console.error(err)
     }
+
+    return { cid }
   }
 
   async mintSoulBoundCertificate ({ userId, courseId }) {
