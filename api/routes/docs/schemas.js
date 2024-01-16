@@ -27,8 +27,8 @@ const mintCertificateSchema = {
     200: {
       type: 'object',
       properties: {
-        certificate: { type: 'string' },
-        cid: { type: 'string' }
+        status: { type: 'string' },
+        opHash: { type: 'string' }
       }
     }
   }
