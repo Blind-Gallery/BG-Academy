@@ -29,7 +29,7 @@
             :elements-options="elementsOptions"
             :confirm-params="confirmParams"
           />
-          <button @click="pay">
+          <button class="primary-btn mt-4 w-100" @click="pay">
             Confirm payment
           </button>
         </div>
