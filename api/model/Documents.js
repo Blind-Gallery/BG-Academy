@@ -74,8 +74,15 @@ class Documents {
     return { cid }
   }
 
-  async mintSoulBoundCertificate ({ userId, courseId }) {
-    const userCourse = await this.getCertificate({ courseId, userId })
+  async mintSoulBoundCertificate ({ userId, courseId, intent = 0 }) {
+    const userCourses = await this.getCertificate({ courseId, userId })
+    const userCourse = userCourses[0]
+    if (!userCourse) throw new BadRequest('No certificate found')
+    if (!userCourse.certificate_cid || !userCourse.certificate_image_cid) {
+      if (intent > 3) throw new BadRequest('Certificate not generated')
+      await this.generateCertificate({ courseId, userId })
+      return this.mintSoulBoundCertificate({ userId, courseId, intent: intent + 1 })
+    }
     try {
       const metadata = {
         name: `${userCourse.course.name} - Certificate of Completion`,

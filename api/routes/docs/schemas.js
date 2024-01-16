@@ -21,9 +21,7 @@ const mintCertificateSchema = {
   tags,
   body: {
     courseId: { type: 'number' },
-    to: { type: 'string' },
-    student: { type: 'string' },
-    teacher: { type: 'string' }
+    userId: { type: 'string' }
   },
   response: {
     200: {
