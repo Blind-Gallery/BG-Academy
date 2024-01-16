@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     async getCertificate () {
-      const { cid } = await this.$axios.$post('/docs/certificate', {
+      const { cid } = await this.$axios.$post('/docs/mint', {
         userId: this.$auth.user.id,
         courseId: this.courseId
       })
