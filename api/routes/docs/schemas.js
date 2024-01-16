@@ -9,9 +9,9 @@ const getCertificateSchema = {
   response: {
     200: {
       type: 'object',
-      required: ['certificate'],
       properties: {
-        certificate: { type: 'string' }
+        certificate: { type: 'string' },
+        cid: { type: 'string' }
       }
     }
   }
@@ -28,9 +28,9 @@ const mintCertificateSchema = {
   response: {
     200: {
       type: 'object',
-      required: ['certificate'],
       properties: {
-        certificate: { type: 'string' }
+        certificate: { type: 'string' },
+        cid: { type: 'string' }
       }
     }
   }

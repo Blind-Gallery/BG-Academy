@@ -74,7 +74,8 @@ const tezosPaymentVerify = {
       type: 'object',
       required: ['success'],
       properties: {
-        success: { type: 'boolean' }
+        success: { type: 'boolean' },
+        courseId: { type: 'number' }
       }
     }
   }
@@ -92,7 +93,8 @@ const stripePaymentVerify = {
       type: 'object',
       required: ['success'],
       properties: {
-        success: { type: 'boolean' }
+        success: { type: 'boolean' },
+        courseId: { type: 'number' }
       }
     }
   }
