@@ -1,5 +1,4 @@
-const { Unauthorized, BadRequest } = require('http-errors')
-const { request, gql } = require('graphql-request')
+const { BadRequest } = require('http-errors')
 const { TZIPFactory } = require('../service')
 const {
   GET_USER_COURSE_INFO,
@@ -55,10 +54,10 @@ class Documents {
     let cid = ''
     const userCourse = await this.getCertificate({ courseId, userId })
     try {
+      const student = userCourse[0].user_info?.name || userCourse[0].user_info?.tezos_info?.wallet
       const { pdfCID, imageCID } = await this.docs.generateCertificate({
-        student: userCourse.user_info.name,
-        courseTitle: userCourse.course.name,
-        teacher: userCourse.course.teacher.name
+        student,
+        courseTitle: userCourse[0].course.name
       })
       await this.updateCertificate({
         courseId,
