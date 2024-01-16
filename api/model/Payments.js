@@ -66,8 +66,8 @@ class Payments {
       GET_PAYMENT_INTENT_INFO,
       { userId, courseId }
     )
-    const stripePayment = payments[0]?.transaction_info?.transactions_tezos_transaction_info
-    return stripePayment
+    const tezosPayment = payments[0]?.transaction_info?.transactions_tezos_transaction_info
+    return tezosPayment
   }
 
   async storeStripePayment ({
@@ -190,19 +190,19 @@ class Payments {
     if (!stripePayment) {
       throw new BadRequest('Payment not found')
     }
-    const userCourse = await this.addCourseToUser({
-      courseId: stripePayment[0]?.transaction_info?.payment_info?.course_id,
+
+    const courseId = stripePayment[0]?.transaction_info?.payment_info?.course_id
+    await this.addCourseToUser({
+      courseId,
       userId: stripePayment[0]?.transaction_info?.payment_info?.user_id
     })
-    return { success: true }
+    return { success: true, courseId }
   }
 
   async verifyTezosPayment ({ courseId, userId, opHash }) {
     const payment = await this.getTezosPayment(userId, courseId)
-    console.log('payment', payment)
-
-    const userCourse = await this.addCourseToUser({ courseId, userId })
-    return { success: true }
+    await this.addCourseToUser({ courseId, userId })
+    return { success: true, courseId }
   }
 }
 
