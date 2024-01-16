@@ -53,9 +53,11 @@ async function tezosPaymentIntentHandler (req, reply) {
 }
 
 async function tezosPaymentVerifyHandler (req, reply) {
-  const sucess = await this.payments.verifyTezosPayment(req.body)
+  const { success, courseId } = await this.payments.verifyTezosPayment(req.body)
+  return { success, courseId }
 }
 
 async function stripePaymentVerifyHandler (req, reply) {
-  const sucess = await this.payments.verifyStripePayment(req.body)
+  const { success, courseId } = await this.payments.verifyStripePayment(req.body)
+  return { success, courseId }
 }
