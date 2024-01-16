@@ -28,8 +28,8 @@
             You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
           </p>
           <div class="d-flex mt-4" style="gap:1rem">
-            <certificates-mint-button />
-            <certificates-download-button />
+            <certificates-mint-button :course-id="module.course" />
+            <certificates-download-button :course-id="module.course" />
           </div>
         </div>
       </b-modal>
