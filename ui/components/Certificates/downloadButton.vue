@@ -21,7 +21,9 @@ export default {
         userId: this.$auth.user.id,
         courseId: this.courseId
       })
-      console.info(cid)
+
+      const url = `https://blind-gallery.infura-ipfs.io/ipfs/${cid}`
+      console.info(url)
     }
   }
 }
