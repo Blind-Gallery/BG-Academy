@@ -17,9 +17,13 @@
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
                 <b-navbar-nav
-
                   class="d-flex align-items-center main-menu"
                 >
+                  <b-nav-item v-b-modal.educatorsForm>
+                    <span v-b-modal.educatorsForm class="small">
+                      Become an educator
+                    </span>
+                  </b-nav-item>
                   <b-nav-item v-b-modal.signup>
                     <button class="secondary-btn small">
                       Sign Up
@@ -283,6 +287,62 @@
           </a>
         </p>
       </b-modal>
+
+      <!--EDUCATORS FORM-->
+      <b-modal id="educatorsForm" centered hidden-header hide-footer>
+        <template #modal-header="{ close }">
+          <h2>Become an educator</h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <div class="mb-4 ">
+          <p class="m-0 small">
+            <span style="font-weight: 600;">Join Our Educator Community:</span><br>
+            Are you a experienced in the field of digital art?
+          </p>
+          <span class="text-secondary small ">We welcome trailblazers to join our educator team. Share your expertise and shape the future of digital art education. Interested?</span>
+        </div>
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="educatorsForm"
+          class="login-form"
+          @submit="sendEducatorForm"
+        >
+          <FormulateInput
+            name="name"
+            type="text"
+            label="Your name"
+            placeholder="Name"
+            validation="required"
+          />
+          <FormulateInput
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="educator@academy.co"
+            validation="required|email"
+          />
+          <FormulateInput
+            name="description"
+            type="textarea"
+            label="What kind of educational course would you like to create?"
+            placeholder=""
+            validation="required"
+          />
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Apply'"
+          />
+        </Formulateform>
+      </b-modal>
     </header>
 
     <Nuxt />
@@ -334,7 +394,8 @@ export default {
       successMessage: '',
       signInForm: {},
       recoverPasswordForm: {},
-      signUpForm: {}
+      signUpForm: {},
+      educatorsForm: {}
     }
   },
   mounted () {
@@ -343,6 +404,10 @@ export default {
     })
   },
   methods: {
+
+    sendEducatorForm () {
+      console.info(`Send this form ${this.educatorsForm}`)
+    },
     async doEmailSignUp () {
       try {
         const signUpForm = this.signUpForm

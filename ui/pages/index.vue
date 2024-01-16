@@ -266,9 +266,9 @@
                       <span style="font-weight: 600;">Expertly Designed Curriculum:</span>  Every course at Academy is meticulously designed by connoisseurs of digital art.
                     </li>
                     <li class="mt-4 ">
-                      <span style="font-weight: 600;">Join Our Educator Community:</span> Are you a experienced in the field of digital art? We welcome trailblazers to join our educator team. Share your expertise and shape the future of digital art education. Interested? Reach out <NuxtLink to="#">
+                      <span style="font-weight: 600;">Join Our Educator Community:</span> Are you experienced in the field of digital art? We welcome trailblazers to join our educator team. Share your expertise and shape the future of digital art education. Interested? Reach out <span v-b-modal.educatorsForm style="color: #00B9CD; text-decoration:underline;">
                         here.
-                      </NuxtLink>
+                      </span>
                     </li>
                   </ul>
                 </div>
