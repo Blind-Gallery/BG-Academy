@@ -22,15 +22,30 @@
         Your payment has been successfully
         processed,<br> you will receive an email shortly.
       </p>
-      <NuxtLink to="/">
-        <button class="primary-btn">
-          Home page
-        </button>
-      </NuxtLink>
+      <button
+        class="primary-btn"
+        @click="goToFirstChapterId"
+      >
+        Home page
+      </button>
     </div>
   </div>
 </template>
+
 <script>
+import { gql } from 'graphql-tag'
+
+const COURSE_INFO = gql`
+query ($id: Int!) {
+  courses_by_pk(id: $id) {
+    modules {
+      chapters {
+        id
+      }
+    }
+  }
+}
+`
 export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
@@ -81,20 +96,35 @@ export default {
           paymentIntent,
           paymentIntentClientSecret
         })
+        this.courseId = courseId
       } catch (error) {
         this.error = error.message
       }
     },
     async tezosVerify (opHash, courseId) {
       try {
-        const { courseId } = await this.$axios.$post('/payments/tezos/verify-payment', {
+        await this.$axios.$post('/payments/tezos/verify-payment', {
           userId: this.$auth.user.id,
           opHash,
           courseId
         })
+        this.courseId = courseId
       } catch (error) {
         this.error = error.message
       }
+    },
+    async getCourseInfo () {
+      const { data } = await this.$apollo.query({
+        query: COURSE_INFO,
+        variables: {
+          id: this.courseId
+        }
+      })
+      return data.courses_by_pk
+    },
+    async goToFirstChapterId () {
+      const course = await this.getCourseInfo()
+      this.$router.push(`/courseNavigator/chapter/${course.modules[0].chapters[0].id}`)
     }
   }
 }
