@@ -461,6 +461,7 @@ export default {
       }
       const { publicKey, wallet: tezosAddress, signedPayload: signedMessage, payload } = await requestLoginSignPayload()
       const data = {
+        ...this.walletForm,
         publicKey,
         wallet: tezosAddress,
         signedMessage,

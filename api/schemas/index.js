@@ -7,27 +7,13 @@ const response204 = {
     description: 'Empty response on success'
   }
 }
-// Login
+
 const securityDataSchema = {
   type: 'string',
   minLength: 3,
   maxLength: 200,
   nullable: true
 }
-
-// Users
-
-// Project
-
-// Drawdown
-
-// Drawdown transactions
-
-// Expenditure
-
-// Revenue
-
-// Revenue transactions
 
 module.exports = {
   uuidTypeSchema,
