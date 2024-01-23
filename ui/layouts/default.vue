@@ -200,6 +200,7 @@
         </template>
 
         <FormulateForm
+          v-if="!isWalletFlow"
           v-slot="{ isLoading }"
           v-model="signUpForm"
           class="login-form"
@@ -245,38 +246,56 @@
           />
         </FormulateForm>
 
-        <div class="divider">
-          <hr>
-          <span>OR </span>
-          <hr>
-        </div>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="doSignUpWallet"
-        >
-          <Icon
-            icon="material-symbols:account-balance-wallet-outline"
-            color="#00b9cd"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
+        <FormulateForm v-else v-slot="{ isLoading }" v-model="walletForm" @submit="doSignUpWallet">
+          <FormulateInput
+            name="name"
+            type="text"
+            label="Your name"
+            placeholder="Your name"
+            validation="required"
           />
-          Connect Wallet
-        </button>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="doGoogleConnect"
-        >
-          <Icon
-            icon="flat-color-icons:google"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Connect wallet'"
           />
-          Continue with Google
-        </button>
+        </FormulateForm>
 
-        <p style="text-align: center; font-size: small">
+        <div v-if="!isWalletFlow">
+          <div class="divider">
+            <hr>
+            <span>OR </span>
+            <hr>
+          </div>
+          <button
+            class="secondary-btn"
+            style="width: 100%; position: relative; margin-bottom: 1rem"
+            @click="isWalletFlow = true"
+          >
+            <Icon
+              icon="material-symbols:account-balance-wallet-outline"
+              color="#00b9cd"
+              width="21"
+              style="position: absolute; left: 24px; top: 9px"
+            />
+            Continue with wallet
+          </button>
+          <button
+
+            class="secondary-btn"
+            style="width: 100%; position: relative; "
+            @click="doGoogleConnect"
+          >
+            <Icon
+              icon="flat-color-icons:google"
+              width="21"
+              style="position: absolute; left: 24px; top: 9px"
+            />
+            Continue with Google
+          </button>
+        </div>
+
+        <p class="mt-4" style="text-align: center; font-size: small">
           Already have an account?
           <a
             v-b-modal.signin
@@ -389,12 +408,14 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
+      isWalletFlow: false,
       show: true,
       invalidMessage: '',
       successMessage: '',
       signInForm: {},
       recoverPasswordForm: {},
       signUpForm: {},
+      walletForm: {},
       educatorsForm: {}
     }
   },
@@ -521,6 +542,8 @@ export default {
 
       this.invalidMessage = ''
       this.successMessage = ''
+
+      this.isWalletFlow = false
     }
   }
 }
