@@ -52,7 +52,7 @@
               <div class="d-flex flex-row " style="gap:1.25rem; border-top: 1px solid rgb(0 0 0 / 10%); padding-top: 1.5rem;">
                 <div class="d-flex flex-column align-items-center">
                   <h4 class="mb-1">
-                    0
+                    {{ user_course.filter(item => item.certificate_cid !== null).length }}
                   </h4>
                   <div class="d-flex align-items-center justify-content-center">
                     <Icon
@@ -69,7 +69,7 @@
                   class="d-flex flex-column align-items-center"
                 >
                   <h4 class="mb-1">
-                    0
+                    {{ user_course.filter(item => item.certificate_cid === null).length }}
                   </h4>
                   <div class="d-flex align-items-center justify-content-center">
                     <Icon
@@ -83,7 +83,7 @@
                 </div>
                 <div class="d-flex flex-column align-items-center ">
                   <h4 class="mb-1">
-                    0
+                    {{ user_course.filter(item => item.certificate_cid !== null).length }}
                   </h4>
                   <div class="d-flex align-items-center justify-content-center">
                     <Icon
@@ -504,6 +504,8 @@ export default {
           last_chapter_id_seen
           course_id
           progress
+          certificate_cid
+          certificate_image_cid
           course {
             id
             level

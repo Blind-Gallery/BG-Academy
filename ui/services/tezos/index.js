@@ -42,6 +42,7 @@ export const dappClient = () => {
     }
     const wallet = getClientWallet()
     try {
+      await wallet.client.clearActiveAccount()
       await wallet.disconnect()
       response.success = true
     } catch (e) {
