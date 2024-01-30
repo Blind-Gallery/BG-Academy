@@ -1,10 +1,8 @@
 const { Unauthorized, BadRequest } = require('http-errors')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
-const { request } = require('graphql-request')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
-  GET_USER_FROM_ALIAS,
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
   CREATE_USER
