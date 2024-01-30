@@ -21,26 +21,9 @@
           <p class="text-secondary small">
             Instructed by {{ instructor }}
           </p>
-          <PxToggleCollapse v-b-toggle.collapse-2 class="mb-2" icon-width="24px" toggle-name="Properties" :padding="false" />
-          <b-collapse id="collapse-2" style="font-size: small;">
-            <p class="m-0   text-secondary">
-              Minted: {{ mintedDate }}
-            </p>
-
-            <p class="m-0   text-secondary">
-              Chain: Tezos
-            </p>
-
-            <p class="m-0 text-secondary">
-              Transaction: <a :href="transactionURL" target="_blank">
-                {{ transaction }}
-              </a>
-            </p>
-          </b-collapse>
-
-          <button class="primary-btn mt-2" style="font-size: small;">
-            Download certificate
-          </button>
+          <certificates-download-button
+            :course-id="courseId"
+          />
         </div>
       </div>
     </div>
@@ -66,19 +49,10 @@ export default {
       type: String,
       required: true
     },
-    mintedDate: {
-      type: String,
-      required: true
-    },
-    transaction: {
-      type: String,
-      required: true
-    },
-    transactionURL: {
-      type: String,
+    courseId: {
+      type: Number,
       required: true
     }
-
   },
   data () {
     return {

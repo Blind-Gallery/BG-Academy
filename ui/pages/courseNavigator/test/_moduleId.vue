@@ -109,7 +109,7 @@
                       <div class="d-flex flex-column justify-content-between " style="height: 90%;">
                         <div>
                           <h4 class="m-0 " style="color:#00b9cd">
-                            {{ `${index + 1}.-${test.text}` }}
+                            {{ `${test.text}` }}
                           </h4>
 
                           <hr class="w-100">

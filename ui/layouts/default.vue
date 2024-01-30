@@ -427,6 +427,13 @@ export default {
   methods: {
 
     sendEducatorForm () {
+      try {
+        this.$axios.$post('/emails/become-an-instructor', this.educatorsForm)
+        this.$bvModal.hide('educators')
+        this.$refs.alert.showAlert('Successful application')
+      } catch (error) {
+        console.error(error)
+      }
       console.info(`Send this form ${this.educatorsForm}`)
     },
     async doEmailSignUp () {

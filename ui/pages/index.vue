@@ -147,12 +147,12 @@
               {{ showAllCourses === false?`Show ${coursesFicticial.length - 3} more`:'Show less' }}
             </button>
             <b-tab title="In progress">
-              <div v-if="user_course.length === 0" class="d-flex flex-column  ">
+              <div v-if="user_course.filter(item => item.certificate_cid === null).length" class="d-flex flex-column  ">
                 <p>Your in progress courses will appear here.</p>
               </div>
 
               <b-row v-else>
-                <b-col v-for="item in user_course" :key="item.id" lg="4">
+                <b-col v-for="item in user_course.filter(item => item.certificate_cid === null)" :key="item.id" lg="4">
                   <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
                     <PxCard
                       :is-progress="true"
@@ -176,15 +176,13 @@
                 <p>Complete a course to get your first certificate!</p>
               </div>
               <b-row>
-                <b-col v-for="fakeCertificate in fakeCertificates" :key="fakeCertificate.title" lg="6">
+                <b-col v-for="certificates in user_course" :key="certificates?.course_id" lg="6">
                   <PxCertificate
-                    :title="fakeCertificate.title"
-                    :instructor="fakeCertificate.instructor"
-                    :cover="fakeCertificate.cover"
-                    :transaction-u-r-l="fakeCertificate.transactionURL"
-                    :transaction="fakeCertificate.transaction"
-                    :minted-date="fakeCertificate.mintedDate"
-                    :student="fakeCertificate.student"
+                    :title="certificates?.course?.name"
+                    :instructor="certificates?.course?.teacher?.name"
+                    :cover="certificates?.course?.thumbnail"
+                    :student="$auth.user.name"
+                    :course-id="certificates?.course_id"
                   />
                 </b-col>
               </b-row>
