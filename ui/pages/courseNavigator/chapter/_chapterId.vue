@@ -36,9 +36,6 @@
             <div class="d-flex justify-content-between mt-2">
               <div>
                 <h4>{{ chapterInfo.title }}</h4>
-                <p class="small text-secondary m-0">
-                  {{ chapterInfo.module.course.name }}
-                </p>
               </div>
               <div>
                 <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
