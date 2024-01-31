@@ -4,7 +4,7 @@ export default {
     configPath: '@/plugins/formulate.config.js'
   },
   head: {
-    title: 'Blind Gallery Academy',
+    title: 'Academy by Blind Gallery',
     htmlAttrs: {
       lang: 'en'
     },
