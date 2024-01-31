@@ -3,7 +3,7 @@ class Emails {
     this.email = email
   }
 
-  async becomeAnInstructor ({ name, email, description }) {
+  async sendBecomeAnInstructorEmail ({ name, email, description }) {
     const html = `
       <p>Name: ${name}</p>
       <p>Email: ${email}</p>
