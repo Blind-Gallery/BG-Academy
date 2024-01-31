@@ -159,7 +159,7 @@
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:alarm-outline" class="mr-2" /><p class="small m-0">
-                  Aprox. duration  {{ formattedDuration }}
+                  Approx. duration  {{ formattedDuration }}
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
