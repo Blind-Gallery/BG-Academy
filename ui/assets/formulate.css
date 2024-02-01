@@ -269,7 +269,7 @@
 
 .formulate-input[data-classification=textarea] textarea:focus {
     outline: 0;
-    border: 1px solid #41b883
+    border: 1px solid #00B9CD
 }
 
 .formulate-input[data-classification=button] button {
@@ -657,13 +657,13 @@
 .formulate-input[data-classification=file] .formulate-input-upload-area input:focus~.formulate-input-upload-area-mask,
 .formulate-input[data-classification=file] .formulate-input-upload-area input:hover~.formulate-input-upload-area-mask,
 .formulate-input[data-classification=file] .formulate-input-upload-area input[data-is-drag-hover]~.formulate-input-upload-area-mask {
-    border-color: #41b883
+    border-color: #00B9CD
 }
 
 .formulate-input[data-classification=file] .formulate-input-upload-area input:focus~.formulate-input-upload-area-mask:before,
 .formulate-input[data-classification=file] .formulate-input-upload-area input:hover~.formulate-input-upload-area-mask:before,
 .formulate-input[data-classification=file] .formulate-input-upload-area input[data-is-drag-hover]~.formulate-input-upload-area-mask:before {
-    background-color: #41b883
+    background-color: #00B9CD
 }
 
 .formulate-input[data-classification=file] .formulate-files {
@@ -678,8 +678,8 @@
     appearance: none;
     display: block;
     min-width: 75px;
-    border: 1px solid #41b883;
-    color: #41b883;
+    border: 1px solid #00B9CD;
+    color: #00B9CD;
     padding: 5px;
     border-radius: 5px;
     text-align: center;
