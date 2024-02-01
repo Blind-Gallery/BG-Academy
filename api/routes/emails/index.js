@@ -2,7 +2,8 @@
 
 const {
   sendEmailSchema,
-  becomeAnInstructorSchema
+  becomeAnInstructorSchema,
+  sendContactEmailSchema
 } = require('./schemas')
 
 /**
@@ -12,6 +13,7 @@ module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
     fastify.post('/', { schema: sendEmailSchema }, sendEmailHandler)
     fastify.post('/become-an-instructor', { schema: becomeAnInstructorSchema }, becomeAnInstructorHandler)
+    fastify.post('/contact', { schema: sendContactEmailSchema }, sendContactEmailHandler)
   })
 }
 
@@ -31,6 +33,12 @@ async function sendEmailHandler (req, reply) {
 
 async function becomeAnInstructorHandler (req, reply) {
   const response = await this.emails.sendBecomeAnInstructorEmail(req.body)
+
+  return response
+}
+
+async function sendContactEmailHandler (req, reply) {
+  const response = await this.emails.sendContactEmail(req.body)
 
   return response
 }
