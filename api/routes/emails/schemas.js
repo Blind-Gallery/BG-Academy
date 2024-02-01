@@ -34,7 +34,27 @@ const becomeAnInstructorSchema = {
     }
   }
 }
+
+const sendContactEmailSchema = {
+  tags,
+  body: {
+    name: { type: 'string' },
+    email: { type: 'string' },
+    description: { type: 'string' },
+    company: { type: 'string' }
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        status: { type: 'string' }
+      }
+    }
+  }
+}
+
 module.exports = {
   sendEmailSchema,
-  becomeAnInstructorSchema
+  becomeAnInstructorSchema,
+  sendContactEmailSchema
 }
