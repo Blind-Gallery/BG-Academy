@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="shadow-sm mb-4">
-      <div class="card-body d-flex align-items-center">
+      <div class="card-body d-flex flex-column align-items-center">
         <div class="mr-4 w-25">
           <img width="100%" class="rounded" :src="cover">
         </div>
@@ -22,6 +22,7 @@
             Instructed by {{ instructor }}
           </p>
           <certificates-download-button
+            class="mb-2"
             :course-id="courseId"
           />
         </div>
