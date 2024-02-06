@@ -245,6 +245,39 @@
             <Icon width="2rem" icon="material-symbols:chevron-right" />
           </div>
         </div>
+
+        <div class="my-5">
+          <h4 class="mb-4">
+            Upcoming courses
+          </h4>
+          <b-row>
+            <b-col cols="12" lg="6">
+              <PxCardCourse
+                is-progress="false"
+                pfp="https://cdn.discordapp.com/attachments/1072507945235001455/1202641436340789308/1656416239709.png?ex=65ce321e&is=65bbbd1e&hm=5774df5508843843b193b1daac166e1df7b8c5a1dbef61c9bcce243c32a22ef9&"
+                instructor="By Paul Schmidt, COO at fxhash"
+                description="Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors."
+                title="Introduction to Generative Art"
+                url=""
+                cover="https://cdn.discordapp.com/attachments/987378128106168403/1202714175516844062/2b642ed6-0d47-4aa3-b941-4ebae9710ded.jpg?ex=65ce75dc&is=65bc00dc&hm=266332b1604f809eb86826fa8a3b9382aa06431f7b6fca5792bcb9a23be34634&"
+                :coming-soon="true"
+              />
+            </b-col>
+
+            <b-col cols="12" lg="6">
+              <PxCardCourse
+                :coming-soon="true"
+                is-progress="false"
+                pfp="https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg"
+                instructor="By Uncap Collective"
+                description="Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem."
+                title="A Collectors Journey"
+                url=""
+                cover="https://cdn.discordapp.com/attachments/987378128106168403/1202739703426842693/9ea6a71b-b2fb-43f5-a5e0-16c13066a722.jpg?ex=65ce8da3&is=65bc18a3&hm=d4fa8897ecfffe8e4238c4e636e63927e01e9e33f55ef1ea95f79116edb15d0b&"
+              />
+            </b-col>
+          </b-row>
+        </div>
       </b-container>
       <div v-if="!$auth.loggedIn">
         <b-container fluid style="background-color: #F6F6F6;">
