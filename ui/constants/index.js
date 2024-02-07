@@ -35,11 +35,17 @@ const endpoints = {
   ghostnet: 'https://rpc.tzkt.io/ghostnet'
 }
 
+const tzktEndpoints = {
+  mainnet: 'https://tzkt.io',
+  ghostnet: 'https://ghostnet.tzkt.io'
+}
+
 export const CHAIN = process.env.TEZOS_PROTOCOL
 export const DEFAULT_CONFIRMATION_BLOCKS = 1
 
 export const CHAIN_NAME = betterCallDevChainNames[CHAIN]
 export const ENDPOINT = endpoints[CHAIN]
+export const TZKT_ENDPOINT = tzktEndpoints[CHAIN]
 
 // Beacon
 export const DEFAULT_MATRIX_NODE = 'beacon-node-1.sky.papers.tech'

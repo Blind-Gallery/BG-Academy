@@ -161,6 +161,8 @@
                       :description="item.course.description"
                       :title="item.course.name"
                       :cover="item.course.thumbnail"
+                      :token-id="item.soul_bound_token_id"
+                      :op-hash="item.certificate_mint_op"
                     />
                   </NuxtLink>
                 </b-col>
@@ -536,7 +538,9 @@ export default {
           course_id
           progress
           certificate_cid
-          certificate_image_cid
+          certificate_image_cid,
+          soul_bound_token_id,
+          certificate_mint_op,
           course {
             id
             level

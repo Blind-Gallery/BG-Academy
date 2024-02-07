@@ -15,8 +15,8 @@ const tzktEndpoints = {
 
 const contractAddresses = {
   mainnet: {
-    academy: '',
-    sbt: ''
+    academy: 'KT1Hx9aTJqzEBybeWPNSCTVqoGatcmCNZ2Db',
+    sbt: 'KT1DTBfdCN3D2nfqvh5twXc97Dp9zKjPFQYZ'
   },
   ghostnet: {
     academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',

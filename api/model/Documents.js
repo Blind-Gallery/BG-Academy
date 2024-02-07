@@ -1,9 +1,10 @@
 const { BadRequest } = require('http-errors')
 const { TZIPFactory } = require('../service')
+const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
   GET_USER_COURSE_INFO,
   UPDATE_USER_COURSE_CERTIFICATE,
-  UPDATE_USER_COURSE_SOULBOUND_CERTIFICATE
+  UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE
 } = require('../graphQL')
 
 class Documents {
@@ -36,13 +37,40 @@ class Documents {
     }
   }
 
-  async updateSoulBoundCertificate ({ courseId, userId, soulBoundTokenId }) {
-    const userCourse = await this.getCertificate({ courseId, userId })
-    if (!userCourse) throw new BadRequest('No certificate found')
-    if (!userCourse.certificate_cid || !userCourse.certificate_image_cid) throw new BadRequest('Certificate not generated')
+  async getSoulBoundTokenIdFromOpHash (opHash) {
+    const axios = require('axios').default
+    // ${TZKT_ENDPOINT}/v1/operations/${opHash}
 
+    const options = {
+      method: 'GET',
+      url: `${TZKT_ENDPOINT}/v1/operations/${opHash}`,
+      headers: { Accept: '*/*', 'User-Agent': 'Thunder Client (https://www.thunderclient.com)' }
+    }
+
+    const { data } = await axios.request(options)
+    console.log(data)
+    if (data.length === 0) throw new BadRequest('No operation found')
+    const { diffs, storage } = data[0]
+
+    console.log('diffs', diffs)
+    console.log('storage', storage)
+
+    return storage.last_token_id - 1
+  }
+
+  async updateSoulBoundCertificate ({ courseId, userId, soulBoundTokenId, opHash }) {
+    const userCourse = await this.getCertificate({ courseId, userId })
+    const { certificate_cid: certificateCID, certificate_image_cid: certificateImageCID } = userCourse[0]
+    if (!userCourse) throw new BadRequest('No certificate found')
+    if (!certificateCID || !certificateImageCID) throw new BadRequest('Certificate not generated')
+    if (!soulBoundTokenId) {
+      if (!opHash) throw new BadRequest('No opHash provided')
+      soulBoundTokenId = await this.getSoulBoundTokenIdFromOpHash(opHash)
+    }
     try {
-      const { update_user_course_by_pk: userCourse } = await this.gql.request(UPDATE_USER_COURSE_SOULBOUND_CERTIFICATE, { courseId, userId, soulBoundTokenId })
+      const { update_user_course_by_pk: userCourse } = await this.gql.request(
+        UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE,
+        { courseId, userId, soulBoundTokenId, opHash })
       return userCourse
     } catch (err) {
       console.error(err)
@@ -52,7 +80,11 @@ class Documents {
 
   async generateCertificate ({ courseId, userId }) {
     let cid = ''
+    // Check if certificate already exists
     const userCourse = await this.getCertificate({ courseId, userId })
+    if (userCourse[0].certificate_cid && userCourse[0].certificate_image_cid) {
+      return { cid: userCourse[0].certificate_cid.replace('ipfs://', '') }
+    }
     try {
       const student = userCourse[0].user_info?.name || userCourse[0].user_info?.tezos_info?.wallet
       const { pdfCID, imageCID } = await this.docs.generateCertificate({
@@ -94,8 +126,10 @@ class Documents {
       const metadataCID = await TZIPFactory.createWithDefaults(metadata).getMetadataCID()
       if (!metadataCID) throw new BadRequest('Error creating metadata')
       const calls = []
-      calls.push(this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1))
+      const tokenCall = this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1)
+      calls.push(tokenCall)
       const { status, opHash } = await this.sbtSC.mint(calls)
+      await this.updateSoulBoundCertificate({ courseId, userId, opHash })
       return { status, opHash }
     } catch (err) {
       console.error(err)
