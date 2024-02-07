@@ -495,7 +495,7 @@
               </g>
             </svg>
             <p class="text-secondary mt-2 mb-0" style="font-size: small">
-              © 2023 Blind Gallery Academy. All rights reserved.
+              © 2024 Blind Gallery Academy. All rights reserved.
             </p>
             <div class="d-flex align-items-center">
               <p class="text-secondary m-0" style="font-size: small">

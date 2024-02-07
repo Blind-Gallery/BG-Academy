@@ -20,6 +20,12 @@
         <p class="text-secondary small">
           Instructed by {{ instructor }}
         </p>
+        <p class="m-0 text-secondary">
+          Transaction: <a :href="`${TZKT_ENDPOINT}/${opHash}`" target="_blank">
+            {{ opHash }}
+          </a>
+        </p>
+        <certificates-mint-button :course-id="courseId" />
         <certificates-download-button
           class="mb-2"
           :course-id="courseId"
@@ -29,6 +35,7 @@
   </div>
 </template>
 <script>
+// import { TZKT_ENDPOINT } from '~/constants'
 
 export default {
   props: {
@@ -51,6 +58,16 @@ export default {
     courseId: {
       type: Number,
       required: true
+    },
+    tokenId: {
+      type: Number,
+      required: false,
+      default: null
+    },
+    opHash: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   data () {

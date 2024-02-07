@@ -67,17 +67,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
-  hasura-migrations:
-    image: hasura/graphql-engine:v2.36.0.cli-migrations-v3
-    restart: ${RESTART_POLICY}
-    environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: "myadminsecretkey"
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      HASURA_GRAPHQL_MIGRATIONS_SERVER_TIMEOUT: 200
-    volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
 
 volumes:
   db_data:

@@ -6,6 +6,7 @@ const createUserSchema = {
   tags,
   body: {
     type: 'object',
+    required: ['name'],
     properties: {
       name: { type: 'string' },
       email: { type: 'string' },

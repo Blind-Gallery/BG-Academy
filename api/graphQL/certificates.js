@@ -30,7 +30,10 @@ mutation (
 ) {
   update_user_course_by_pk(
     pk_columns: {course_id: $courseId, user_id: $userId},
-    _set: {certificate_cid: $certificateCID, certificate_image_cid: $certificateImageCID}
+    _set: {
+      certificate_cid: $certificateCID,
+      certificate_image_cid: $certificateImageCID
+    }
     ) {
     certificate_cid
     certificate_image_cid
@@ -42,11 +45,15 @@ const UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE = gql`
 mutation (
   $courseId: Int!,
   $userId: String!,
-  $soulBoundTokenId: Int!
+  $soulBoundTokenId: Int!,
+  $opHash: String!
 ) {
   update_user_course_by_pk(
     pk_columns: {course_id: $courseId, user_id: $userId},
-    _set: {soul_bound_token_id: $soulBoundTokenId}
+    _set: {
+      soul_bound_token_id: $soulBoundTokenId,
+      certificate_mint_op: $opHash
+    }
     ) {
     certificate_cid
     certificate_image_cid

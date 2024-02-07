@@ -79,7 +79,7 @@ class User {
 
     if (wallet && signedMessage) {
       console.info('Creating user with wallet and signed message')
-      return this.createWithWallet({ wallet, publicKey, signedMessage, payload })
+      return this.createWithWallet({ name, wallet, publicKey, signedMessage, payload })
     }
 
     throw new BadRequest('Invalid parameters')
@@ -108,7 +108,7 @@ class User {
     return { user }
   }
 
-  async createWithWallet ({ wallet, publicKey, signedMessage, payload }) {
+  async createWithWallet ({ name, wallet, publicKey, signedMessage, payload }) {
     const isVerified = verifySignature(
       payload,
       publicKey,
@@ -123,7 +123,7 @@ class User {
 
     const data = {
       user: {
-        name: userBlockchainMetadata.alias || wallet,
+        name: userBlockchainMetadata.alias || name,
         pfp: userBlockchainMetadata.logo,
         tezos_info: {
           data: {
