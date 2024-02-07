@@ -4,7 +4,7 @@ const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
   GET_USER_COURSE_INFO,
   UPDATE_USER_COURSE_CERTIFICATE,
-  UPDATE_USER_COURSE_SOULBOUND_CERTIFICATE
+  UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE
 } = require('../graphQL')
 
 class Documents {
@@ -55,7 +55,7 @@ class Documents {
     console.log('diffs', diffs)
     console.log('storage', storage)
 
-    return 1
+    return storage.last_token_id - 1
   }
 
   async updateSoulBoundCertificate ({ courseId, userId, soulBoundTokenId, opHash }) {
@@ -69,7 +69,7 @@ class Documents {
     }
     try {
       const { update_user_course_by_pk: userCourse } = await this.gql.request(
-        UPDATE_USER_COURSE_SOULBOUND_CERTIFICATE,
+        UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE,
         { courseId, userId, soulBoundTokenId, opHash })
       return userCourse
     } catch (err) {
@@ -129,7 +129,7 @@ class Documents {
       const tokenCall = this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1)
       calls.push(tokenCall)
       const { status, opHash } = await this.sbtSC.mint(calls)
-      this.updateSoulBoundCertificate({ courseId, userId, opHash })
+      await this.updateSoulBoundCertificate({ courseId, userId, opHash })
       return { status, opHash }
     } catch (err) {
       console.error(err)
