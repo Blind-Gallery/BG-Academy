@@ -262,11 +262,15 @@
             placeholder="Your name"
             validation="required"
           />
+
           <FormulateInput
             type="submit"
             :disabled="isLoading"
             :label="isLoading ? 'Loading...' : 'Connect wallet'"
           />
+          <p class="small m-0 text-center" style="font-size: small; color: #960505">
+            {{ invalidMessage }}
+          </p>
         </FormulateForm>
 
         <div v-if="!isWalletFlow">
@@ -620,20 +624,28 @@ export default {
       return data
     },
     async doSignUpWallet () {
-      const data = await this.getWalletAccessData()
-      await this.$axios.$post('users', data)
-      await this.$auth.loginWith('local', {
-        data
-      })
+      try {
+        const data = await this.getWalletAccessData()
+        await this.$axios.$post('users', data)
+        await this.$auth.loginWith('local', {
+          data
+        })
 
-      const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-      const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
+        const { connected: isWalletConnected } = await checkIfWalletIsConnected()
 
-      if (isWalletConnected && !this.$auth.loggedIn) {
-        await disconnectWallet()
+        if (isWalletConnected && !this.$auth.loggedIn) {
+          await disconnectWallet()
+        }
+
+        this.$bvModal.hide('signup')
+      } catch (error) {
+        console.error(error)
+
+        if (error.response && error.response.status === 400) {
+          this.invalidMessage = 'This wallet is already registered'
+        }
       }
-
-      this.$bvModal.hide('signup')
     },
 
     doGoogleConnect () {
