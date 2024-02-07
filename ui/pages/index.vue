@@ -178,7 +178,7 @@
                 <p>Complete a course to get your first certificate!</p>
               </div>
               <b-row>
-                <b-col v-for="certificates in user_course" :key="certificates?.course_id" lg="6">
+                <b-col v-for="certificates in user_course" :key="certificates?.course_id" lg="4">
                   <PxCertificate
                     :title="certificates?.course?.name"
                     :instructor="certificates?.course?.teacher?.name"

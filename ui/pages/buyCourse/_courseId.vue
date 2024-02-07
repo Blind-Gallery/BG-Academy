@@ -280,7 +280,7 @@ export default {
       if (hours > 0) {
         return `${hours} hour${hours > 1 ? 's' : ''}`
       } else {
-        return `${minutes} minutes${minutes > 1 ? 's' : ''}`
+        return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
     },
 

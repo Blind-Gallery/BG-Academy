@@ -1,7 +1,9 @@
 <template>
   <a
     class="primary-btn"
+    style="text-decoration: none; color: #fff; text-align: center;"
     :href="url"
+    target="_blank"
     download
   >Download certificate</a>
 </template>

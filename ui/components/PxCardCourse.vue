@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-container shadow-sm rounded border position-relative">
+    <div class="card-container shadow-sm rounded border position-relative mb-4">
       <div v-if="comingSoon" class=" coming-soon">
         <span class="small " style="color: #00b9cd;"><b>Coming soon</b></span>
       </div>
