@@ -331,11 +331,10 @@
         <div class="mb-4">
           <p class="m-0 small">
             <span style="font-weight: 600">Join Our Educator Community:</span><br>
-            Are you a experienced in the field of digital art?
+            Are you an experienced in the field of digital art?
           </p>
-          <span class="text-secondary small">We welcome trailblazers to join our educator team. Share your
-            expertise and shape the future of digital art education.
-            Interested?</span>
+          <span class="text-secondary small">We welcome passionate educators to join our community. Share your expertise and shape the future of digital art education.
+          </span>
         </div>
         <FormulateForm
           v-slot="{ isLoading }"
