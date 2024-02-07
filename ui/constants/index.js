@@ -16,7 +16,7 @@ export const ARTICLES_LOGO = {
 }
 
 // Kaloh's info
-export const APP_NAME = 'Blind Gallery Academy'
+export const APP_NAME = 'Academy by Blind Gallery'
 export const BLIND_GALLERY_API = 'blind-gallery-api.herokuapp.com'
 // export const BLIND_GALLERY_API = 'localhost:3000'
 

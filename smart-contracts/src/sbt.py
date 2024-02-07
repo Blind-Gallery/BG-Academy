@@ -917,14 +917,14 @@ if "templates" not in __name__:
                 "description": "Academy by Blind Gallery Certificates",
                 "interfaces": [ "TZIP-012", "TZIP-016", "TZIP-020", "TZIP-021" ],
                 "authors": [ "tz1UdddbVe3icmr5LRP1monxfR13ChsidcoX" ],
-                "homepage": "https://www.blindgallery.xyz",
+                "homepage": "https://academy.blindgallery.xyz/",
                 "source": { "tools": [ "SmartPy" ], 
                     "location": "https://github.com/Blind-Gallery" },
                 "date": "2022-3-10",
                 "tags": [ "NFT" ],
                 "language": "en",
-                "imageUri": "ipfs://QmawzWk2y9Q6KYTYBQvRNuRH5KtojgeGPUxUqycaNbvb9z",
-                "pictures": [ { "link": "ipfs://QmawzWk2y9Q6KYTYBQvRNuRH5KtojgeGPUxUqycaNbvb9z", "type": "logo" } ]}""")})
+                "imageUri": "ipfs://QmNo8oev7t4mgDzHGTZ7rxkiYzQj1jj44F6gPNvUpnJnz4",
+                "pictures": [ { "link": "ipfs://QmNo8oev7t4mgDzHGTZ7rxkiYzQj1jj44F6gPNvUpnJnz4", "type": "logo" } ]}""")})
                                             
             )
         )
