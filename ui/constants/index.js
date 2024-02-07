@@ -52,7 +52,8 @@ export const DEFAULT_MATRIX_NODE = 'beacon-node-1.sky.papers.tech'
 
 const contractAddresses = {
   mainnet: {
-    academy: ''
+    academy: 'KT1Hx9aTJqzEBybeWPNSCTVqoGatcmCNZ2Db',
+    sbt: 'KT1DTBfdCN3D2nfqvh5twXc97Dp9zKjPFQYZ'
   },
   ghostnet: {
     academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',
