@@ -16,7 +16,7 @@ export const ARTICLES_LOGO = {
 }
 
 // Kaloh's info
-export const APP_NAME = 'Blind Gallery Academy'
+export const APP_NAME = 'Academy by Blind Gallery'
 export const BLIND_GALLERY_API = 'blind-gallery-api.herokuapp.com'
 // export const BLIND_GALLERY_API = 'localhost:3000'
 
@@ -52,7 +52,8 @@ export const DEFAULT_MATRIX_NODE = 'beacon-node-1.sky.papers.tech'
 
 const contractAddresses = {
   mainnet: {
-    academy: ''
+    academy: 'KT1Hx9aTJqzEBybeWPNSCTVqoGatcmCNZ2Db',
+    sbt: 'KT1CYWz3izwBR7s2PjZ7BCmVFJuPzfDeKMAd'
   },
   ghostnet: {
     academy: 'KT1QrdkUXvVgai4FWF5bTbkjcngg6z7Aijcy',
