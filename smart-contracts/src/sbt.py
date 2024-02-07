@@ -912,9 +912,9 @@ if "templates" not in __name__:
             admin = sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
             metadata = sp.big_map({
                     "": sp.utils.bytes_of_string("tezos-storage:content"),
-                    "content": sp.utils.bytes_of_string("""{"name": "Blind Gallery Soul Bound Certificates",
+                    "content": sp.utils.bytes_of_string("""{"name": "Academy by Blind Gallery Certificates",
                 "version": "3.0.0",
-                "description": "Blind gallery soul bound certificates",
+                "description": "Academy by Blind Gallery Certificates",
                 "interfaces": [ "TZIP-012", "TZIP-016", "TZIP-020", "TZIP-021" ],
                 "authors": [ "tz1UdddbVe3icmr5LRP1monxfR13ChsidcoX" ],
                 "homepage": "https://www.blindgallery.xyz",
