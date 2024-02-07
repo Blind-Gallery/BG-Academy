@@ -21,6 +21,7 @@
           <p class="text-secondary small">
             Instructed by {{ instructor }}
           </p>
+          <certificates-mint-button :course-id="courseId" />
           <certificates-download-button
             :course-id="courseId"
           />
