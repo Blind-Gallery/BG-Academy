@@ -318,10 +318,10 @@
         <!--COMMUNITY FEEDBACK-->
 
         <b-container style="max-width: 1240px;" class="my-5">
-          <h4 class="m-0">
+          <h4 class="m-0 text-center">
             Community feedback
           </h4>
-          <b-row class="align-items-center pt-5 pb-5">
+          <b-row class="align-items-center pt-5 pb-5 justify-content-center">
             <b-col cols="12" lg="4">
               <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
                 <a href="https://twitter.com/Datzel3" target="_blank" style="text-decoration: none;">
@@ -346,44 +346,28 @@
               </div>
             </b-col>
             <b-col cols="12" lg="4">
-              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-                <div class="feedback-info p-4 d-flex align-items-center">
-                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/05/warren-wong-VVEwJJRRHgk-300x300.jpg" />
-                  <div>
-                    <h4 class="m-0">
-                      Alex Canales
-                    </h4>
-                    <p class="m-0">
-                      Curator
+              <a href="https://twitter.com/aljaparis" target="_blank" style="text-decoration: none;">
+                <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
+
+                  <div class="feedback-info p-4 d-flex align-items-center">
+                    <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://pbs.twimg.com/profile_images/1665442400590856195/rZQEm-Vh_400x400.jpg" />
+                    <div>
+                      <h4 class="m-0">
+                        Aleksandra Art
+                      </h4>
+                      <p class="m-0">
+                        Art Curator
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="p-4">
+                    <p class="small text-secondary m-0">
+                      Educational endeavors within the Blockchain art sphere have been some of the most important steps for reaching a mutual understanding with the wider creative industry. It's imperative for art practitioners to grasp the core principles of Web 3 in a structured and coherent fashion - I'm excited to be a part of it!
                     </p>
                   </div>
                 </div>
-                <div class="p-4">
-                  <p class="small text-secondary m-0">
-                    The art courses available on this platform are an absolute gem. They don't just teach art techniques; they nurture a deep understanding of artistic concepts. It's a haven for anyone eager to grasp the nuances of visual expression and refine their artistic prowess.
-                  </p>
-                </div>
-              </div>
-            </b-col>
-            <b-col cols="12" lg="4">
-              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-                <div class="feedback-info p-4 d-flex align-items-center">
-                  <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://userstock.io/data/wp-content/uploads/2020/06/philip-martin-5aGUyCW_PJw-300x300.jpg" />
-                  <div>
-                    <h4 class="m-0">
-                      William da Silva
-                    </h4>
-                    <p class="m-0">
-                      Gallerist
-                    </p>
-                  </div>
-                </div>
-                <div class="p-4">
-                  <p class="small text-secondary m-0">
-                    Enrolling in the art courses offered by this platform was a game-changer for me. The instructors possess an unmatched mastery in their fields, and the courses are structured thoughtfully, catering to beginners and seasoned artists alike.
-                  </p>
-                </div>
-              </div>
+              </a>
             </b-col>
           </b-row>
         </b-container>
