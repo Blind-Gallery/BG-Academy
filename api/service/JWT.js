@@ -15,14 +15,14 @@ class JWT {
 
   generateToken (tokenContent) {
     return jwt.sign(tokenContent, this.opts.jwtSecret, {
-      expiresIn: '15min'
+      expiresIn: '7d'
     })
   }
 
   generateRefreshToken (tokenContent) {
     console.log('tokenContent', tokenContent)
     return jwt.sign(tokenContent, this.opts.jwtSecret, {
-      expiresIn: '20min'
+      expiresIn: '24d'
     })
   }
 
