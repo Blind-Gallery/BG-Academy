@@ -268,7 +268,10 @@
             :disabled="isLoading"
             :label="isLoading ? 'Loading...' : 'Connect wallet'"
           />
-          <p class="small m-0 text-center" style="font-size: small; color: #960505">
+          <p
+            class="small m-0 text-center"
+            style="font-size: small; color: #960505"
+          >
             {{ invalidMessage }}
           </p>
         </FormulateForm>
@@ -337,7 +340,8 @@
             <span style="font-weight: 600">Join Our Educator Community:</span><br>
             Are you an experienced in the field of digital art?
           </p>
-          <span class="text-secondary small">We welcome passionate educators to join our community. Share your expertise and shape the future of digital art education.
+          <span class="text-secondary small">We welcome passionate educators to join our community. Share your
+            expertise and shape the future of digital art education.
           </span>
         </div>
         <FormulateForm
@@ -518,7 +522,8 @@
             class="d-none d-lg-block"
             style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px"
           />
-          <b-col cols="12" lg="4">
+
+          <b-col cols="12" lg="4" class="m-4">
             <p class="m-0" style="font-weight: 600; font-size: 18px">
               Do you need help?
             </p>
@@ -526,16 +531,26 @@
               We are here to answer your questions, join our discord and ask
               anything!
             </p>
-            <div>
-              <button class="primary-btn small">
+            <div class="d-flex align-items-center ">
+              <div class="d-flex align-items-center justify-content-center" style="width: 2rem; background: #00b9cd; height: 2rem;  border-radius: 5px; overflow: hidden;">
                 <a
-                  style="color: #ffff; text-decoration: none"
                   href="https://discord.gg/zxxZv6HUfr"
                   target="_blank"
                 >
-                  Join our Discord
+                  <Icon color="#ffff" icon="fa6-brands:discord" width="1.5rem" />
                 </a>
-              </button>
+              </div>
+
+              <div class="ml-2">
+                <a href="https://twitter.com/BlindGallery_" target="_blank">
+                  <Icon color="#00b9cd" icon="fa6-brands:square-x-twitter" width="2rem" />
+                </a>
+              </div>
+              <div class="ml-2" style="width: 2rem; border-radius: 5px; overflow: hidden;">
+                <a href="https://warpcast.com/blind-gallery" target="_blank">
+                  <img src="../assets/warpcast.png" width="100%">
+                </a>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -632,7 +647,8 @@ export default {
         })
 
         const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-        const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+        const { connected: isWalletConnected } =
+          await checkIfWalletIsConnected()
 
         if (isWalletConnected && !this.$auth.loggedIn) {
           await disconnectWallet()
