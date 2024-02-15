@@ -548,7 +548,7 @@
               </div>
               <div class="ml-2" style="width: 2rem; border-radius: 5px; overflow: hidden;">
                 <a href="https://warpcast.com/blind-gallery" target="_blank">
-                  <img src="../assets/warpcast.png" width="100%">
+                  <img src="../assets/farcast.png" width="100%">
                 </a>
               </div>
             </div>
