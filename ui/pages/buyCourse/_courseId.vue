@@ -104,15 +104,26 @@
               </p>
             </b-collapse>
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
-              <div class="border rounded p-2">
-                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                  ${{ courses[0].price }}
-                </h2>
-                <p class="m-0">
-                  Access course
-                </p>
+              <div class="d-flex align-items-center justify-content-between" style="height:80px; gap: 1rem;">
+                <div class="border rounded w-75 h-100 p-2">
+                  <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                    ${{ courses[0].price }}
+                  </h2>
+                  <p class="m-0">
+                    Access course
+                  </p>
+                </div>
+
+                <div
+                  v-b-tooltip.hover
+                  title="Gift an account"
+                  class="gift-btn d-flex align-items-center justify-content-center border rounded w-25 h-100 p-2"
+                  @click="giftModal"
+                >
+                  <Icon width="3rem" icon="material-symbols:featured-seasonal-and-gifts-rounded" style="color: #00b9cd" />
+                </div>
               </div>
-              <button class="primary-btn w-100 " @click="openModal">
+              <button class="primary-btn w-100" @click="paymentModal">
                 <Icon
                   icon="material-symbols:credit-card"
                   color="#fff"
@@ -133,7 +144,7 @@
               </NuxtLink>
             </div>
 
-            <b-modal id="credit-pay" centered hidden-header hide-footer>
+            <b-modal id="payment-modal" centered hidden-header hide-footer>
               <template #modal-header="{ close }">
                 <h2>
                   Payment details
@@ -151,6 +162,29 @@
                 <payments-stripe-generate
                   :price="courses[0].price"
                   :course-id="courses[0].id"
+                />
+              </div>
+            </b-modal>
+
+            <b-modal id="gift-modal" centered hidden-header hide-footer>
+              <template #modal-header="{ close }">
+                <h2>
+                  Gift an account
+                </h2>
+                <span
+                  style="cursor: pointer"
+                  @click="close()"
+                ><Icon
+                  width="32"
+                  color="#888"
+                  icon="material-symbols:close"
+                /></span>
+              </template>
+              <div>
+                <payments-stripe-generate
+                  :price="courses[0].price"
+                  :course-id="courses[0].id"
+                  :is-gift="true"
                 />
               </div>
             </b-modal>
@@ -263,7 +297,7 @@ export default {
   },
 
   data () {
-    return { userCourses: [], showFullDescription: false, maxLength: 700 }
+    return { userCourses: [], showFullDescription: false, maxLength: 700, isGift: false }
   },
   computed: {
     ...mapGetters('tezosWallet', [
@@ -337,9 +371,17 @@ export default {
     toggleCollapse (moduleIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     },
-    openModal () {
+    paymentModal () {
       if (this.$auth.loggedIn) {
-        return this.$bvModal.show('credit-pay')
+        return this.$bvModal.show('payment-modal')
+      } else {
+        return this.$bvModal.show('signin')
+      }
+    },
+
+    giftModal () {
+      if (this.$auth.loggedIn) {
+        return this.$bvModal.show('gift-modal')
       } else {
         return this.$bvModal.show('signin')
       }
@@ -357,6 +399,10 @@ export default {
   word-wrap: break-word;
   overflow: hidden;
   white-space: pre-line;
+}
+
+.gift-btn:hover{
+  cursor: pointer;
 }
 
 @media(max-width: 768px){
