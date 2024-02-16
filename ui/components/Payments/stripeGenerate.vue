@@ -7,8 +7,8 @@
             v-model="email"
             name="email"
             type="email"
-            label="Email address"
-            placeholder="Email address"
+            :label="isGift ? `Friend's email`:'Email adress'"
+            :placeholder="isGift ? `Friend's email`:'Email adress'"
             validation="required|email"
             style="margin-bottom: 0.6rem;"
           />
@@ -49,6 +49,11 @@ export default {
     courseId: {
       type: Number,
       required: true
+    },
+    isGift: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
