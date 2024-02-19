@@ -12,7 +12,7 @@
               :video-id="courses[0].thumbnail_video"
               chapter-id=""
               width="100%"
-              class="mb-4"
+              class="mb-4 d-lg-block d-none"
             />
             <h5>
               {{ courses[0].name }}
@@ -78,21 +78,20 @@
             </div>
           </div>
         </b-col>
+
         <b-col
           order="1"
           order-lg="2"
           lg="4"
           class="mb-3"
         >
-          <div class="d-flex flex-column p-3 shadow-sm rounded ml-sm-3 " style="gap:0.5rem; position:sticky; top: 77px;">
-            <iframe
-              class="rounded mb-3 d-lg-none"
-              width="100%"
-              height="300px"
-              src="https://www.youtube.com/embed/qtPi0JvmWbs"
-              title="YouTube video player"
-              frameborder="0"
-            />
+          <PxPlayer
+            :video-id="courses[0].thumbnail_video"
+            chapter-id=""
+            width="100%"
+            class="d-lg-none"
+          />
+          <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
             <div v-b-toggle.instructor class="d-flex align-items-center w-100">
               <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
 
