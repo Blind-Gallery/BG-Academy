@@ -92,6 +92,14 @@ export default {
       width: 100%;
       position: absolute;
       z-index:1;
+      overflow: hidden;
+
+  }
+
+  .background-img img{
+    width: 100%; /* Ancho del 100% del contenedor */
+    height: 100%; /* Altura del 100% del contenedor */
+    object-fit: cover;
   }
 
   .formatted-card-description{
@@ -109,6 +117,12 @@ export default {
   border-radius: 0px 0px 0px 10px;
   position: absolute;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+@media (max-width:425px){
+  .card-container{
+    height: 270px;
+  }
 }
 
   </style>

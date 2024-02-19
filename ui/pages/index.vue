@@ -261,7 +261,7 @@
                 description="Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors."
                 title="Introduction to Generative Art"
                 url=""
-                cover="https://cdn.discordapp.com/attachments/987378128106168403/1202714175516844062/2b642ed6-0d47-4aa3-b941-4ebae9710ded.jpg?ex=65ce75dc&is=65bc00dc&hm=266332b1604f809eb86826fa8a3b9382aa06431f7b6fca5792bcb9a23be34634&"
+                cover="https://cdn.discordapp.com/attachments/987378128106168403/1206294592824020992/Sin-tytulo-1-1YRurqOtI-transformed.png?ex=65db7c62&is=65c90762&hm=d72d85be2f18a6e2fff05ffd8f61787293dee91fb55575f35888eebeddfe2fb4&"
                 :coming-soon="true"
               />
             </b-col>
@@ -275,7 +275,7 @@
                 description="Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem."
                 title="A Collectors Journey"
                 url=""
-                cover="https://cdn.discordapp.com/attachments/987378128106168403/1202739703426842693/9ea6a71b-b2fb-43f5-a5e0-16c13066a722.jpg?ex=65ce8da3&is=65bc18a3&hm=d4fa8897ecfffe8e4238c4e636e63927e01e9e33f55ef1ea95f79116edb15d0b&"
+                cover="https://cdn.discordapp.com/attachments/987378128106168403/1206293388446539837/Sin-titulo-1.png?ex=65db7b43&is=65c90643&hm=e3d6f6e86a1ab2c1e7554596336c5230d703e02231fff08881727f4597b87dfb&"
               />
             </b-col>
           </b-row>
