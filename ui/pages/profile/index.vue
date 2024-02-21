@@ -1,49 +1,4 @@
 <template>
-  <!-- <div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
-    <div class="profile-container rounded shadow-sm">
-      <h2 class="text-center" style="color: #00b9cd;">
-        Edit profile
-      </h2><div><img class="pfp-profile" src="https://pbs.twimg.com/profile_images/1603791594762604549/RmkcXqLF_400x400.jpg" alt="pfp"></div>
-      <FormulateForm class="w-100">
-        <FormulateInput
-          :value="user.name"
-          name="Name"
-          type="text"
-          label="Name"
-          placeholder="Name"
-        />
-        <FormulateInput
-          :value="user.email"
-          name="email"
-          type="email"
-          label="Email address"
-          placeholder="Email address"
-          validation="required|email"
-        />
-
-        <FormulateInput
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="Your password"
-          validation="required"
-        />
-        <FormulateInput
-          name="password_confirm"
-          type="password"
-          label="Confirm your password"
-          placeholder="Confirm password"
-          validation="required|confirm"
-          validation-name="Confirmation"
-        />
-
-        <FormulateInput
-          type="submit"
-          label="Save changes"
-        />
-      </FormulateForm>
-    </div>
-  </div> -->
   <b-container class="bv-example-row">
     <b-row align-h="center">
       <b-col cols="8">
@@ -65,7 +20,13 @@
             <p class="small text-secondary">
               PNG or JPG
             </p>
-            <span style="color: #00b9cd;">Update</span>
+            <input
+              ref="fileInput"
+              class="d-none"
+              type="file"
+              @change="onFileSelect"
+            >
+            <span style="color: #00b9cd; cursor: pointer;" @click="$refs.fileInput.click()">Update</span>
           </div>
         </div>
 
@@ -124,6 +85,21 @@
             />
           </FormulateForm>
         </div>
+
+        <hr>
+        <div class="d-flex flex-column my-4">
+          <p class="m-0">
+            <b>Add a wallet</b>
+          </p>
+          <p class="small">
+            Add a Tezos wallet to your profile
+          </p>
+          <div>
+            <button class="secondary-btn">
+              Connect wallet
+            </button>
+          </div>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -136,7 +112,18 @@ export default {
         name: 'Datzel',
         email: 'datzeldave@gmail.com',
         password: 'datzel'
-      }
+      },
+      selectedFile: null
+    }
+  },
+
+  methods: {
+    onFileSelect (event) {
+      this.selectedFile = event.target.files[0]
+    },
+
+    onUpload () {
+      console.info('hola')
     }
   }
 }
