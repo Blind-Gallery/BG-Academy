@@ -279,6 +279,7 @@ export default {
 
   mounted () {
     this.redirectionHome()
+    console.info(this.user_chapter_by_pk)
   },
 
   methods: {
@@ -287,7 +288,7 @@ export default {
     },
 
     redirectionHome () {
-      if (!this.$auth.loggedIn && this.chapterInfo.module) {
+      if (!this.$auth.loggedIn || this.user_chapter_by_pk === null) {
         this.$router.push('/')
       }
     },
