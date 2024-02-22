@@ -3,7 +3,7 @@
   <div>
     <PxAlert ref="alert" />
     <!--HEADER-->
-    <header class="sticky-top">
+    <header v-b-modal.modal-feedback class="sticky-top">
       <b-container style="max-width: 1240px">
         <div>
           <b-navbar class="px-0" toggleable="lg">
@@ -378,6 +378,51 @@
           />
         </FormulateForm>
       </b-modal>
+
+      <!--MODAL FEEDBACK-->
+      <b-modal id="modal-feedback" centered hide-footer>
+        <template #modal-header="{ close }">
+          <span />
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+        <h4>
+          Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
+        </h4>
+        <hr>
+        <p class="small">
+          Help us to rate this course to keep improving our content
+        </p>
+
+        <div class="mb-4">
+          <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
+        </div>
+        <FormulateForm
+          v-slot="{ isLoading }"
+          v-model="courseFeedback"
+          class="login-form"
+          @submit="sendFeedback"
+        >
+          <FormulateInput
+            name="feedback"
+            type="textarea"
+            label="Tell us what you liked and what you would improve about this course."
+            placeholder=""
+          />
+
+          <FormulateInput
+            type="submit"
+            :disabled="isLoading"
+            :label="isLoading ? 'Loading...' : 'Send feedback'"
+          />
+        </FormulateForm>
+      </b-modal>
     </header>
 
     <Nuxt />
@@ -565,6 +610,7 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
+      courseRate: null,
       isWalletFlow: false,
       show: true,
       invalidMessage: '',
@@ -573,7 +619,8 @@ export default {
       recoverPasswordForm: {},
       signUpForm: {},
       walletForm: {},
-      educatorsForm: {}
+      educatorsForm: {},
+      courseFeedback: {}
     }
   },
   mounted () {
@@ -582,6 +629,9 @@ export default {
     })
   },
   methods: {
+    sendFeedback () {
+      console.info(this.courseFeedback)
+    },
     sendEducatorForm () {
       try {
         this.$axios.$post('/emails/become-an-instructor', this.educatorsForm)
