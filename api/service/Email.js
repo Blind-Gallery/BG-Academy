@@ -7,6 +7,7 @@ class Email {
   }
 
   async sendDynamicTemplate (to, template_id, dynamic_template_data) {
+    let response = null
     const msg = {
       from: {
         email: 'academy@blindgallery.xyz'
@@ -25,11 +26,13 @@ class Email {
     }
 
     try {
-      const response = await this.sendgrid.send(msg)
+      response = await this.sendgrid.send(msg)
       console.info('Status code: ', response[0].statusCode)
     } catch (error) {
       console.error(`Error sending email to ${to} with error: `, error)
     }
+
+    return response[0]
   }
 
 
@@ -59,10 +62,9 @@ class Email {
     return res
   }
 
-  async sendThanksForPurchaseEmail ({ to, image, link }) {
-    const res = await this.sendDynamicTemplate(to, 'd-ca164928139a4d5da393809c8fc7d1a4', {
-        title, image, link
-    })
+  async sendThanksForPurchaseEmail ({ to, title, image, link }) {
+    const res = await this.sendDynamicTemplate(to, 'd-ca164928139a4d5da393809c8fc7d1a4', {title, image, link})
+    return res
   }
 }
 
