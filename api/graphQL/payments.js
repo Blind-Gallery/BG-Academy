@@ -5,6 +5,8 @@ query ($id: Int!) {
   courses_by_pk(id: $id) {
     id
     price
+    thumbnail
+    name
   }
 }
 `
