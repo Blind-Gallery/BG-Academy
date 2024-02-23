@@ -9,52 +9,50 @@
           <p>Manage your profile</p>
           <hr>
         </div>
-        <div class="d-flex align-items-center">
-          <b-avatar class="mr-4" :src="pfp" size="5rem" />
-
-          <div>
-            <p class="m-0">
-              <b>Profile picture</b>
-            </p>
-            <p class="small text-secondary mb-2">
-              PNG or JPG
-            </p>
-            <input
-              ref="fileInput"
-              class="d-none"
-              type="file"
-              accept=".jpg,.png"
-              @change="updatePFP"
-            >
-            <span style="color: #00b9cd; cursor: pointer;" @click="$refs.fileInput.click()">Update</span>
-          </div>
-        </div>
 
         <div class="my-4">
-          <p><b>Details</b></p>
+          <FormulateForm v-model="profileData" class="w-100" @submit="updateProfileData">
+            <div class="d-flex align-items-center mb-4">
+              <b-avatar class="mr-4" :src="profileData.pfp" size="5rem" />
 
-          <FormulateForm class="w-100">
+              <div>
+                <p class="m-0">
+                  <b>Profile picture</b>
+                </p>
+                <p class="small text-secondary mb-2">
+                  PNG or JPG
+                </p>
+                <input
+                  ref="fileInput"
+                  class="d-none"
+                  type="file"
+                  accept=".jpg,.png"
+                  @change="updatePFP"
+                >
+                <span style="color: #00b9cd; cursor: pointer;" @click="$refs.fileInput.click()">Update</span>
+              </div>
+            </div>
+            <p><b>Details</b></p>
             <FormulateInput
-              :value="$auth.user.name"
-              name="Name"
+              :value="profileData.name"
+              name="name"
               type="text"
               label="Name"
               placeholder="Name"
+              validation="required"
             />
             <FormulateInput
-              :value="$auth.user.email_info ? $auth.user.email_info.email : $auth.user.email_info"
+              :value="profileData.email"
               name="email"
               type="email"
               label="Email address"
               placeholder="Email address"
-              validation="required|email"
+              :validation="profileData.email === null || profileData.email === '' ? '' : `email`"
             />
 
-            <FormulateInput
-              class="w-25"
-              type="submit"
-              label="Save changes"
-            />
+            <button type="submit" class="primary-btn">
+              Save changes
+            </button>
           </FormulateForm>
         </div>
 
@@ -78,11 +76,9 @@
               validation-name="Confirmation"
             />
 
-            <FormulateInput
-              class="w-25"
-              type="submit"
-              label="Save changes"
-            />
+            <button type="submit" class="primary-btn">
+              Save changes
+            </button>
           </FormulateForm>
         </div>
 
@@ -128,8 +124,13 @@
 export default {
   data () {
     return {
-      pfp: this.$auth.user.pfp,
-      selectedFile: null
+      selectedFile: null,
+
+      profileData: {
+        pfp: this.$auth.user.pfp,
+        name: this.$auth.user.name,
+        email: this.$auth.user.email_info ? this.$auth.user.email_info.email : this.$auth.user.email_info
+      }
     }
   },
 
@@ -137,8 +138,12 @@ export default {
     updatePFP (event) {
       this.selectedFile = event.target.files[0]
       if (this.selectedFile) {
-        this.pfp = URL.createObjectURL(this.selectedFile)
+        this.profileData.pfp = URL.createObjectURL(this.selectedFile)
       }
+    },
+
+    updateProfileData () {
+      console.info(this.profileData)
     }
 
   }
