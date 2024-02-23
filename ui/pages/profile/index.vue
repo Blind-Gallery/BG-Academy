@@ -11,7 +11,7 @@
         </div>
 
         <div class="my-4">
-          <FormulateForm v-model="profileData" class="w-100" @submit="updateProfileData">
+          <FormulateForm v-slot="{ isLoading }" v-model="profileData" class="w-100" @submit="updateProfileData">
             <div class="d-flex align-items-center mb-4">
               <b-avatar class="mr-4" :src="profileData.pfp" size="5rem" />
 
@@ -34,7 +34,7 @@
             </div>
             <p><b>Details</b></p>
             <FormulateInput
-              :value="profileData.name"
+              :value="$auth.user.name"
               name="name"
               type="text"
               label="Name"
@@ -42,16 +42,16 @@
               validation="required"
             />
             <FormulateInput
-              :value="profileData.email"
+              :value="$auth.user.email_info ? $auth.user.email_info.email : $auth.user.email_info"
               name="email"
               type="email"
               label="Email address"
               placeholder="Email address"
-              :validation="profileData.email === null || profileData.email === '' ? '' : `email`"
+              :validation=" $auth.user.email_info ? $auth.user.email_info.email : $auth.user.email_info"
             />
 
             <button type="submit" class="primary-btn">
-              Save changes
+              {{ isLoading ? 'Saving changes':'Save changes' }}
             </button>
           </FormulateForm>
         </div>
@@ -59,13 +59,12 @@
         <div class="my-4">
           <p><b>Change password</b></p>
 
-          <FormulateForm class="w-100">
+          <FormulateForm v-slot="{ isLoading }" v-model="passwordData" class="w-100" @submit="changePassword">
             <FormulateInput
               name="password"
               type="password"
               label="Current password"
               placeholder="Enter password"
-              validation="required"
             />
             <FormulateInput
               name="new_password"
@@ -76,8 +75,8 @@
               validation-name="Confirmation"
             />
 
-            <button type="submit" class="primary-btn">
-              Save changes
+            <button :disabled="isLoading" type="submit" class="primary-btn">
+              {{ isLoading ? 'Saving changes':'Save changes' }}
             </button>
           </FormulateForm>
         </div>
@@ -127,10 +126,10 @@ export default {
       selectedFile: null,
 
       profileData: {
-        pfp: this.$auth.user.pfp,
-        name: this.$auth.user.name,
-        email: this.$auth.user.email_info ? this.$auth.user.email_info.email : this.$auth.user.email_info
-      }
+        pfp: null
+      },
+      passwordData: {}
+
     }
   },
 
@@ -142,8 +141,16 @@ export default {
       }
     },
 
-    updateProfileData () {
-      console.info(this.profileData)
+    updateProfileData (data) {
+      setTimeout(() => {
+        console.info(data)
+      }, 2000)
+    },
+
+    changePassword (data) {
+      setTimeout(() => {
+        console.info(data)
+      }, 2000)
     }
 
   }
