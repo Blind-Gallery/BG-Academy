@@ -138,10 +138,16 @@
 
             <div v-else>
               <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
-                <button class="primary-btn w-100">
+                <button class="primary-btn w-100 mb-2">
                   View course
                 </button>
               </NuxtLink>
+              <div class="w-100">
+                <button class="secondary-btn w-100" @click="giftModal">
+                  Gift an account
+                  <Icon width="1.25rem" icon="material-symbols:featured-seasonal-and-gifts-rounded" style="color: #00b9cd" />
+                </button>
+              </div>
             </div>
 
             <b-modal id="payment-modal" centered hidden-header hide-footer>
