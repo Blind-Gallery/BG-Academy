@@ -65,6 +65,10 @@
               type="password"
               label="Current password"
               placeholder="Enter password"
+              validation="required|matches:/[0-9]/|min:8,length"
+              :validation-messages="{
+                matches: 'Passwords must include a number.',
+              }"
             />
             <FormulateInput
               name="new_password"
