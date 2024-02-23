@@ -63,12 +63,15 @@
 
               <div class="course-nav-container">
                 <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
+                  <p style="font-weight: 600;">
                     Modules
                   </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
+                  <NuxtLink :to="`/buyCourse/${chapterInfo.module.course.id}`">
+                    <div class="d-flex align-items-center">
+                      <span>Gift this course</span>
+                      <Icon class="ml-2" width="1.25rem" icon="material-symbols:featured-seasonal-and-gifts-rounded" style="color: #00b9cd" />
+                    </div>
+                  </NuxtLink>
                 </div>
 
                 <div v-if="false" class="d-flex flex-column">
@@ -195,6 +198,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        id
         name
         modules(order_by: {created_at: asc}) {
           id
@@ -239,7 +243,7 @@ export default {
         module: {
           title: '',
           questions: [],
-          course: { modules: [] }
+          course: { id: null, modules: [] }
         }
       },
       modules: [Pagination, EffectFade, Navigation],
