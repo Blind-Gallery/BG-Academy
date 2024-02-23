@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row">
+  <b-container v-if="tezos_info" class="bv-example-row">
     <b-row align-h="center">
       <b-col cols="8">
         <div>
@@ -122,6 +122,12 @@
       </b-col>
     </b-row>
   </b-container>
+  <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
+      <h5>Loading, please wait...</h5>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -135,6 +141,10 @@ export default {
       passwordData: {}
 
     }
+  },
+
+  created () {
+    this.redirectionHome()
   },
 
   methods: {
@@ -155,6 +165,12 @@ export default {
       setTimeout(() => {
         console.info(data)
       }, 2000)
+    },
+
+    redirectionHome () {
+      if (!this.$auth.loggedIn) {
+        this.$router.push('/')
+      }
     }
 
   }
