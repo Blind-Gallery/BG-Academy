@@ -1,5 +1,5 @@
 <template>
-  <b-container v-if="tezos_info" class="bv-example-row">
+  <b-container v-if="$auth.user.tezos_info || $auth.user.email_info" class="bv-example-row">
     <b-row align-h="center">
       <b-col cols="8">
         <div>
@@ -47,10 +47,10 @@
               type="email"
               label="Email address"
               placeholder="Email address"
-              :validation=" $auth.user.email_info ? $auth.user.email_info.email : $auth.user.email_info"
+              :validation="profileData.email ? 'email|required' : ''"
             />
 
-            <button type="submit" class="primary-btn">
+            <button type="submit" class="primary-btn" @click="updateProfileData">
               {{ isLoading ? 'Saving changes':'Save changes' }}
             </button>
           </FormulateForm>
