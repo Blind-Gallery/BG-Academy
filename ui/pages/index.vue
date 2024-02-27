@@ -256,7 +256,7 @@
             <b-col cols="12" lg="6">
               <PxCardCourse
                 is-progress="false"
-                pfp="https://cdn.discordapp.com/attachments/1072507945235001455/1202641436340789308/1656416239709.png?ex=65ce321e&is=65bbbd1e&hm=5774df5508843843b193b1daac166e1df7b8c5a1dbef61c9bcce243c32a22ef9&"
+                pfp="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo"
                 instructor="By Paul Schmidt, COO at fxhash"
                 description="Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors."
                 title="Introduction to Generative Art"
