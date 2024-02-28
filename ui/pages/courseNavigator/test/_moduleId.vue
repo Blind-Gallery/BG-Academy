@@ -133,7 +133,7 @@
                         </div>
 
                         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
-                          <button class="last-btn w-100" @click="previousSlide(test, index)">
+                          <button v-if="!isFirstSlide" class="last-btn w-100" @click="previousSlide(test, index)">
                             Previous
                           </button>
                           <button class="next-btn w-100" @click="nextSlide(test, index)">
@@ -325,7 +325,7 @@ export default {
 
   data () {
     return {
-
+      isFirstSlide: false,
       testMessage: '',
       isEndedVideo: false,
       courseId: 1,
@@ -424,6 +424,8 @@ export default {
       const bullets = swiper.pagination.el.children
       const lastBullet = bullets[bullets.length - 1]
       lastBullet.parentNode.removeChild(lastBullet)
+
+      this.isFirstSlide = swiper.isBeginning
     },
 
     nextSlide (test, index) {
@@ -438,15 +440,12 @@ export default {
         this.updateUserScore()
       }
       this.$refs.mySwiper.$el.swiper.slideNext()
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
-    previousSlide (test, index) {
-      if (test.selectedOption === false || test.selectedOption === '') {
-        this.testMessage = 'Please, select one option'
-        return
-      }
+    previousSlide () {
       this.$refs.mySwiper.$el.swiper.slidePrev()
-      this.testMessage = ''
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     updateUserScore () {
