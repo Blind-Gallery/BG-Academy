@@ -506,6 +506,7 @@ export default {
 
       this.correctAnswers = 0
       this.scorePercentage = 0
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     nextModule () {
