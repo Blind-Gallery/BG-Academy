@@ -8,7 +8,7 @@
     line-height: 1.5;
     font-size: .9em;
     font-weight: 400;
-    margin-bottom: .1em
+
 }
 
 .formulate-input .formulate-input-label--before+.formulate-input-help--before {
@@ -506,7 +506,7 @@
 }
 
 .formulate-input[data-classification=box] .formulate-input-label--after {
-    margin-left: .5em
+    margin-left: 0
 }
 
 .formulate-input[data-classification=box] .formulate-input-label--before {

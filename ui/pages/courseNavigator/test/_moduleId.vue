@@ -117,7 +117,6 @@
                         <div>
                           <FormulateForm ref="test" :name="`test_${index}`">
                             <FormulateInput
-
                               :value="test.selectedOption"
                               :options="formatOptions(test.options)"
                               type="radio"
@@ -127,6 +126,7 @@
                               }"
                             />
                           </FormulateForm>
+
                           <p style="color:#960505" class="m-0 small text-center">
                             {{ testMessage }}
                           </p>
@@ -639,7 +639,7 @@ input:checked ~ label {
 
 .test .formulate-input .formulate-input-label{
   font-weight: 400;
-  margin-bottom: 1rem;
+
 }
 
 .fade-enter-active {
@@ -722,6 +722,30 @@ input:checked ~ label {
 .swiper-slide{
   height: auto;
 }
+.test label{
+  margin: 0;
+}
+  .formulate-input-group-item {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: .5em;
+    padding: .5em;
+    position: relative;
+
+    /* This makes the whole respond like a label to clicks */
+    label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    &[data-has-value] {
+      background-color: #00b9cd3f;
+    }
+  }
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;

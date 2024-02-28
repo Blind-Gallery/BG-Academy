@@ -485,11 +485,6 @@ input:checked ~ label {
   background-color: #f7f7f7;
 }
 
-.test .formulate-input .formulate-input-label{
-  font-weight: 400;
-  margin-bottom: 1rem;
-}
-
 .fade-enter-active {
   transition: opacity 1s
 }
