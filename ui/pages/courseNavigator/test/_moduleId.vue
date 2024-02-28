@@ -264,6 +264,15 @@ import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Pagination, Navigation])
 
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
+
 const GET_QUESTIONS_BY_MODULE = gql`
 query ($id: uuid!) {
   modules_by_pk(id: $id) {
@@ -320,12 +329,20 @@ export default {
           userId: this.$auth.loggedIn ? this.$auth.user.id : ''
         }
       }
+    },
+
+    user_course: {
+      query: USER_COURSES,
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
     }
   },
 
   data () {
     return {
-
       testMessage: '',
       isEndedVideo: false,
       courseId: 1,
@@ -377,9 +394,29 @@ export default {
 
   mounted () {
     this.redirectionHome()
+    this.getUserCourses()
   },
 
   methods: {
+    getUserCourses () {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          const userCourses = response.data.user_course
+          const userHasCourse = userCourses.find(course => course.course_id === this.courseId)
+
+          if (!userHasCourse) {
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')
