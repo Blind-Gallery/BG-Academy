@@ -58,9 +58,9 @@
             <div class="d-flex flex-column align-items-center mb-5">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
-                  <h1 class="text-light text-center">
+                  <h3 class="text-light text-center">
                     {{ module.title }}
-                  </h1>
+                  </h3>
                   <p class="text-light m-0">
                     Evaluation
                   </p>
