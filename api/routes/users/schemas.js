@@ -60,7 +60,32 @@ const updateUserSchema = {
   }
 }
 
+const registerWalletSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId', 'wallet', 'publicKey', 'signedMessage', 'payload'],
+    properties: {
+      userId: { type: 'string' },
+      wallet: { type: 'string' },
+      publicKey: { type: 'string' },
+      signedMessage: { type: 'string' },
+      payload: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   createUserSchema,
-  updateUserSchema
+  updateUserSchema,
+  registerWalletSchema
 }

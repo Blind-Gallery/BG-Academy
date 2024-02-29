@@ -1,5 +1,24 @@
 const { gql } = require('graphql-request')
 
+const GET_USER_FROM_ID = gql`
+query ($userId: String!) {
+  users_by_pk(id: $userId) {
+    id
+    tezos_info {
+      wallet
+    }
+  }
+}
+`
+
+const GET_TEZOS_FROM_WALLET = gql`
+query ($wallet: String!) {
+  tezos(where: {wallet: {_eq: $wallet}}) {
+    wallet
+  }
+}
+`
+
 const GET_USER_FROM_ALIAS = gql`
   query Tzprofiles($where: tzprofiles_bool_exp) {
     tzprofiles(where: $where) {
@@ -73,13 +92,33 @@ mutation ($data: users_set_input!, $userId: String!) {
     id
   }
 }
-
 `
 
+const REGISTER_WALLET = gql`
+mutation (
+  $publicKey: String!,
+  $signedMessage: String!,
+  $wallet: String!,
+  $userId: String!) {
+  insert_tezos_one(
+    object: {
+      publicKey: $publicKey,
+      signedMessage: $signedMessage,
+      wallet: $wallet,
+      id: $userId}
+      ) {
+    wallet
+    id
+  }
+}
+`
 module.exports = {
+  GET_USER_FROM_ID,
+  GET_TEZOS_FROM_WALLET,
   GET_USER_FROM_ALIAS,
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
   CREATE_USER,
-  UPDATE_USER
+  UPDATE_USER,
+  REGISTER_WALLET
 }
