@@ -18,6 +18,24 @@ mutation (
 }
 `
 
+const MARK_CHAPTER_AS_COMPLETE = gql`
+mutation (
+  $userId: String!,
+  $chapterId: uuid!
+  ) {
+  update_user_chapter(
+    _set: {completed: true},
+    where: {
+      user_id: {_eq: $userId},
+      chapter_id: {_eq: $chapterId}
+    }
+    ) {
+    affected_rows
+    }
+}
+`
+
 module.exports = {
-  UPDATE_FEEDBACK
+  UPDATE_FEEDBACK,
+  MARK_CHAPTER_AS_COMPLETE
 }
