@@ -5,7 +5,8 @@ const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
-  CREATE_USER
+  CREATE_USER,
+  UPDATE_USER
 } = require('../graphQL')
 
 class User {
@@ -151,6 +152,21 @@ class User {
     // Todo: retrieve user data from blockchain and save it
 
     return { user }
+  }
+
+  update ({ userId, name, pfp }) {
+    const data = {}
+
+    if (name) {
+      data.name = name
+    }
+    if (pfp) {
+      data.pfp = pfp
+    }
+    const { update_users_by_pk: user } = this.gql.request(
+      UPDATE_USER, { userId, data })
+
+    return { userId: user.id }
   }
 }
 

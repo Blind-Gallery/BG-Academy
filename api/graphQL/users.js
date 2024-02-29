@@ -64,9 +64,22 @@ mutation ($user: users_insert_input!) {
 }
 `
 
+const UPDATE_USER = gql`
+mutation ($data: users_set_input!, $userId: String!) {
+  update_users_by_pk(
+    _set: $data,
+    pk_columns: {id: $userId}
+    ) {
+    id
+  }
+}
+
+`
+
 module.exports = {
   GET_USER_FROM_ALIAS,
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
-  CREATE_USER
+  CREATE_USER,
+  UPDATE_USER
 }
