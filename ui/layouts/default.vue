@@ -6,7 +6,7 @@
     <header v-b-modal.modal-feedback class="sticky-top">
       <b-container style="max-width: 1240px">
         <div>
-          <b-navbar class="px-0" toggleable="lg">
+          <b-navbar class="px-0 justify-content-between" toggleable="lg">
             <b-navbar-brand to="/">
               <img src="../assets/academy-logo.png" alt="logo" width="160px">
             </b-navbar-brand>
@@ -36,14 +36,32 @@
               </b-navbar-nav>
             </b-collapse>
 
-            <button v-else class="tertiary-btn ml-auto" @click="doLogout">
+            <!-- <button v-else class="tertiary-btn ml-auto" @click="doLogout">
               <Icon
                 icon="material-symbols:logout-rounded"
                 width="24"
                 color="#888"
               />
               Log out
-            </button>
+            </button> -->
+
+            <div v-else>
+              <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
+                <template #button-content>
+                  <div class="header-pfp">
+                    <img width="100%" src="https://pbs.twimg.com/profile_images/1603791594762604549/RmkcXqLF_400x400.jpg" alt="pfp">
+                  </div>
+                </template>
+                <b-dropdown-item href="#">
+                  <NuxtLink style="color:black; text-decoration: none;" to="/profile">
+                    Edit profile
+                  </NuxtLink>
+                </b-dropdown-item>
+                <b-dropdown-item @click="doLogout">
+                  Log out
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
           </b-navbar>
         </div>
       </b-container>
@@ -931,6 +949,13 @@ h5 {
 
 .invalid-feedback {
   font-size: small;
+}
+
+.header-pfp{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 @media (max-width: 425px) {
