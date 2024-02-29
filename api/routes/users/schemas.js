@@ -38,6 +38,29 @@ const createUserSchema = {
   }
 }
 
+const updateUserSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId'],
+    properties: {
+      userId: { type: 'string' },
+      name: { type: 'string' },
+      pfp: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['userId'],
+      properties: {
+        userId: { type: 'string' }
+      }
+    }
+  }
+}
+
 module.exports = {
-  createUserSchema
+  createUserSchema,
+  updateUserSchema
 }
