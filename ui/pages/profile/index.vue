@@ -95,7 +95,7 @@
               Add a Tezos wallet to your profile
             </p>
             <div>
-              <button class="secondary-btn">
+              <button class="secondary-btn" @click="connectWallet">
                 Connect wallet
               </button>
             </div>
@@ -130,6 +130,7 @@
   </div>
 </template>
 <script>
+import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
@@ -155,10 +156,44 @@ export default {
       }
     },
 
-    updateProfileData (data) {
-      setTimeout(() => {
-        console.info(data)
-      }, 2000)
+    async updateProfileData (data) {
+      data.userId = this.$auth.user.id
+      const response = await this.$axios.$post('users/update', data)
+      console.info(response)
+    },
+
+    async getWalletAccessData () {
+      const { connectAccount, requestLoginSignPayload, checkIfWalletIsConnected } = dappClient()
+
+      const { connected: isWalletConnected } = await checkIfWalletIsConnected()
+
+      if (!isWalletConnected) {
+        const wallet = await connectAccount()
+        if (!wallet.success) {
+          console.error('Wallet not connected')
+        }
+      }
+      const {
+        publicKey,
+        wallet: tezosAddress,
+        signedPayload: signedMessage,
+        payload
+      } = await requestLoginSignPayload()
+      const data = {
+        ...this.walletForm,
+        publicKey,
+        wallet: tezosAddress,
+        signedMessage,
+        payload
+      }
+      return data
+    },
+
+    async connectWallet () {
+      const data = await this.getWalletAccessData()
+      data.userId = this.$auth.user.id
+      const response = await this.$axios.$post('users/register-wallet', data)
+      console.info(response)
     },
 
     changePassword (data) {
