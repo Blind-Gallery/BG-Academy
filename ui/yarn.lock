@@ -3949,6 +3949,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxtjs/google-analytics@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@nuxtjs/google-analytics@npm:2.4.0"
+  dependencies:
+    vue-analytics: ^5.22.1
+  checksum: a6196032093fd3306ee8c50b3bb32d860670b3e82b7947b4e410195830a1f5c6f107f90fb3c210d9250ffe1ad465ac397e441c3f9211a48df0267a7898f742b3
+  languageName: node
+  linkType: hard
+
 "@nuxtjs/proxy@npm:^2.1.0":
   version: 2.1.0
   resolution: "@nuxtjs/proxy@npm:2.1.0"
@@ -21049,6 +21058,7 @@ __metadata:
     "@nuxtjs/axios": ^5.13.6
     "@nuxtjs/eslint-config": ^11.0.0
     "@nuxtjs/eslint-module": ^3.1.0
+    "@nuxtjs/google-analytics": ^2.4.0
     "@sidebase/nuxt-session": ^0.2.7
     "@taquito/beacon-wallet": ^17.1.0
     "@taquito/taquito": ^17.1.0
@@ -21731,6 +21741,13 @@ __metadata:
   version: 1.0.6
   resolution: "vscode-uri@npm:1.0.6"
   checksum: 3ca09b80a5fc1971802920ae01865f8bf55e70f9c5570ef2a599d3e3d03fbbf4402f02ad5cb6c81f24766de1d414306416a02db6cf81b258c8dbd38c01687416
+  languageName: node
+  linkType: hard
+
+"vue-analytics@npm:^5.22.1":
+  version: 5.22.1
+  resolution: "vue-analytics@npm:5.22.1"
+  checksum: 2948a92428425f0c0f6e4b80a8b5679d152d3f76d35c26df482c903ae6798d6bb1ed110811c58a3123f53c26ff6696c61526f6d37b3cf4299bc83dd9af93a215
   languageName: node
   linkType: hard
 
