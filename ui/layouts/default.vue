@@ -27,10 +27,23 @@
                       Sign Up
                     </button>
                   </b-nav-item>
-                  <b-nav-item v-b-modal.signin>
-                    <button v-b-modal.signin class="primary-btn small">
-                      Sign In
-                    </button>
+                  <b-nav-item>
+                    <b-dropdown id="dropdown-1" variant="link" no-caret toggle-class="text-decoration-none">
+                      <template #button-content>
+                        <button class="primary-btn small">
+                          Sign In
+                        </button>
+                      </template>
+                      <b-dropdown-text class="text-secondary small">
+                        Sign in as
+                      </b-dropdown-text>
+                      <b-dropdown-item v-b-modal.signin @click="isEducator = false">
+                        Student
+                      </b-dropdown-item>
+                      <b-dropdown-item v-b-modal.signin @click="isEducator = true">
+                        Educator
+                      </b-dropdown-item>
+                    </b-dropdown>
                   </b-nav-item>
                 </b-navbar-nav>
               </b-navbar-nav>
@@ -50,7 +63,7 @@
 
       <!--MODAL SIGN IN-->
       <b-modal id="signin" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
+        <template v-if="!isEducator" #modal-header="{ close }">
           <h2>Welcome Back!</h2>
 
           <span
@@ -62,88 +75,180 @@
             icon="material-symbols:close"
           /></span>
         </template>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="signInForm"
-          class="login-form"
-          @submit="emailConnect"
-        >
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="Email address"
-            validation="required|email"
-          />
-          <FormulateInput
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Your password"
-            validation="required|matches:/[0-9]/|min:8,length"
-            :validation-messages="{
-              matches: 'Passwords must include a number.',
-            }"
-          />
-          <a
-            v-b-modal.recoverPassword
-            class="m-0"
-            style="font-size: small"
-            @click="$bvModal.hide('signin')"
+
+        <template v-else #modal-header="{ close }">
+          <h2>Sign in as Educator</h2>
+
+          <span
+            style="cursor: pointer"
+            @click="close()"
+          ><Icon
+            width="32"
+            color="#888"
+            icon="material-symbols:close"
+          /></span>
+        </template>
+
+        <div v-if="!isEducator">
+          <FormulateForm
+            v-slot="{ isLoading }"
+            v-model="signInForm"
+            class="login-form"
+            @submit="emailConnect"
           >
-            Did you forget your password?
-          </a>
-          <p class="small" style="font-size: small; color: #960505">
-            {{ invalidMessage }}
+            <FormulateInput
+              name="email"
+              type="email"
+              label="Email address"
+              placeholder="Email address"
+              validation="required|email"
+            />
+            <FormulateInput
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Your password"
+              validation="required|matches:/[0-9]/|min:8,length"
+              :validation-messages="{
+                matches: 'Passwords must include a number.',
+              }"
+            />
+            <a
+              v-b-modal.recoverPassword
+              class="m-0"
+              style="font-size: small"
+              @click="$bvModal.hide('signin')"
+            >
+              Did you forget your password?
+            </a>
+            <p class="small" style="font-size: small; color: #960505">
+              {{ invalidMessage }}
+            </p>
+            <FormulateInput
+              type="submit"
+              :disabled="isLoading"
+              :label="isLoading ? 'Loading...' : 'Sign In'"
+            />
+          </FormulateForm>
+
+          <div class="divider">
+            <hr>
+            <span>OR </span>
+            <hr>
+          </div>
+          <button
+            class="secondary-btn"
+            style="width: 100%; position: relative; margin-bottom: 1rem"
+            @click="walletConnect"
+          >
+            <Icon
+              icon="material-symbols:account-balance-wallet-outline"
+              color="#00b9cd"
+              width="21"
+              style="position: absolute; left: 24px; top: 9px"
+            />
+            Connect Wallet
+          </button>
+          <button
+            class="secondary-btn"
+            style="width: 100%; position: relative; margin-bottom: 1rem"
+            @click="doGoogleConnect"
+          >
+            <Icon
+              icon="flat-color-icons:google"
+              width="21"
+              style="position: absolute; left: 24px; top: 9px"
+            />
+            Continue with Google
+          </button>
+
+          <p style="text-align: center; font-size: small">
+            Don't have an account yet?
+            <a
+              v-b-modal.signup
+              class="nuxt-link-exact-active nuxt-link-active"
+              @click="$bvModal.hide('signin')"
+            >
+              Sign Up
+            </a>
           </p>
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Sign In'"
-          />
-        </FormulateForm>
-
-        <div class="divider">
-          <hr>
-          <span>OR </span>
-          <hr>
         </div>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="walletConnect"
-        >
-          <Icon
-            icon="material-symbols:account-balance-wallet-outline"
-            color="#00b9cd"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
-          />
-          Connect Wallet
-        </button>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="doGoogleConnect"
-        >
-          <Icon
-            icon="flat-color-icons:google"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
-          />
-          Continue with Google
-        </button>
+        <div v-else>
+          <div class="d-flex flex-column p-4 rounded border mb-4">
+            <div class="d-flex">
+              <div class="mr-2">
+                <Icon
+                  width="24"
+                  color="black"
+                  icon="material-symbols:monitoring-rounded"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <span class="small"><b>See your courses stats</b></span>
+                <span class="small text-secondary">
+                  Track your sales, students and earnings of all your courses
+                </span>
+              </div>
+            </div>
+            <hr>
+            <div class="d-flex">
+              <div class="mr-2">
+                <Icon
+                  width="24"
+                  color="black"
+                  icon="material-symbols:3p-outline-rounded"
+                />
+              </div>
+              <div class="d-flex flex-column">
+                <span class="small"><b>See your feedback</b></span>
+                <span class="small text-secondary">
+                  Find out what students think of your courses
+                </span>
+              </div>
+            </div>
+          </div>
 
-        <p style="text-align: center; font-size: small">
-          Don't have an account yet?
-          <a
-            v-b-modal.signup
-            class="nuxt-link-exact-active nuxt-link-active"
-            @click="$bvModal.hide('signin')"
+          <FormulateForm
+            v-slot="{ isLoading }"
+            v-model="signInForm"
+            class="login-form"
+            @submit="emailConnect"
           >
-            Sign Up
-          </a>
-        </p>
+            <FormulateInput
+              name="email"
+              type="email"
+              label="Email address"
+              placeholder="Email address"
+              validation="required|email"
+            />
+            <FormulateInput
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="Your password"
+              validation="required|matches:/[0-9]/|min:8,length"
+              :validation-messages="{
+                matches: 'Passwords must include a number.',
+              }"
+            />
+            <a
+              v-b-modal.recoverPassword
+              class="m-0"
+              style="font-size: small"
+              @click="$bvModal.hide('signin')"
+            >
+              Did you forget your password?
+            </a>
+            <p class="small" style="font-size: small; color: #960505">
+              {{ invalidMessage }}
+            </p>
+            <FormulateInput
+              type="submit"
+              :disabled="isLoading"
+              :label="isLoading ? 'Loading...' : 'Sign In'"
+            />
+          </FormulateForm>
+        </div>
       </b-modal>
 
       <!--RECOVER PASSWORD-->
@@ -565,6 +670,7 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
+      isEducator: false,
       isWalletFlow: false,
       show: true,
       invalidMessage: '',
