@@ -608,8 +608,8 @@ export default {
         {
           pfp: 'https://pbs.twimg.com/profile_images/1525982570327990273/YJ8grBE8_400x400.jpg',
           instructor: 'By Haiver',
-          title: 'Mastering An Artist Statement',
-          description: 'Learn how to crast a simple and powerful artist statement.',
+          title: 'Mastering The Artist Statement',
+          description: 'Learn how to create a simple and powerful artist statement.',
           cover: 'https://th.bing.com/th/id/OIG3.iZ4lCuFNsN9hjRTu7.D0?w=1024&h=1024&rs=1&pid=ImgDetMain',
           category: 'Art'
         },
