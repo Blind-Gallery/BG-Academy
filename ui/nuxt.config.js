@@ -61,8 +61,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@braid/vue-formulate/nuxt'
-
+    '@braid/vue-formulate/nuxt',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -75,6 +75,15 @@ export default {
     '@nuxtjs/apollo'
   ],
 
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID // Use as fallback if no runtime config is provided
+  },
+
+  publicRuntimeConfig: {
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID
+    }
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: process.env.BASE_URL || 'http://localhost:5000/'
