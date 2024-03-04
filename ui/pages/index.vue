@@ -253,29 +253,16 @@
             Upcoming courses
           </h4>
           <b-row>
-            <b-col cols="12" lg="6">
+            <b-col v-for="(course,index) in comingCourses" :key="index" cols="12" lg="6">
               <PxCardCourse
                 is-progress="false"
-                pfp="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo"
-                instructor="By Paul Schmidt, COO at fxhash"
-                description="Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors."
-                title="Introduction to Generative Art"
+                :pfp="course.pfp"
+                :instructor="course.intructor"
+                :description="course.description"
+                :title="course.title"
                 url=""
-                cover="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW"
-                :coming-soon="true"
-              />
-            </b-col>
-
-            <b-col cols="12" lg="6">
-              <PxCardCourse
-                :coming-soon="true"
-                is-progress="false"
-                pfp="https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg"
-                instructor="By Uncap Collective"
-                description="Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem."
-                title="A Collectors Journey"
-                url=""
-                cover="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s"
+                :cover="course.cover"
+                coming-soon="true"
               />
             </b-col>
           </b-row>
@@ -591,7 +578,45 @@ export default {
         mintedDate: '04/09/2023',
         transaction: 'ooRhd...JVYDAM',
         transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
-      }]
+      }],
+      comingCourses:
+      [
+        {
+          pfp: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo',
+          instructor: 'By Paul Schmidt, COO at fxhash',
+          title: 'Introduction to Generative Art',
+          description: 'Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg',
+          instructor: 'By Uncap Collective',
+          title: 'A Collectors Journey',
+          description: 'Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1589977797451288576/zZ_JdJaB_400x400.jpg',
+          instructor: 'By Dist',
+          title: 'Designing Sounds for Beginners',
+          description: 'Learn the fundamentals of digital sound-making for creatives.',
+          cover: 'https://th.bing.com/th/id/OIG4.Z8SXCg0Tx6I44fSFwUjj?pid=ImgGn'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1525982570327990273/YJ8grBE8_400x400.jpg',
+          instructor: 'By Haiver',
+          title: 'Mastering An Artist Statement',
+          description: 'Learn how to crast a simple and powerful artist statement.',
+          cover: 'https://th.bing.com/th/id/OIG3.iZ4lCuFNsN9hjRTu7.D0?w=1024&h=1024&rs=1&pid=ImgDetMain'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1562451296338206720/kyeAnsga_400x400.jpg',
+          instructor: 'By Haiver',
+          title: 'Generative Coded Art 101',
+          description: 'Learn the fundamental concepts and history behind generative art.',
+          cover: 'https://th.bing.com/th/id/OIG4.EaeKFl_gpDQ2U06xBmO1?w=1024&h=1024&rs=1&pid=ImgDetMain'
+        }
+      ]
 
     }
   },
