@@ -1,5 +1,5 @@
 <template>
-  <b-container style="max-width: 1240px; ">
+  <b-container style="max-width: 1240px;">
     <h4 class="mt-5">
       Your statistics
     </h4>
@@ -43,14 +43,26 @@
       <b-col lg="3" md="6">
         <div class="d-flex flex-column mb-4">
           <div class="d-flex shadow-sm rounded p-4">
-            <div>
-              <h3 style="color: #00B9CD;">
+            <div class="w-100">
+              <h3 v-if="!revenueXTZ" style="color: #00B9CD;">
                 $1450
               </h3>
-              <div class="d-flex justify-content-center align-items-center ">
-                <Icon icon="material-symbols:payments-outline-rounded" width="1.25rem" class="mr-2" /><p class="m-0">
-                  Revenue
-                </p>
+              <h3 v-else style="color: #00B9CD;">
+                ꜩ1,250
+              </h3>
+
+              <div class="d-flex  align-items-center justify-content-between w-100">
+                <div class="d-flex">
+                  <Icon icon="material-symbols:payments-outline-rounded" width="1.25rem" class="mr-2" />
+                  <p class="m-0">
+                    Revenue
+                  </p>
+                </div>
+                <div class="d-flex align-items-center">
+                  <span class="text-secondary small">USD</span>
+                  <b-form-checkbox v-model="revenueXTZ" class="ml-2" name="check-button" switch />
+                  <span class="text-secondary small">XTZ</span>
+                </div>
               </div>
             </div>
           </div>
@@ -110,7 +122,7 @@ export default {
 
   data () {
     return {
-
+      revenueXTZ: false,
       educatorCourses: [
         {
           thumbnail: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdrfgeDKpZPubbMxnkYsc4yESpy84Kd11gujjp7pxAU3s',
@@ -174,3 +186,9 @@ export default {
   }
 }
 </script>
+<style>
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color:#00b9cd;
+  border-color:#00b9cd
+}
+</style>
