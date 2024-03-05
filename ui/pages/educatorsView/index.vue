@@ -72,20 +72,20 @@
     <h4>Your courses</h4>
     <b-row>
       <b-col v-for="(course, index) in educatorCourses" :key="index" lg="4" sm="12" md="6">
-        <div class="mb-4">
+        <div class="mb-4 shadow-sm p-3 rounded">
           <div>
             <img :src="course.thumbnail" class="mb-2 rounded" alt="cover" width="100%">
-            <p>
+            <p class="m-0">
               <b>{{ course.title }}</b>
             </p>
           </div>
           <div>
-            <div class="py-2" style="border-top: 1px solid #cecece; border-bottom:1px solid #cecece ;" @click="toggleCollapse(index)">
+            <div class="py-2" @click="toggleCollapse(index)">
               <PxToggleCollapse class="text-secondary" toggle-name="Show feedback" :padding="false" />
             </div>
             <div class="collapse-container">
               <b-collapse v-for="(courseFeedback, indexFeedback) in course.feedback" :id="`accordion-${index}`" :key="indexFeedback">
-                <div class="d-flex py-4" style="border-bottom: 1px solid #cecece;">
+                <div class="d-flex py-4" style="border-top: 1px solid #cecece;">
                   <div>
                     <b-avatar class="mr-3" size="2.5rem" :src="courseFeedback.pfp" />
                   </div>
