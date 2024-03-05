@@ -83,7 +83,7 @@
             <div class="py-2" style="border-top: 1px solid #cecece; border-bottom:1px solid #cecece ;" @click="toggleCollapse(index)">
               <PxToggleCollapse class="text-secondary" toggle-name="Show feedback" :padding="false" />
             </div>
-            <div style="height: 300px; overflow-y: auto; ">
+            <div class="collapse-container">
               <b-collapse v-for="(courseFeedback, indexFeedback) in course.feedback" :id="`accordion-${index}`" :key="indexFeedback">
                 <div class="d-flex py-4" style="border-bottom: 1px solid #cecece;">
                   <div>
@@ -122,6 +122,7 @@ export default {
 
   data () {
     return {
+      isOpen: false,
       revenueXTZ: false,
       educatorCourses: [
         {
@@ -190,5 +191,9 @@ export default {
 .custom-control-input:checked ~ .custom-control-label::before {
   background-color:#00b9cd;
   border-color:#00b9cd
+}
+.collapse-container{
+  height: auto;
+  overflow-y: auto;
 }
 </style>
