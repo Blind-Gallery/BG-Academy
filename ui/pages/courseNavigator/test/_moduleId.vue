@@ -58,9 +58,9 @@
             <div class="d-flex flex-column align-items-center mb-5">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
-                  <h1 class="text-light text-center">
+                  <h3 class="text-light text-center">
                     {{ module.title }}
-                  </h1>
+                  </h3>
                   <p class="text-light m-0">
                     Evaluation
                   </p>
@@ -117,7 +117,6 @@
                         <div>
                           <FormulateForm ref="test" :name="`test_${index}`">
                             <FormulateInput
-
                               :value="test.selectedOption"
                               :options="formatOptions(test.options)"
                               type="radio"
@@ -127,13 +126,14 @@
                               }"
                             />
                           </FormulateForm>
+
                           <p style="color:#960505" class="m-0 small text-center">
                             {{ testMessage }}
                           </p>
                         </div>
 
                         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
-                          <button class="last-btn w-100" @click="previousSlide(test, index)">
+                          <button v-if="!isFirstSlide" class="last-btn w-100" @click="previousSlide(test, index)">
                             Previous
                           </button>
                           <button class="next-btn w-100" @click="nextSlide(test, index)">
@@ -343,6 +343,7 @@ export default {
 
   data () {
     return {
+      isFirstSlide: false,
       testMessage: '',
       isEndedVideo: false,
       courseId: 1,
@@ -461,6 +462,8 @@ export default {
       const bullets = swiper.pagination.el.children
       const lastBullet = bullets[bullets.length - 1]
       lastBullet.parentNode.removeChild(lastBullet)
+
+      this.isFirstSlide = swiper.isBeginning
     },
 
     nextSlide (test, index) {
@@ -475,15 +478,12 @@ export default {
         this.updateUserScore()
       }
       this.$refs.mySwiper.$el.swiper.slideNext()
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
-    previousSlide (test, index) {
-      if (test.selectedOption === false || test.selectedOption === '') {
-        this.testMessage = 'Please, select one option'
-        return
-      }
+    previousSlide () {
       this.$refs.mySwiper.$el.swiper.slidePrev()
-      this.testMessage = ''
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     updateUserScore () {
@@ -544,6 +544,7 @@ export default {
 
       this.correctAnswers = 0
       this.scorePercentage = 0
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     nextModule () {
@@ -677,7 +678,7 @@ input:checked ~ label {
 
 .test .formulate-input .formulate-input-label{
   font-weight: 400;
-  margin-bottom: 1rem;
+
 }
 
 .fade-enter-active {
@@ -760,6 +761,30 @@ input:checked ~ label {
 .swiper-slide{
   height: auto;
 }
+.test label{
+  margin: 0;
+}
+  .formulate-input-group-item {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: .5em;
+    padding: .5em;
+    position: relative;
+
+    /* This makes the whole respond like a label to clicks */
+    label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    &[data-has-value] {
+      background-color: #00b9cd3f;
+    }
+  }
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;
