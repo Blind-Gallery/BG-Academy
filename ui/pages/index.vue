@@ -587,7 +587,7 @@ export default {
           title: 'Introduction to Generative Art',
           description: 'Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors.',
           cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW',
-          category: 'Generative Art'
+          category: 'Artists, Collectors'
         },
         {
           pfp: 'https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg',
@@ -595,7 +595,7 @@ export default {
           title: 'A Collectors Journey',
           description: 'Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem.',
           cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s',
-          category: 'Art'
+          category: 'Collectors'
         },
         {
           pfp: 'https://pbs.twimg.com/profile_images/1589977797451288576/zZ_JdJaB_400x400.jpg',
@@ -603,7 +603,7 @@ export default {
           title: 'Designing Sounds for Beginners',
           description: 'Learn the fundamentals of digital sound-making for creatives.',
           cover: 'https://th.bing.com/th/id/OIG4.Z8SXCg0Tx6I44fSFwUjj?pid=ImgGn',
-          category: 'Music'
+          category: 'Artists'
         },
         {
           pfp: 'https://pbs.twimg.com/profile_images/1525982570327990273/YJ8grBE8_400x400.jpg',
@@ -611,7 +611,7 @@ export default {
           title: 'Mastering The Artist Statement',
           description: 'Learn how to create a simple and powerful artist statement.',
           cover: 'https://th.bing.com/th/id/OIG3.iZ4lCuFNsN9hjRTu7.D0?w=1024&h=1024&rs=1&pid=ImgDetMain',
-          category: 'Art'
+          category: 'Artists'
         },
         {
           pfp: 'https://pbs.twimg.com/profile_images/1562451296338206720/kyeAnsga_400x400.jpg',
@@ -619,7 +619,7 @@ export default {
           title: 'Generative Coded Art 101',
           description: 'Learn the fundamental concepts and history behind generative art.',
           cover: 'https://th.bing.com/th/id/OIG4.EaeKFl_gpDQ2U06xBmO1?w=1024&h=1024&rs=1&pid=ImgDetMain',
-          category: 'Generative Art'
+          category: 'Artists, Collectors'
         }
       ]
 
