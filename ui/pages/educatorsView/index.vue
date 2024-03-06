@@ -44,25 +44,21 @@
         <div class="d-flex flex-column mb-4">
           <div class="d-flex shadow-sm rounded p-4">
             <div class="w-100">
-              <h3 v-if="!revenueXTZ" style="color: #00B9CD;">
-                $1450
-              </h3>
-              <h3 v-else style="color: #00B9CD;">
-                ꜩ1,250
-              </h3>
+              <div class="d-flex">
+                <h3 style="color: #00B9CD; padding-right: 1rem; border-right: 1px solid rgba(0, 0, 0, 0.1);">
+                  $1450
+                </h3>
 
-              <div class="d-flex  align-items-center justify-content-between w-100">
-                <div class="d-flex">
-                  <Icon icon="material-symbols:payments-outline-rounded" width="1.25rem" class="mr-2" />
-                  <p class="m-0">
-                    Revenue
-                  </p>
-                </div>
-                <div class="d-flex align-items-center">
-                  <span class="text-secondary small">USD</span>
-                  <b-form-checkbox v-model="revenueXTZ" class="ml-2" name="check-button" switch />
-                  <span class="text-secondary small">XTZ</span>
-                </div>
+                <h3 style="color: #00B9CD; padding-left: 1rem;">
+                  ꜩ1,250
+                </h3>
+              </div>
+
+              <div class="d-flex">
+                <Icon icon="material-symbols:payments-outline-rounded" width="1.25rem" class="mr-2" />
+                <p class="m-0">
+                  Revenue
+                </p>
               </div>
             </div>
           </div>
@@ -123,7 +119,7 @@ export default {
   data () {
     return {
       isOpen: false,
-      revenueXTZ: false,
+
       educatorCourses: [
         {
           thumbnail: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdrfgeDKpZPubbMxnkYsc4yESpy84Kd11gujjp7pxAU3s',
