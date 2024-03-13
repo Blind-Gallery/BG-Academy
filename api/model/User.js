@@ -3,9 +3,13 @@ const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
+  GET_USER_FROM_ID,
+  GET_TEZOS_FROM_WALLET,
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
-  CREATE_USER
+  CREATE_USER,
+  UPDATE_USER,
+  REGISTER_WALLET
 } = require('../graphQL')
 
 class User {
@@ -123,7 +127,7 @@ class User {
 
     const data = {
       user: {
-        name: userBlockchainMetadata.alias || name,
+        name,
         pfp: userBlockchainMetadata.logo,
         tezos_info: {
           data: {
@@ -151,6 +155,68 @@ class User {
     // Todo: retrieve user data from blockchain and save it
 
     return { user }
+  }
+
+  async update ({ userId, name, pfp }) {
+    const data = {}
+
+    if (name) {
+      data.name = name
+    }
+    if (pfp) {
+      data.pfp = pfp
+    }
+    await this.gql.request(
+      UPDATE_USER, { data, userId })
+
+    return { userId }
+  }
+
+  registerWallet (
+    {
+      userId,
+      wallet,
+      publicKey,
+      signedMessage,
+      payload
+    }) {
+    const { users_by_pk: user } = this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    if (user.tezos_info) {
+      throw new BadRequest('Wallet already registered')
+    }
+
+    const { tezos: tezosInfo } = this.gql.request(
+      GET_TEZOS_FROM_WALLET, { wallet })
+
+    // merge user
+    if (tezosInfo) {
+      throw new BadRequest('Wallet already registered')
+    }
+
+    const isVerified = verifySignature(
+      payload,
+      publicKey,
+      signedMessage
+    )
+    if (!isVerified) {
+      throw new Unauthorized('Invalid signature')
+    }
+
+    const { insert_tezos_one: tezos } = this.gql.request(
+      REGISTER_WALLET, {
+        userId,
+        wallet,
+        publicKey,
+        signedMessage
+      })
+
+    return tezos
   }
 }
 

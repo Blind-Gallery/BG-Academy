@@ -7,7 +7,7 @@ const {
   CREATE_STRIPE_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
   GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
-} = require('../graphQL/payments')
+} = require('../graphQL')
 
 class Payments {
   constructor ({ gql, email, opts, jwt, stripe, tezos, academySC, coinGecko }) {
@@ -178,7 +178,23 @@ class Payments {
       ADD_USER_TO_COURSE,
       { courseId, userId }
     )
+
+    await this.sendWelcomeToCourseEmail({ courseId, userId })
     return userCourse
+  }
+
+  async sendWelcomeToCourseEmail ({ courseId, userId }) {
+    const { courses_by_pk: course } = await this.gql.request(
+      GET_COURSE_BY_ID,
+      { id: courseId }
+    )
+
+    // todo: update link to last chapter seen by user
+    await this.email.sendThanksForPurchaseEmail({
+      title: course.title,
+      image: course.thumbnail,
+      link: "https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5"
+    })
   }
 
   async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret }) {
