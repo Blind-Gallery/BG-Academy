@@ -3,7 +3,7 @@
     <b-container style="max-width: 1240px; height: 80vh;">
       <b-row>
         <b-col cols="12" lg="6">
-          <!--COURSE DETAILS FORM-->
+          <!--COURSE DETAILS SECTION-->
           <div v-show="firstSection">
             <h4>Create course</h4>
 
@@ -85,16 +85,19 @@
               </div>
             </FormulateForm>
           </div>
+          <!--MODULES SECTION-->
           <div v-show="!firstSection">
             <div class="p-4 rounded shadow-sm w-100 mb-4">
               <h4>Add modules</h4>
               <p>You can add one or more modules and assign a title for each of them. Delete or edit whenever you want.</p>
-              <div v-for="(courseModule, index) in courseValues.modules" :key="index" class="w-100 border p-2 rounded">
-                <span>
-                  {{ courseModule.title }}
-                </span>
+              <div v-for="(courseModule, index) in courseValues.modules" :key="index">
+                <div v-if="courseModule.title" class="w-100 border p-2 rounded mb-2">
+                  <span>
+                    {{ courseModule.title }}
+                  </span>
+                </div>
               </div>
-              <button class="add-item-btn mt-2">
+              <button class="add-item-btn mt-2" @click="createModule">
                 <span>
                   Add module
                 </span><Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
@@ -111,6 +114,7 @@
             </div>
           </div>
         </b-col>
+        <!--COURSE PREVIEW-->
         <b-col cols="12" lg="6">
           <div v-if="courseValues.title || courseValues.description || courseValues.thumbnail || courseValues.price" class="p-4 shadow-sm rounded m-4">
             <div style="height: 340px; width: auto; overflow: hidden;">
@@ -136,7 +140,8 @@
 export default {
   data () {
     return {
-      firstSection: true,
+      count: 0,
+      firstSection: false,
       isDragging: false,
       selectedFile: null,
       thumbnailMsg: null,
@@ -144,10 +149,7 @@ export default {
       courseValues: {
         thumbnail: null,
         modules: [
-          {
-            title: null,
-            description: null
-          }
+
         ]
       }
     }
@@ -160,6 +162,16 @@ export default {
       } else {
         this.firstSection = false
       }
+    },
+
+    createModule () {
+      this.count++ // Incrementar el conteo en 1 cada vez que se llama a la función
+      const newModule = {
+        title: `Module ${this.count}`,
+        description: null
+      }
+
+      this.courseValues.modules.push(newModule)
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
