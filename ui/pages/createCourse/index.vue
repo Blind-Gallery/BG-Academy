@@ -7,8 +7,11 @@
             <h4>Create course</h4>
 
             <FormulateForm
+              v-slot="{ isLoading }"
+              ref="courseDetailsForm"
               v-model="courseValues"
               class="login-form"
+              @submit="saveCourseDetails"
             >
               <FormulateInput
                 name="title"
@@ -44,6 +47,7 @@
                   <Icon color="none" :class="isDragging? 'upload-icon_active':''" icon="material-symbols:upload-rounded" width="3rem" />
                   <span :class="isDragging ? 'drop-text_active small':'small'">Drag and drop and image file to upload them</span>
                 </div>
+                <span style="color:#960505; font-size: .8em; margin-bottom: 0.25em;">{{ thumbnailMsg }}</span>
               </div>
               <div v-else style="border:1px solid #cecece; margin-bottom: 1.5em;" class="d-flex justify-content-between border rounded p-2 ">
                 <div>
@@ -59,6 +63,7 @@
                 type="number"
                 label="Price"
                 placeholder="Enter price"
+                min="0"
                 validation="required"
               />
 
@@ -66,9 +71,11 @@
                 <div class="d-flex align-items-center">
                   <Icon width="1.25rem" icon="material-symbols:arrow-back-rounded" style="color: #888888;" class="mr-2" /> <span class="tertiary-btn">Go back</span>
                 </div>
-                <button class="primary-btn px-4" @click="courseDetails = false">
-                  Next
-                </button>
+                <FormulateInput
+                  type="submit"
+                  :disabled="isLoading"
+                  :label="isLoading ? 'Loading...' : 'Next'"
+                />
               </div>
             </FormulateForm>
           </div>
@@ -114,6 +121,8 @@ export default {
       courseDetails: true,
       isDragging: false,
       selectedFile: null,
+      thumbnailMsg: null,
+      courseFormErrors: null,
       courseValues: {
         thumbnail: null,
         modules: [
@@ -127,8 +136,12 @@ export default {
   },
 
   methods: {
-    addModule () {
-      this.courseValues.modules.push()
+    saveCourseDetails () {
+      if (this.courseValues.thumbnail === null) {
+        this.thumbnailMsg = 'Thumbnail is required'
+      } else {
+        this.courseDetails = false
+      }
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
