@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <b-container style="max-width: 1240px;">
+  <div style="margin-top: 2rem; ">
+    <b-container style="max-width: 1240px; height: 80vh;">
       <b-row>
         <b-col cols="12" lg="6">
-          <div v-if="courseDetails">
+          <!--COURSE DETAILS FORM-->
+          <div v-show="firstSection">
             <h4>Create course</h4>
 
             <FormulateForm
@@ -68,10 +69,15 @@
               />
 
               <div class="d-flex align-items-center justify-content-between w-100">
-                <div class="d-flex align-items-center">
-                  <Icon width="1.25rem" icon="material-symbols:arrow-back-rounded" style="color: #888888;" class="mr-2" /> <span class="tertiary-btn">Go back</span>
-                </div>
+                <NuxtLink style="text-decoration: none;" to="/">
+                  <button class="tertiary-btn d-flex align-items-center">
+                    <Icon width="1.25rem" icon="material-symbols:arrow-back-rounded" style="color: #888888;" class="mr-2" />
+                    <span>Go back</span>
+                  </button>
+                </NuxtLink>
+
                 <FormulateInput
+                  style="width: 120px;"
                   type="submit"
                   :disabled="isLoading"
                   :label="isLoading ? 'Loading...' : 'Next'"
@@ -79,18 +85,30 @@
               </div>
             </FormulateForm>
           </div>
-
-          <div v-else class="p-4 rounded shadow-sm w-100">
-            <h4>Add modules</h4>
-            <p>You can add one or more modules and assign a title for each of them. Delete or edit whenever you want.</p>
-            <div v-for="(courseModule, index) in courseValues.modules" :key="index" class="w-100 border p-2 rounded">
-              <span>
-                {{ courseModule.title }}
-              </span>
+          <div v-show="!firstSection">
+            <div class="p-4 rounded shadow-sm w-100 mb-4">
+              <h4>Add modules</h4>
+              <p>You can add one or more modules and assign a title for each of them. Delete or edit whenever you want.</p>
+              <div v-for="(courseModule, index) in courseValues.modules" :key="index" class="w-100 border p-2 rounded">
+                <span>
+                  {{ courseModule.title }}
+                </span>
+              </div>
+              <button class="add-item-btn mt-2">
+                <span>
+                  Add module
+                </span><Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+              </button>
             </div>
-            <p @click="addModule">
-              Add module
-            </p>
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <button class="tertiary-btn d-flex align-items-center" @click="firstSection = true">
+                <Icon width="1.25rem" icon="material-symbols:arrow-back-rounded" style="color: #888888;" class="mr-2" />
+                <span>Go back</span>
+              </button>
+              <button class="primary-btn">
+                Save module
+              </button>
+            </div>
           </div>
         </b-col>
         <b-col cols="12" lg="6">
@@ -118,7 +136,7 @@
 export default {
   data () {
     return {
-      courseDetails: true,
+      firstSection: true,
       isDragging: false,
       selectedFile: null,
       thumbnailMsg: null,
@@ -140,7 +158,7 @@ export default {
       if (this.courseValues.thumbnail === null) {
         this.thumbnailMsg = 'Thumbnail is required'
       } else {
-        this.courseDetails = false
+        this.firstSection = false
       }
     },
     uploadThumbnail (event) {
@@ -207,6 +225,15 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+}
+
+.add-item-btn{
+  display:flex;
+  align-items: center;
+  border: none;
+  padding: none;
+  background-color: transparent;
+  color:#00b9cd
 }
 
 </style>
