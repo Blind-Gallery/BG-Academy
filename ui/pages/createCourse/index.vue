@@ -90,18 +90,55 @@
             <div class="p-4 rounded shadow-sm w-100 mb-4">
               <h4>Add modules</h4>
               <p>You can add one or more modules and assign a title for each of them. Delete or edit whenever you want.</p>
-              <div v-for="(courseModule, index) in courseValues.modules" :key="index">
-                <div v-if="courseModule.title" class="w-100 border p-2 rounded mb-2">
+
+              <div v-for="(courseModule, index) in savedCourses.modules" :key="index">
+                <div v-if="courseModule.title" class="w-100 border p-2 rounded mb-2" @click="$bvModal.show(`modal-${index - 1}`)">
                   <span>
                     {{ courseModule.title }}
                   </span>
                 </div>
+
+                <b-modal :id="`modal-${index}`" centered hide-footer>
+                  <template #modal-header="{ close }">
+                    <h2>Module {{ index + 1 }}</h2>
+
+                    <span style="cursor: pointer" @click="close()">
+                      <Icon width="32" color="#888" icon="material-symbols:close" />
+                    </span>
+                  </template>
+                  <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
+                    <FormulateInput
+                      :value="savedCourses.modules[index+1].title"
+                      name="title"
+                      type="text"
+                      label="Title"
+                      placeholder="Enter title"
+                      validation="required"
+                    />
+                    <FormulateInput
+                      :value="savedCourses.modules[index+1].description"
+                      name="description"
+                      type="textarea"
+                      label="Description"
+                      placeholder="Enter description"
+                      validation="required"
+                    />
+
+                    <FormulateInput
+                      style="width: 120px;"
+                      type="submit"
+                      :disabled="isLoading"
+                      :label="isLoading ? 'Loading...' : 'Next'"
+                    />
+                  </FormulateForm>
+                </b-modal>
+                <button v-if="!courseModuleAdded[index]" class="add-item-btn mt-2" @click="createModule(index)">
+                  <span>
+                    Add module
+                  </span>
+                  <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+                </button>
               </div>
-              <button class="add-item-btn mt-2" @click="createModule">
-                <span>
-                  Add module
-                </span><Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
-              </button>
             </div>
             <div class="d-flex align-items-center justify-content-between w-100">
               <button class="tertiary-btn d-flex align-items-center" @click="firstSection = true">
@@ -141,15 +178,25 @@ export default {
   data () {
     return {
       count: 0,
-      firstSection: false,
+      firstSection: true,
       isDragging: false,
       selectedFile: null,
       thumbnailMsg: null,
       courseFormErrors: null,
+      courseModuleAdded: [],
       courseValues: {
         thumbnail: null,
         modules: [
 
+        ]
+      },
+
+      savedCourses: {
+        thumbnail: null,
+        modules: [
+          {
+
+          }
         ]
       }
     }
@@ -161,17 +208,37 @@ export default {
         this.thumbnailMsg = 'Thumbnail is required'
       } else {
         this.firstSection = false
+        this.savedCourses = {
+          title: this.courseValues.title,
+          description: this.courseValues.description,
+          price: this.courseValues.price,
+          thumbnail: this.courseValues.thumbnail,
+          modules: [
+            {}
+          ]
+        }
       }
     },
 
-    createModule () {
-      this.count++ // Incrementar el conteo en 1 cada vez que se llama a la función
+    createModule (index) {
+      this.count++
       const newModule = {
         title: `Module ${this.count}`,
-        description: null
+        description: ''
       }
 
-      this.courseValues.modules.push(newModule)
+      this.savedCourses.modules.push(newModule)
+
+      this.$bvModal.show(`modal-${index}`)
+      this.courseModuleAdded[index] = true
+    },
+
+    saveModule (index) {
+      this.savedCourses.modules[index + 1] = {
+        title: this.courseValues.modules.title,
+        description: this.courseValues.modules.description
+      }
+      console.info(this.savedCourses.modules)
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
