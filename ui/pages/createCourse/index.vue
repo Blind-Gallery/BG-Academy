@@ -114,22 +114,15 @@
                   </template>
 
                   <div class="d-flex  align-items-center justify-content-center w-100 position-relative mb-4">
-                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
-                      <span class="small mb-1">Module details</span>
+                    <div v-for="(step,indexStep) in moduleSteps" :key="indexStep" class="w-100 d-flex flex-column justify-content-center align-items-center" @click="selectStep(indexStep)">
+                      <span class="small mb-1">{{ step.name }}</span>
+
                       <div class="module-checkpoint" />
                     </div>
-                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
-                      <span class="small mb-1">Chapters</span>
-                      <div class="module-checkpoint" />
-                    </div>
-                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
-                      <span class="small mb-1">Test</span>
-                      <div class="module-checkpoint" />
-                    </div>
-                    <div class="position-absolute w-100" style="border-bottom: 3px solid gray; top:31px" />
+                    <div class="position-absolute w-100" style="border-bottom: 3px solid gray; top:75%" />
                   </div>
 
-                  <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
+                  <FormulateForm v-if="moduleSteps[0].isActive" v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
                     <FormulateInput
                       :value="savedCourses.modules[index].title"
                       name="title"
@@ -220,7 +213,22 @@ export default {
         modules: [
 
         ]
-      }
+      },
+
+      moduleSteps: [
+        {
+          isActive: true,
+          name: 'Module'
+        },
+        {
+          isActive: false,
+          name: 'Chapters'
+        },
+        {
+          isActive: false,
+          name: 'Test'
+        }
+      ]
     }
   },
 
@@ -276,6 +284,11 @@ export default {
     removeFile () {
       this.selectedFile = null
       this.courseValues.thumbnail = null
+    },
+    selectStep (indexStep) {
+      for (let i = 0; i < this.moduleSteps.length; i++) {
+        this.moduleSteps[i].isActive = (i === indexStep)
+      }
     },
     onDragOver (event) {
       event.preventDefault()
