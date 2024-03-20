@@ -92,23 +92,46 @@
               <p>You can add one or more modules and assign a title for each of them. Delete or edit whenever you want.</p>
 
               <div v-for="(courseModule, index) in savedCourses.modules" :key="index">
-                <div v-if="courseModule.title" class="w-100 border p-2 rounded mb-2" @click="$bvModal.show(`modal-${index - 1}`)">
-                  <span>
-                    {{ courseModule.title }}
-                  </span>
+                <div class="d-flex align-items-center  mb-2">
+                  <div v-if="courseModule.title" class="d-flex w-100 shadow-sm p-2 rounded justify-content-between w-100 module-btn" @click="$bvModal.show(`modal-${index}`)">
+                    <span>
+                      {{ courseModule.title }}
+                    </span>
+                    <Icon width="1.5rem" icon="material-symbols:edit-square-outline-rounded" />
+                  </div>
+                  <div class="w-auto p-2 rounded shadow-sm ml-2 d-flex justify-content-center align-items-center remove-btn" @click="removeModule(index)">
+                    <Icon width="1.5rem" icon="material-symbols:delete-outline-rounded" />
+                  </div>
                 </div>
 
                 <b-modal :id="`modal-${index}`" centered hide-footer>
                   <template #modal-header="{ close }">
-                    <h2>Module {{ index + 1 }}</h2>
+                    <h2>{{ savedCourses.modules[index].title }}</h2>
 
                     <span style="cursor: pointer" @click="close()">
                       <Icon width="32" color="#888" icon="material-symbols:close" />
                     </span>
                   </template>
+
+                  <div class="d-flex  align-items-center justify-content-center w-100 position-relative mb-4">
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                      <span class="small mb-1">Module details</span>
+                      <div class="module-checkpoint" />
+                    </div>
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                      <span class="small mb-1">Chapters</span>
+                      <div class="module-checkpoint" />
+                    </div>
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
+                      <span class="small mb-1">Test</span>
+                      <div class="module-checkpoint" />
+                    </div>
+                    <div class="position-absolute w-100" style="border-bottom: 3px solid gray; top:31px" />
+                  </div>
+
                   <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
                     <FormulateInput
-                      :value="savedCourses.modules[index+1].title"
+                      :value="savedCourses.modules[index].title"
                       name="title"
                       type="text"
                       label="Title"
@@ -116,7 +139,7 @@
                       validation="required"
                     />
                     <FormulateInput
-                      :value="savedCourses.modules[index+1].description"
+                      :value="savedCourses.modules[index].description"
                       name="description"
                       type="textarea"
                       label="Description"
@@ -132,13 +155,14 @@
                     />
                   </FormulateForm>
                 </b-modal>
-                <button v-if="!courseModuleAdded[index]" class="add-item-btn mt-2" @click="createModule(index)">
-                  <span>
-                    Add module
-                  </span>
-                  <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
-                </button>
               </div>
+
+              <button class="add-item-btn mt-2" @click="createModule(index)">
+                <span>
+                  Add module
+                </span>
+                <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+              </button>
             </div>
             <div class="d-flex align-items-center justify-content-between w-100">
               <button class="tertiary-btn d-flex align-items-center" @click="firstSection = true">
@@ -178,7 +202,7 @@ export default {
   data () {
     return {
       count: 0,
-      firstSection: true,
+      firstSection: false,
       isDragging: false,
       selectedFile: null,
       thumbnailMsg: null,
@@ -194,9 +218,7 @@ export default {
       savedCourses: {
         thumbnail: null,
         modules: [
-          {
 
-          }
         ]
       }
     }
@@ -214,7 +236,7 @@ export default {
           price: this.courseValues.price,
           thumbnail: this.courseValues.thumbnail,
           modules: [
-            {}
+
           ]
         }
       }
@@ -223,7 +245,7 @@ export default {
     createModule (index) {
       this.count++
       const newModule = {
-        title: `Module ${this.count}`,
+        title: 'New module',
         description: ''
       }
 
@@ -234,11 +256,15 @@ export default {
     },
 
     saveModule (index) {
-      this.savedCourses.modules[index + 1] = {
+      this.savedCourses.modules[index] = {
         title: this.courseValues.modules.title,
         description: this.courseValues.modules.description
       }
       console.info(this.savedCourses.modules)
+    },
+
+    removeModule (index) {
+      this.savedCourses.modules.splice(index, 1)
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
@@ -315,4 +341,36 @@ export default {
   color:#00b9cd
 }
 
+.module-btn{
+  transition: all 0.3s;
+  color: #888888;
+
+}
+
+.module-btn:hover{
+  color: #ffff;
+  background-color: #00b9cd;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.remove-btn{
+  transition: all 0.3s;
+  color: #888888;
+}
+.remove-btn:hover{
+  transition: all 0.3s;
+  color:#ffff;
+  cursor: pointer;
+  background-color: #ef4114;
+}
+
+.module-checkpoint{
+  width: 18px;
+  height:18px;
+  border-radius: 50px;
+  border: 3px solid #888888;
+  background-color: #ffff;
+  z-index:2
+}
 </style>
