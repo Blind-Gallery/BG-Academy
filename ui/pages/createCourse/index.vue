@@ -102,52 +102,71 @@
                   <div class="w-auto p-2 rounded shadow-sm ml-2 d-flex justify-content-center align-items-center remove-btn" @click="removeModule(index)">
                     <Icon width="1.5rem" icon="material-symbols:delete-outline-rounded" />
                   </div>
-                </div>
 
-                <b-modal :id="`modal-${index}`" centered hide-footer>
-                  <template #modal-header="{ close }">
-                    <h2>{{ savedCourses.modules[index].title }}</h2>
+                  <b-modal :id="`modal-${index}`" centered hide-footer>
+                    <template #modal-header="{ close }">
+                      <h2>{{ savedCourses.modules[index].title }}</h2>
 
-                    <span style="cursor: pointer" @click="close()">
-                      <Icon width="32" color="#888" icon="material-symbols:close" />
-                    </span>
-                  </template>
+                      <span style="cursor: pointer" @click="close()">
+                        <Icon width="32" color="#888" icon="material-symbols:close" />
+                      </span>
+                    </template>
 
-                  <div class="d-flex  align-items-center justify-content-center w-100 position-relative mb-4">
-                    <div v-for="(step,indexStep) in moduleSteps" :key="indexStep" class="w-100 d-flex flex-column justify-content-center align-items-center" @click="selectStep(indexStep)">
-                      <span class="small mb-1">{{ step.name }}</span>
+                    <div class="d-flex  align-items-center justify-content-center w-100 position-relative mb-4">
+                      <div v-for="(step,indexStep) in moduleSteps" :key="indexStep" style="cursor: pointer;" class="w-100 d-flex flex-column justify-content-center align-items-center" @click="selectStep(indexStep)">
+                        <span :class="step.isActive ? 'active-stepname':'small mb-1'">{{ step.name }}</span>
 
-                      <div class="module-checkpoint" />
+                        <div :class="step.isActive?'step-activepoint':'step-point'" />
+                      </div>
+                      <div class="position-absolute w-100" style="border-bottom: 3px solid #888888; top:75%" @click="stepCompleted" />
                     </div>
-                    <div class="position-absolute w-100" style="border-bottom: 3px solid gray; top:75%" />
-                  </div>
+                    <div v-if="moduleSteps[0].isActive">
+                      <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
+                        <span style="font-weight: 600; margin-bottom: 0.25rem;">Details</span>
+                        <FormulateInput
+                          :value="savedCourses.modules[index].title"
+                          name="title"
+                          type="text"
+                          label="Title"
+                          placeholder="Enter title"
+                          validation="required"
+                        />
+                        <FormulateInput
+                          :value="savedCourses.modules[index].description"
+                          name="description"
+                          type="textarea"
+                          label="Description"
+                          placeholder="Enter description"
+                          validation="required"
+                        />
 
-                  <FormulateForm v-if="moduleSteps[0].isActive" v-slot="{ isLoading }" v-model="courseValues.modules" class="login-form" @submit="saveModule(index)">
-                    <FormulateInput
-                      :value="savedCourses.modules[index].title"
-                      name="title"
-                      type="text"
-                      label="Title"
-                      placeholder="Enter title"
-                      validation="required"
-                    />
-                    <FormulateInput
-                      :value="savedCourses.modules[index].description"
-                      name="description"
-                      type="textarea"
-                      label="Description"
-                      placeholder="Enter description"
-                      validation="required"
-                    />
+                        <FormulateInput
+                          style="width: 120px;"
+                          type="submit"
+                          :disabled="isLoading"
+                          :label="isLoading ? 'Loading...' : 'Next'"
+                        />
+                      </FormulateForm>
+                    </div>
 
-                    <FormulateInput
-                      style="width: 120px;"
-                      type="submit"
-                      :disabled="isLoading"
-                      :label="isLoading ? 'Loading...' : 'Next'"
-                    />
-                  </FormulateForm>
-                </b-modal>
+                    <div v-if="moduleSteps[1].isActive">
+                      <span style="font-weight: 600; margin-bottom: 0.25rem;">Chapters</span>
+                      <div v-for="(chapter, indexChapter) in courseModule.chapters" :key="indexChapter">
+                        <div>{{ chapter.title }}</div>
+                      </div>
+                      <button class="add-item-btn mt-2" @click="createChapter(index)">
+                        <span>
+                          Add chapter
+                        </span>
+                        <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+                      </button>
+                    </div>
+
+                    <div v-if="moduleSteps[2].isActive">
+                      <span style="font-weight: 600; margin-bottom: 0.25rem;">Test</span>
+                    </div>
+                  </b-modal>
+                </div>
               </div>
 
               <button class="add-item-btn mt-2" @click="createModule(index)">
@@ -163,7 +182,7 @@
                 <span>Go back</span>
               </button>
               <button class="primary-btn">
-                Save module
+                Create course
               </button>
             </div>
           </div>
@@ -204,7 +223,13 @@ export default {
       courseValues: {
         thumbnail: null,
         modules: [
+          {
+            chapters: [
+              {
 
+              }
+            ]
+          }
         ]
       },
 
@@ -218,40 +243,62 @@ export default {
       moduleSteps: [
         {
           isActive: true,
-          name: 'Module'
+          name: 'Module',
+          isCompleted: false
         },
         {
           isActive: false,
-          name: 'Chapters'
+          name: 'Chapters',
+          isCompleted: false
         },
         {
           isActive: false,
-          name: 'Test'
+          name: 'Test',
+          isCompleted: false
         }
       ]
     }
   },
+  computed: {
+
+  },
 
   methods: {
+    stepCompleted () {
+      const completedModules = this.savedCourses.modules.map(module => ({
+        ...module,
+        completed: module.title.length > 0 && module.description.length > 0
+      }))
+
+      this.moduleSteps[0].isCompleted = completedModules[0].completed
+    },
     saveCourseDetails () {
       if (this.courseValues.thumbnail === null) {
         this.thumbnailMsg = 'Thumbnail is required'
       } else {
-        this.firstSection = false
+        const currentModules = this.savedCourses.modules
+
         this.savedCourses = {
           title: this.courseValues.title,
           description: this.courseValues.description,
           price: this.courseValues.price,
           thumbnail: this.courseValues.thumbnail,
-          modules: [
 
-          ]
+          modules: currentModules
         }
+
+        if (this.courseValues.modules && this.courseValues.modules.length > 0) {
+          this.savedCourses.modules = this.courseValues.modules.map(module => ({
+            title: module.title,
+            description: module.description
+          }))
+        }
+
+        this.firstSection = false
       }
     },
 
     createModule (index) {
-      this.count++
       const newModule = {
         title: 'New module',
         description: ''
@@ -259,16 +306,33 @@ export default {
 
       this.savedCourses.modules.push(newModule)
 
-      this.$bvModal.show(`modal-${index}`)
       this.courseModuleAdded[index] = true
+    },
+
+    createChapter (index) {
+      const newChapter = {
+        title: 'New chapter',
+        description: ''
+      }
+
+      const updatedCourses = JSON.parse(JSON.stringify(this.savedCourses))
+
+      updatedCourses.modules[index].chapters.push(newChapter)
+
+      this.savedCourses = updatedCourses
+
+      console.info(this.savedCourses.modules[index].chapters)
     },
 
     saveModule (index) {
       this.savedCourses.modules[index] = {
         title: this.courseValues.modules.title,
-        description: this.courseValues.modules.description
+        description: this.courseValues.modules.description,
+        chapters: []
       }
-      console.info(this.savedCourses.modules)
+      this.moduleSteps.forEach((step, stepIndex) => {
+        step.isActive = (stepIndex === 1)
+      })
     },
 
     removeModule (index) {
@@ -378,12 +442,27 @@ export default {
   background-color: #ef4114;
 }
 
-.module-checkpoint{
+.step-point{
   width: 18px;
   height:18px;
   border-radius: 50px;
   border: 3px solid #888888;
   background-color: #ffff;
   z-index:2
+}
+
+.step-activepoint{
+  width: 18px;
+  height:18px;
+  border-radius: 50px;
+  border: 5px solid #00b9cd;
+  background-color: #ffff;
+  z-index:2
+}
+
+.active-stepname{
+  font-size: 0.875em;
+  margin-bottom: 0.25rem;
+  color: #00b9cd;
 }
 </style>
