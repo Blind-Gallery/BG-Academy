@@ -5,27 +5,17 @@ services:
       context: ./api
       dockerfile: Dockerfile
     ports:
-      - ${ACTION_SERVER_PORT}:${ACTION_SERVER_PORT}
-    command: node server.js
-    restart: ${RESTART_POLICY}
+      - 3000:3000
+    restart: on-failure:3
     environment:
-      PORT: ${ACTION_SERVER_PORT}
-      NODE_ENV: ${NODE_ENV}
-      GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
-      GRAPHQL_SECRET: myadminsecretkey
-      INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
-      INFURA_API_KEY: ${INFURA_API_KEY}
-      IPFS_URL: ${IPFS_URL}
-      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
-      STRIPE_ENDPOINT_SECRET: ${STRIPE_ENDPOINT_SECRET}
-      TEZOS_PROTOCOL: ${TEZOS_PROTOCOL}
-      TEZOS_PRIVATE_KEY: ${TEZOS_PRIVATE_KEY}
+      PORT: 3000
+      NODE_ENV: production
+      ENVKEY: ${ENVKEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
       - "8080:8080"
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     environment:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -46,14 +36,14 @@ services:
         condition: service_healthy
   postgres:
     image: postgres:15
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.27.0
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     ports:
       - 8081:8081
     environment:
