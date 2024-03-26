@@ -1,6 +1,6 @@
 const { create } = require('ipfs-http-client')
 const { TezosConstants } = require('../constants')
-require('dotenv').config()
+require('envkey')
 
 class TZIP {
   constructor ({
