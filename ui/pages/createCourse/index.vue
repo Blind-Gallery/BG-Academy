@@ -150,16 +150,59 @@
                     </div>
 
                     <div v-if="moduleSteps[1].isActive">
-                      <span style="font-weight: 600; margin-bottom: 0.25rem;">Chapters</span>
-                      <div v-for="(chapter, indexChapter) in courseModule.chapters" :key="indexChapter">
-                        <div>{{ chapter.title }}</div>
+                      <div class="d-flex w-100 justify-content-between align-items-center">
+                        <span style="font-weight: 600; margin-bottom: 0.25rem;">Chapters</span>
+                        <button class="add-item-btn " @click="createChapter(index)">
+                          <span>
+                            Add chapter
+                          </span>
+                          <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+                        </button>
                       </div>
-                      <button class="add-item-btn mt-2" @click="createChapter(index)">
-                        <span>
-                          Add chapter
-                        </span>
-                        <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
-                      </button>
+                      <div v-for="(chapter, indexChapter) in courseModule.chapters" :key="indexChapter">
+                        <div @click="removeChapter(index, indexChapter)">
+                          remove chapter
+                        </div>
+                        <div class="w-100 shadow-sm  mb-2 rounded">
+                          <div @click="toggleCollapse(indexChapter)">
+                            <PxToggleCollapse style="padding:1rem" :padding="false" :icon-width="'24px'" :toggle-name="chapter.title" />
+                          </div>
+                          <b-collapse
+                            :id="`accordion-${indexChapter}`"
+                            class="mt-2 p-3"
+                            role="tabpanel"
+                          >
+                            <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].chapters[indexChapter]" class="login-form">
+                              <FormulateInput
+
+                                name="title"
+                                type="text"
+                                label="Title"
+                                placeholder="Enter title"
+                                validation="required"
+                              />
+                              <FormulateInput
+                                name="description"
+                                type="textarea"
+                                label="Description"
+                                placeholder="Enter description"
+                                validation="required"
+                              />
+
+                              <FormulateInput
+                                style="width: 120px;"
+                                type="submit"
+                                :disabled="isLoading"
+                                :label="isLoading ? 'Loading...' : 'Next'"
+                              />
+                            </FormulateForm>
+                          </b-collapse>
+                        </div>
+                      </div>
+
+                      <div v-if="courseModule.chapters && courseModule.chapters.length === 0" class="d-flex align-items-center justify-content-center">
+                        <span>No chapters in this module yet </span>
+                      </div>
                     </div>
 
                     <div v-if="moduleSteps[2].isActive">
@@ -210,10 +253,10 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
-      count: 0,
       firstSection: false,
       isDragging: false,
       selectedFile: null,
@@ -264,6 +307,10 @@ export default {
   },
 
   methods: {
+
+    toggleCollapse (chapterIndex) {
+      this.$root.$emit('bv::toggle::collapse', `accordion-${chapterIndex}`)
+    },
     stepCompleted () {
       const completedModules = this.savedCourses.modules.map(module => ({
         ...module,
@@ -285,13 +332,6 @@ export default {
           thumbnail: this.courseValues.thumbnail,
 
           modules: currentModules
-        }
-
-        if (this.courseValues.modules && this.courseValues.modules.length > 0) {
-          this.savedCourses.modules = this.courseValues.modules.map(module => ({
-            title: module.title,
-            description: module.description
-          }))
         }
 
         this.firstSection = false
@@ -337,6 +377,11 @@ export default {
 
     removeModule (index) {
       this.savedCourses.modules.splice(index, 1)
+    },
+
+    removeChapter (indexModule, indexChapter) {
+      console.info(indexModule, indexChapter)
+      this.savedCourses.modules[indexModule].chapters.splice(indexChapter, 1)
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
