@@ -172,7 +172,7 @@ class User {
     return { userId }
   }
 
-  registerWallet (
+  async registerWallet (
     {
       userId,
       wallet,
@@ -180,7 +180,7 @@ class User {
       signedMessage,
       payload
     }) {
-    const { users_by_pk: user } = this.gql.request(
+    const { users_by_pk: user } = await this.gql.request(
       GET_USER_FROM_ID, { userId })
 
     if (!user) {
