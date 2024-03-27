@@ -44,7 +44,7 @@
           >
             <div class="d-flex flex-column align-items-center shadow-sm  rounded profile-container justify-content-center">
               <div class="d-flex flex-column align-items-center " style="padding-bottom: 1.5rem;">
-                <b-avatar class="mb-2" size="5rem" />
+                <b-avatar class="mb-2" size="5rem" :src="$auth.user.pfp" />
                 <h4 class="text-truncate" style="max-width: 235px;">
                   {{ $auth.user.name }}
                 </h4>

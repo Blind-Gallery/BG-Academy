@@ -1,31 +1,10 @@
 version: "3.6"
 services:
-  action-server:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    ports:
-      - ${ACTION_SERVER_PORT}:${ACTION_SERVER_PORT}
-    command: node server.js
-    restart: ${RESTART_POLICY}
-    environment:
-      PORT: ${ACTION_SERVER_PORT}
-      NODE_ENV: ${NODE_ENV}
-      GRAPHQL_ENDPOINT: http://graphql-engine:8080/v1/graphql
-      GRAPHQL_SECRET: myadminsecretkey
-      INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
-      INFURA_API_KEY: ${INFURA_API_KEY}
-      IPFS_URL: ${IPFS_URL}
-      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
-      STRIPE_ENDPOINT_SECRET: ${STRIPE_ENDPOINT_SECRET}
-      TEZOS_PROTOCOL: ${TEZOS_PROTOCOL}
-      TEZOS_PRIVATE_KEY: ${TEZOS_PRIVATE_KEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
       - "8080:8080"
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     environment:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -46,7 +25,7 @@ services:
         condition: service_healthy
   postgres:
     image: postgres:15
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -67,6 +46,5 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
-
 volumes:
   db_data:

@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('envkey')
 const sgMail = require('@sendgrid/mail')
 class Email {
   constructor ({ apiKey }) {
@@ -35,7 +35,6 @@ class Email {
     return response[0]
   }
 
-
   async sendEmail ({ to, from = 'academy@blindgallery.xyz', subject, text, html }) {
     const msg = {
       to,
@@ -63,7 +62,7 @@ class Email {
   }
 
   async sendThanksForPurchaseEmail ({ to, title, image, link }) {
-    const res = await this.sendDynamicTemplate(to, 'd-ca164928139a4d5da393809c8fc7d1a4', {title, image, link})
+    const res = await this.sendDynamicTemplate(to, 'd-ca164928139a4d5da393809c8fc7d1a4', { title, image, link })
     return res
   }
 }

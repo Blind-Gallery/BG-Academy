@@ -112,6 +112,20 @@ mutation (
   }
 }
 `
+
+const UPDATE_USER_PASSWORD = gql`
+mutation (
+  $userId: String!,
+  $password: String!
+  ) {
+  update_emails(
+    where: {
+      user_info: {id: {_eq: $userId}}},
+      _set: {password: $password}) {
+    affected_rows
+  }
+}
+`
 module.exports = {
   GET_USER_FROM_ID,
   GET_TEZOS_FROM_WALLET,
@@ -120,5 +134,6 @@ module.exports = {
   GET_USER_BY_WALLET,
   CREATE_USER,
   UPDATE_USER,
-  REGISTER_WALLET
+  REGISTER_WALLET,
+  UPDATE_USER_PASSWORD
 }

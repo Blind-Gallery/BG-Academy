@@ -9,7 +9,8 @@ const {
   GET_USER_BY_WALLET,
   CREATE_USER,
   UPDATE_USER,
-  REGISTER_WALLET
+  REGISTER_WALLET,
+  UPDATE_USER_PASSWORD
 } = require('../graphQL')
 
 class User {
@@ -172,7 +173,7 @@ class User {
     return { userId }
   }
 
-  registerWallet (
+  async registerWallet (
     {
       userId,
       wallet,
@@ -180,7 +181,7 @@ class User {
       signedMessage,
       payload
     }) {
-    const { users_by_pk: user } = this.gql.request(
+    const { users_by_pk: user } = await this.gql.request(
       GET_USER_FROM_ID, { userId })
 
     if (!user) {
@@ -217,6 +218,24 @@ class User {
       })
 
     return tezos
+  }
+
+  async changePassword ({ userId, password, newPassword }) {
+    // get user information, if user not found, throw error
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    await this.gql.request(
+      UPDATE_USER_PASSWORD, {
+        password: await bcrypt.hash(newPassword, 10),
+        userId
+      })
+
+    return { userId, success: true }
   }
 }
 

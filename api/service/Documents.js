@@ -11,6 +11,12 @@ class Documents {
     this.ipfs = new IPFS()
   }
 
+  async uploadToIPFS (file) {
+    const data = await this.ipfs.add({ content: file })
+    const cid = data.path
+    return cid
+  }
+
   async getTemplateHtml (name) {
     console.info('Loading template file in memory')
     try {

@@ -1,8 +1,10 @@
 'use strict'
+const multipart = require('@fastify/multipart')
 
 const {
   getCertificateSchema,
-  mintCertificateSchema
+  mintCertificateSchema,
+  uploadFileSchema
 } = require('./schemas')
 
 /**
@@ -10,8 +12,10 @@ const {
  */
 module.exports = async function (fastify, opts) {
   fastify.register(async function (fastify) {
+    fastify.register(multipart, { limits: { fileSize: 1048576 * 124 } })
     fastify.post('/certificate', { schema: getCertificateSchema }, getDocumentHandler)
     fastify.post('/mint', { schema: mintCertificateSchema }, mintDocumentHandler)
+    fastify.post('/upload', { schema: uploadFileSchema }, uploadFileHandler)
   })
 }
 
@@ -39,4 +43,19 @@ async function mintDocumentHandler (req, reply) {
   await this.documents.mintSoulBoundCertificate(req.body)
 
   return { certificate: 'minted' }
+}
+
+async function uploadFileHandler (req, reply) {
+  const file = await req.file()
+  try {
+    const buffer = await file.toBuffer()
+    return await this.documents.uploadFile({
+      buffer,
+      fileType: file.mimetype,
+      fileName: file.filename
+    })
+  } catch (err) {
+    console.error(err)
+    return { message: 'fileSize limit reached' }
+  }
 }

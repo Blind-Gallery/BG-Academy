@@ -84,8 +84,31 @@ const registerWalletSchema = {
   }
 }
 
+const changePasswordSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId', 'password', 'newPassword'],
+    properties: {
+      userId: { type: 'string' },
+      password: { type: 'string' },
+      newPassword: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   createUserSchema,
   updateUserSchema,
-  registerWalletSchema
+  registerWalletSchema,
+  changePasswordSchema
 }

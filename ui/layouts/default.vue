@@ -49,7 +49,7 @@
               <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content>
                   <div class="header-pfp">
-                    <img width="100%" src="https://pbs.twimg.com/profile_images/1603791594762604549/RmkcXqLF_400x400.jpg" alt="pfp">
+                    <b-avatar width="100%" :src="$auth.user.pfp" />
                   </div>
                 </template>
                 <b-dropdown-item href="#">

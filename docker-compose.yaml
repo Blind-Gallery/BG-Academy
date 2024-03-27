@@ -1,10 +1,21 @@
 version: "3.6"
 services:
+  action-server:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    restart: on-failure:3
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      ENVKEY: ${ENVKEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
       - "8080:8080"
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     environment:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -25,14 +36,14 @@ services:
         condition: service_healthy
   postgres:
     image: postgres:15
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgrespassword
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.27.0
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     ports:
       - 8081:8081
     environment:
@@ -46,5 +57,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
+
 volumes:
   db_data:

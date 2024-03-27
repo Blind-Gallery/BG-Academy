@@ -1,6 +1,6 @@
 const { BadRequest } = require('http-errors')
 
-require('dotenv').config()
+require('envkey')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class Payment {

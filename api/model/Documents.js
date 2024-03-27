@@ -17,6 +17,11 @@ class Documents {
     this.sbtSC = sbtSC
   }
 
+  async uploadFile ({ buffer, fileType, fileName }) {
+    const cid = await this.docs.uploadToIPFS(buffer)
+    return { cid }
+  }
+
   async getCertificate ({ courseId, userId }) {
     try {
       const { user_course: userCourse } = await this.gql.request(GET_USER_COURSE_INFO, { courseId, userId })
@@ -48,12 +53,8 @@ class Documents {
     }
 
     const { data } = await axios.request(options)
-    console.log(data)
     if (data.length === 0) throw new BadRequest('No operation found')
-    const { diffs, storage } = data[0]
-
-    console.log('diffs', diffs)
-    console.log('storage', storage)
+    const { storage } = data[0]
 
     return storage.last_token_id - 1
   }
