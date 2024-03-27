@@ -160,21 +160,19 @@
                         </button>
                       </div>
                       <div v-for="(chapter, indexChapter) in courseModule.chapters" :key="indexChapter">
-                        <div @click="removeChapter(index, indexChapter)">
-                          remove chapter
-                        </div>
-                        <div class="w-100 shadow-sm  mb-2 rounded">
+                        <div class="shadow-sm rounded p-2 mb-2 w-100">
                           <div @click="toggleCollapse(indexChapter)">
-                            <PxToggleCollapse style="padding:1rem" :padding="false" :icon-width="'24px'" :toggle-name="chapter.title" />
+                            <PxToggleCollapse :padding="false" :icon-width="'24px'" :toggle-name="chapter.title" />
                           </div>
+
                           <b-collapse
                             :id="`accordion-${indexChapter}`"
-                            class="mt-2 p-3"
+                            class="mt-2 "
                             role="tabpanel"
                           >
-                            <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].chapters[indexChapter]" class="login-form">
+                            <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].chapters[indexChapter]" class="login-form" @submit="saveChapter(index, indexChapter)">
                               <FormulateInput
-
+                                :value="savedCourses.modules[index].chapters[indexChapter].title"
                                 name="title"
                                 type="text"
                                 label="Title"
@@ -182,6 +180,7 @@
                                 validation="required"
                               />
                               <FormulateInput
+                                :value="savedCourses.modules[index].chapters[indexChapter].description"
                                 name="description"
                                 type="textarea"
                                 label="Description"
@@ -189,18 +188,57 @@
                                 validation="required"
                               />
 
-                              <FormulateInput
-                                style="width: 120px;"
-                                type="submit"
-                                :disabled="isLoading"
-                                :label="isLoading ? 'Loading...' : 'Next'"
-                              />
+                              <input
+                                ref="videoInput"
+                                name="video"
+                                type="file"
+                                class="d-none"
+                                accept="video/mp4, video/mov"
+                                @change="uploadVideo(index, indexChapter)"
+                              >
+                              <div v-if="selectedVideo === null" class="d-flex flex-column" style="margin-bottom: 1.5em;">
+                                <label style="font-size: .9em;">Thumbnail</label>
+                                <div
+                                  :class="isDragging ? 'drop-zone_active':'drop-zone'"
+                                  @dragover.prevent="onDragOver"
+                                  @dragleave.prevent="onDrageLeave"
+                                  @drop.prevent="onDrop"
+                                  @click="$refs.videoInput[indexChapter].click()"
+                                >
+                                  <Icon color="none" :class="isDragging? 'upload-icon_active':''" icon="material-symbols:upload-rounded" width="3rem" />
+                                  <span :class="isDragging ? 'drop-text_active small':'small'">Drag and drop and image file to upload them</span>
+                                </div>
+                                <span style="color:#960505; font-size: .8em; margin-bottom: 0.25em;">{{ thumbnailMsg }}</span>
+                              </div>
+
+                              <div v-else style="border:1px solid #cecece; margin-bottom: 1.5em;" class="d-flex justify-content-between border rounded p-2 ">
+                                <div>
+                                  <Icon width="1.25rem" icon="material-symbols:file-copy-outline-rounded" style="color: black" class="mr-2" />
+                                  <span class="small">{{ selectedVideo.name }}</span>
+                                </div>
+                                <div style="cursor: pointer;" @click="removeFile">
+                                  <Icon width="1.25rem" icon="material-symbols:close-rounded" style="color: black" class="mr-2" />
+                                </div>
+                              </div>
+
+                              <div class="d-flex w-100 justify-content-between align-items-center">
+                                <div style="color:#ef4114; cursor: pointer; font-size: 14px" @click="removeChapter(index, indexChapter)">
+                                  <span>Remove chapter</span>
+                                  <Icon color="#ef4114" width="1.25rem" icon="material-symbols:delete-outline-rounded" />
+                                </div>
+                                <FormulateInput
+                                  style="width: 120px;"
+                                  type="submit"
+                                  :disabled="isLoading"
+                                  :label="isLoading ? 'Loading...' : 'Save'"
+                                />
+                              </div>
                             </FormulateForm>
                           </b-collapse>
                         </div>
                       </div>
 
-                      <div v-if="courseModule.chapters && courseModule.chapters.length === 0" class="d-flex align-items-center justify-content-center">
+                      <div v-if="courseModule.chapters && courseModule.chapters.length === 0" class="d-flex align-items-center justify-content-center" style="height: 100px">
                         <span>No chapters in this module yet </span>
                       </div>
                     </div>
@@ -260,6 +298,7 @@ export default {
       firstSection: false,
       isDragging: false,
       selectedFile: null,
+      selectedVideo: null,
       thumbnailMsg: null,
       courseFormErrors: null,
       courseModuleAdded: [],
@@ -352,16 +391,16 @@ export default {
     createChapter (index) {
       const newChapter = {
         title: 'New chapter',
-        description: ''
+        description: '',
+        video: null
       }
 
       const updatedCourses = JSON.parse(JSON.stringify(this.savedCourses))
+      this.courseValues.modules[index].chapters.push(newChapter)
 
       updatedCourses.modules[index].chapters.push(newChapter)
 
       this.savedCourses = updatedCourses
-
-      console.info(this.savedCourses.modules[index].chapters)
     },
 
     saveModule (index) {
@@ -373,6 +412,14 @@ export default {
       this.moduleSteps.forEach((step, stepIndex) => {
         step.isActive = (stepIndex === 1)
       })
+    },
+
+    saveChapter (indexModule, indexChapter) {
+      this.savedCourses.modules[indexModule].chapters[indexChapter] = {
+        title: this.courseValues.modules[indexModule].chapters[indexChapter].title,
+        description: this.courseValues.modules[indexModule].chapters[indexChapter].description,
+        video: this.courseValues.modules[indexModule].chapters[indexChapter].video
+      }
     },
 
     removeModule (index) {
@@ -387,6 +434,13 @@ export default {
       this.selectedFile = event.target.files[0]
       if (this.selectedFile) {
         this.courseValues.thumbnail = URL.createObjectURL(this.selectedFile)
+      }
+    },
+
+    uploadVideo (indexModule, indexChapter) {
+      this.selectedVideo = event.target.files[0]
+      if (this.selectedVideo) {
+        this.courseValues.modules[indexModule].chapters[indexChapter].video = URL.createObjectURL(this.selectedVideo)
       }
     },
 
