@@ -12,7 +12,6 @@ class Documents {
   }
 
   async uploadToIPFS (file) {
-    console.log(typeof file)
     const data = await this.ipfs.add({ content: file })
     const cid = data.path
     return cid
