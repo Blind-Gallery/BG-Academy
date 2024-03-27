@@ -71,7 +71,7 @@
               }"
             />
             <FormulateInput
-              name="new_password"
+              name="newPassword"
               type="password"
               label="New password"
               placeholder="Enter password"
@@ -196,10 +196,10 @@ export default {
       console.info(response)
     },
 
-    changePassword (data) {
-      setTimeout(() => {
-        console.info(data)
-      }, 2000)
+    async changePassword (data) {
+      data.userId = this.$auth.user.id
+      const response = await this.$axios.$post('users/change-password', data)
+      console.info(response)
     },
 
     redirectionHome () {

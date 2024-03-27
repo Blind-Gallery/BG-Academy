@@ -3,7 +3,8 @@
 const {
   createUserSchema,
   updateUserSchema,
-  registerWalletSchema
+  registerWalletSchema,
+  changePasswordSchema
 } = require('./schemas')
 
 /**
@@ -14,6 +15,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/', { schema: createUserSchema }, createUserHandler)
     fastify.post('/update', { schema: updateUserSchema }, updateUserHandler)
     fastify.post('/register-wallet', { schema: registerWalletSchema }, registerWalletHandler)
+    fastify.post('/change-password', { schema: changePasswordSchema }, changePasswordHandler)
   })
 }
 
@@ -41,5 +43,10 @@ async function updateUserHandler (req, reply) {
 
 async function registerWalletHandler (req, reply) {
   await this.user.registerWallet(req.body)
+  return { success: true }
+}
+
+async function changePasswordHandler (req, reply) {
+  await this.user.changePassword(req.body)
   return { success: true }
 }
