@@ -135,29 +135,41 @@ export default {
   data () {
     return {
       selectedFile: null,
-
       profileData: {
-        pfp: null
+        pfp: this.$auth.user.pfp
       },
-      passwordData: {}
-
+      passwordData: {},
+      imageCID: null
     }
   },
 
   created () {
     this.redirectionHome()
+    this.profileData.pfp = this.$auth.user.pfp
   },
 
   methods: {
-    updatePFP (event) {
+    async updatePFP (event) {
       this.selectedFile = event.target.files[0]
       if (this.selectedFile) {
         this.profileData.pfp = URL.createObjectURL(this.selectedFile)
       }
+
+      const formData = new FormData()
+      formData.append('file', this.selectedFile)
+      const { cid } = await this.$axios.$post('docs/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      this.imageCID = cid
     },
 
     async updateProfileData (data) {
       data.userId = this.$auth.user.id
+      if (this.imageCID) {
+        data.pfp = `https://blind-gallery.infura-ipfs.io/ipfs/${this.imageCID}`
+      }
       const response = await this.$axios.$post('users/update', data)
       console.info(response)
     },
