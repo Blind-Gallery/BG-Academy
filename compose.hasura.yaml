@@ -4,7 +4,7 @@ services:
     image: hasura/graphql-engine:v2.27.0
     ports:
       - "8080:8080"
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     environment:
       ## postgres database to store Hasura metadata
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
@@ -25,7 +25,7 @@ services:
         condition: service_healthy
   postgres:
     image: postgres:15
-    restart: ${RESTART_POLICY}
+    restart: on-failure:3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
