@@ -266,28 +266,57 @@
                             class="mt-2 "
                             role="tabpanel"
                           >
-                            <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].test[indexQuestion]" class="login-form" @submit="saveQuestion(index, indexChapter)">
+                            <FormulateForm v-slot="{ isLoading }" class="login-form" @submit="saveQuestion(index, indexChapter)">
                               <div v-if="savedCourses.modules[index].test[indexQuestion]">
                                 <FormulateInput
+                                  v-model="question.question"
                                   name:="question"
                                   type="text"
                                   label="Question"
                                   required
                                 />
                               </div>
-                              <div v-for="(option, indexOption) in question.options" :key="indexOption">
-                                {{ option.text }}
+                              <label style="font-size: .9em;">Options</label>
+                              <!-- <div v-for="(option, indexOption) in question.options" :key="indexOption">
                                 <FormulateInput
-                                  v-model="option.text"
-                                  :name="'option-' + (indexOption + 1)"
+                                  v-model="option[indexOption].text"
                                   type="text"
-                                  :label="'Opción ' + (indexOption + 1)"
                                   required
                                 />
-                              </div>
+
+                                {{ option[indexOption] }}
+                              </div> -->
+                              <FormulateInput
+                                v-model="question.options.option1"
+                                type="text"
+                                required
+                              />
+                              <FormulateInput
+                                v-model="question.options.option2"
+                                type="text"
+                                required
+                              />
+                              <FormulateInput
+                                v-model="question.options.option3"
+                                type="text"
+                                required
+                              />
+                              <FormulateInput
+                                v-model="question.options.option4"
+                                type="text"
+                                required
+                              />
+                              <FormulateInput
+                                v-if="question.options.option1 && question.options.option1.length > 0"
+                                v-model="question.answer"
+                                :value="question.options.option1"
+                                type="select"
+                                :options="question.options"
+                                label="Selecciona una respuesta"
+                              />
 
                               <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div style="color:#ef4114; cursor: pointer; font-size: 14px" @click="removeChapter(index, indexQuestion)">
+                                <div style="color:#ef4114; cursor: pointer; font-size: 14px" @click="removeQuestion(index, indexQuestion)">
                                   <span>Remove question</span>
                                   <Icon color="#ef4114" width="1.25rem" icon="material-symbols:delete-outline-rounded" />
                                 </div>
@@ -464,12 +493,10 @@ export default {
     createQuestion (index) {
       const newQuestion = {
         question: 'New question',
-        options: [
-          { text: '1' },
-          { text: '2' },
-          { text: '3' },
-          { text: '4' }
-        ]
+        options: {
+
+        },
+        answer: ''
 
       }
       const updatedCourses = JSON.parse(JSON.stringify(this.savedCourses))
@@ -511,6 +538,10 @@ export default {
     removeChapter (indexModule, indexChapter) {
       console.info(indexModule, indexChapter)
       this.savedCourses.modules[indexModule].chapters.splice(indexChapter, 1)
+    },
+
+    removeQuestion (indexModule, indexQuestion) {
+      this.savedCourses.modules[indexModule].test.splice(indexQuestion, 1)
     },
     uploadThumbnail (event) {
       this.selectedFile = event.target.files[0]
