@@ -171,53 +171,55 @@
                             role="tabpanel"
                           >
                             <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].chapters[indexChapter]" class="login-form" @submit="saveChapter(index, indexChapter)">
-                              <FormulateInput
-                                :value="savedCourses.modules[index].chapters[indexChapter].title"
-                                name="title"
-                                type="text"
-                                label="Title"
-                                placeholder="Enter title"
-                                validation="required"
-                              />
-                              <FormulateInput
-                                :value="savedCourses.modules[index].chapters[indexChapter].description"
-                                name="description"
-                                type="textarea"
-                                label="Description"
-                                placeholder="Enter description"
-                                validation="required"
-                              />
+                              <div v-if="savedCourses.modules[index].chapters[indexChapter]">
+                                <FormulateInput
+                                  :value="savedCourses.modules[index].chapters[indexChapter].title"
+                                  name="title"
+                                  type="text"
+                                  label="Title"
+                                  placeholder="Enter title"
+                                  validation="required"
+                                />
+                                <FormulateInput
+                                  :value="savedCourses.modules[index].chapters[indexChapter].description"
+                                  name="description"
+                                  type="textarea"
+                                  label="Description"
+                                  placeholder="Enter description"
+                                  validation="required"
+                                />
 
-                              <input
-                                ref="videoInput"
-                                name="video"
-                                type="file"
-                                class="d-none"
-                                accept="video/mp4, video/mov"
-                                @change="uploadVideo(index, indexChapter)"
-                              >
-                              <div v-if="selectedVideo === null" class="d-flex flex-column" style="margin-bottom: 1.5em;">
-                                <label style="font-size: .9em;">Thumbnail</label>
-                                <div
-                                  :class="isDragging ? 'drop-zone_active':'drop-zone'"
-                                  @dragover.prevent="onDragOver"
-                                  @dragleave.prevent="onDrageLeave"
-                                  @drop.prevent="onDrop"
-                                  @click="$refs.videoInput[indexChapter].click()"
+                                <input
+                                  ref="videoInput"
+                                  name="video"
+                                  type="file"
+                                  class="d-none"
+                                  accept="video/mp4, video/mov"
+                                  @change="uploadVideo(index, indexChapter)"
                                 >
-                                  <Icon color="none" :class="isDragging? 'upload-icon_active':''" icon="material-symbols:upload-rounded" width="3rem" />
-                                  <span :class="isDragging ? 'drop-text_active small':'small'">Drag and drop and image file to upload them</span>
+                                <div v-if="chapter.selectedVideo === null" class="d-flex flex-column" style="margin-bottom: 1.5em;">
+                                  <label style="font-size: .9em;">Upload video</label>
+                                  <div
+                                    :class="isDragging ? 'drop-zone_active':'drop-zone'"
+                                    @dragover.prevent="onDragOver"
+                                    @dragleave.prevent="onDrageLeave"
+                                    @drop.prevent="onDrop"
+                                    @click="$refs.videoInput[indexChapter].click()"
+                                  >
+                                    <Icon color="none" :class="isDragging? 'upload-icon_active':''" icon="material-symbols:upload-rounded" width="3rem" />
+                                    <span :class="isDragging ? 'drop-text_active small':'small'">Drag and drop a video file to upload them</span>
+                                  </div>
+                                  <span style="color:#960505; font-size: .8em; margin-bottom: 0.25em;">{{ videoMsg }}</span>
                                 </div>
-                                <span style="color:#960505; font-size: .8em; margin-bottom: 0.25em;">{{ thumbnailMsg }}</span>
-                              </div>
 
-                              <div v-else style="border:1px solid #cecece; margin-bottom: 1.5em;" class="d-flex justify-content-between border rounded p-2 ">
-                                <div>
-                                  <Icon width="1.25rem" icon="material-symbols:file-copy-outline-rounded" style="color: black" class="mr-2" />
-                                  <span class="small">{{ selectedVideo.name }}</span>
-                                </div>
-                                <div style="cursor: pointer;" @click="removeFile">
-                                  <Icon width="1.25rem" icon="material-symbols:close-rounded" style="color: black" class="mr-2" />
+                                <div v-else style="border:1px solid #cecece; margin-bottom: 1.5em;" class="d-flex justify-content-between border rounded p-2 ">
+                                  <div>
+                                    <Icon width="1.25rem" icon="material-symbols:file-copy-outline-rounded" style="color: black" class="mr-2" />
+                                    <span class="small">{{ chapter.selectedVideo }}</span>
+                                  </div>
+                                  <div style="cursor: pointer;" @click="removeVideo(index, indexChapter)">
+                                    <Icon width="1.25rem" icon="material-symbols:close-rounded" style="color: black" class="mr-2" />
+                                  </div>
                                 </div>
                               </div>
 
@@ -244,7 +246,62 @@
                     </div>
 
                     <div v-if="moduleSteps[2].isActive">
-                      <span style="font-weight: 600; margin-bottom: 0.25rem;">Test</span>
+                      <div class="d-flex w-100 justify-content-between align-items-center">
+                        <span style="font-weight: 600; margin-bottom: 0.25rem;">Test</span>
+                        <button class="add-item-btn " @click="createQuestion(index)">
+                          <span>
+                            Add question
+                          </span>
+                          <Icon width="1.25rem" icon="material-symbols:add-rounded" class="ml-1" />
+                        </button>
+                      </div>
+                      <div v-for="(question, indexQuestion) in courseModule.test" :key="indexQuestion">
+                        <div class="shadow-sm rounded p-2 mb-2 w-100">
+                          <div @click="toggleCollapse(indexQuestion)">
+                            <PxToggleCollapse :padding="false" :icon-width="'24px'" :toggle-name="question.question" />
+                          </div>
+
+                          <b-collapse
+                            :id="`accordion-${indexQuestion}`"
+                            class="mt-2 "
+                            role="tabpanel"
+                          >
+                            <FormulateForm v-slot="{ isLoading }" v-model="courseValues.modules[index].test[indexQuestion]" class="login-form" @submit="saveQuestion(index, indexChapter)">
+                              <div v-if="savedCourses.modules[index].test[indexQuestion]">
+                                <FormulateInput
+                                  name:="question"
+                                  type="text"
+                                  label="Question"
+                                  required
+                                />
+                              </div>
+                              <div v-for="(option, indexOption) in question.options" :key="indexOption">
+                                {{ option.text }}
+                                <FormulateInput
+                                  v-model="option.text"
+                                  :name="'option-' + (indexOption + 1)"
+                                  type="text"
+                                  :label="'Opción ' + (indexOption + 1)"
+                                  required
+                                />
+                              </div>
+
+                              <div class="d-flex w-100 justify-content-between align-items-center">
+                                <div style="color:#ef4114; cursor: pointer; font-size: 14px" @click="removeChapter(index, indexQuestion)">
+                                  <span>Remove question</span>
+                                  <Icon color="#ef4114" width="1.25rem" icon="material-symbols:delete-outline-rounded" />
+                                </div>
+                                <FormulateInput
+                                  style="width: 120px;"
+                                  type="submit"
+                                  :disabled="isLoading"
+                                  :label="isLoading ? 'Loading...' : 'Save'"
+                                />
+                              </div>
+                            </FormulateForm>
+                          </b-collapse>
+                        </div>
+                      </div>
                     </div>
                   </b-modal>
                 </div>
@@ -298,7 +355,7 @@ export default {
       firstSection: false,
       isDragging: false,
       selectedFile: null,
-      selectedVideo: null,
+      videoMsg: null,
       thumbnailMsg: null,
       courseFormErrors: null,
       courseModuleAdded: [],
@@ -307,9 +364,10 @@ export default {
         modules: [
           {
             chapters: [
-              {
 
-              }
+            ],
+            test: [
+
             ]
           }
         ]
@@ -346,7 +404,6 @@ export default {
   },
 
   methods: {
-
     toggleCollapse (chapterIndex) {
       this.$root.$emit('bv::toggle::collapse', `accordion-${chapterIndex}`)
     },
@@ -392,6 +449,7 @@ export default {
       const newChapter = {
         title: 'New chapter',
         description: '',
+        selectedVideo: null,
         video: null
       }
 
@@ -403,11 +461,30 @@ export default {
       this.savedCourses = updatedCourses
     },
 
+    createQuestion (index) {
+      const newQuestion = {
+        question: 'New question',
+        options: [
+          { text: '1' },
+          { text: '2' },
+          { text: '3' },
+          { text: '4' }
+        ]
+
+      }
+      const updatedCourses = JSON.parse(JSON.stringify(this.savedCourses))
+      this.courseValues.modules[index].test.push(newQuestion)
+      updatedCourses.modules[index].test.push(newQuestion)
+
+      this.savedCourses = updatedCourses
+    },
+
     saveModule (index) {
       this.savedCourses.modules[index] = {
         title: this.courseValues.modules.title,
         description: this.courseValues.modules.description,
-        chapters: []
+        chapters: [],
+        test: []
       }
       this.moduleSteps.forEach((step, stepIndex) => {
         step.isActive = (stepIndex === 1)
@@ -415,10 +492,15 @@ export default {
     },
 
     saveChapter (indexModule, indexChapter) {
-      this.savedCourses.modules[indexModule].chapters[indexChapter] = {
-        title: this.courseValues.modules[indexModule].chapters[indexChapter].title,
-        description: this.courseValues.modules[indexModule].chapters[indexChapter].description,
-        video: this.courseValues.modules[indexModule].chapters[indexChapter].video
+      if (this.courseValues.modules[indexModule].chapters[indexChapter].video === null) {
+        this.videoMsg = 'Video is required'
+      } else {
+        this.savedCourses.modules[indexModule].chapters[indexChapter] = {
+          title: this.courseValues.modules[indexModule].chapters[indexChapter].title,
+          description: this.courseValues.modules[indexModule].chapters[indexChapter].description,
+          selectedVideo: this.courseValues.modules[indexModule].chapters[indexChapter].selectedVideo,
+          video: this.courseValues.modules[indexModule].chapters[indexChapter].video
+        }
       }
     },
 
@@ -438,10 +520,17 @@ export default {
     },
 
     uploadVideo (indexModule, indexChapter) {
-      this.selectedVideo = event.target.files[0]
-      if (this.selectedVideo) {
-        this.courseValues.modules[indexModule].chapters[indexChapter].video = URL.createObjectURL(this.selectedVideo)
+      this.savedCourses.modules[indexModule].chapters[indexChapter].selectedVideo = event.target.files[0]
+      if (this.savedCourses.modules[indexModule].chapters[indexChapter].selectedVideo) {
+        this.courseValues.modules[indexModule].chapters[indexChapter].video = URL.createObjectURL(this.savedCourses.modules[indexModule].chapters[indexChapter].selectedVideo)
+        this.courseValues.modules[indexModule].chapters[indexChapter].selectedVideo = event.target.files[0].name
+        this.savedCourses.modules[indexModule].chapters[indexChapter].selectedVideo = event.target.files[0].name
       }
+    },
+
+    removeVideo (indexModule, indexChapter) {
+      this.courseValues.modules[indexModule].chapters[indexChapter].selectedVideo = null
+      this.savedCourses.modules[indexModule].chapters[indexChapter].selectedVideo = null
     },
 
     removeFile () {
