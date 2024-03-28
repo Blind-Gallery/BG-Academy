@@ -602,7 +602,7 @@ export default {
           instructor: 'By Dist',
           title: 'Designing Sounds for Beginners',
           description: 'Learn the fundamentals of digital sound-making for creatives.',
-          cover: 'https://th.bing.com/th/id/OIG4.Z8SXCg0Tx6I44fSFwUjj?pid=ImgGn',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmannDKXVxP2sqg9hKcEUi9ytRDBxRVS4zAAyYttmmxsVn',
           category: 'Artists'
         },
         {
@@ -610,7 +610,7 @@ export default {
           instructor: 'By Haiver',
           title: 'Mastering The Artist Statement',
           description: 'Learn how to create a simple and powerful artist statement.',
-          cover: 'https://th.bing.com/th/id/OIG3.iZ4lCuFNsN9hjRTu7.D0?w=1024&h=1024&rs=1&pid=ImgDetMain',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK',
           category: 'Artists'
         },
         {
@@ -618,7 +618,7 @@ export default {
           instructor: 'By Heeey',
           title: 'Generative Coded Art 101',
           description: 'Learn the fundamental concepts and history behind generative art.',
-          cover: 'https://th.bing.com/th/id/OIG4.EaeKFl_gpDQ2U06xBmO1?w=1024&h=1024&rs=1&pid=ImgDetMain',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC',
           category: 'Artists, Collectors'
         },
         {
@@ -626,7 +626,7 @@ export default {
           instructor: 'By ilithya',
           title: 'Introduction to pixel shaders',
           description: 'This course will walk you through the basics of computational thinking and creative coding with pixel shaders in GLSL.',
-          cover: 'https://uc118f51bb6d670a833d2c38c28e.previews.dropboxusercontent.com/p/thumb/ACMLxvhxpvLnBgkpFgWoDZKiC8a4WOeRdYYNRK1orE5Uoxw1NIBPNh2bSE8bo0639SYKPJz15G_aj-B3_2Yp8BZm6DjO0o4EuLrasH64NJhhmsCpHA64emL1xXKTxiQQxwIc2_eZnmmVxQGxWPdoZmfdOVFBx6iaKbK5eq2iaxV8_vpTobG4mWGXNTI8f_ZnV37lwaAFE9X1xzt3tilTPKSaOTidlhb6mzy1njin44KrewNyx6uRh6lm-pcXOkZVp7E19bvwZws2gGgOZqs8R0iAyR5h6J4k_UierSqzW1_vdelyaV7cQOEgmoQqJUcR9LZCkqfqY8E5xB3aOUrMjhNqINaAuHb_sTBJTOGKFnIAjw/p.png',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby',
           category: 'Artists'
         }
       ]
