@@ -312,7 +312,7 @@
                                 :value="question.options.option1"
                                 type="select"
                                 :options="question.options"
-                                label="Selecciona una respuesta"
+                                label="Select the correct option"
                               />
 
                               <div class="d-flex w-100 justify-content-between align-items-center">
