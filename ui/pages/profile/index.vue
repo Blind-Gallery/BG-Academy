@@ -170,8 +170,8 @@ export default {
       if (this.imageCID) {
         data.pfp = `https://blind-gallery.infura-ipfs.io/ipfs/${this.imageCID}`
       }
-      const response = await this.$axios.$post('users/update', data)
-      console.info(response)
+      await this.$axios.$post('users/update', data)
+      await this.$auth.fetchUser()
     },
 
     async getWalletAccessData () {
