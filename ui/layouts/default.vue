@@ -3,7 +3,7 @@
   <div>
     <PxAlert ref="alert" />
     <!--HEADER-->
-    <header v-b-modal.modal-feedback class="sticky-top">
+    <header class="sticky-top">
       <b-container style="max-width: 1240px">
         <div>
           <b-navbar class="px-0 justify-content-between" toggleable="lg">
