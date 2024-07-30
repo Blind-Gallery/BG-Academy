@@ -173,6 +173,14 @@ query ($id: uuid!) {
     }
   }
 }`
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
 
 export default {
   components: {
