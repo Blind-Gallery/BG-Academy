@@ -251,6 +251,26 @@ export default {
       }
     },
 
+    verifyUserCourses (courseId) {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          const userCourses = response.data.user_course
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
+
+          if (!userHasCourse) {
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+
     async getChapter () {
       try {
         const { data } = await this.$apollo.query({
@@ -261,6 +281,8 @@ export default {
         })
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
+        const courseId = this.chapterInfo.module.course.id
+        this.verifyUserCourses(courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
