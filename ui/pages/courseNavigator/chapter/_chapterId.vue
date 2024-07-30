@@ -130,44 +130,6 @@ import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
-const GET_USER_CHAPTER_QUERY = gql`
-query ($chapter_id: uuid!, $user_id: String!) {
-  user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
-    completed
-    updated_at
-    chapter {
-      id
-      info
-      title
-      resources
-      video_id
-      module {
-        id
-        duration
-        description
-        created_at
-        previous_module_id
-        next_module_id
-        title
-        you_will_learn
-        you_will_learn_title
-        course {
-          modules {
-            id
-            next_module_id
-            title
-            chapters {
-              id
-              title
-              video_id
-            }
-          }
-        }
-      }
-    }
-  }
-}`
-
 const GET_CHAPTER_QUERY = gql`
 query ($id: uuid!) {
   chapters_by_pk(id: $id) {
@@ -214,18 +176,6 @@ query ($id: uuid!) {
 export default {
   components: {
     PxPlayer
-  },
-
-  apollo: {
-    user_chapter_by_pk: {
-      query: GET_USER_CHAPTER_QUERY,
-      variables () {
-        return {
-          chapter_id: this.$route.params.chapterId,
-          user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
-        }
-      }
-    }
   },
 
   data () {
@@ -279,7 +229,6 @@ export default {
 
   mounted () {
     this.redirectionHome()
-    console.info(this.user_chapter_by_pk)
   },
 
   methods: {
