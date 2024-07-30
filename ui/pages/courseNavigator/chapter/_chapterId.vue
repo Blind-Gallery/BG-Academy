@@ -157,6 +157,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        id
         name
         modules(order_by: {created_at: asc}) {
           id
