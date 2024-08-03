@@ -2,7 +2,7 @@
   <div>
     <div v-if="!$apollo.loading">
       <!--INTRODUCTION CONTAINER-->
-      <HeroSection v-if="!$auth.loggedIn" />
+      <PxWebinar v-if="!$auth.loggedIn" />
       <!--INFO CONTAINER-->
 
       <!--LOGGED CONTAINER-->
