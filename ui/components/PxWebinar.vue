@@ -22,7 +22,7 @@
               <p class="text-secondary small mt-2">
                 Learn the basics of pixel aka fragment shaders in this webinar with the help of ilithya, a multidisciplinary artist and technologist with a background in creative development and design
               </p>
-
+              <!-- TODO: HACER CONEXIÓN DE RUTA AL CURSO DE ILITHYA -->
               <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <button class="primary-btn ">
                   Buy course
