@@ -7,7 +7,7 @@
             <div class="overflow-hidden position-relative d-flex justify-content-center align-items-center" style="height:200px">
               <img width="100%" src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby">
               <div class="position-absolute">
-                <b-avatar style="border:5px solid white" class="rounded" size="8rem" variant="info" src="https://ucf8ed702217488c08f73017a0a6.previews.dropboxusercontent.com/p/thumb/ACUutIbgB_a3AmztrYJKnffBIodbrYQBzOKztzUR4AfhqrgJS6jkfYLSjQD5d7TfGBGuFniiswA9gJLWQOqbngweboa8KIWvvnxdrBmHn8tx_rWaKirqDDY0uuQe1aXToZ1flGE_c7uvbjjN6b6Pu6enRaLVHQL_3T1jfZ9It30pGus4E7qLXNY2Np68QuZi-LHI9s6HyJSlPLxS5bHQrSj8cC0vBM8B2AXjxJL3Y5QdkwiIfUlkmbrbr0gMEGJepci_sEalQnSOB1H7nFMOaJUA8Nk4qKkyKQ0-zI8y_6TaKjoGKjy1xeoBlb1X9dWNiidYA-ovQpnHXB7ElaHg_KfOgp7zt5pPXf-k8Sv21w4BCEM73-mSdZHdpIJwRk0YBp5VSbR6vv-5myBoIxpQwYfFq8DdTNxw_U53Pbtw7pzaxUiCn7HqGiy6tSWLbsg_6W0OYGbLcmgg45k1LgbuMbHPEuC_fKcITmKOQgEJgjsKTAvJ5fXIGi1E5YY80gmRJmxu_jYtocBn3E-AFA-6VVJDV6_PMtcgVgMrWuDQx5lWLkA3FWwTcnK8SjkXr8R36-Zc-niFhLIR_Fr_rBictHiB55QGINc4GjITpG-6YZCe-Ll4OjIgZhr9ZYic_ikgapQ_4AnNX8wSQEvpCv2pAbdWuMEVNFwHIX4agXhxjOEDZE3rhn7aHR-Gb8ruLdd8a3bUwnr1eW7FmJuhfgggpZqtQme4s3des0lEVPooQ1xfjwIbFcUGuo1GOqZZiMFOvwpEF4HyUmqqVMyfD0ZRtsHb/p.jpeg" />
+                <b-avatar style="border:5px solid white" class="rounded" size="8rem" variant="info" src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmV2PBdksQNvsyMfwxcXVvq4Y22BA8rXWSVmTFnMkhB9FG" />
               </div>
             </div>
             <div class="p-4">
@@ -20,7 +20,7 @@
               </h4>
               <span>With ilithya</span>
               <p class="text-secondary small mt-2">
-                Learn the basics of pixel shaders in this webinar with the help of ilithya, a multidisciplinary artist and technologist with a background in creative development.
+                Learn the basics of pixel aka fragment shaders in this webinar with the help of ilithya, a multidisciplinary artist and technologist with a background in creative development and design
               </p>
 
               <div class="d-flex justify-content-between align-items-center flex-wrap">
