@@ -35,7 +35,8 @@
   </div>
 </template>
 <script>
-// import { TZKT_ENDPOINT } from '~/constants'
+
+import { TZKT_ENDPOINT } from '~/constants'
 
 export default {
   props: {
