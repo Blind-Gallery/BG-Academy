@@ -1,6 +1,5 @@
 <template>
   <button
-    v-show="$auth?.user?.tezos_info"
     class="secondary-btn"
     :disabled="loading"
     @click="getCertificate"
