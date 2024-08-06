@@ -72,8 +72,11 @@ export default {
   },
   data () {
     return {
-
+      TZKT_ENDPOINT: null
     }
+  },
+  mounted () {
+    this.TZKT_ENDPOINT = TZKT_ENDPOINT
   },
   methods: {
 
