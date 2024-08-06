@@ -2,9 +2,11 @@
   <button
     v-show="$auth?.user?.tezos_info"
     class="secondary-btn"
+    :disabled="loading"
     @click="getCertificate"
   >
-    Claim certificate
+    <span v-if="loading">Claiming Certificate...</span>
+    <span v-else>Claim certificate</span>
   </button>
 </template>
 
