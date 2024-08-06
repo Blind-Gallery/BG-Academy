@@ -26,13 +26,19 @@ export default {
   },
   methods: {
     async getCertificate () {
-      if (this.loading) { return }
-      this.loading = true
-      const { status, opHash } = await this.$axios.$post('/docs/mint', {
-        userId: this.$auth.user.id,
-        courseId: this.courseId
-      })
-      console.info(status, opHash)
+      try {
+        this.loading = true
+        const { status, opHash } = await this.$axios.$post('/docs/mint', {
+          userId: this.$auth.user.id,
+          courseId: this.courseId
+        })
+        console.info(status, opHash)
+      } catch (e) {
+        console.error(e)
+        this.loading = false
+      } finally {
+        this.loading = false
+      }
     }
   }
 }
