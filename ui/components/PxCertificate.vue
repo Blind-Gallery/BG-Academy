@@ -4,7 +4,7 @@
       <div class="w-100">
         <img width="100%" class="rounded" :src="cover">
       </div>
-      <div class="d-flex flex-column mt-3">
+      <div class="d-flex flex-column mt-3 w-100">
         <div class="d-flex" style="gap:0.5rem">
           <h6 style="font-weight: 600;" class="card-title m-0 text-truncate">
             {{ title }}
@@ -20,16 +20,21 @@
         <p class="text-secondary small">
           Instructed by {{ instructor }}
         </p>
-        <p class="m-0 text-secondary">
-          Transaction: <a :href="`${TZKT_ENDPOINT}/${opHash}`" target="_blank">
-            {{ opHash }}
-          </a>
-        </p>
-        <certificates-mint-button :course-id="courseId" />
+
         <certificates-download-button
-          class="mb-2"
           :course-id="courseId"
+          class="mb-2"
         />
+        <div v-if="$auth?.user?.tezos_info" class="d-flex w-100">
+          <certificates-mint-button v-if="!opHash" :course-id="courseId" />
+          <a v-else class="text-decoration-none w-100" :href="`${TZKT_ENDPOINT}/${opHash}`" target="_blank">
+            <button class="secondary-btn w-100">
+
+              Check transaction
+
+            </button>
+          </a>
+        </div>
       </div>
     </div>
   </div>
