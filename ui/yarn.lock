@@ -21088,6 +21088,7 @@ __metadata:
     vue: ^2.7.10
     vue-confetti: ^2.3.0
     vue-jest: ^3.0.4
+    vue-notification: ^1.3.20
     vue-server-renderer: ^2.7.10
     vue-template-compiler: ^2.7.10
   languageName: unknown
@@ -21914,6 +21915,15 @@ __metadata:
   version: 1.1.1
   resolution: "vue-no-ssr@npm:1.1.1"
   checksum: ff9d50e4e1f4357018db06f74fc11cbec3ee5344e2d3a1c8b41c7d441e2181ac134b53847e2af2433be3e25af80b9bdc0f493e624ea709aa147d58ed2bac1faa
+  languageName: node
+  linkType: hard
+
+"vue-notification@npm:^1.3.20":
+  version: 1.3.20
+  resolution: "vue-notification@npm:1.3.20"
+  peerDependencies:
+    vue: ^2.0.0
+  checksum: c7910acaf56b4f4da469071d2c805a31d700bf4677d7554be2145329409ff301beee891cfd824be017efba880f1589b23bddb8a99b7b7a78f708d8df098c08dd
   languageName: node
   linkType: hard
 
