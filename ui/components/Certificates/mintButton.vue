@@ -32,9 +32,11 @@ export default {
           courseId: this.courseId
         })
         console.info(status, opHash)
+        this.$notify({ type: 'success', text: 'Certificate successfully minted' })
       } catch (e) {
         console.error(e)
         this.loading = false
+        this.$notify({ type: 'error', text: 'Something went wrong, please try again' })
       } finally {
         this.loading = false
       }
