@@ -236,19 +236,9 @@ export default {
     this.doResetTest()
   },
 
-  mounted () {
-    this.redirectionHome()
-  },
-
   methods: {
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
-    },
-
-    redirectionHome () {
-      if (!this.$auth.loggedIn || this.user_chapter_by_pk === null) {
-        this.$router.push('/')
-      }
     },
 
     verifyUserCourses (courseId) {
@@ -262,7 +252,7 @@ export default {
           const userCourses = response.data.user_course
           const userHasCourse = userCourses.find(course => course.course_id === courseId)
 
-          if (!userHasCourse) {
+          if (!userHasCourse || !this.$auth.loggedIn) {
             this.$router.push('/')
           }
         })
