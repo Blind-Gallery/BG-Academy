@@ -29,7 +29,7 @@ export default {
       required: true
     },
     hash: {
-      type: Number,
+      type: String,
       required: false,
       default: null
     }
