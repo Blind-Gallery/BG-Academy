@@ -395,7 +395,6 @@ export default {
 
   mounted () {
     this.redirectionHome()
-    this.getUserCourses()
   },
 
   methods: {
