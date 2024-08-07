@@ -442,6 +442,7 @@
         </FormulateForm>
       </b-modal>
     </header>
+    <notifications position="bottom right" />
 
     <Nuxt />
     <footer
