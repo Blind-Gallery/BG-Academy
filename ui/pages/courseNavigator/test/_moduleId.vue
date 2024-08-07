@@ -353,6 +353,7 @@ export default {
       testMessage: '',
       isEndedVideo: false,
       courseId: null,
+      opHash: null,
       correctAnswers: 0,
       scorePercentage: 0,
       loading: false,
@@ -404,6 +405,20 @@ export default {
   },
 
   methods: {
+    getCourseCertificate (courseId) {
+      this.$apollo.query({
+        query: CERTIFICATE_MINT_OP,
+        variables: {
+          user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
+          course_id: courseId
+        }
+      }).then((response) => {
+        this.opHash = response.data.user_course_by_pk.certificate_mint_op
+      }).catch((error) => {
+        console.error(error)
+      })
+    },
+
     verifyUserCourses (courseId) {
       this.$apollo.query({
         query: USER_COURSES,
@@ -444,6 +459,7 @@ export default {
         this.module = Object.assign({}, data.modules_by_pk)
         this.courseId = data.modules_by_pk.course.id
         this.verifyUserCourses(this.courseId)
+        this.getCourseCertificate(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
