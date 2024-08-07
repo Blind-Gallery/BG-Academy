@@ -346,7 +346,7 @@ export default {
       isFirstSlide: false,
       testMessage: '',
       isEndedVideo: false,
-      courseId: 1,
+      courseId: null,
       correctAnswers: 0,
       scorePercentage: 0,
       loading: false,
@@ -395,11 +395,10 @@ export default {
 
   mounted () {
     this.redirectionHome()
-    this.getUserCourses()
   },
 
   methods: {
-    getUserCourses () {
+    verifyUserCourses (courseId) {
       this.$apollo.query({
         query: USER_COURSES,
         variables: {
@@ -408,9 +407,9 @@ export default {
       })
         .then((response) => {
           const userCourses = response.data.user_course
-          const userHasCourse = userCourses.find(course => course.course_id === this.courseId)
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
 
-          if (!userHasCourse) {
+          if (!userHasCourse || !this.$auth.loggedIn) {
             this.$router.push('/')
           }
         })
@@ -418,6 +417,7 @@ export default {
           console.error(error)
         })
     },
+
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')
@@ -436,6 +436,8 @@ export default {
           }
         })
         this.module = Object.assign({}, data.modules_by_pk)
+        this.courseId = data.modules_by_pk.course.id
+        this.verifyUserCourses(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
