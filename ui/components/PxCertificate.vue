@@ -26,22 +26,13 @@
           class="mb-2"
         />
         <div v-if="$auth?.user?.tezos_info" class="d-flex w-100">
-          <certificates-mint-button v-if="!opHash" :course-id="courseId" />
-          <a v-else class="text-decoration-none w-100" :href="`${TZKT_ENDPOINT}/${opHash}`" target="_blank">
-            <button class="secondary-btn w-100">
-
-              Check transaction
-
-            </button>
-          </a>
+          <certificates-mint-button :hash="opHash" :course-id="courseId" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-
-import { TZKT_ENDPOINT } from '~/constants'
 
 export default {
   props: {
@@ -81,9 +72,7 @@ export default {
       TZKT_ENDPOINT: null
     }
   },
-  mounted () {
-    this.TZKT_ENDPOINT = TZKT_ENDPOINT
-  },
+
   methods: {
 
   }
