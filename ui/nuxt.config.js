@@ -38,7 +38,9 @@ export default {
   plugins: [
 
     { src: '~/plugins/vue-stripe.js', ssr: false },
-    { src: '~/plugins/vue-confetti.js', mode: 'client' }
+    { src: '~/plugins/vue-confetti.js', mode: 'client' },
+    { src: '~/plugins/notifications-ssr', ssr: true },
+    { src: '~/plugins/notifications-client', ssr: false }
   ],
 
   env: {

@@ -157,6 +157,7 @@
                     :cover="certificates?.course?.thumbnail"
                     :student="$auth.user.name"
                     :course-id="certificates?.course_id"
+                    :op-hash="certificates?.certificate_mint_op"
                   />
                 </b-col>
               </b-row>

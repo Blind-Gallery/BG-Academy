@@ -1,23 +1,10 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <b-modal id="claim-certificate" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <div />
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-
+      <b-modal id="claim-certificate" centered hide-header hide-footer>
         <div class="d-flex align-items-center justify-content-center flex-column">
-          <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
-            <Icon style="position: absolute; top:0; right: 0;  background-color: #fff; border-radius: 50%;" icon="material-symbols:check-circle-rounded" color="green" width="32" />
-            <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
+          <div class="d-flex align-items-center justify-content-center w-75">
+            <Icon icon="material-symbols:verified-outline-rounded" color="#00b9cd" width="64" />
           </div>
 
           <h2 style="color:#00b9cd">
@@ -27,9 +14,9 @@
           <p class="small text-center">
             You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
           </p>
-          <div class="d-flex mt-4" style="gap:1rem">
-            <certificates-mint-button :course-id="courseId" />
+          <div class="d-flex mt-4 flex-column w-100" style="gap:1rem">
             <certificates-download-button :course-id="courseId" />
+            <certificates-mint-button :hash="opHash" :course-id="courseId" />
           </div>
         </div>
       </b-modal>
@@ -264,6 +251,12 @@ import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Pagination, Navigation])
 
+const CERTIFICATE_MINT_OP = gql`query ($user_id: String!, $course_id: Int!){
+ user_course_by_pk(course_id: $course_id, user_id: $user_id) {
+    certificate_mint_op
+  }
+}`
+
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
           {user_id: {_eq: $id}}) {
@@ -346,7 +339,8 @@ export default {
       isFirstSlide: false,
       testMessage: '',
       isEndedVideo: false,
-      courseId: 1,
+      courseId: null,
+      opHash: null,
       correctAnswers: 0,
       scorePercentage: 0,
       loading: false,
@@ -395,11 +389,24 @@ export default {
 
   mounted () {
     this.redirectionHome()
-    this.getUserCourses()
   },
 
   methods: {
-    getUserCourses () {
+    getCourseCertificate (courseId) {
+      this.$apollo.query({
+        query: CERTIFICATE_MINT_OP,
+        variables: {
+          user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
+          course_id: courseId
+        }
+      }).then((response) => {
+        this.opHash = response.data.user_course_by_pk.certificate_mint_op
+      }).catch((error) => {
+        console.error(error)
+      })
+    },
+
+    verifyUserCourses (courseId) {
       this.$apollo.query({
         query: USER_COURSES,
         variables: {
@@ -408,9 +415,9 @@ export default {
       })
         .then((response) => {
           const userCourses = response.data.user_course
-          const userHasCourse = userCourses.find(course => course.course_id === this.courseId)
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
 
-          if (!userHasCourse) {
+          if (!userHasCourse || !this.$auth.loggedIn) {
             this.$router.push('/')
           }
         })
@@ -418,6 +425,7 @@ export default {
           console.error(error)
         })
     },
+
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')
@@ -436,6 +444,9 @@ export default {
           }
         })
         this.module = Object.assign({}, data.modules_by_pk)
+        this.courseId = data.modules_by_pk.course.id
+        this.verifyUserCourses(this.courseId)
+        this.getCourseCertificate(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
