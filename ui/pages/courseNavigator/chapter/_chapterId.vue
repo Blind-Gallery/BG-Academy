@@ -130,44 +130,6 @@ import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
-const GET_USER_CHAPTER_QUERY = gql`
-query ($chapter_id: uuid!, $user_id: String!) {
-  user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
-    completed
-    updated_at
-    chapter {
-      id
-      info
-      title
-      resources
-      video_id
-      module {
-        id
-        duration
-        description
-        created_at
-        previous_module_id
-        next_module_id
-        title
-        you_will_learn
-        you_will_learn_title
-        course {
-          modules {
-            id
-            next_module_id
-            title
-            chapters {
-              id
-              title
-              video_id
-            }
-          }
-        }
-      }
-    }
-  }
-}`
-
 const GET_CHAPTER_QUERY = gql`
 query ($id: uuid!) {
   chapters_by_pk(id: $id) {
@@ -195,6 +157,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        id
         name
         modules(order_by: {created_at: asc}) {
           id
@@ -210,22 +173,18 @@ query ($id: uuid!) {
     }
   }
 }`
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
 
 export default {
   components: {
     PxPlayer
-  },
-
-  apollo: {
-    user_chapter_by_pk: {
-      query: GET_USER_CHAPTER_QUERY,
-      variables () {
-        return {
-          chapter_id: this.$route.params.chapterId,
-          user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
-        }
-      }
-    }
   },
 
   data () {
@@ -277,20 +236,29 @@ export default {
     this.doResetTest()
   },
 
-  mounted () {
-    this.redirectionHome()
-    console.info(this.user_chapter_by_pk)
-  },
-
   methods: {
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
 
-    redirectionHome () {
-      if (!this.$auth.loggedIn || this.user_chapter_by_pk === null) {
-        this.$router.push('/')
-      }
+    verifyUserCourses (courseId) {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          const userCourses = response.data.user_course
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
+
+          if (!userHasCourse || !this.$auth.loggedIn) {
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
 
     async getChapter () {
@@ -303,6 +271,8 @@ export default {
         })
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
+        const courseId = this.chapterInfo.module.course.id
+        this.verifyUserCourses(courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
