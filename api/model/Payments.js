@@ -24,10 +24,12 @@ class Payments {
   }
 
   async getOrCreatePaymentIntent ({ courseId, userId }) {
+    log.info(`Creating payment intent for course ${courseId} and user ${userId}`)
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_PAYMENT_INTENT,
       { courseId, userId }
     )
+    log.info(`Payment intent: ${JSON.stringify(payment)}`)
 
     return {
       transactionId: payment?.transaction_info?.id,
@@ -80,7 +82,9 @@ class Payments {
     paymentIntent, courseId,
     userId, paymentIntentClientSecret, amount
   }) {
+    log.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
     const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
+    log.info(`Transaction id: ${transactionId}`)
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_STRIPE_PAYMENT_INTENT,
       {
@@ -151,6 +155,7 @@ class Payments {
     const tezosPrice = await this.getTezosPrice(price)
     log.info(`Creating tezos payment intent for ${tezosPrice} tez - ${price} USD`)
     const oldPayment = await this.getTezosPayment({ userId, onchainId, courseId })
+    log.info(`Old payment: ${JSON.stringify(oldPayment)}`)
     if (oldPayment) {
       return { tezos: tezosPrice }
     }
@@ -163,7 +168,7 @@ class Payments {
         wallet
       })
       await this.academySC.addCourseToUser({
-        courseId,
+        courseId: onchainId,
         user: wallet
       })
     } catch (err) {
