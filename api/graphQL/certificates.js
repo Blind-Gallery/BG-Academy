@@ -1,7 +1,7 @@
 const { gql } = require('graphql-request')
 
 const GET_USER_COURSE_INFO = gql`
-query ($userId: String!, $courseId: Int!) {
+query ($userId: String!, $courseId: String!) {
   user_course(where: {user_id: {_eq: $userId}, course_id: {_eq: $courseId}}) {
     certificate_cid
     certificate_image_cid
@@ -23,7 +23,7 @@ query ($userId: String!, $courseId: Int!) {
 
 const UPDATE_USER_COURSE_CERTIFICATE = gql`
 mutation (
-  $courseId: Int!,
+  $courseId: String!,
   $userId: String!,
   $certificateCID: String!,
   $certificateImageCID: String!
@@ -43,7 +43,7 @@ mutation (
 
 const UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE = gql`
 mutation (
-  $courseId: Int!,
+  $courseId: String!,
   $userId: String!,
   $soulBoundTokenId: Int!,
   $opHash: String!

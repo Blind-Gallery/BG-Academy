@@ -284,7 +284,7 @@ export default {
     },
 
     userHasCourse () {
-      const courseRouteId = parseInt(this.$route.params.courseId)
+      const courseRouteId = this.$route.params.courseId.toString()
       return this.userCourses.find(course => course.course_id === courseRouteId)
     },
 

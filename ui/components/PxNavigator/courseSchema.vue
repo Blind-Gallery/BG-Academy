@@ -141,9 +141,8 @@ export default {
   },
   props: {
     courseId: {
-      type: Number,
-      required: true,
-      default: 1
+      type: String,
+      required: true
     }
   },
   data () {
