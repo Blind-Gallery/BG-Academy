@@ -1,4 +1,0 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."courses" add column "new_id" text
---  not null unique default gen_random_uuid();
