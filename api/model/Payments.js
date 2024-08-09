@@ -227,7 +227,7 @@ class Payments {
   }
 
   async verifyTezosPayment ({ onchainId, courseId, userId, opHash }) {
-    const payment = await this.getTezosPayment({ userId, onchainId, courseId })
+    await this.getTezosPayment({ userId, onchainId, courseId })
     await this.addCourseToUser({ courseId, userId })
     return { success: true, courseId }
   }
