@@ -1,4 +1,6 @@
 const { Unauthorized, BadRequest } = require('http-errors')
+const log = require('pino')()
+
 const { Role } = require('../constants')
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
@@ -79,7 +81,7 @@ class Login {
         user
       }
     } catch (e) {
-      console.error(e)
+      log.error(e)
       throw new Unauthorized('Wrong email')
     }
   }
@@ -118,7 +120,7 @@ class Login {
         user
       }
     } catch (e) {
-      console.error(e)
+      log.error(e)
       throw new Unauthorized('Wrong wallet')
     }
   }
@@ -163,7 +165,6 @@ class Login {
   }
 
   async refresh (refreshToken) {
-    console.info(refreshToken)
     let user
     const { loginMechanism, loginPayload } = this.jwt.verifyToken(refreshToken.refreshToken)
     if (loginMechanism === 'email') {

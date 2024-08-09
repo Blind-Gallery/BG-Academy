@@ -13,9 +13,9 @@ async function authenticate (req) {
       const token = authComponents[1]
       if (token !== '') {
         try {
-          console.info(`Received access token from request header: ${token}`)
+          log.info(`Received access token from request header: ${token}`)
           const verifiedToken = this.jwt.verifyToken(token)
-          console.info(`Verified token: ${JSON.stringify(verifiedToken, null, 4)}`)
+          log.info(`Verified token: ${JSON.stringify(verifiedToken, null, 4)}`)
           const hasuraClaims = verifiedToken[hasuraDomain]
 
           req.user = {

@@ -1,5 +1,6 @@
 'use strict'
 const multipart = require('@fastify/multipart')
+const log = require('pino')()
 
 const {
   getCertificateSchema,
@@ -55,7 +56,7 @@ async function uploadFileHandler (req, reply) {
       fileName: file.filename
     })
   } catch (err) {
-    console.error(err)
+    log.error(err)
     return { message: 'fileSize limit reached' }
   }
 }
