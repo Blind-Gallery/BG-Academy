@@ -1,4 +1,6 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
+const log = require('pino')()
+
 const {
   GET_COURSE_BY_ID,
   CREATE_PAYMENT_INTENT,
@@ -40,6 +42,10 @@ class Payments {
       { id: courseId }
     )
 
+    log.info(`Course data: ${JSON.stringify(course)}`)
+
+    log.info(`Course price: ${course.price}`)
+
     return { price: course.price, onchainId: course.onchain_id }
   }
 
@@ -61,7 +67,7 @@ class Payments {
     return stripePayment
   }
 
-  async getTezosPayment (userId, courseId) {
+  async getTezosPayment ({ userId, onchainId, courseId }) {
     const { payments } = await this.gql.request(
       GET_PAYMENT_INTENT_INFO,
       { userId, courseId }
@@ -124,7 +130,7 @@ class Payments {
         amount
       })
     } catch (err) {
-      console.error(err)
+      log.error(err)
     }
     return paymentIntent
   }
@@ -134,7 +140,7 @@ class Payments {
     try {
       event = await this.stripe.verify(signature, body)
     } catch (err) {
-      console.error(err)
+      log.error(err)
       throw new BadRequest(`Webhook Error: ${err.message}`)
     }
     return event
@@ -143,8 +149,8 @@ class Payments {
   async createTezosPaymentIntent ({ courseId, userId, wallet }) {
     const { price, onchainId } = await this.getCoursePrice(courseId)
     const tezosPrice = await this.getTezosPrice(price)
-    console.info(price, tezosPrice)
-    const oldPayment = await this.getTezosPayment(userId, onchainId)
+    log.info(`Creating tezos payment intent for ${tezosPrice} tez - ${price} USD`)
+    const oldPayment = await this.getTezosPayment({ userId, onchainId, courseId })
     if (oldPayment) {
       return { tezos: tezosPrice }
     }
@@ -161,7 +167,7 @@ class Payments {
         user: wallet
       })
     } catch (err) {
-      console.error(err.message)
+      log.error(err.message)
       if (err.message.includes('BLIND_GALLERY_COURSE_ALREADY_ACTIVE')) {
         return { tezos: tezosPrice }
       } else if (err.message.includes('BLIND_GALLERY_COURSE_NOT_FOUND')) {
@@ -215,8 +221,8 @@ class Payments {
     return { success: true, courseId }
   }
 
-  async verifyTezosPayment ({ courseId, userId, opHash }) {
-    const payment = await this.getTezosPayment(userId, courseId)
+  async verifyTezosPayment ({ onchainId, courseId, userId, opHash }) {
+    const payment = await this.getTezosPayment({ userId, onchainId, courseId })
     await this.addCourseToUser({ courseId, userId })
     return { success: true, courseId }
   }
