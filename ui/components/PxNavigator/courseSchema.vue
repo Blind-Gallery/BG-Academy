@@ -109,7 +109,7 @@
 import { gql } from 'graphql-tag'
 
 const GET_COURSE_SCHEMA = gql`
-query MyQuery($id: Int!) {
+query MyQuery($id: String!) {
   courses_by_pk(id: $id) {
     modules(order_by: {created_at: asc}) {
       id

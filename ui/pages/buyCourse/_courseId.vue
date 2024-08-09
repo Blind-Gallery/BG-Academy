@@ -213,7 +213,7 @@ export default {
   apollo: {
     courses: {
       query: gql`
-        query ($id: Int!) {
+        query ($id: String!) {
           courses(where: { id: { _eq: $id } }) {
             id
             name
