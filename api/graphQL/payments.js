@@ -3,6 +3,7 @@ const { gql } = require('graphql-request')
 const GET_COURSE_BY_ID = gql`
 query ($id: String!) {
   courses_by_pk(id: $id) {
+    onchain_id
     id
     price
     thumbnail

@@ -40,7 +40,7 @@ class Payments {
       { id: courseId }
     )
 
-    return course.price
+    return { price: course.price, onchainId: course.onchain_id }
   }
 
   async getTezosPrice (usdAmount) {
@@ -141,10 +141,10 @@ class Payments {
   }
 
   async createTezosPaymentIntent ({ courseId, userId, wallet }) {
-    const coursePrice = await this.getCoursePrice(courseId)
-    const tezosPrice = await this.getTezosPrice(coursePrice)
-    console.info(coursePrice, tezosPrice)
-    const oldPayment = await this.getTezosPayment(userId, courseId)
+    const { price, onchainId } = await this.getCoursePrice(courseId)
+    const tezosPrice = await this.getTezosPrice(price)
+    console.info(price, tezosPrice)
+    const oldPayment = await this.getTezosPayment(userId, onchainId)
     if (oldPayment) {
       return { tezos: tezosPrice }
     }
@@ -193,7 +193,7 @@ class Payments {
     await this.email.sendThanksForPurchaseEmail({
       title: course.title,
       image: course.thumbnail,
-      link: "https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5"
+      link: 'https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5'
     })
   }
 
