@@ -47,7 +47,7 @@ export default {
       default: 1
     },
     courseId: {
-      type: Number,
+      type: String,
       required: true
     }
   },

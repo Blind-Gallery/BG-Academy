@@ -1,4 +1,5 @@
 const { OpKind } = require('@taquito/taquito')
+const log = require('pino')()
 const { TezosConstants } = require('../../constants')
 const TezosTransactions = require('../Tezos')
 
@@ -29,7 +30,7 @@ class BlindGalleryPermissions extends TezosTransactions {
    */
   async setAdministrator (address, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!address) {
-      return console.error('Address is not defined')
+      return log.error('Address is not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet
@@ -57,10 +58,10 @@ class BlindGalleryPermissions extends TezosTransactions {
    */
   async addModerator (address, name, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!address) {
-      return console.error('Address is not defined')
+      return log.error('Address is not defined')
     }
     if (!name) {
-      return console.error('Name is not defined')
+      return log.error('Name is not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet
@@ -87,7 +88,7 @@ class BlindGalleryPermissions extends TezosTransactions {
    */
   async removeModerator (address, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!address) {
-      return console.error('Address is not defined')
+      return log.error('Address is not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet

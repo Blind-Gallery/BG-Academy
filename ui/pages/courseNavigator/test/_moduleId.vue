@@ -251,7 +251,7 @@ import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Pagination, Navigation])
 
-const CERTIFICATE_MINT_OP = gql`query ($user_id: String!, $course_id: Int!){
+const CERTIFICATE_MINT_OP = gql`query ($user_id: String!, $course_id: String!){
  user_course_by_pk(course_id: $course_id, user_id: $user_id) {
     certificate_mint_op
   }

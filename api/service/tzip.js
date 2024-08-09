@@ -1,3 +1,4 @@
+const log = require('pino')()
 const { create } = require('ipfs-http-client')
 const { TezosConstants } = require('../constants')
 require('envkey')
@@ -120,20 +121,7 @@ class TZIPFactory {
     tags,
     thumbnail
   }) {
-    console.log('createWithDefaults', {
-      artifact,
-      attributes,
-      creators,
-      decimals,
-      description,
-      display,
-      name,
-      rights,
-      royalties,
-      symbol,
-      tags,
-      thumbnail
-    })
+    log.info(`createWithDefaults ${artifact} - ${attributes} - ${creators} - ${decimals} - ${description} - ${display} - ${name} - ${rights} - ${royalties} - ${symbol} - ${tags} - ${thumbnail}`)
     if (!name) {
       name = 'Blind Gallery Academy Certificate'
     }

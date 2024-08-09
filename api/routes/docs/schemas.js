@@ -3,7 +3,7 @@ const tags = ['documents']
 const getCertificateSchema = {
   tags,
   body: {
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' }
   },
   response: {
@@ -20,7 +20,7 @@ const getCertificateSchema = {
 const mintCertificateSchema = {
   tags,
   body: {
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' }
   },
   response: {

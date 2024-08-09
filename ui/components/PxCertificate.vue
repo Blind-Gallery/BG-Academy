@@ -53,7 +53,7 @@ export default {
       required: true
     },
     courseId: {
-      type: Number,
+      type: String,
       required: true
     },
     tokenId: {

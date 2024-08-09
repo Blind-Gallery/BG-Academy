@@ -1,8 +1,9 @@
 const { gql } = require('graphql-request')
 
 const GET_COURSE_BY_ID = gql`
-query ($id: Int!) {
+query ($id: String!) {
   courses_by_pk(id: $id) {
+    onchain_id
     id
     price
     thumbnail
@@ -12,7 +13,7 @@ query ($id: Int!) {
 `
 
 const GET_PAYMENT_INTENT_INFO = gql`
-query ($userId: String!, $courseId: Int!) {
+query ($userId: String!, $courseId: String!) {
   payments(where: {user_id: {_eq: $userId}, course_id: {_eq: $courseId}}) {
     transaction_info {
       transactions_stripe_transaction_info {
@@ -31,7 +32,7 @@ query ($userId: String!, $courseId: Int!) {
 `
 
 const CREATE_PAYMENT_INTENT = gql`
-mutation ($courseId: Int!, $userId: String!) {
+mutation ($courseId: String!, $userId: String!) {
   insert_payments_one(
     object: {
       course_id: $courseId,
@@ -50,7 +51,7 @@ mutation ($courseId: Int!, $userId: String!) {
 
 const CREATE_STRIPE_PAYMENT_INTENT = gql`
 mutation (
-  $courseId: Int!,
+  $courseId: String!,
   $userId: String!,
   $paymentIntent: String!,
   $paymentIntentClientSecret: String!,
@@ -87,7 +88,7 @@ mutation (
 
 const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
-  $courseId: Int!,
+  $courseId: String!,
   $userId: String!,
   $wallet: String!,
   $amount: numeric!,
@@ -120,7 +121,7 @@ mutation (
 }
 `
 const ADD_USER_TO_COURSE = gql`
-mutation ($courseId: Int!, $userId: String!) {
+mutation ($courseId: String!, $userId: String!) {
   insert_user_course_one(
     object: {course_id: $courseId, user_id: $userId, progress: 0}) {
     user_id

@@ -36,7 +36,7 @@
 import { gql } from 'graphql-tag'
 
 const COURSE_INFO = gql`
-query ($id: Int!) {
+query ($id: String!) {
   courses_by_pk(id: $id) {
     modules {
       chapters {

@@ -1,5 +1,6 @@
 const { MichelsonMap, OpKind } = require('@taquito/taquito')
 const { char2Bytes } = require('@taquito/tzip16')
+const log = require('pino')()
 const { TezosConstants } = require('../../constants')
 const BlindGalleryPermissions = require('./base')
 
@@ -16,7 +17,7 @@ class SoulBondCertificates extends BlindGalleryPermissions {
    */
   async burn (params, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!params) {
-      return console.error('Params are not defined')
+      return log.error('Params are not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet
@@ -43,7 +44,7 @@ class SoulBondCertificates extends BlindGalleryPermissions {
    */
   async mint (params, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!params) {
-      return console.error('Params are not defined')
+      return log.error('Params are not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet
@@ -61,7 +62,7 @@ class SoulBondCertificates extends BlindGalleryPermissions {
     const status = await batchOperation.status()
     const opHash = batchOperation.opHash
     if (status === 'applied') {
-      console.log('Minted')
+      log.info('Minted')
     }
     return { confirmation, status, opHash }
   }
@@ -123,7 +124,7 @@ class SoulBondCertificates extends BlindGalleryPermissions {
    */
   async transfer (params, c = TezosConstants.DEFAULT_CONFIRMATION_BLOCKS) {
     if (!params) {
-      return console.error('Params are not defined')
+      return log.error('Params are not defined')
     }
     await this._initialized
     const batchOperation = await this.Tezos.wallet

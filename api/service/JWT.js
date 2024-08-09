@@ -20,14 +20,12 @@ class JWT {
   }
 
   generateRefreshToken (tokenContent) {
-    console.log('tokenContent', tokenContent)
     return jwt.sign(tokenContent, this.opts.jwtSecret, {
       expiresIn: '24d'
     })
   }
 
   verifyToken (token) {
-    console.log(token)
     if (!token) {
       throw new Unauthorized('No authorization header')
     }
@@ -35,8 +33,6 @@ class JWT {
     if (!decoded) {
       throw new Unauthorized('Unable to decode JWT token')
     }
-
-    console.log('decoded', decoded)
     return jwt.verify(token, this.opts.jwtSecret)
   }
 }

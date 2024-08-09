@@ -3,7 +3,7 @@ const { gql } = require('graphql-request')
 const UPDATE_FEEDBACK = gql`
 mutation (
   $feedback: String!,
-  $courseId: Int!,
+  $courseId: String!,
   $userId: String!
   ) {
   update_user_course(

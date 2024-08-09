@@ -1,5 +1,6 @@
 require('envkey')
 const sgMail = require('@sendgrid/mail')
+const log = require('pino')()
 class Email {
   constructor ({ apiKey }) {
     this.sendgrid = sgMail
@@ -27,9 +28,9 @@ class Email {
 
     try {
       response = await this.sendgrid.send(msg)
-      console.info('Status code: ', response[0].statusCode)
+      log.info(`Status code: ${response[0].statusCode}`)
     } catch (error) {
-      console.error(`Error sending email to ${to} with error: `, error)
+      log.error(`Error sending email to ${to} with error: `, error)
     }
 
     return response[0]

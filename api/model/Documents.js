@@ -1,4 +1,6 @@
 const { BadRequest } = require('http-errors')
+const log = require('pino')()
+
 const { TZIPFactory } = require('../service')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
@@ -27,7 +29,7 @@ class Documents {
       const { user_course: userCourse } = await this.gql.request(GET_USER_COURSE_INFO, { courseId, userId })
       return userCourse
     } catch (err) {
-      console.error(err)
+      log.error(err)
       throw new BadRequest('Error getting certificate')
     }
   }
@@ -37,7 +39,7 @@ class Documents {
       const { update_user_course_by_pk: userCourse } = await this.gql.request(UPDATE_USER_COURSE_CERTIFICATE, { courseId, userId, certificateCID, certificateImageCID })
       return userCourse
     } catch (err) {
-      console.error(err)
+      log.error(err)
       throw new BadRequest('Error updating certificate')
     }
   }
@@ -74,7 +76,7 @@ class Documents {
         { courseId, userId, soulBoundTokenId, opHash })
       return userCourse
     } catch (err) {
-      console.error(err)
+      log.error(err)
       throw new BadRequest('Error updating certificate')
     }
   }
@@ -101,7 +103,7 @@ class Documents {
 
       cid = pdfCID
     } catch (err) {
-      console.error(err)
+      log.error(err)
     }
 
     return { cid }
@@ -133,7 +135,7 @@ class Documents {
       await this.updateSoulBoundCertificate({ courseId, userId, opHash })
       return { status, opHash }
     } catch (err) {
-      console.error(err)
+      log.error(err)
     }
   }
 }

@@ -1,4 +1,6 @@
 const { Unauthorized, BadRequest } = require('http-errors')
+const log = require('pino')()
+
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
@@ -78,12 +80,12 @@ class User {
 
     // Create user
     if (email && password) {
-      console.info('Creating user with email and password')
+      log.info('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
-      console.info('Creating user with wallet and signed message')
+      log.info('Creating user with wallet and signed message')
       return this.createWithWallet({ name, wallet, publicKey, signedMessage, payload })
     }
 
@@ -151,7 +153,7 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    console.info('User created', user)
+    log.info(`User created ${JSON.stringify(user)}`)
 
     // Todo: retrieve user data from blockchain and save it
 

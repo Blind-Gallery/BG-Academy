@@ -7,11 +7,11 @@
 $ yarn install
 
 # serve with hot reload at localhost:3000
-$ yarn dev
+$ infisical run --path=/ui yarn dev
 
 # build for production and launch server
 $ yarn build
-$ yarn start
+$ infisical run --path=/ui yarn start
 
 # generate static project
 $ yarn generate
