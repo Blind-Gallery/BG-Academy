@@ -74,6 +74,6 @@ ALTER TABLE "public"."courses"
     ADD CONSTRAINT "course_pkey" PRIMARY KEY ("new_id");
 COMMIT TRANSACTION;
 
-alter table "public"."courses" drop column "id" cascade;
+alter table "public"."courses" rename column "id" to "onchain_id";
 
 alter table "public"."courses" rename column "new_id" to "id";
