@@ -211,7 +211,7 @@
                 </div>
 
                 <!-- add navigator  -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema :course-id="courseId" />
               </div>
             </b-col>
           </Transition>
