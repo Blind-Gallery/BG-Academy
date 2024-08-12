@@ -88,7 +88,10 @@
                 </div>
 
                 <!-- navigator -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema
+                  v-if="courseId"
+                  :course-id="courseId"
+                />
               </div>
             </b-col>
           </Transition>
@@ -189,6 +192,7 @@ export default {
 
   data () {
     return {
+      courseId: '',
       testMessage: '',
       isEndedVideo: false,
       loading: false,
@@ -231,9 +235,9 @@ export default {
 
   },
 
-  created () {
-    this.getChapter()
-    this.doResetTest()
+  async created () {
+    await this.getChapter()
+    await this.doResetTest()
   },
 
   methods: {
@@ -272,6 +276,7 @@ export default {
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
         const courseId = this.chapterInfo.module.course.id
+        this.courseId = data.chapters_by_pk.module.course.id
         this.verifyUserCourses(courseId)
       } catch (err) {
         this.loading = false
