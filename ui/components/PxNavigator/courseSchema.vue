@@ -194,7 +194,6 @@ export default {
             id: this.courseId
           }
         })
-        console.info(data)
         this.courseInfo = Object.assign({}, data.courses_by_pk)
       } catch (error) {
         console.error(error)

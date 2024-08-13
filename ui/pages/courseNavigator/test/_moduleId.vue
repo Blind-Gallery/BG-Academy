@@ -775,7 +775,7 @@ input:checked ~ label {
 .test label{
   margin: 0;
 }
-  .formulate-input-group-item {
+.formulate-input-group-item {
     border: 1px solid rgba(0, 0, 0, .1);
     border-radius: .5em;
     padding: .5em;
@@ -795,7 +795,7 @@ input:checked ~ label {
     &[data-has-value] {
       background-color: #00b9cd3f;
     }
-  }
+}
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;
