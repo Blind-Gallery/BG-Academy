@@ -1,3 +1,10 @@
+
+alter table "public"."courses" alter column "duration" set default '0';
+
+alter table "public"."chapters" alter column "duration" set default '0';
+
+alter table "public"."modules" alter column "duration" set default '0';
+
 CREATE OR REPLACE FUNCTION update_module_and_course_duration_after_insert_update()
 RETURNS TRIGGER AS $$
 BEGIN
