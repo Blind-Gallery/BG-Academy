@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'A shader in WebGL is also known as a mesh', null, E'76c83b70-e59f-446a-bf31-8a96b6eff6f2', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');
