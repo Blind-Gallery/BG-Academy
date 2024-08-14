@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Tessellation Shaders', E'd93b0625-f62e-482d-a848-ffc1f96484b2', E'ec07a421-b301-4682-a991-6ccec44b72b9');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Fragment shaders', E'59413d52-2ce9-460c-9fee-6b4bd2388889', E'ec07a421-b301-4682-a991-6ccec44b72b9');
