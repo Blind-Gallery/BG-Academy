@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an example of a built-in function:', null, E'9eb5b186-674a-4dbc-9ee9-7540ed5e8c5d', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

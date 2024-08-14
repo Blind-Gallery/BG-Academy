@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'A UV space is set by the coordinates of the current pixel and:', null, E'30c61044-d3ad-4b6f-874b-e84774828186', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'A pixel shader receives a position from the:', null, E'e717f9df-c221-4349-9918-92bea1df1c26', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

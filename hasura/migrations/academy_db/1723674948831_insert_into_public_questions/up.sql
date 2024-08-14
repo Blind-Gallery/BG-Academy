@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to normalize the screen coordinates between 0.0 and 1.0:', null, E'193256f4-0949-43fc-930d-6db745b04eea', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');
