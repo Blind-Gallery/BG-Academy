@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Coordinate space', E'a700c576-bf65-4408-8eb6-a1d2b90bd121', E'5b478462-d56c-428d-b21c-be0eed5a7357');

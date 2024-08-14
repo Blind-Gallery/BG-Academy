@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'HSLA color model', E'4893105a-116a-4359-a0c9-da60185aaeca', E'e0ed6aac-ef92-4562-8155-31feb0660cb4');

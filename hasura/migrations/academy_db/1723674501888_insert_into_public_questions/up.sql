@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'GLSL syntax is based on the programming language:', null, E'948536b7-0b1c-4eb0-a142-6304c5bca4ed', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an example of a built-in variable:', null, E'c32718bc-2d26-4ad7-8069-8a9f7bb5fb8a', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

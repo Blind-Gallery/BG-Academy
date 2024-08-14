@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'RGBA color model', E'629becd0-0fde-4ba5-9ca9-a910307509ee', E'e0ed6aac-ef92-4562-8155-31feb0660cb4');

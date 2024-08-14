@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'vec2 uv = (gl_FragCoord.xy - (u_resolution.xy * 0.25)) / u_resolution;', E'a50f2a6f-f125-4a82-a42c-95bfe03e1e95', E'193256f4-0949-43fc-930d-6db745b04eea');
