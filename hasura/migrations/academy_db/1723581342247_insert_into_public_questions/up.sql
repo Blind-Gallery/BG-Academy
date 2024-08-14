@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'Pixel shaders are commonly known as:', null, E'ec07a421-b301-4682-a991-6ccec44b72b9', E'86bc521b-42de-476f-a738-cf7dcb4bcb6d');

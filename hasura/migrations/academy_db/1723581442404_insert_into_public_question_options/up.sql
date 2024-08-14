@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Geometry Shaders', E'acf5e10a-a63d-4b36-a408-1290475f7ed8', E'ec07a421-b301-4682-a991-6ccec44b72b9');
