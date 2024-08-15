@@ -1,5 +1,5 @@
 <template>
-  <Icon :icon="icon" :width="width" :color="color" :rotate="rotate" />
+  <Icon v-if="icon" :icon="icon" :width="width" :color="color" :rotate="rotate" />
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!$apollo.loading">
+    <div v-if="!$apollo.loading && courses_by_pk.modules">
       <div
         v-for="(module, moduleIndex) in courses_by_pk.modules"
         :key="moduleIndex"
@@ -59,7 +59,6 @@
             <b-collapse
               v-if="module.questions.length > 0"
               :id="`accordion-${module.id}`"
-              :key="chapterIndex"
               class="mx-2"
               role="tablist"
               appear
@@ -142,7 +141,8 @@ export default {
   props: {
     courseId: {
       type: String,
-      required: true
+      required: false,
+      default: null
     }
   },
   data () {
@@ -155,6 +155,7 @@ export default {
   computed: {
 
     activeModuleId () {
+      if (!this.courseInfo.modules) { return null }
       if (this.$route.params.moduleId) { return this.$route.params.moduleId }
       const chapterIdFromRoute = this.$route.params.chapterId
       for (const module of this.courseInfo.modules) {
@@ -185,14 +186,18 @@ export default {
       }
     },
     async getCourseSchema () {
-      const { data } = await this.$apollo.query({
-        query: GET_COURSE_SCHEMA,
-        variables: {
-          id: this.courseId
-        }
-      })
-
-      this.courseInfo = Object.assign({}, data.courses_by_pk)
+      if (!this.courseId) { return }
+      try {
+        const { data } = await this.$apollo.query({
+          query: GET_COURSE_SCHEMA,
+          variables: {
+            id: this.courseId
+          }
+        })
+        this.courseInfo = Object.assign({}, data.courses_by_pk)
+      } catch (error) {
+        console.error(error)
+      }
     },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
@@ -202,9 +207,13 @@ export default {
     },
 
     toggleCollapseActive () {
+      console.info(this.activeModuleId)
+      if (!this.activeModuleId) { return }
       for (const toggle of this.$refs.toggle) {
-        if (toggle.$attrs.id.includes(this.activeModuleId)) {
+        console.info(toggle.$attrs.id)
+        if (toggle.$attrs.id.includes(`toggle-${this.activeModuleId}`)) {
           toggle.toggleCollapse = true
+          return
         }
       }
     }
