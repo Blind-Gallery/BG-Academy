@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Two different saturated colors', E'4f2eb5e9-91d6-48b1-a1fb-e7681f446f48', E'5f1117b2-88e8-485a-973f-55f9bcf465c1');

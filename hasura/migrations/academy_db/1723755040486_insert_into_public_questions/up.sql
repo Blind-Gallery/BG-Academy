@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'These two GLSL built-in functions can be used interchangeably to draw a circle or ellipse:', null, E'99aaadb1-28ce-4c9f-9d28-06e3ca0f62a3', E'ba883c86-a829-4df4-832a-acd10f0adf97');

@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'vec3 color = mix(blue, red, uv.x);', E'079db638-8e57-479c-9f52-c191308afc99', E'e2b2ec61-1f48-4a17-9a49-ace9b3504886');

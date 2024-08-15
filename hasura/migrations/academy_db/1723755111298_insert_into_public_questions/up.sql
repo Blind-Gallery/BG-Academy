@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is a uv equation to draw a circle with an aspect ratio at the center of the screen when used as length(uv) or distance(uv, vec2(0.0)):', null, E'a4f57813-f481-4a8b-9154-657511480c1e', E'ba883c86-a829-4df4-832a-acd10f0adf97');

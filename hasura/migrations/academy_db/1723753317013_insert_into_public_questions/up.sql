@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The RGB color model one can think of to compare when writing pixel aka fragment shaders in GLSL is:', null, E'bb7c86ac-1563-46ad-965e-352fe26a735a', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

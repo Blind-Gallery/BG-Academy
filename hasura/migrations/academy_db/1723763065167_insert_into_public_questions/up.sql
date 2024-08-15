@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'u_time is equivalent to a clock counting in:', null, E'e39314d6-f025-4209-97a1-83028afcac73', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

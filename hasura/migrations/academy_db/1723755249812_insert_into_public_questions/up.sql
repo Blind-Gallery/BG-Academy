@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to draw a well-defined (sharp) triangle at the center of the screen with a given normalized screen coordinate system between -0.5 and 0.5 and an aspect ratio:', null, E'5f492f84-e647-4241-bf03-b96b630b94c8', E'ba883c86-a829-4df4-832a-acd10f0adf97');

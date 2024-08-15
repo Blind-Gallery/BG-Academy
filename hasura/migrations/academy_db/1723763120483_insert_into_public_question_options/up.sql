@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'vec3 time = u_time;', E'9bb45216-efa7-4c00-be5b-64f4a8ad9c49', E'eca92a9f-3e18-4aad-a7d0-bc60fd4115a0');

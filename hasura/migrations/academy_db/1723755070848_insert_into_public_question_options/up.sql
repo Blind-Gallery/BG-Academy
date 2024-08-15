@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'length() and distance() ', E'7433385a-64b2-472c-88b3-c1833fc06fb7', E'99aaadb1-28ce-4c9f-9d28-06e3ca0f62a3');

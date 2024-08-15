@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to move a fullscreen linear repetition with vertical lines back and forth (bouncing) infinitely:', null, E'4c985a5d-e047-40e4-b8b3-7db16c1e06f2', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

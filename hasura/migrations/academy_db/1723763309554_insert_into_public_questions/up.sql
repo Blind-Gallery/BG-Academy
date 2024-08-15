@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The GLSL built-in function cos() can be think of as a mirror from the GLSL built-in function:', null, E'1f83b98a-d3c9-42d0-a196-faf8dbe91bb5', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

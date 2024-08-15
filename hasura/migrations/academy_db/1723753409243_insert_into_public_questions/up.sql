@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The yellow color represented in RGB percentage as (100%, 100%, 0%) is equivalent in GLSL floating-point numbers as:', null, E'51281e94-2f62-4765-b8c7-2f2af47bc685', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to move a fullscreen linear repetition with vertical lines from left to right with an abrupt and fast-end movement, from which after it starts again repeating that motion:', null, E'ac23acd2-cb16-4204-ad4e-27bd86e1c8d7', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

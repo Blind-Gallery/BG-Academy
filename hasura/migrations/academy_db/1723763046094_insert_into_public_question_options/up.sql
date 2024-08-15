@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Three.js template', E'cd586755-3d35-45b9-9b49-88bdfa81b183', E'c882d398-8edc-438b-9c4c-9c28c11fea24');

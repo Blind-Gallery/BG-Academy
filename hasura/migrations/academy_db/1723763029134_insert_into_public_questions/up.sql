@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The uniforms available in the fragment shader template for this course were defined in the:', null, E'c882d398-8edc-438b-9c4c-9c28c11fea24', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

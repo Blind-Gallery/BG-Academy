@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'Saturation Continuum Gradients have:', null, E'5f1117b2-88e8-485a-973f-55f9bcf465c1', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

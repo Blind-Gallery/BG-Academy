@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'vec3(5.7, 9.2, 7.3)', E'86bf5b43-24ba-4141-8c74-d3ff4282411c', E'595d7687-0a24-47e0-ad2f-e9494fcb3213');

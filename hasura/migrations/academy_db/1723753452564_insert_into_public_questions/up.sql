@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The bright sea green color represented in RGB percentage as (57%, 92%, 73%) is equivalent in GLSL floating-point numbers as:', null, E'595d7687-0a24-47e0-ad2f-e9494fcb3213', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

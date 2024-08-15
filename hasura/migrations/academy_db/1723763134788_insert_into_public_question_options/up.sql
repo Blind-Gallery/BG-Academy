@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'float time = u_time;', E'ab20dea2-4570-4aa3-a5b9-2471ab79d8f9', E'eca92a9f-3e18-4aad-a7d0-bc60fd4115a0');

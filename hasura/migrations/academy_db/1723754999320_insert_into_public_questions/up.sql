@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is a calculation to push the horizontal axis of a pixel aka fragment shader coordinate system towards what one could think of light:', null, E'cac0cba4-46c6-4701-9d68-747e2596277c', E'ba883c86-a829-4df4-832a-acd10f0adf97');
