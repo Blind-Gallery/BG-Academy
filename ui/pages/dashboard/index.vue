@@ -7,6 +7,8 @@
       <p>Number of tezos - users: {{ tezos_aggregate.aggregate.count }}</p>
       <p>Number of email - users: {{ emails_aggregate.aggregate.count }}</p>
       <p>Last course bought at: {{ user_course[0].created_at }}</p>
+      <p>Number of credit card sales: {{ stripe_transaction_info.length }}</p>
+      <p>Number of tezos sales: {{ tezos_transaction_info.length }}</p>
     </div>
   </div>
 </template>
@@ -58,7 +60,29 @@ export default {
           }
         }
       }`
+    },
+    stripe_transaction_info: {
+      query: gql`query {
+        stripe_transaction_info(where: {amount: {_is_null: false}}) {
+          amount
+          created_at
+          id
+        }
+      }`
+    },
+    tezos_transaction_info: {
+      query: gql`query {
+        tezos_transaction_info(where: {amount: {_is_null: false}}) {
+          amount
+          created_at
+          id
+        }
+      }`
     }
+  },
+  mounted () {
+    console.info('course_credit_card_sales:', this.stripe_transaction_info)
+    console.info('course_tezos_sales:', this.tezos_transaction_info)
   }
 }
 </script>
