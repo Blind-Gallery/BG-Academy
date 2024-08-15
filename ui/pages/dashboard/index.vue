@@ -9,6 +9,8 @@
       <p>Last course bought at: {{ user_course[0].created_at }}</p>
       <p>Number of credit card sales: {{ stripe_transaction_info.length }}</p>
       <p>Number of tezos sales: {{ tezos_transaction_info.length }}</p>
+      <p>Total volume credit card: {{ total_volume_credit_card }}</p>
+      <p>Total volume tezos: {{ total_volume_tezos }}</p>
     </div>
   </div>
 </template>
@@ -80,9 +82,21 @@ export default {
       }`
     }
   },
+  data () {
+    return {
+      total_volume_credit_card: 0,
+      total_volume_tezos: 0
+    }
+  },
   mounted () {
     console.info('course_credit_card_sales:', this.stripe_transaction_info)
     console.info('course_tezos_sales:', this.tezos_transaction_info)
+    this.stripe_transaction_info.forEach((transaction) => {
+      this.total_volume_credit_card += transaction.amount
+    })
+    this.tezos_transaction_info.forEach((transaction) => {
+      this.total_volume_tezos += transaction.amount
+    })
   }
 }
 </script>
