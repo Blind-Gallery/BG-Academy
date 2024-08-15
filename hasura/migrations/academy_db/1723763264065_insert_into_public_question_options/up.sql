@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'float pattern = fract(uv.x * 4.0 - tan(u_time)); ', E'6b009700-6c4e-466d-86b1-2100e51c7ac2', E'4c985a5d-e047-40e4-b8b3-7db16c1e06f2');

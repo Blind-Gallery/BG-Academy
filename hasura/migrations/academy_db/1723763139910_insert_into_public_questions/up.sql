@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to move a fullscreen linear repetition with vertical lines from left to right continuously:', null, E'ca2a00c3-c31b-41db-990e-af5d5ae88dbb', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'A dark and light area', E'028750e6-57e8-473a-b9ef-69551091ef00', E'5f1117b2-88e8-485a-973f-55f9bcf465c1');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'This GLSL built-in function can be used to make a well-defined (sharp) circle:', null, E'e764abc4-f3e7-4061-8aed-dbb0a583348b', E'ba883c86-a829-4df4-832a-acd10f0adf97');

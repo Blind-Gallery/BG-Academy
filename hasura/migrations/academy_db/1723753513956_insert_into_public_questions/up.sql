@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'Luminosity gradients have:', null, E'138e1257-ba48-4a0c-aab9-a9743820bd72', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'These three GLSL built-in functions can be used to add motion to our sketches with trigonometry:', null, E'3485268b-8e9c-467f-b259-6215504c9fcc', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'sin(), tan(), cos()', E'83fe5208-c92d-4193-978b-635e57309f05', E'3485268b-8e9c-467f-b259-6215504c9fcc');

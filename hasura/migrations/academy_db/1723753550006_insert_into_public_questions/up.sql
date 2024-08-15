@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to output an horizontal red luminosity gradient:', null, E'efd5e519-2157-48c4-bb53-c3f0a0008614', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

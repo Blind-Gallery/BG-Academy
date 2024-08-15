@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'float ring = abs(length(uv) - 0.25);', E'384f8065-c49e-46d4-adac-0d614a819dfc', E'ba91fa74-bff8-41c8-8212-3ee92ae06556');

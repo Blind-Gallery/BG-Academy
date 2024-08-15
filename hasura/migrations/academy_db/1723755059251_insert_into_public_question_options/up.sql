@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'mix() and abs()', E'1e6567ac-c86a-43dc-bcf1-cbbb94d9549e', E'99aaadb1-28ce-4c9f-9d28-06e3ca0f62a3');

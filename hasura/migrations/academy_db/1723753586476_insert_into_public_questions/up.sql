@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to output a vertical blue luminosity gradient:', null, E'fbbe835d-54a9-479c-ad67-1c5040edce82', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');

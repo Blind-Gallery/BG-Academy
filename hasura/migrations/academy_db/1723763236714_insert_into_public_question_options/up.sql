@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'sin(), tan(), length()', E'b1e51b57-8c23-4400-b7ef-0fd17ce79272', E'3485268b-8e9c-467f-b259-6215504c9fcc');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'float square = max(abs(uv.x), abs(uv.y));', E'd1dbd325-8197-4a87-a3a5-82508d828a30', E'4e26542a-4946-4237-b7fc-8274917160fa');

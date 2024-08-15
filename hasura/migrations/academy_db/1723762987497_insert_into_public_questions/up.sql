@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'In the pixel aka fragment shader template used in this course u_time is an example of a type qualifier known as:', null, E'971d26a4-4c94-4bb0-aee6-bbda3be25c5b', E'466b727c-f5fa-402c-a9e6-e34317c54fcd');

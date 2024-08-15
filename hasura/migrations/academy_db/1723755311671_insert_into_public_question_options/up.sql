@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'float triangle = step(0.1, max(abs(uv.x) - uv.y, abs(uv.y)));', E'7484619a-21f7-4c34-96fb-0b9d115735ac', E'f4ab43c9-af5c-4dbc-9dae-fc1a574e6ad5');

@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'These two GLSL built-in functions can be used together to draw a square or rectangle:', null, E'4e26542a-4946-4237-b7fc-8274917160fa', E'ba883c86-a829-4df4-832a-acd10f0adf97');

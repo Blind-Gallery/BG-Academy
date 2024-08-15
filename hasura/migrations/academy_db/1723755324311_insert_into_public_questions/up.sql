@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to draw a well-defined (sharp) ring at the center of the screen with a given normalized screen coordinate system between -0.5 and 0.5 and an aspect ratio:', null, E'ba91fa74-bff8-41c8-8212-3ee92ae06556', E'ba883c86-a829-4df4-832a-acd10f0adf97');

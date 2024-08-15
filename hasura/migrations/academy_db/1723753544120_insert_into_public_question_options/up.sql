@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Two different gradient colors', E'2f4fd4c5-2245-4b90-89a7-2f7deff368e0', E'138e1257-ba48-4a0c-aab9-a9743820bd72');

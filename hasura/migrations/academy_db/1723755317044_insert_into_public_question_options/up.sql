@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'float triangle = min(abs(uv.x) - uv.x, abs(uv.y));', E'0b97dbd7-1ede-4fa1-b245-240a5b5da229', E'f4ab43c9-af5c-4dbc-9dae-fc1a574e6ad5');

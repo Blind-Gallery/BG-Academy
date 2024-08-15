@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Fractions of time', E'3d7ffa66-d529-47f6-ae91-d404a61c5cab', E'e39314d6-f025-4209-97a1-83028afcac73');

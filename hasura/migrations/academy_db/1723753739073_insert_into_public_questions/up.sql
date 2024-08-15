@@ -1,1 +1,0 @@
-INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'The following is an equation to output a vertical saturation continuum gradient, starting from blue on the bottom side to red on the top side, given two predefined color variables:', null, E'e2b2ec61-1f48-4a17-9a49-ace9b3504886', E'28e8a011-ad3b-4f2f-8687-ce17485c434d');
