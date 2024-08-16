@@ -17,7 +17,7 @@ const { OpKind } = require('@taquito/taquito')
 export default {
   props: {
     courseId: {
-      type: Number,
+      type: String,
       required: true
     }
   },
