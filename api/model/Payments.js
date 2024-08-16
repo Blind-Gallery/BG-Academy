@@ -157,10 +157,11 @@ class Payments {
     const oldPayment = await this.getTezosPayment({ userId, onchainId, courseId })
     log.info(`Old payment: ${JSON.stringify(oldPayment)}`)
     if (oldPayment) {
-      return { tezos: tezosPrice }
+      return { tezos: tezosPrice, onchainId }
     }
 
     try {
+      log.info()
       await this.storeTezosPaymentIntent({
         courseId,
         userId,
@@ -181,7 +182,8 @@ class Payments {
         throw new InternalServerError(err.message)
       }
     }
-    return { tezos: tezosPrice }
+    log.info(onchainId)
+    return { tezos: tezosPrice, onchainId }
   }
 
   async addCourseToUser ({ courseId, userId }) {
