@@ -56,7 +56,8 @@ const tezosPaymentIntent = {
       type: 'object',
       required: ['tezos'],
       properties: {
-        tezos: { type: 'number' }
+        tezos: { type: 'number' },
+        onchainId: { type: 'number' }
       }
     }
   }

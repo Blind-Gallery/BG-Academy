@@ -181,7 +181,7 @@ class Payments {
         throw new InternalServerError(err.message)
       }
     }
-    return { tezos: tezosPrice }
+    return { tezos: tezosPrice, onchainId }
   }
 
   async addCourseToUser ({ courseId, userId }) {

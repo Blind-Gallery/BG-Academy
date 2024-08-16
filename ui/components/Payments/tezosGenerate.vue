@@ -16,13 +16,14 @@ const { OpKind } = require('@taquito/taquito')
 
 export default {
   props: {
-    onchainId: {
+    courseId: {
       type: Number,
       required: true
     }
   },
   data () {
     return {
+      onchainId: 0,
       contractAddress: CONTRACT_ADDRESS.academy,
       tezosPrice: 0
     }
@@ -36,13 +37,14 @@ export default {
         const { getClientWallet } = dappClient()
         const wallet = await getClientWallet()
         const tezosAddress = await wallet.getPKH()
-        const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
-          courseId: this.onchainId,
+        const { tezos, onchainId } = await this.$axios.$post('/payments/tezos/payment-intent', {
+          courseId: this.courseId,
           wallet: tezosAddress,
           userId: this.$auth.user.id
         })
         // floor price to 2 decimals
         this.tezosPrice = Math.floor(tezos * 100) / 100
+        this.onchainId = onchainId
       } catch (error) {
         console.error(error.message)
       }
