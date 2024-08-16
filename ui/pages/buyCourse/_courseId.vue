@@ -132,7 +132,7 @@
                 Credit card
               </button>
 
-              <payments-tezos-generate :course-id="courses[0].onchain_id" />
+              <payments-tezos-generate :onchain-id="courses[0].onchain_id" />
             </div>
 
             <div v-else>

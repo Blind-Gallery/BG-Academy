@@ -16,8 +16,8 @@ const { OpKind } = require('@taquito/taquito')
 
 export default {
   props: {
-    courseId: {
-      type: String,
+    onchainId: {
+      type: Number,
       required: true
     }
   },
@@ -37,7 +37,7 @@ export default {
         const wallet = await getClientWallet()
         const tezosAddress = await wallet.getPKH()
         const { tezos } = await this.$axios.$post('/payments/tezos/payment-intent', {
-          courseId: this.courseId,
+          courseId: this.onchainId,
           wallet: tezosAddress,
           userId: this.$auth.user.id
         })
@@ -59,7 +59,7 @@ export default {
         {
           kind: OpKind.TRANSACTION,
           ...academyContract.methods
-            .pay_course(this.courseId)
+            .pay_course(this.onchainId)
             .toTransferParams({ amount: this.tezosPrice })
         }
       ]
@@ -72,7 +72,7 @@ export default {
         console.info(batchOp)
         if (status === 'applied') {
           console.info('Payment successful')
-          this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.courseId}`)
+          this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.onchainId}`)
         } else {
           console.error('Payment failed')
         }
