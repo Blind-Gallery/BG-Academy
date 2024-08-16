@@ -132,7 +132,7 @@
                 Credit card
               </button>
 
-              <payments-tezos-generate :course-id="courses[0].id" />
+              <payments-tezos-generate :course-id="courses[0].onchain_id" />
             </div>
 
             <div v-else>
@@ -227,6 +227,7 @@ export default {
         query ($id: String!) {
           courses(where: { id: { _eq: $id } }) {
             id
+            onchain_id
             name
             description
             language
