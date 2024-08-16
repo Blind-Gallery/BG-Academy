@@ -23,8 +23,19 @@
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
-            <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
-              <PxWillLearn v-for="itemModule in courses[0].modules" :key="itemModule.id" :title="itemModule.you_will_learn_title" :description="itemModule.you_will_learn" />
+
+            <div
+              v-for="itemModule in courses[0].modules"
+              :key="itemModule.id"
+            >
+              <div v-if="itemModule.you_will_learn" class="d-flex  rounded  mb-2">
+                <div style="margin-right:0.5rem">
+                  <Icon icon="material-symbols:check-circle-outline-rounded" color="#00c851" width="1.25rem" />
+                </div>
+                <span class="small ">
+                  {{ itemModule.you_will_learn }}
+                </span>
+              </div>
             </div>
             <h5 class="mt-4">
               Description
