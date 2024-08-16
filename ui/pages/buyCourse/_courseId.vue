@@ -273,11 +273,12 @@ export default {
     ]),
 
     formattedDuration: function () {
-      const hours = Math.floor(this.courses[0].duration / 60)
-      const minutes = this.courses[0].duration % 60
+      const totalMinutes = Math.floor(this.courses[0].duration / 60)
+      const hours = Math.floor(totalMinutes / 60)
+      const minutes = totalMinutes % 60
 
       if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''}`
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
       } else {
         return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
