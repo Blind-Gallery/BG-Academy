@@ -11,7 +11,7 @@
       <!-- CONTENT COLLAPSED -->
       <div v-for="(chapter, chapterIndex) in module.chapters" :key="chapterIndex" class="tw-flex tw-flex-col tw-p-4  hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer">
         <span class="tw-text-xs">{{ chapter.title }}</span>
-        <span class="tw-text-xs tw-text-gray-500">{{ chapter.duration }}</span>
+        <span class="tw-text-xs tw-text-gray-500">{{ formattedDuration(chapter.duration) }}</span>
       </div>
     </div>
   </div>
@@ -85,18 +85,19 @@ export default {
   },
 
   methods: {
-    formatDuration (duration) {
-      const minutes = Math.floor(duration / 60)
-      const seconds = duration % 60
 
-      if (minutes > 0 && seconds > 0) {
-        return `${minutes} min ${seconds} sec`
-      } else if (minutes > 0) {
-        return `${minutes} min`
+    formattedDuration: function (duration) {
+      const totalMinutes = Math.floor(duration / 60)
+      const hours = Math.floor(totalMinutes / 60)
+      const minutes = totalMinutes % 60
+
+      if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
       } else {
-        return `${seconds} sec`
+        return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
     },
+
     async getCourseSchema () {
       if (!this.courseId) { return }
       try {
