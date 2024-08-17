@@ -1,15 +1,21 @@
 <template>
   <div>
     <!-- BTN FOR COLLAPSE -->
-    <div v-for="(module, moduleIndex) in courses_by_pk.modules" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 ">
-      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4">
-        <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
-          {{ module.title }}
-        </span>
+    <div v-for="(module, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
+      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(moduleIndex)">
+        <div class="tw-w-full tw-flex tw-justify-between">
+          <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
+            {{ module.title }}
+          </span>
+          <div :ref="`collapseIcon${moduleIndex}`" class="tw-ease-in-out tw-duration-200">
+            <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
+          </div>
+        </div>
         <span class="tw-text-xs tw-text-gray-500">Chapters: {{ module.chapters.length }}</span>
       </div>
       <!-- CONTENT COLLAPSED -->
-      <div v-for="(chapter, chapterIndex) in module.chapters" :key="chapterIndex" class="tw-flex tw-flex-col tw-p-4  hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer">
+
+      <div v-for="(chapter, chapterIndex) in module.chapters" :key="chapterIndex" class="tw-flex tw-flex-col tw-p-4  hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer ">
         <span class="tw-text-xs">{{ chapter.title }}</span>
         <span class="tw-text-xs tw-text-gray-500">{{ formattedDuration(chapter.duration) }}</span>
       </div>
@@ -97,8 +103,20 @@ export default {
         console.error(error)
       }
     },
-    isChapterActive (moduleId) {
-      return moduleId === this.activeModuleId
+
+    toggleIcon (element, className) {
+      element.classList.toggle(className)
+    },
+
+    toggleContent (element) {
+      element.classList.toggle('tw-overflow-hidden')
+      element.classList.toggle('tw-max-h-[900px]')
+    },
+
+    triggerCollapse (moduleIndex) {
+      this.toggleIcon(this.$refs[`collapseIcon${moduleIndex}`][0], 'tw-rotate-180')
+      const contentInstance = this.$refs[`collapseContent${moduleIndex}`][0]
+      this.toggleContent(contentInstance)
     }
 
   }
