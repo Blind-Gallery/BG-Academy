@@ -65,28 +65,13 @@ export default {
       }
     }
   },
-  computed: {
 
-    activeModuleId () {
-      if (!this.courseInfo.modules) { return null }
-      if (this.$route.params.moduleId) { return this.$route.params.moduleId }
-      const chapterIdFromRoute = this.$route.params.chapterId
-      for (const module of this.courseInfo.modules) {
-        for (const chapter of module.chapters) {
-          if (chapter.id === chapterIdFromRoute) {
-            return module.id
-          }
-        }
-      } return null
-    }
-  },
   async created () {
     await this.getCourseSchema()
   },
 
   methods: {
-
-    formattedDuration: function (duration) {
+    formattedDuration (duration) {
       const totalMinutes = Math.floor(duration / 60)
       const hours = Math.floor(totalMinutes / 60)
       const minutes = totalMinutes % 60
