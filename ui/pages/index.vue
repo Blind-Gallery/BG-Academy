@@ -31,7 +31,7 @@
                       class=" mr-1"
                       icon="material-symbols:check-circle-outline"
                     />
-                    <p class="m-0 " style="font-size: small;">
+                    <p class="tw-text-xs" style="font-size: small;">
                       Completed
                     </p>
                   </div>
