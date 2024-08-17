@@ -4,20 +4,19 @@
       <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(moduleIndex)">
         <div class="tw-w-full tw-flex tw-justify-between">
           <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
-            {{ module.title }}
+            {{ chapterModule.title }}
           </span>
           <div :ref="`collapseIcon${moduleIndex}`" class="tw-ease-in-out tw-duration-200">
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
           </div>
         </div>
-        <span class="tw-text-xs tw-text-gray-500">Chapters: {{ module.chapters.length }}</span>
+        <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
       </div>
-      <!-- CONTENT COLLAPSED -->
 
-      <div v-for="(chapter, chapterIndex) in module.chapters" :key="chapterIndex" class="tw-flex tw-flex-col tw-p-4  hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer ">
+      <NuxtLink v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :to="'/courseNavigator/chapter/' + chapter.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
         <span class="tw-text-xs">{{ chapter.title }}</span>
         <span class="tw-text-xs tw-text-gray-500">{{ formattedDuration(chapter.duration) }}</span>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
