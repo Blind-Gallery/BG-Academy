@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- WRAPPER -->
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
+      <!-- COLLAPSE BUTTON -->
       <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(moduleIndex)">
         <div class="tw-w-full tw-flex tw-justify-between">
           <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
@@ -12,15 +14,23 @@
         </div>
         <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
       </div>
-
+      <!-- CHAPTER CONTENT -->
       <NuxtLink v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :to="'/courseNavigator/chapter/' + chapter.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
-        <span class="tw-text-xs">{{ chapter.title }}</span>
+        <div class="tw-w-full tw-flex  tw-justify-between">
+          <span class="tw-text-xs">{{ chapter.title }}</span>
+          <div>
+            <Icon icon="material-symbols-light:smart-display-outline-rounded" width="1rem" />
+          </div>
+        </div>
         <span class="tw-text-xs tw-text-gray-500">{{ formattedDuration(chapter.duration) }}</span>
       </NuxtLink>
+      <!-- TEST CONTENT -->
       <NuxtLink :to="'/courseNavigator/test/' + chapterModule.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
-        <div class="tw-w-full tw-flex tw-items-center tw-justify-between">
+        <div class="tw-w-full tw-flex  tw-justify-between">
           <span class="tw-text-xs">Test</span>
-          <Icon icon="material-symbols-light:smart-display-outline-rounded" width="1rem" />
+          <div>
+            <Icon icon="material-symbols-light:checklist" width="1rem" />
+          </div>
         </div>
 
         <span class="tw-text-xs tw-text-gray-500">Total questions: {{ chapterModule.questions.length }}</span>
