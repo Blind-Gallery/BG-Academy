@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- BTN FOR COLLAPSE -->
-    <div v-for="(module, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
+    <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
       <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(moduleIndex)">
         <div class="tw-w-full tw-flex tw-justify-between">
           <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
@@ -67,7 +66,7 @@ export default {
   data () {
     return {
       courseInfo: {
-        modules: []
+        chapterModules: []
       }
     }
   },
