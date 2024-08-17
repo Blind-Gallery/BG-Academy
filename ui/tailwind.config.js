@@ -5,24 +5,32 @@ module.exports = {
   theme: {
     extend: {
       fontSize: {
-        h1: '2.25rem', // 36px
-        h2: '1.875rem', // 30px
-        h3: '1.5rem', // 24px
-        h4: '1.25rem', // 20px
-        h5: '1rem', // 16px
-        h6: '0.875rem' // 14px
+        h1: '2.5rem',
+        h2: '2rem',
+        h3: '1.75rem',
+        h4: '1.5rem',
+        h5: '1.25rem',
+        h6: '1rem'
+      },
+      margin: {
+        h1: '1rem 0rem',
+        h2: '1rem 0rem',
+        h3: '0.75rem 0rem',
+        h4: '0.75rem 0rem',
+        h5: '0.5rem 0rem',
+        h6: '0.5rem 0rem'
       }
     }
   },
   plugins: [
     function ({ addBase, theme }) {
       addBase({
-        h1: { fontSize: theme('fontSize.h1') },
-        h2: { fontSize: theme('fontSize.h2') },
-        h3: { fontSize: theme('fontSize.h3') },
-        h4: { fontSize: theme('fontSize.h4') },
-        h5: { fontSize: theme('fontSize.h5') },
-        h6: { fontSize: theme('fontSize.h6') }
+        h1: { fontSize: theme('fontSize.h1'), margin: theme('margin.h1') },
+        h2: { fontSize: theme('fontSize.h2'), margin: theme('margin.h2') },
+        h3: { fontSize: theme('fontSize.h3'), margin: theme('margin.h3') },
+        h4: { fontSize: theme('fontSize.h4'), margin: theme('margin.h4') },
+        h5: { fontSize: theme('fontSize.h5'), margin: theme('margin.h5') },
+        h6: { fontSize: theme('fontSize.h6'), margin: theme('margin.h6') }
       })
     }
   ]
