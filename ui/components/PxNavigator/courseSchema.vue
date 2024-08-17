@@ -169,7 +169,6 @@ export default {
   },
   async created () {
     await this.getCourseSchema()
-    this.toggleCollapseActive()
   },
 
   methods: {
@@ -201,22 +200,8 @@ export default {
     },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
-    },
-    toggleCollapse (moduleId) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleId}`)
-    },
-
-    toggleCollapseActive () {
-      console.info(this.activeModuleId)
-      if (!this.activeModuleId) { return }
-      for (const toggle of this.$refs.toggle) {
-        console.info(toggle.$attrs.id)
-        if (toggle.$attrs.id.includes(`toggle-${this.activeModuleId}`)) {
-          toggle.toggleCollapse = true
-          return
-        }
-      }
     }
+
   }
 }
 </script>
