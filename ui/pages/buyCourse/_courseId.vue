@@ -346,9 +346,7 @@ export default {
           console.error(error)
         })
     },
-    toggleCollapse (moduleIndex) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
-    },
+
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')
