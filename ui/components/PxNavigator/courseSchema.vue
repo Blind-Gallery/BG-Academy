@@ -19,16 +19,7 @@
       <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
 
       <!-- TEST CONTENT -->
-      <NuxtLink v-if="chapterModule.questions.length > 0" :to="'/courseNavigator/test/' + chapterModule.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
-        <div class="tw-w-full tw-flex  tw-justify-between">
-          <span class="tw-text-xs">Test</span>
-          <div>
-            <Icon icon="material-symbols-light:checklist" width="1rem" />
-          </div>
-        </div>
-
-        <span class="tw-text-xs tw-text-gray-500">Total questions: {{ chapterModule.questions.length }}</span>
-      </NuxtLink>
+      <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
     </div>
   </div>
 </template>
