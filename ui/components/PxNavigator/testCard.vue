@@ -6,7 +6,7 @@ export default {
       required: true
     },
     questions: {
-      type: String,
+      type: Number,
       required: true
     }
   }
