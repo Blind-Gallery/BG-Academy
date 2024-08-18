@@ -1,14 +1,14 @@
 <template>
   <div v-if="!$apollo.loading && courses_by_pk.modules">
     <!-- WRAPPER -->
-    <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
+    <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
       <!-- COLLAPSE BUTTON -->
-      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(moduleIndex)">
+      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
         <div class="tw-w-full tw-flex tw-justify-between">
           <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
             {{ chapterModule.title }}
           </span>
-          <div :ref="`collapseIcon${moduleIndex}`" class="tw-ease-in-out tw-duration-200">
+          <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
           </div>
         </div>
