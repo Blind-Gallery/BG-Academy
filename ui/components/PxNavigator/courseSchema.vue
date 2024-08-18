@@ -15,15 +15,9 @@
         <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
       </div>
       <!-- CHAPTER CONTENT -->
-      <NuxtLink v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :to="'/courseNavigator/chapter/' + chapter.id" :class="chapter.id === $route.params.chapterId ? 'tw-bg-gray-100':''" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
-        <div class="tw-w-full tw-flex  tw-justify-between">
-          <span class="tw-text-xs">{{ chapter.title }}</span>
-          <div>
-            <Icon icon="material-symbols-light:smart-display-outline-rounded" width="1rem" />
-          </div>
-        </div>
-        <span class="tw-text-xs tw-text-gray-500">{{ formattedDuration(chapter.duration) }}</span>
-      </NuxtLink>
+
+      <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
+
       <!-- TEST CONTENT -->
       <NuxtLink v-if="chapterModule.questions.length > 0" :to="'/courseNavigator/test/' + chapterModule.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
         <div class="tw-w-full tw-flex  tw-justify-between">
@@ -112,17 +106,6 @@ export default {
   },
 
   methods: {
-    formattedDuration (duration) {
-      const totalMinutes = Math.floor(duration / 60)
-      const hours = Math.floor(totalMinutes / 60)
-      const minutes = totalMinutes % 60
-
-      if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
-      } else {
-        return `${minutes} minute${minutes > 1 ? 's' : ''}`
-      }
-    },
 
     async getCourseSchema () {
       if (!this.courseId) { return }
