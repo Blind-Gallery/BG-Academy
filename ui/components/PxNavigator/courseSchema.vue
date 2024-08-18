@@ -5,7 +5,7 @@
       <!-- COLLAPSE BUTTON -->
       <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
         <div class="tw-w-full tw-flex tw-justify-between">
-          <span class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
+          <span :class="chapterModule.id === activeModuleId ? 'tw-text-[#00b9cd]':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
             {{ chapterModule.title }}
           </span>
           <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
@@ -15,7 +15,7 @@
         <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
       </div>
       <!-- CHAPTER CONTENT -->
-      <NuxtLink v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :to="'/courseNavigator/chapter/' + chapter.id" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
+      <NuxtLink v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :to="'/courseNavigator/chapter/' + chapter.id" :class="chapter.id === $route.params.chapterId ? 'tw-bg-gray-100':''" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
         <div class="tw-w-full tw-flex  tw-justify-between">
           <span class="tw-text-xs">{{ chapter.title }}</span>
           <div>
