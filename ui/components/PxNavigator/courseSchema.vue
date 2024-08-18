@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!$apollo.loading && courses_by_pk.modules">
     <!-- WRAPPER -->
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${moduleIndex}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
       <!-- COLLAPSE BUTTON -->
