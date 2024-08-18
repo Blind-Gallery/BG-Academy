@@ -15,7 +15,7 @@ export default {
 
 <template>
   <div>
-    <NuxtLink :to="'/courseNavigator/test/' + route" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
+    <NuxtLink :to="'/courseNavigator/test/' + route" :class="$route.params.moduleId === route ?'tw-bg-gray-100':''" class="tw-flex tw-flex-col tw-p-4 tw-text-inherit hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer hover:tw-no-underline hover:tw-text-inherit">
       <div class="tw-w-full tw-flex  tw-justify-between">
         <span class="tw-text-xs">Test</span>
         <div>
