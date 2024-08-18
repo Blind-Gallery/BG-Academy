@@ -87,7 +87,26 @@ export default {
       }
     }
   },
+  computed: {
+    activeModuleId () {
+      const { moduleId, chapterId } = this.$route.params
+      const { modules } = this.courseInfo
 
+      if (moduleId) { return moduleId }
+
+      if (!modules) { return moduleId }
+
+      return modules.find(module =>
+        module.chapters.some(chapter => chapter.id === chapterId)
+      )?.id || null
+    }
+  },
+
+  watch: {
+    activeModuleId (newVal) {
+      this.triggerCollapse(newVal)
+    }
+  },
   async created () {
     await this.getCourseSchema()
   },
