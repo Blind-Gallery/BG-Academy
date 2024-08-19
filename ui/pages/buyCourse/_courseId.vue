@@ -54,39 +54,7 @@
               Course curriculum
             </h5>
 
-            <div
-              v-for="(itemModule, moduleIndex) in courses[0].modules"
-              :key="moduleIndex"
-              class="w-100 shadow-sm  mb-2 rounded"
-            >
-              <div @click="toggleCollapse(moduleIndex)">
-                <PxToggleCollapse :icon-width="'24px'" :toggle-name="itemModule.title" />
-              </div>
-
-              <!--CHAPTERS COLLAPSE-->
-              <b-collapse
-                v-for="(chapter, chapterIndex) in itemModule.chapters"
-                :id="`accordion-${moduleIndex}`"
-                :key="chapterIndex"
-                class="mt-2"
-                role="tabpanel"
-              >
-                <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                  <div class="d-flex align-items-center">
-                    <Icon
-                      icon="material-symbols:smart-display-outline-rounded"
-                      width="18"
-                      class="mr-2"
-                    />
-                    <p
-                      class="curriculum-chapter m-0 small text-secondary text-truncate"
-                    >
-                      {{ chapter.title }}
-                    </p>
-                  </div>
-                </div>
-              </b-collapse>
-            </div>
+            <info-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
           </div>
         </b-col>
 
@@ -329,6 +297,7 @@ export default {
     this.getUserCourses()
   },
   methods: {
+
     toggleDescription () {
       this.showFullDescription = !this.showFullDescription
     },
@@ -346,9 +315,7 @@ export default {
           console.error(error)
         })
     },
-    toggleCollapse (moduleIndex) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
-    },
+
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')
