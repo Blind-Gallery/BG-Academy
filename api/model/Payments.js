@@ -193,6 +193,7 @@ class Payments {
     )
 
     await this.sendWelcomeToCourseEmail({ courseId, userId })
+    log.info(`User course: ${JSON.stringify(userCourse)} - email sent`)
     return userCourse
   }
 
@@ -202,7 +203,7 @@ class Payments {
       { id: courseId }
     )
 
-    // todo: update link to last chapter seen by user
+    log.info(`Sending welcome email to ${userId} for course ${courseId}`)
     await this.email.sendThanksForPurchaseEmail({
       title: course.title,
       image: course.thumbnail,
@@ -211,6 +212,7 @@ class Payments {
   }
 
   async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret }) {
+    log.info(`Verifying stripe payment intent ${paymentIntent}`)
     const { stripe_transaction_info: stripePayment } = await this.gql.request(
       GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
       { paymentIntent }
@@ -229,6 +231,7 @@ class Payments {
   }
 
   async verifyTezosPayment ({ onchainId, courseId, userId, opHash }) {
+    log.info('Verifying tezos payment intent')
     await this.getTezosPayment({ userId, onchainId, courseId })
     await this.addCourseToUser({ courseId, userId })
     return { success: true, courseId }
