@@ -9,6 +9,9 @@ UPDATE question_options SET is_correct = true WHERE id = '76c83b70-e59f-446a-bf3
 UPDATE question_options SET is_correct = false WHERE id = '82667748-3839-4d86-ad38-d53f1761f03f';
 
 UPDATE question_options SET is_correct = true WHERE id = 'd1dbd325-8197-4a87-a3a5-82508d828a30';
+
+--- Add missing questions
+
 INSERT INTO "public"."question_options"("id", "question_id", "text", "is_correct") VALUES (E'4f0867cc-2c57-4a6a-97a3-a94f71048e74', E'c882d398-8edc-438b-9c4c-9c28c11fea24', E'Vertex shader', true);
 
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'These two GLSL built-in functions can be used interchangeably to repeat the space in a pixel aka fragment shader', null, E'0707bba0-d35f-4be6-9de2-e8d5de6e0927', E'8efe00aa-57ad-4498-bc39-bb86c1743f42');
