@@ -38,7 +38,7 @@
                 <h4>{{ chapterInfo.title }}</h4>
               </div>
               <div>
-                <button v-if="!finalModule" class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                <button v-if="!endOfCourse" class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
                   <span>Next</span>
                   <Icon
                     icon="material-symbols:skip-next-rounded"
@@ -232,8 +232,15 @@ export default {
 
       return foundModule ? foundModule.id : null
     },
-    finalModule () {
-      return !this.chapterInfo.module.next_module_id
+    endOfCourse () {
+      const { next_module_id: nextModuleId, questions } = this.chapterInfo.module
+      const { next_chapter_id: nextChapterId } = this.chapterInfo
+
+      const isLastModule = !nextModuleId
+      const isLastChapter = !nextChapterId
+      const noPendingQuestions = questions.length === 0
+
+      return isLastModule && isLastChapter && noPendingQuestions
     }
 
   },
