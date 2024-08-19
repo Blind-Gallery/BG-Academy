@@ -17,7 +17,7 @@
 
 <script>
 import { gql } from 'graphql-tag'
-const userId = "b1c88742-d6a4-4556-8e92-83a7e9374dc5" // this.$auth.loggedIn ? this.$auth.user.id : ''
+
 export default {
   apollo: {
     courses_aggregate: {
@@ -28,8 +28,10 @@ export default {
           }
         }
       }`,
-      variables: {
-        id: userId
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
       }
     },
     users_aggregate: {
@@ -40,8 +42,10 @@ export default {
           }
         }
       }`,
-      variables: {
-        id: userId
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
       }
     },
     user_course: {
@@ -51,8 +55,10 @@ export default {
           created_at
         }
       }`,
-      variables: {
-        id: userId
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
       }
     },
     tezos_aggregate: {
@@ -63,8 +69,10 @@ export default {
           }
         }
       }`,
-      variables: {
-        id: userId
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
       }
     },
     emails_aggregate: {
@@ -75,8 +83,10 @@ export default {
           }
         }
       }`,
-      variables: {
-        id: userId
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
       }
     },
     stripe_transaction_info: {
@@ -105,6 +115,7 @@ export default {
     }
   },
   mounted () {
+    console.info('this.$auth', this.$auth)
     this.stripe_transaction_info.forEach((transaction) => {
       this.total_volume_credit_card += transaction.amount
     })
