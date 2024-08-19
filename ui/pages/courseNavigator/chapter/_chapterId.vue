@@ -141,6 +141,7 @@ query ($id: uuid!) {
     title
     resources
     video_id
+    next_chapter_id
     module {
       id
       duration
@@ -364,18 +365,25 @@ export default {
     },
 
     nextChapter () {
-      const modules = this.chapterInfo.module.course.modules
-      const activeModule = modules.find(module => module.id === this.activeModuleId)
+      const { next_chapter_id: nextChapterId, module } = this.chapterInfo
+      const { questions, next_module_id: nextModuleId, id: currentModuleId, course } = module
+      const moduleHasTest = questions.length > 0
 
-      if (activeModule) {
-        const chapterArray = activeModule.chapters
-        const targetChapterId = this.$route.params.chapterId
-        const index = chapterArray.findIndex(chapter => chapter.id === targetChapterId)
+      const getFirstChapterId = () => {
+        const nextModule = course.modules.find(module => module.id === nextModuleId)
+        return nextModule ? nextModule.chapters[0].id : null
+      }
 
-        if (index !== -1 && index < chapterArray.length - 1) {
-          this.$router.push(`/courseNavigator/chapter/${chapterArray[index + 1].id}`)
-        } else {
-          this.$router.push(`/courseNavigator/test/${this.activeModuleId}`)
+      const navigateTo = path => this.$router.push(path)
+
+      if (nextChapterId) {
+        navigateTo(`/courseNavigator/chapter/${nextChapterId}`)
+      } else if (moduleHasTest) {
+        navigateTo(`/courseNavigator/test/${currentModuleId}`)
+      } else {
+        const firstChapterId = getFirstChapterId()
+        if (firstChapterId) {
+          navigateTo(`/courseNavigator/chapter/${firstChapterId}`)
         }
       }
     },
