@@ -62,31 +62,6 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
-                    Modules
-                  </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
-                </div>
-
-                <div v-if="false" class="d-flex flex-column">
-                  <b-progress
-                    class="mb-2"
-                    height="5px"
-                    value="2"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p class="small">
-                      Progress
-                    </p>
-                    <p class="small">
-                      2%
-                    </p>
-                  </div>
-                </div>
-
                 <!-- navigator -->
                 <PxNavigatorCourseSchema
                   v-if="courseId"
