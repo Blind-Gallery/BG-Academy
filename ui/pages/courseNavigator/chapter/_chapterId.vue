@@ -38,7 +38,7 @@
                 <h4>{{ chapterInfo.title }}</h4>
               </div>
               <div>
-                <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                <button v-if="!finalModule" class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
                   <span>Next</span>
                   <Icon
                     icon="material-symbols:skip-next-rounded"
@@ -231,6 +231,9 @@ export default {
       })
 
       return foundModule ? foundModule.id : null
+    },
+    finalModule () {
+      return !this.chapterInfo.module.next_module_id
     }
 
   },
