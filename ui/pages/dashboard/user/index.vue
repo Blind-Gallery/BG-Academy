@@ -6,7 +6,7 @@
       <p>Number of users: {{ users_aggregate.aggregate.count }}</p>
       <p>Number of tezos - users: {{ tezos_aggregate.aggregate.count }}</p>
       <p>Number of email - users: {{ emails_aggregate.aggregate.count }}</p>
-      <p>Last course bought at: {{ user_course[0].created_at }}</p>
+      <p>Last course bought at: {{ user_course[0]?.created_at }}</p>
       <p>Number of credit card sales: {{ stripe_transaction_info.length }}</p>
       <p>Number of tezos sales: {{ tezos_transaction_info.length }}</p>
       <p>Total volume credit card: {{ total_volume_credit_card }}</p>
@@ -22,7 +22,7 @@ export default {
   apollo: {
     courses_aggregate: {
       query: gql`query ($id: String) {
-        courses_aggregate(where: {teacher: {id: {_eq: $id}}}) {
+        courses_aggregate(where: {teacher: {user_id: {_eq: $id}}}) {
           aggregate {
             count
           }
@@ -36,7 +36,7 @@ export default {
     },
     users_aggregate: {
       query: gql`query ($id: String) {
-        users_aggregate(where: {courses: {course: {teacher_id: {_eq: $id}}}}) {
+        users_aggregate(where: {courses: {user_id: {_eq: $id}}}) {
           aggregate {
             count
           }
@@ -51,7 +51,7 @@ export default {
     user_course: {
       query: gql`query ($id: String) {
         user_course(order_by: {created_at: desc}, limit: 1,
-          where: {course: {teacher_id: {_eq: $id}}}) {
+          where: {course: {teacher: {user_id: {_eq: $id}}}}) {
           created_at
         }
       }`,
@@ -63,7 +63,7 @@ export default {
     },
     tezos_aggregate: {
       query: gql`query ($id: String) {
-        tezos_aggregate (where: {user_info: {courses: {course_id: {_eq: $id}}}}) {
+        tezos_aggregate (where: {user_info: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}}) {
           aggregate {
             count
           }
@@ -89,23 +89,45 @@ export default {
         }
       }
     },
-    stripe_transaction_info: {
-      query: gql`query {
-        stripe_transaction_info(where: {amount: {_is_null: false}}) {
-          amount
-          created_at
-          id
+    transactions_stripe_transaction_info: {
+      query: gql`query ($id: String) {
+        courses(where: {teacher: {user_id: {_eq: $id}}}) {
+          courses_payments(where: {transaction_info: {transactions_stripe_transaction_info: {amount: {_is_null: false}}}}) {
+            transaction_info {
+              transactions_stripe_transaction_info {
+                amount
+                created_at
+                id
+              }
+            }
+          }
         }
-      }`
+      }`,
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
     },
-    tezos_transaction_info: {
-      query: gql`query {
-        tezos_transaction_info(where: {amount: {_is_null: false}}) {
-          amount
-          created_at
-          id
+    transactions_tezos_transaction_info: {
+      query: gql`query ($id: String){
+        courses(where: {teacher: {user_id: {_eq: $id}}}) {
+          courses_payments(where: {transaction_info: {transactions_tezos_transaction_info: {amount: {_is_null: false}}}}) {
+            transaction_info {
+              transactions_tezos_transaction_info {
+                amount
+                created_at
+                id
+              }
+            }
+          }
         }
-      }`
+      }`,
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
     }
   },
   data () {
