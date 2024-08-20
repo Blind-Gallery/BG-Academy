@@ -7,8 +7,8 @@
       <p>Number of tezos - users: {{ tezos_aggregate.aggregate.count }}</p>
       <p>Number of email - users: {{ emails_aggregate.aggregate.count }}</p>
       <p>Last course bought at: {{ user_course[0]?.created_at }}</p>
-      <p>Number of credit card sales: {{ stripe_transaction_info.length }}</p>
-      <p>Number of tezos sales: {{ tezos_transaction_info.length }}</p>
+      <p>Number of credit card sales: {{ transactions_stripe_transaction_info?.courses[0]?.courses_payments?.length }}</p>
+      <p>Number of tezos sales: {{ transactions_tezos_transaction_info?.courses[0]?.courses_payments?.length }}</p>
       <p>Total volume credit card: {{ total_volume_credit_card }}</p>
       <p>Total volume tezos: {{ total_volume_tezos }}</p>
     </div>
@@ -137,12 +137,13 @@ export default {
     }
   },
   mounted () {
-    console.info('this.$auth', this.$auth)
-    this.stripe_transaction_info.forEach((transaction) => {
-      this.total_volume_credit_card += transaction.amount
+    console.info('transactions_stripe_transaction_info: ', this.transactions_stripe_transaction_info)
+    console.info('transactions_tezos_transaction_info: ', this.transactions_tezos_transaction_info)
+    this.transactions_stripe_transaction_info?.courses[0]?.courses_payments.forEach((transaction) => {
+      this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
     })
-    this.tezos_transaction_info.forEach((transaction) => {
-      this.total_volume_tezos += transaction.amount
+    this.transactions_tezos_transaction_info?.courses[0]?.courses_payments.forEach((transaction) => {
+      this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
     })
   }
 }
