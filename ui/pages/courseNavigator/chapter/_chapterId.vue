@@ -66,7 +66,6 @@
                 <PxNavigatorCourseSchema
                   v-if="courseId"
                   :course-id="courseId"
-                  :module-id="chapterInfo.module.id"
                 />
               </div>
             </b-col>

@@ -5,7 +5,7 @@
       <!-- COLLAPSE BUTTON -->
       <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
         <div class="tw-w-full tw-flex tw-justify-between">
-          <span :class="chapterModule.id === moduleId ? 'tw-text-cyan-500':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
+          <span :class="chapterModule.id === activeModuleId ? 'tw-text-[#00b9cd]':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
             {{ chapterModule.title }}
           </span>
           <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
@@ -63,11 +63,6 @@ export default {
       type: String,
       required: false,
       default: null
-    },
-    moduleId: {
-      type: String,
-      required: false,
-      default: null
     }
   },
   data () {
@@ -77,15 +72,28 @@ export default {
       }
     }
   },
+  computed: {
+    activeModuleId () {
+      const { moduleId, chapterId } = this.$route.params
+      const { modules } = this.courseInfo
 
-  async created () {
-    await this.getCourseSchema()
+      if (moduleId) { return moduleId }
+
+      if (!modules) { return moduleId }
+
+      return modules.find(module =>
+        module.chapters.some(chapter => chapter.id === chapterId)
+      )?.id || null
+    }
   },
 
-  mounted () {
-    setTimeout(() => {
-      this.triggerCollapse(this.moduleId)
-    }, 100)
+  watch: {
+    activeModuleId (newVal) {
+      this.triggerCollapse(newVal)
+    }
+  },
+  async created () {
+    await this.getCourseSchema()
   },
 
   methods: {

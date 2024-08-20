@@ -186,7 +186,7 @@
 
               <div class="course-nav-container">
                 <!-- add navigator  -->
-                <PxNavigatorCourseSchema :module-id="$route.params.moduleId" :course-id="courseId" />
+                <PxNavigatorCourseSchema :course-id="courseId" />
               </div>
             </b-col>
           </Transition>
