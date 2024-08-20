@@ -84,6 +84,10 @@ class Payments {
     userId, paymentIntentClientSecret, amount
   }) {
     log.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
+    if (!paymentIntent || !courseId || !userId || !paymentIntentClientSecret || !amount) {
+      throw new BadRequest('Missing required fields')
+    }
+    log.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
     const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     log.info(`Transaction id: ${transactionId}`)
     const { insert_payments_one: payment } = await this.gql.request(
@@ -101,6 +105,7 @@ class Payments {
   }
 
   async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
+    log.info(`Storing tezos payment intent for ${courseId} and ${userId}`)
     const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_TEZOS_PAYMENT_INTENT,
