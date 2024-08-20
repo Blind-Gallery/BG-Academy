@@ -10707,6 +10707,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dompurify@npm:^3.0.0":
+  version: 3.1.6
+  resolution: "dompurify@npm:3.1.6"
+  checksum: cc4fc4ccd9261fbceb2a1627a985c70af231274a26ddd3f643fd0616a0a44099bd9e4480940ce3655612063be4a1fe9f5e9309967526f8c0a99f931602323866
+  languageName: node
+  linkType: hard
+
 "domutils@npm:^2.5.2, domutils@npm:^2.8.0":
   version: 2.8.0
   resolution: "domutils@npm:2.8.0"
@@ -22581,6 +22588,7 @@ __metadata:
     swiper-vue2: 1.0.9
     vue: ^2.7.10
     vue-confetti: ^2.3.0
+    vue-dompurify-html: 4.1.2
     vue-jest: ^3.0.4
     vue-notification: ^1.3.20
     vue-server-renderer: ^2.7.10
@@ -23402,6 +23410,34 @@ __metadata:
   version: 2.3.0
   resolution: "vue-confetti@npm:2.3.0"
   checksum: 9062b0d9d0b93afcacbcd004cf92151c3632cfa455e86fa39a12d6651ac8e7dd8c200bf2f51e59a7b774a55808b9068bfd61d3fc2522a25c1502300b47eb6ad4
+  languageName: node
+  linkType: hard
+
+"vue-demi@npm:^0.14.0":
+  version: 0.14.10
+  resolution: "vue-demi@npm:0.14.10"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^3.0.0-0 || ^2.6.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  bin:
+    vue-demi-fix: bin/vue-demi-fix.js
+    vue-demi-switch: bin/vue-demi-switch.js
+  checksum: 9b4106f99be3b0c1dd4a6dc5725f5e8f79c6b98d1eeb849bf2c54416cd77f4aa344960b202768865245cfa82d57f49a9d96f67f5d8e256604b9dac1c5df9a8d6
+  languageName: node
+  linkType: hard
+
+"vue-dompurify-html@npm:4.1.2":
+  version: 4.1.2
+  resolution: "vue-dompurify-html@npm:4.1.2"
+  dependencies:
+    dompurify: ^3.0.0
+    vue-demi: ^0.14.0
+  peerDependencies:
+    vue: ^2.7.0 || ^3.0.0
+  checksum: f22e398ed5b37c44c46936f0833e638324a8185fd5b377ee0090051c91ed7334dc9dba002509797a0b713168955fd7e58e76ab3ac14a17e7ebee5c434d8ba9fe
   languageName: node
   linkType: hard
 
