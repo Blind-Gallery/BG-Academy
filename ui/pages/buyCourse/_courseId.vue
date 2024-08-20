@@ -263,7 +263,11 @@ export default {
       const minutes = totalMinutes % 60
 
       if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        if (minutes >= 10) {
+          return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        } else {
+          return `${hours} hour${hours > 1 ? 's' : ''}`
+        }
       } else {
         return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
