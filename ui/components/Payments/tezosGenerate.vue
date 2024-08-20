@@ -37,6 +37,9 @@ export default {
         const { getClientWallet } = dappClient()
         const wallet = await getClientWallet()
         const tezosAddress = await wallet.getPKH()
+        if (!tezosAddress || !this.$auth.user.id || !this.courseId) {
+          return
+        }
         const { tezos, onchainId } = await this.$axios.$post('/payments/tezos/payment-intent', {
           courseId: this.courseId,
           wallet: tezosAddress,
