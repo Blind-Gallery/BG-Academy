@@ -8,7 +8,8 @@ const {
   CREATE_TEZOS_PAYMENT_INTENT,
   CREATE_STRIPE_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
-  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
+  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
+  GET_USER_FROM_ID
 } = require('../graphQL')
 
 class Payments {
@@ -83,6 +84,10 @@ class Payments {
     userId, paymentIntentClientSecret, amount
   }) {
     log.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
+    if (!paymentIntent || !courseId || !userId || !paymentIntentClientSecret || !amount) {
+      throw new BadRequest('Missing required fields')
+    }
+    log.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
     const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     log.info(`Transaction id: ${transactionId}`)
     const { insert_payments_one: payment } = await this.gql.request(
@@ -100,6 +105,7 @@ class Payments {
   }
 
   async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
+    log.info(`Storing tezos payment intent for ${courseId} and ${userId}`)
     const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_TEZOS_PAYMENT_INTENT,
@@ -168,6 +174,7 @@ class Payments {
         amount: tezosPrice,
         wallet
       })
+      // creates payment intent on the academy smart contract
       await this.academySC.addCourseToUser({
         courseId: onchainId,
         user: wallet
@@ -203,8 +210,20 @@ class Payments {
       { id: courseId }
     )
 
+    const { users_by_pk: { email_info: emailInfo } } = await this.gql.request(
+      GET_USER_FROM_ID,
+      { id: userId }
+    )
+
+    if (!emailInfo?.email) {
+      log.error('No email found for user')
+      return
+    }
+
     log.info(`Sending welcome email to ${userId} for course ${courseId}`)
+
     await this.email.sendThanksForPurchaseEmail({
+      to: emailInfo.email,
       title: course.title,
       image: course.thumbnail,
       link: 'https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5'

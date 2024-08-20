@@ -33,10 +33,15 @@ export default {
   },
   methods: {
     async createPaymentIntent () {
+      // wait 2 seconds and then get the payment intent
+      await new Promise(resolve => setTimeout(resolve, 2000))
       try {
         const { getClientWallet } = dappClient()
         const wallet = await getClientWallet()
         const tezosAddress = await wallet.getPKH()
+        if (!tezosAddress || !this.$auth.user.id || !this.courseId) {
+          return
+        }
         const { tezos, onchainId } = await this.$axios.$post('/payments/tezos/payment-intent', {
           courseId: this.courseId,
           wallet: tezosAddress,

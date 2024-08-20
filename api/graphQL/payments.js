@@ -37,7 +37,19 @@ mutation ($courseId: String!, $userId: String!) {
     object: {
       course_id: $courseId,
       user_id: $userId,
-      transaction_info: {data: {transactions_stripe_transaction_info: {data: {}}, transactions_tezos_transaction_info: {data: {}}}}}, on_conflict: {constraint: payments_pkey, update_columns: updated_at}) {
+      transaction_info: {
+        data: {
+          transactions_stripe_transaction_info: {
+            data: {}
+          },
+          transactions_tezos_transaction_info: {
+            data: {}
+          }
+        }
+      }
+    },
+    on_conflict: constraint: payments_pkey, update_columns: updated_at
+  }) {
     user_id
     course_id
     transaction_info {
