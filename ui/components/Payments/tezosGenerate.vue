@@ -33,6 +33,8 @@ export default {
   },
   methods: {
     async createPaymentIntent () {
+      // wait 2 seconds and then get the payment intent
+      await new Promise(resolve => setTimeout(resolve, 2000))
       try {
         const { getClientWallet } = dappClient()
         const wallet = await getClientWallet()
