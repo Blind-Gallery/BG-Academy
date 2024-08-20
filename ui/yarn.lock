@@ -16082,6 +16082,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "marked@npm:14.0.0"
+  bin:
+    marked: bin/marked.js
+  checksum: 965405cde11d180e5da78cf51074b1947f1e5483ed99691d3ec990a078aa6ca9113cf19bbd44da45473d0e7eec7298255e7d860a650dd5e7aed78ca5a8e0161b
+  languageName: node
+  linkType: hard
+
 "matcher@npm:^3.0.0":
   version: 3.0.0
   resolution: "matcher@npm:3.0.0"
@@ -22564,6 +22573,7 @@ __metadata:
     jest: ^29.1.2
     jest-environment-jsdom: ^29.1.2
     lodash-es: ^4.17.21
+    marked: ^14.0.0
     nanoid: 2.1.11
     node-polyfill-webpack-plugin: ^2.0.1
     nuxt: ^2.15.8
