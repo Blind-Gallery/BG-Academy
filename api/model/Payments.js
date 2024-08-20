@@ -174,6 +174,7 @@ class Payments {
         amount: tezosPrice,
         wallet
       })
+      // creates payment intent on the academy smart contract
       await this.academySC.addCourseToUser({
         courseId: onchainId,
         user: wallet
