@@ -74,24 +74,38 @@
             <accordion-courseInstructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
-                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                  ${{ courses[0].price }}
-                </h2>
+                <div class="tw-flex tw-items-center tw-gap-2">
+                  <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                    ${{ courses[0].price }}
+                  </h2>
+                  <h6
+                    v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'"
+                    class="m-0  tw-line-through tw-text-gray-500"
+                  >
+                    ${{ courses[0].price }}
+                  </h6>
+                </div>
                 <p class="m-0">
                   Access course
                 </p>
+                <span v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'" class="tw-text-green-500 tw-text-xs">Launch Discount (You save 25%!)</span>
               </div>
-              <button class="primary-btn w-100 " @click="openModal">
-                <Icon
-                  icon="material-symbols:credit-card"
-                  color="#fff"
+              <div v-if="courses[0].id !== '5f1f6044-21ba-4409-880e-02cd36568697'">
+                <button class="primary-btn w-100 " @click="openModal">
+                  <Icon
+                    icon="material-symbols:credit-card"
+                    color="#fff"
 
-                  width="21"
-                />
-                Credit card
-              </button>
+                    width="21"
+                  />
+                  Credit card
+                </button>
 
-              <payments-tezos-generate :course-id="courses[0].id" />
+                <payments-tezos-generate :course-id="courses[0].id" />
+              </div>
+              <div v-else class="tw-p-2 tw-rounded tw-border">
+                <span class="tw-text-xs">Launch on September 3rd, 6 pm CET / 12 pm EST</span>
+              </div>
             </div>
 
             <div v-else>
@@ -249,7 +263,11 @@ export default {
       const minutes = totalMinutes % 60
 
       if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        if (minutes >= 10) {
+          return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        } else {
+          return `${hours} hour${hours > 1 ? 's' : ''}`
+        }
       } else {
         return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
