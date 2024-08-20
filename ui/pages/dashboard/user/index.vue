@@ -7,8 +7,8 @@
       <p>Number of tezos - users: {{ tezos_aggregate.aggregate.count }}</p>
       <p>Number of email - users: {{ emails_aggregate.aggregate.count }}</p>
       <p>Last course bought at: {{ user_course[0]?.created_at }}</p>
-      <p>Number of credit card sales: {{ transactions_stripe_transaction_info?.courses[0]?.courses_payments?.length }}</p>
-      <p>Number of tezos sales: {{ transactions_tezos_transaction_info?.courses[0]?.courses_payments?.length }}</p>
+      <p>Number of credit card sales: {{ transactions_stripe_transaction_info[0]?.courses_payments?.length || 0 }}</p>
+      <p>Number of tezos sales: {{ transactions_tezos_transaction_info[0]?.courses_payments?.length || 0 }}</p>
       <p>Total volume credit card: {{ total_volume_credit_card }}</p>
       <p>Total volume tezos: {{ total_volume_tezos }}</p>
     </div>
@@ -91,7 +91,7 @@ export default {
     },
     transactions_stripe_transaction_info: {
       query: gql`query ($id: String) {
-        courses(where: {teacher: {user_id: {_eq: $id}}}) {
+        transactions_stripe_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}}) {
           courses_payments(where: {transaction_info: {transactions_stripe_transaction_info: {amount: {_is_null: false}}}}) {
             transaction_info {
               transactions_stripe_transaction_info {
@@ -111,7 +111,7 @@ export default {
     },
     transactions_tezos_transaction_info: {
       query: gql`query ($id: String){
-        courses(where: {teacher: {user_id: {_eq: $id}}}) {
+        transactions_tezos_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}}) {
           courses_payments(where: {transaction_info: {transactions_tezos_transaction_info: {amount: {_is_null: false}}}}) {
             transaction_info {
               transactions_tezos_transaction_info {
@@ -139,10 +139,10 @@ export default {
   mounted () {
     console.info('transactions_stripe_transaction_info: ', this.transactions_stripe_transaction_info)
     console.info('transactions_tezos_transaction_info: ', this.transactions_tezos_transaction_info)
-    this.transactions_stripe_transaction_info?.courses[0]?.courses_payments.forEach((transaction) => {
+    this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
       this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
     })
-    this.transactions_tezos_transaction_info?.courses[0]?.courses_payments.forEach((transaction) => {
+    this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
       this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
     })
   }
