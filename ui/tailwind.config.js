@@ -18,7 +18,9 @@ module.exports = {
         h3: '0.75rem 0rem',
         h4: '0.75rem 0rem',
         h5: '0.5rem 0rem',
-        h6: '0.5rem 0rem'
+        h6: '0.5rem 0rem',
+        hr: '1rem',
+        p: '1rem'
       }
     }
   },
@@ -30,7 +32,10 @@ module.exports = {
         h3: { fontSize: theme('fontSize.h3'), margin: theme('margin.h3') },
         h4: { fontSize: theme('fontSize.h4'), margin: theme('margin.h4') },
         h5: { fontSize: theme('fontSize.h5'), margin: theme('margin.h5') },
-        h6: { fontSize: theme('fontSize.h6'), margin: theme('margin.h6') }
+        h6: { fontSize: theme('fontSize.h6'), margin: theme('margin.h6') },
+        hr: { marginTop: theme('margin.hr'), marginBottom: theme('margin.hr') },
+        p: { marginBottom: theme('margin.p') },
+        svg: { display: 'inline' }
       })
     }
   ]

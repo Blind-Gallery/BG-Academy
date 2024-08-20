@@ -54,7 +54,7 @@
               Course curriculum
             </h5>
 
-            <info-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
+            <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
           </div>
         </b-col>
 
@@ -71,16 +71,7 @@
             class="d-lg-none"
           />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <div v-b-toggle.instructor class="d-flex align-items-center w-100">
-              <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
-
-              <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="courses[0].teacher.name" :subtitle-name="'Instructor'" />
-            </div>
-            <b-collapse id="instructor" accordion="intructor" role="tabpanel">
-              <p class="small text-secondary">
-                {{ courses[0].teacher.description }}
-              </p>
-            </b-collapse>
+            <accordion-courseInstructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
@@ -297,7 +288,6 @@ export default {
     this.getUserCourses()
   },
   methods: {
-
     toggleDescription () {
       this.showFullDescription = !this.showFullDescription
     },
