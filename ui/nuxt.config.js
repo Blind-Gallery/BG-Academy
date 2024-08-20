@@ -37,7 +37,7 @@ export default {
   },
   plugins: [
     { src: '~/plugins/dompurify.js', mode: 'client' },
-    { src: '~/plugins/marked.js', mode: 'client' },
+    { src: '~/plugins/marked.js' },
     { src: '~/plugins/vue-stripe.js', ssr: false },
     { src: '~/plugins/vue-confetti.js', mode: 'client' },
     { src: '~/plugins/notifications-ssr', ssr: true },
