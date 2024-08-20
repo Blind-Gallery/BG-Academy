@@ -137,8 +137,6 @@ export default {
     }
   },
   mounted () {
-    console.info('transactions_stripe_transaction_info: ', this.transactions_stripe_transaction_info)
-    console.info('transactions_tezos_transaction_info: ', this.transactions_tezos_transaction_info)
     this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
       this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
     })
