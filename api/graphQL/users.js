@@ -7,6 +7,9 @@ query ($userId: String!) {
     tezos_info {
       wallet
     }
+    email_info {
+      email
+    }
   }
 }
 `

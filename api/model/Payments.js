@@ -8,7 +8,8 @@ const {
   CREATE_TEZOS_PAYMENT_INTENT,
   CREATE_STRIPE_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
-  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
+  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
+  GET_USER_FROM_ID
 } = require('../graphQL')
 
 class Payments {
@@ -203,8 +204,20 @@ class Payments {
       { id: courseId }
     )
 
+    const { users_by_pk: { email_info: emailInfo } } = await this.gql.request(
+      GET_USER_FROM_ID,
+      { id: userId }
+    )
+
+    if (!emailInfo?.email) {
+      log.error('No email found for user')
+      return
+    }
+
     log.info(`Sending welcome email to ${userId} for course ${courseId}`)
+
     await this.email.sendThanksForPurchaseEmail({
+      to: emailInfo.email,
       title: course.title,
       image: course.thumbnail,
       link: 'https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5'
