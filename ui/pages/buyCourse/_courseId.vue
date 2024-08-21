@@ -82,7 +82,7 @@
                     v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'"
                     class="m-0  tw-line-through tw-text-gray-500"
                   >
-                    ${{ courses[0].price }}
+                    $99
                   </h6>
                 </div>
                 <p class="m-0">
