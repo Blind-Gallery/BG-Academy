@@ -23,7 +23,7 @@ const stripePaymentIntent = {
     currency: { type: 'string' },
     paymentMethodTypes: { type: 'array' },
     receiptEmail: { type: 'string' },
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' }
   },
   response: {
@@ -47,7 +47,7 @@ const stripePaymentIntent = {
 const tezosPaymentIntent = {
   tags,
   body: {
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' },
     wallet: { type: 'string' }
   },
@@ -56,7 +56,8 @@ const tezosPaymentIntent = {
       type: 'object',
       required: ['tezos'],
       properties: {
-        tezos: { type: 'number' }
+        tezos: { type: 'number' },
+        onchainId: { type: 'number' }
       }
     }
   }
@@ -67,7 +68,7 @@ const tezosPaymentVerify = {
   body: {
     userId: { type: 'string' },
     opHash: { type: 'string' },
-    courseId: { type: 'number' }
+    courseId: { type: 'string' }
   },
   response: {
     200: {
@@ -75,7 +76,7 @@ const tezosPaymentVerify = {
       required: ['success'],
       properties: {
         success: { type: 'boolean' },
-        courseId: { type: 'number' }
+        courseId: { type: 'string' }
       }
     }
   }
@@ -94,7 +95,7 @@ const stripePaymentVerify = {
       required: ['success'],
       properties: {
         success: { type: 'boolean' },
-        courseId: { type: 'number' }
+        courseId: { type: 'string' }
       }
     }
   }

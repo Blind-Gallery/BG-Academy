@@ -38,7 +38,7 @@
                 <h4>{{ chapterInfo.title }}</h4>
               </div>
               <div>
-                <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                <button v-if="!endOfCourse" class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
                   <span>Next</span>
                   <Icon
                     icon="material-symbols:skip-next-rounded"
@@ -62,33 +62,11 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
-                    Modules
-                  </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
-                </div>
-
-                <div v-if="false" class="d-flex flex-column">
-                  <b-progress
-                    class="mb-2"
-                    height="5px"
-                    value="2"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p class="small">
-                      Progress
-                    </p>
-                    <p class="small">
-                      2%
-                    </p>
-                  </div>
-                </div>
-
                 <!-- navigator -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema
+                  v-if="courseId"
+                  :course-id="courseId"
+                />
               </div>
             </b-col>
           </Transition>
@@ -130,44 +108,6 @@ import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
-const GET_USER_CHAPTER_QUERY = gql`
-query ($chapter_id: uuid!, $user_id: String!) {
-  user_chapter_by_pk(chapter_id: $chapter_id, user_id: $user_id) {
-    completed
-    updated_at
-    chapter {
-      id
-      info
-      title
-      resources
-      video_id
-      module {
-        id
-        duration
-        description
-        created_at
-        previous_module_id
-        next_module_id
-        title
-        you_will_learn
-        you_will_learn_title
-        course {
-          modules {
-            id
-            next_module_id
-            title
-            chapters {
-              id
-              title
-              video_id
-            }
-          }
-        }
-      }
-    }
-  }
-}`
-
 const GET_CHAPTER_QUERY = gql`
 query ($id: uuid!) {
   chapters_by_pk(id: $id) {
@@ -176,6 +116,7 @@ query ($id: uuid!) {
     title
     resources
     video_id
+    next_chapter_id
     module {
       id
       duration
@@ -195,6 +136,7 @@ query ($id: uuid!) {
         }
       }
       course {
+        id
         name
         modules(order_by: {created_at: asc}) {
           id
@@ -210,26 +152,23 @@ query ($id: uuid!) {
     }
   }
 }`
+const USER_COURSES = gql`query ($id: String = "") {
+        user_course( where:
+          {user_id: {_eq: $id}}) {
+          last_chapter_id_seen
+          course_id
+          progress
+        }
+      }`
 
 export default {
   components: {
     PxPlayer
   },
 
-  apollo: {
-    user_chapter_by_pk: {
-      query: GET_USER_CHAPTER_QUERY,
-      variables () {
-        return {
-          chapter_id: this.$route.params.chapterId,
-          user_id: this.$auth.loggedIn ? this.$auth.user.id : ''
-        }
-      }
-    }
-  },
-
   data () {
     return {
+      courseId: '',
       testMessage: '',
       isEndedVideo: false,
       loading: false,
@@ -268,18 +207,23 @@ export default {
       })
 
       return foundModule ? foundModule.id : null
+    },
+    endOfCourse () {
+      const { next_module_id: nextModuleId, questions } = this.chapterInfo.module
+      const { next_chapter_id: nextChapterId } = this.chapterInfo
+
+      const isLastModule = !nextModuleId
+      const isLastChapter = !nextChapterId
+      const noPendingQuestions = questions.length === 0
+
+      return isLastModule && isLastChapter && noPendingQuestions
     }
 
   },
 
-  created () {
-    this.getChapter()
-    this.doResetTest()
-  },
-
-  mounted () {
-    this.redirectionHome()
-    console.info(this.user_chapter_by_pk)
+  async created () {
+    await this.getChapter()
+    await this.doResetTest()
   },
 
   methods: {
@@ -287,10 +231,24 @@ export default {
       return moduleId === this.activeModuleId
     },
 
-    redirectionHome () {
-      if (!this.$auth.loggedIn || this.user_chapter_by_pk === null) {
-        this.$router.push('/')
-      }
+    verifyUserCourses (courseId) {
+      this.$apollo.query({
+        query: USER_COURSES,
+        variables: {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      })
+        .then((response) => {
+          const userCourses = response.data.user_course
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
+
+          if (!userHasCourse || !this.$auth.loggedIn) {
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
 
     async getChapter () {
@@ -303,6 +261,9 @@ export default {
         })
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
+        const courseId = this.chapterInfo.module.course.id
+        this.courseId = data.chapters_by_pk.module.course.id
+        this.verifyUserCourses(courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
@@ -379,18 +340,25 @@ export default {
     },
 
     nextChapter () {
-      const modules = this.chapterInfo.module.course.modules
-      const activeModule = modules.find(module => module.id === this.activeModuleId)
+      const { next_chapter_id: nextChapterId, module } = this.chapterInfo
+      const { questions, next_module_id: nextModuleId, id: currentModuleId, course } = module
+      const moduleHasTest = questions.length > 0
 
-      if (activeModule) {
-        const chapterArray = activeModule.chapters
-        const targetChapterId = this.$route.params.chapterId
-        const index = chapterArray.findIndex(chapter => chapter.id === targetChapterId)
+      const getFirstChapterId = () => {
+        const nextModule = course.modules.find(module => module.id === nextModuleId)
+        return nextModule ? nextModule.chapters[0].id : null
+      }
 
-        if (index !== -1 && index < chapterArray.length - 1) {
-          this.$router.push(`/courseNavigator/chapter/${chapterArray[index + 1].id}`)
-        } else {
-          this.$router.push(`/courseNavigator/test/${this.activeModuleId}`)
+      const navigateTo = path => this.$router.push(path)
+
+      if (nextChapterId) {
+        navigateTo(`/courseNavigator/chapter/${nextChapterId}`)
+      } else if (moduleHasTest) {
+        navigateTo(`/courseNavigator/test/${currentModuleId}`)
+      } else {
+        const firstChapterId = getFirstChapterId()
+        if (firstChapterId) {
+          navigateTo(`/courseNavigator/chapter/${firstChapterId}`)
         }
       }
     },
@@ -484,11 +452,6 @@ input:checked ~ label {
   margin-bottom: 0.5rem;
   border-radius: 5px;
   background-color: #f7f7f7;
-}
-
-.test .formulate-input .formulate-input-label{
-  font-weight: 400;
-  margin-bottom: 1rem;
 }
 
 .fade-enter-active {

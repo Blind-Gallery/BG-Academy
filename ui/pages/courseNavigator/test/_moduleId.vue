@@ -1,23 +1,10 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <b-modal id="claim-certificate" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <div />
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-
+      <b-modal id="claim-certificate" centered hide-header hide-footer>
         <div class="d-flex align-items-center justify-content-center flex-column">
-          <div class="d-flex align-items-center justify-content-center w-75" style="position: relative">
-            <Icon style="position: absolute; top:0; right: 0;  background-color: #fff; border-radius: 50%;" icon="material-symbols:check-circle-rounded" color="green" width="32" />
-            <img class="rounded shadow-sm mb-4 w-100 p-2" src="https://cdn.discordapp.com/attachments/989274745495240734/1146438618689306634/marcccio_3d_isometric_holographic_gold_cube_badge_passport_futu_2b1930fa-abad-4d0d-b718-cfdb2152463f.png" alt="certificate">
+          <div class="d-flex align-items-center justify-content-center w-75">
+            <Icon icon="material-symbols:verified-outline-rounded" color="#00b9cd" width="64" />
           </div>
 
           <h2 style="color:#00b9cd">
@@ -27,9 +14,9 @@
           <p class="small text-center">
             You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
           </p>
-          <div class="d-flex mt-4" style="gap:1rem">
-            <certificates-mint-button :course-id="courseId" />
+          <div class="d-flex mt-4 flex-column w-100" style="gap:1rem">
             <certificates-download-button :course-id="courseId" />
+            <certificates-mint-button :hash="opHash" :course-id="courseId" />
           </div>
         </div>
       </b-modal>
@@ -58,9 +45,9 @@
             <div class="d-flex flex-column align-items-center mb-5">
               <Transition name="fade" mode="out-in">
                 <div v-if="showEvIntro" key="1" class="d-flex align-items-center flex-column rounded p-5  shadow-sm ev-intro">
-                  <h1 class="text-light text-center">
+                  <h3 class="text-light text-center">
                     {{ module.title }}
-                  </h1>
+                  </h3>
                   <p class="text-light m-0">
                     Evaluation
                   </p>
@@ -117,7 +104,6 @@
                         <div>
                           <FormulateForm ref="test" :name="`test_${index}`">
                             <FormulateInput
-
                               :value="test.selectedOption"
                               :options="formatOptions(test.options)"
                               type="radio"
@@ -127,13 +113,14 @@
                               }"
                             />
                           </FormulateForm>
+
                           <p style="color:#960505" class="m-0 small text-center">
                             {{ testMessage }}
                           </p>
                         </div>
 
                         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-center my-5" style="gap:1rem">
-                          <button class="last-btn w-100" @click="previousSlide(test, index)">
+                          <button v-if="!isFirstSlide" class="last-btn w-100" @click="previousSlide(test, index)">
                             Previous
                           </button>
                           <button class="next-btn w-100" @click="nextSlide(test, index)">
@@ -198,33 +185,8 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
-                    Modules
-                  </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
-                </div>
-
-                <div v-if="false" class="d-flex flex-column">
-                  <b-progress
-                    class="mb-2"
-                    height="5px"
-                    value="2"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p class="small">
-                      Progress
-                    </p>
-                    <p class="small">
-                      2%
-                    </p>
-                  </div>
-                </div>
-
                 <!-- add navigator  -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema :course-id="courseId" />
               </div>
             </b-col>
           </Transition>
@@ -263,6 +225,12 @@ import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Pagination, Navigation])
+
+const CERTIFICATE_MINT_OP = gql`query ($user_id: String!, $course_id: String!){
+ user_course_by_pk(course_id: $course_id, user_id: $user_id) {
+    certificate_mint_op
+  }
+}`
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -343,9 +311,11 @@ export default {
 
   data () {
     return {
+      isFirstSlide: false,
       testMessage: '',
       isEndedVideo: false,
-      courseId: 1,
+      courseId: null,
+      opHash: null,
       correctAnswers: 0,
       scorePercentage: 0,
       loading: false,
@@ -394,11 +364,24 @@ export default {
 
   mounted () {
     this.redirectionHome()
-    this.getUserCourses()
   },
 
   methods: {
-    getUserCourses () {
+    getCourseCertificate (courseId) {
+      this.$apollo.query({
+        query: CERTIFICATE_MINT_OP,
+        variables: {
+          user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
+          course_id: courseId
+        }
+      }).then((response) => {
+        this.opHash = response.data.user_course_by_pk.certificate_mint_op
+      }).catch((error) => {
+        console.error(error)
+      })
+    },
+
+    verifyUserCourses (courseId) {
       this.$apollo.query({
         query: USER_COURSES,
         variables: {
@@ -407,9 +390,9 @@ export default {
       })
         .then((response) => {
           const userCourses = response.data.user_course
-          const userHasCourse = userCourses.find(course => course.course_id === this.courseId)
+          const userHasCourse = userCourses.find(course => course.course_id === courseId)
 
-          if (!userHasCourse) {
+          if (!userHasCourse || !this.$auth.loggedIn) {
             this.$router.push('/')
           }
         })
@@ -417,6 +400,7 @@ export default {
           console.error(error)
         })
     },
+
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')
@@ -435,6 +419,9 @@ export default {
           }
         })
         this.module = Object.assign({}, data.modules_by_pk)
+        this.courseId = data.modules_by_pk.course.id
+        this.verifyUserCourses(this.courseId)
+        this.getCourseCertificate(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
@@ -461,6 +448,8 @@ export default {
       const bullets = swiper.pagination.el.children
       const lastBullet = bullets[bullets.length - 1]
       lastBullet.parentNode.removeChild(lastBullet)
+
+      this.isFirstSlide = swiper.isBeginning
     },
 
     nextSlide (test, index) {
@@ -475,15 +464,12 @@ export default {
         this.updateUserScore()
       }
       this.$refs.mySwiper.$el.swiper.slideNext()
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
-    previousSlide (test, index) {
-      if (test.selectedOption === false || test.selectedOption === '') {
-        this.testMessage = 'Please, select one option'
-        return
-      }
+    previousSlide () {
       this.$refs.mySwiper.$el.swiper.slidePrev()
-      this.testMessage = ''
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     updateUserScore () {
@@ -544,6 +530,7 @@ export default {
 
       this.correctAnswers = 0
       this.scorePercentage = 0
+      this.isFirstSlide = this.$refs.mySwiper.$el.swiper.isBeginning
     },
 
     nextModule () {
@@ -677,7 +664,7 @@ input:checked ~ label {
 
 .test .formulate-input .formulate-input-label{
   font-weight: 400;
-  margin-bottom: 1rem;
+
 }
 
 .fade-enter-active {
@@ -759,6 +746,30 @@ input:checked ~ label {
 
 .swiper-slide{
   height: auto;
+}
+.test label{
+  margin: 0;
+}
+.formulate-input-group-item {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: .5em;
+    padding: .5em;
+    position: relative;
+
+    /* This makes the whole respond like a label to clicks */
+    label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    &[data-has-value] {
+      background-color: #00b9cd3f;
+    }
 }
 @media (max-width: 990px) {
   .course-video{

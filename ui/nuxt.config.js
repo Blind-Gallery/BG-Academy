@@ -38,7 +38,9 @@ export default {
   plugins: [
 
     { src: '~/plugins/vue-stripe.js', ssr: false },
-    { src: '~/plugins/vue-confetti.js', mode: 'client' }
+    { src: '~/plugins/vue-confetti.js', mode: 'client' },
+    { src: '~/plugins/notifications-ssr', ssr: true },
+    { src: '~/plugins/notifications-client', ssr: false }
   ],
 
   env: {
@@ -62,7 +64,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@braid/vue-formulate/nuxt',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    '@nuxt/postcss8'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -72,7 +75,9 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    '@nuxtjs/tailwindcss'
+
   ],
 
   googleAnalytics: {
@@ -86,7 +91,7 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:5000/'
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/'
   },
 
   apollo: {

@@ -1,0 +1,22 @@
+backend:
+- changed-files:
+    - any-glob-to-any-file: api/**
+
+frontend:
+- changed-files:
+    - any-glob-to-any-file: ui/**
+
+smart contract:
+- changed-files:
+    - any-glob-to-any-file: smart-contracts/**
+
+documentation:
+- changed-files:
+  - any-glob-to-any-file: '**/*.md'
+
+database:
+- changed-files:
+    - any-glob-to-any-file: hasura/**
+
+release:
+ - base-branch: 'main'

@@ -1,3 +1,4 @@
+const log = require('pino')()
 const fs = require('fs')
 const path = require('path')
 const utils = require('util')
@@ -11,8 +12,14 @@ class Documents {
     this.ipfs = new IPFS()
   }
 
+  async uploadToIPFS (file) {
+    const data = await this.ipfs.add({ content: file })
+    const cid = data.path
+    return cid
+  }
+
   async getTemplateHtml (name) {
-    console.info('Loading template file in memory')
+    log.info('Loading template file in memory')
     try {
       const invoicePath = path.resolve(`./templates/${name}.html`)
       return await readFile(invoicePath, 'utf8')
@@ -50,7 +57,7 @@ class Documents {
       const imageCID = imageIPFS.path
       return { pdfCID, imageCID }
     } catch (error) {
-      console.error(error)
+      log.error(error)
       throw error
     }
   }

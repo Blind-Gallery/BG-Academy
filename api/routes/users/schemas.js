@@ -38,6 +38,77 @@ const createUserSchema = {
   }
 }
 
+const updateUserSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId'],
+    properties: {
+      userId: { type: 'string' },
+      name: { type: 'string' },
+      pfp: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['userId'],
+      properties: {
+        userId: { type: 'string' }
+      }
+    }
+  }
+}
+
+const registerWalletSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId', 'wallet', 'publicKey', 'signedMessage', 'payload'],
+    properties: {
+      userId: { type: 'string' },
+      wallet: { type: 'string' },
+      publicKey: { type: 'string' },
+      signedMessage: { type: 'string' },
+      payload: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
+const changePasswordSchema = {
+  tags,
+  body: {
+    type: 'object',
+    required: ['userId', 'password', 'newPassword'],
+    properties: {
+      userId: { type: 'string' },
+      password: { type: 'string' },
+      newPassword: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
-  createUserSchema
+  createUserSchema,
+  updateUserSchema,
+  registerWalletSchema,
+  changePasswordSchema
 }

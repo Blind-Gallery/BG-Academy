@@ -1,11 +1,18 @@
 const { Unauthorized, BadRequest } = require('http-errors')
+const log = require('pino')()
+
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
 const {
+  GET_USER_FROM_ID,
+  GET_TEZOS_FROM_WALLET,
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
-  CREATE_USER
+  CREATE_USER,
+  UPDATE_USER,
+  REGISTER_WALLET,
+  UPDATE_USER_PASSWORD
 } = require('../graphQL')
 
 class User {
@@ -73,12 +80,12 @@ class User {
 
     // Create user
     if (email && password) {
-      console.info('Creating user with email and password')
+      log.info('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
-      console.info('Creating user with wallet and signed message')
+      log.info('Creating user with wallet and signed message')
       return this.createWithWallet({ name, wallet, publicKey, signedMessage, payload })
     }
 
@@ -123,7 +130,7 @@ class User {
 
     const data = {
       user: {
-        name: userBlockchainMetadata.alias || name,
+        name,
         pfp: userBlockchainMetadata.logo,
         tezos_info: {
           data: {
@@ -146,11 +153,91 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    console.info('User created', user)
+    log.info(`User created ${JSON.stringify(user)}`)
 
     // Todo: retrieve user data from blockchain and save it
 
     return { user }
+  }
+
+  async update ({ userId, name, pfp }) {
+    const data = {}
+
+    if (name) {
+      data.name = name
+    }
+    if (pfp) {
+      data.pfp = pfp
+    }
+    await this.gql.request(
+      UPDATE_USER, { data, userId })
+
+    return { userId }
+  }
+
+  async registerWallet (
+    {
+      userId,
+      wallet,
+      publicKey,
+      signedMessage,
+      payload
+    }) {
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    if (user.tezos_info) {
+      throw new BadRequest('Wallet already registered')
+    }
+
+    const { tezos: tezosInfo } = this.gql.request(
+      GET_TEZOS_FROM_WALLET, { wallet })
+
+    // merge user
+    if (tezosInfo) {
+      throw new BadRequest('Wallet already registered')
+    }
+
+    const isVerified = verifySignature(
+      payload,
+      publicKey,
+      signedMessage
+    )
+    if (!isVerified) {
+      throw new Unauthorized('Invalid signature')
+    }
+
+    const { insert_tezos_one: tezos } = this.gql.request(
+      REGISTER_WALLET, {
+        userId,
+        wallet,
+        publicKey,
+        signedMessage
+      })
+
+    return tezos
+  }
+
+  async changePassword ({ userId, password, newPassword }) {
+    // get user information, if user not found, throw error
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    await this.gql.request(
+      UPDATE_USER_PASSWORD, {
+        password: await bcrypt.hash(newPassword, 10),
+        userId
+      })
+
+    return { userId, success: true }
   }
 }
 

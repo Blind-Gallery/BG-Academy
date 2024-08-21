@@ -3,7 +3,7 @@ const tags = ['documents']
 const getCertificateSchema = {
   tags,
   body: {
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' }
   },
   response: {
@@ -20,7 +20,7 @@ const getCertificateSchema = {
 const mintCertificateSchema = {
   tags,
   body: {
-    courseId: { type: 'number' },
+    courseId: { type: 'string' },
     userId: { type: 'string' }
   },
   response: {
@@ -34,7 +34,21 @@ const mintCertificateSchema = {
   }
 }
 
+const uploadFileSchema = {
+  tags,
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        cid: { type: 'string', maxLength: 255 },
+        message: { type: 'string', maxLength: 255 }
+      }
+    }
+  }
+}
+
 module.exports = {
   getCertificateSchema,
-  mintCertificateSchema
+  mintCertificateSchema,
+  uploadFileSchema
 }

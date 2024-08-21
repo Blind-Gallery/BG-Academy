@@ -2,35 +2,7 @@
   <div>
     <div v-if="!$apollo.loading">
       <!--INTRODUCTION CONTAINER-->
-      <b-container v-if="!$auth.loggedIn" class="main-container pt-5 pb-5" fluid>
-        <b-container style="max-width: 1240px;">
-          <b-row class="align-items-center py-4">
-            <b-col class="d-flex flex-column intro-left-col" style="gap:1rem">
-              <h1>
-                Your starting point to
-                <span style="color:#00B9CD"> learn blockchain art</span>
-              </h1>
-              <p>
-                Explore interactive courses led by industry experts, paving your way in the digital art revolution.
-              </p>
-              <div class="d-flex gap-2">
-                <a style="text-decoration: none;" href="#explore-courses" class="secondary-btn-black">
-                  Explore courses
-                </a>
-              </div>
-            </b-col>
-            <b-col class="d-lg-flex justify-content-end d-none">
-              <div class="w-100" style="border-radius: 5px;overflow: hidden;">
-                <PxPlayer
-                  video-id="898151728"
-                  chapter-id=""
-                  width="100%"
-                />
-              </div>
-            </b-col>
-          </b-row>
-        </b-container>
-      </b-container>
+      <PxWebinar v-if="!$auth.loggedIn" />
       <!--INFO CONTAINER-->
 
       <!--LOGGED CONTAINER-->
@@ -44,7 +16,7 @@
           >
             <div class="d-flex flex-column align-items-center shadow-sm  rounded profile-container justify-content-center">
               <div class="d-flex flex-column align-items-center " style="padding-bottom: 1.5rem;">
-                <b-avatar class="mb-2" size="5rem" />
+                <b-avatar class="mb-2" size="5rem" :src="$auth.user.pfp" />
                 <h4 class="text-truncate" style="max-width: 235px;">
                   {{ $auth.user.name }}
                 </h4>
@@ -59,7 +31,7 @@
                       class=" mr-1"
                       icon="material-symbols:check-circle-outline"
                     />
-                    <p class="m-0 " style="font-size: small;">
+                    <p class="tw-text-xs" style="font-size: small;">
                       Completed
                     </p>
                   </div>
@@ -184,6 +156,7 @@
                     :cover="certificates?.course?.thumbnail"
                     :student="$auth.user.name"
                     :course-id="certificates?.course_id"
+                    :op-hash="certificates?.certificate_mint_op"
                   />
                 </b-col>
               </b-row>
@@ -476,7 +449,6 @@ import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
 import { gql } from 'graphql-tag'
-import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
 
@@ -537,8 +509,8 @@ export default {
   },
   components: {
     Swiper,
-    SwiperSlide,
-    PxPlayer
+    SwiperSlide
+
   },
 
   data () {

@@ -4,7 +4,7 @@
       <div class="w-100">
         <img width="100%" class="rounded" :src="cover">
       </div>
-      <div class="d-flex flex-column mt-3">
+      <div class="d-flex flex-column mt-3 w-100">
         <div class="d-flex" style="gap:0.5rem">
           <h6 style="font-weight: 600;" class="card-title m-0 text-truncate">
             {{ title }}
@@ -20,22 +20,19 @@
         <p class="text-secondary small">
           Instructed by {{ instructor }}
         </p>
-        <p class="m-0 text-secondary">
-          Transaction: <a :href="`${TZKT_ENDPOINT}/${opHash}`" target="_blank">
-            {{ opHash }}
-          </a>
-        </p>
-        <certificates-mint-button :course-id="courseId" />
+
         <certificates-download-button
-          class="mb-2"
           :course-id="courseId"
+          class="mb-2"
         />
+        <div v-if="$auth?.user?.tezos_info" class="d-flex w-100">
+          <certificates-mint-button :hash="opHash" :course-id="courseId" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import { TZKT_ENDPOINT } from '~/constants'
 
 export default {
   props: {
@@ -56,7 +53,7 @@ export default {
       required: true
     },
     courseId: {
-      type: Number,
+      type: String,
       required: true
     },
     tokenId: {
@@ -72,9 +69,10 @@ export default {
   },
   data () {
     return {
-
+      TZKT_ENDPOINT: null
     }
   },
+
   methods: {
 
   }

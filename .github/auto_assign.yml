@@ -1,0 +1,7 @@
+addReviewers: true
+addAssignees: author
+numberOfReviewers: 2
+reviewers:
+  - tlacloc
+  - Datzel
+  - crissthiandi

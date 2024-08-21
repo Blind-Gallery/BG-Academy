@@ -1,0 +1,1 @@
+DELETE FROM "public"."teachers" WHERE "id" = 'b1c88742-d6a4-4556-8e92-83a7e9374dc5';

@@ -23,8 +23,19 @@
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
-            <div class="d-flex mb-3 flex-column flex-lg-row" style="gap:1rem">
-              <PxWillLearn v-for="itemModule in courses[0].modules" :key="itemModule.id" :title="itemModule.you_will_learn_title" :description="itemModule.you_will_learn" />
+
+            <div
+              v-for="itemModule in courses[0].modules"
+              :key="itemModule.id"
+            >
+              <div v-if="itemModule.you_will_learn" class="d-flex  rounded  mb-2">
+                <div style="margin-right:0.5rem">
+                  <Icon icon="material-symbols:check-circle-outline-rounded" color="#00c851" width="1.25rem" />
+                </div>
+                <span class="small ">
+                  {{ itemModule.you_will_learn }}
+                </span>
+              </div>
             </div>
             <h5 class="mt-4">
               Description
@@ -43,39 +54,7 @@
               Course curriculum
             </h5>
 
-            <div
-              v-for="(itemModule, moduleIndex) in courses[0].modules"
-              :key="moduleIndex"
-              class="w-100 shadow-sm  mb-2 rounded"
-            >
-              <div @click="toggleCollapse(moduleIndex)">
-                <PxToggleCollapse :icon-width="'24px'" :toggle-name="itemModule.title" />
-              </div>
-
-              <!--CHAPTERS COLLAPSE-->
-              <b-collapse
-                v-for="(chapter, chapterIndex) in itemModule.chapters"
-                :id="`accordion-${moduleIndex}`"
-                :key="chapterIndex"
-                class="mt-2"
-                role="tabpanel"
-              >
-                <div class="d-flex justify-content-between p-3 position-relative  rounded">
-                  <div class="d-flex align-items-center">
-                    <Icon
-                      icon="material-symbols:smart-display-outline-rounded"
-                      width="18"
-                      class="mr-2"
-                    />
-                    <p
-                      class="curriculum-chapter m-0 small text-secondary text-truncate"
-                    >
-                      {{ chapter.title }}
-                    </p>
-                  </div>
-                </div>
-              </b-collapse>
-            </div>
+            <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
           </div>
         </b-col>
 
@@ -92,36 +71,41 @@
             class="d-lg-none"
           />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <div v-b-toggle.instructor class="d-flex align-items-center w-100">
-              <b-avatar :src="courses[0].teacher.pfp" size="2rem" />
-
-              <PxToggleCollapse class="w-100" :icon-width="'24px'" :toggle-name="courses[0].teacher.name" :subtitle-name="'Instructor'" />
-            </div>
-            <b-collapse id="instructor" accordion="intructor" role="tabpanel">
-              <p class="small text-secondary">
-                {{ courses[0].teacher.description }}
-              </p>
-            </b-collapse>
+            <accordion-courseInstructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
-                <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                  ${{ courses[0].price }}
-                </h2>
+                <div class="tw-flex tw-items-center tw-gap-2">
+                  <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
+                    ${{ courses[0].price }}
+                  </h2>
+                  <h6
+                    v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'"
+                    class="m-0  tw-line-through tw-text-gray-500"
+                  >
+                    ${{ courses[0].price }}
+                  </h6>
+                </div>
                 <p class="m-0">
                   Access course
                 </p>
+                <span v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'" class="tw-text-green-500 tw-text-xs">Launch Discount (You save 25%!)</span>
               </div>
-              <button class="primary-btn w-100 " @click="openModal">
-                <Icon
-                  icon="material-symbols:credit-card"
-                  color="#fff"
+              <div v-if="courses[0].id !== '5f1f6044-21ba-4409-880e-02cd36568697'">
+                <button class="primary-btn w-100 " @click="openModal">
+                  <Icon
+                    icon="material-symbols:credit-card"
+                    color="#fff"
 
-                  width="21"
-                />
-                Credit card
-              </button>
+                    width="21"
+                  />
+                  Credit card
+                </button>
 
-              <payments-tezos-generate :course-id="courses[0].id" />
+                <payments-tezos-generate :course-id="courses[0].id" />
+              </div>
+              <div v-else class="tw-p-2 tw-rounded tw-border">
+                <span class="tw-text-xs">Launch on September 3rd, 6 pm CET / 12 pm EST</span>
+              </div>
             </div>
 
             <div v-else>
@@ -213,9 +197,10 @@ export default {
   apollo: {
     courses: {
       query: gql`
-        query ($id: Int!) {
+        query ($id: String!) {
           courses(where: { id: { _eq: $id } }) {
             id
+            onchain_id
             name
             description
             language
@@ -273,18 +258,23 @@ export default {
     ]),
 
     formattedDuration: function () {
-      const hours = Math.floor(this.courses[0].duration / 60)
-      const minutes = this.courses[0].duration % 60
+      const totalMinutes = Math.floor(this.courses[0].duration / 60)
+      const hours = Math.floor(totalMinutes / 60)
+      const minutes = totalMinutes % 60
 
       if (hours > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''}`
+        if (minutes >= 10) {
+          return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`
+        } else {
+          return `${hours} hour${hours > 1 ? 's' : ''}`
+        }
       } else {
         return `${minutes} minute${minutes > 1 ? 's' : ''}`
       }
     },
 
     userHasCourse () {
-      const courseRouteId = parseInt(this.$route.params.courseId)
+      const courseRouteId = this.$route.params.courseId.toString()
       return this.userCourses.find(course => course.course_id === courseRouteId)
     },
 
@@ -333,9 +323,7 @@ export default {
           console.error(error)
         })
     },
-    toggleCollapse (moduleIndex) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
-    },
+
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')

@@ -12,7 +12,7 @@
 export default {
   props: {
     courseId: {
-      type: Number,
+      type: String,
       required: true
     }
   },
@@ -35,7 +35,6 @@ export default {
       })
 
       const url = `https://blind-gallery.infura-ipfs.io/ipfs/${cid}`
-      console.info(url)
       this.url = url
       this.$forceUpdate()
     }
