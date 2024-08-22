@@ -62,5 +62,37 @@ export default {
         :label="isLoading ? 'Loading...' : 'Sign In'"
       />
     </FormulateForm>
+    <div class="divider">
+      <hr>
+
+<style scoped>
+.divider {
+  -webkit-box-align: center;
+  -webkit-box-pack: justify;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0rem;
+}
+
+.divider > hr {
+  margin: 0px;
+  height: 1px;
+  border: none;
+  flex: 1 1 0%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.divider > span {
+  font-size: small;
+  color: #888888;
+  padding: 0.3rem;
+}
+</style>
+      <span>OR </span>
+      <hr>
+    </div>
+    <auth-walletBtn />
   </div>
 </template>
