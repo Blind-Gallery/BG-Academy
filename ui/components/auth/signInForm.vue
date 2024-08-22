@@ -64,6 +64,12 @@ export default {
     </FormulateForm>
     <div class="divider">
       <hr>
+      <span>OR </span>
+      <hr>
+    </div>
+    <auth-walletBtn />
+  </div>
+</template>
 
 <style scoped>
 .divider {
@@ -90,9 +96,3 @@ export default {
   padding: 0.3rem;
 }
 </style>
-      <span>OR </span>
-      <hr>
-    </div>
-    <auth-walletBtn />
-  </div>
-</template>
