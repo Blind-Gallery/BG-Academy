@@ -48,7 +48,7 @@ mutation ($courseId: String!, $userId: String!) {
         }
       }
     },
-    on_conflict: constraint: payments_pkey, update_columns: updated_at
+    on_conflict: { constraint: payments_pkey, update_columns: updated_at
   }) {
     user_id
     course_id
@@ -60,7 +60,7 @@ mutation ($courseId: String!, $userId: String!) {
   }
 }
 `
-
+// TODO: fix this mutation - update instead
 const CREATE_STRIPE_PAYMENT_INTENT = gql`
 mutation (
   $courseId: String!,
@@ -97,7 +97,7 @@ mutation (
   }
 }
 `
-
+// TODO: fix this mutation - update instead
 const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
   $courseId: String!,
