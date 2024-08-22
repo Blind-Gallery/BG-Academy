@@ -1,4 +1,4 @@
-require('envkey')
+require('dotenv').config()
 const sgMail = require('@sendgrid/mail')
 const log = require('pino')()
 class Email {
