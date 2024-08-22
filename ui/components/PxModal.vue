@@ -32,6 +32,9 @@ export default {
       if (event.target === this.$refs.modal) {
         this.closeModal()
       }
+    },
+    switchComponent (newComponent) {
+      this.currentComponent = newComponent
     }
   }
 }
@@ -62,7 +65,7 @@ export default {
 
       <!-- Modal Body -->
       <div class="tw-my-4">
-        <component :is="currentComponent" />
+        <component :is="currentComponent" @switchComponent="switchComponent" />
       </div>
     </div>
   </div>
