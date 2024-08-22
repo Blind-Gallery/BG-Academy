@@ -184,7 +184,8 @@ class Login {
     if (!user) {
       throw new Unauthorized('Wrong email')
     }
-    await this.email.sendRecoverPasswordEmail({ to: email })
+    const code = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000)
+    await this.email.sendRecoverPasswordEmail({ to: email, code })
 
     return { success: true }
   }
