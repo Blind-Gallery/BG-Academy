@@ -5,7 +5,8 @@ export default {
       recoverPasswordForm: {
         email: ''
       },
-      successMessage: '',
+      message: '',
+      success: false,
       showInsertCodeForm: false,
       showNewPasswordForm: false
     }
@@ -13,20 +14,12 @@ export default {
   methods: {
     async sendEmailConfirmation () {
       try {
-        this.successMessage = ''
         await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
-        this.successMessage = 'Password recovery email sent. Check your inbox.'
+        this.message = 'Password recovery email sent. Check your inbox.'
+        this.success = true
         this.showInsertCodeForm = true
       } catch (error) {
-        this.successMessage = 'An error occurred. Please try again.'
-      }
-    },
-    async validateCode () {
-      try {
-        await this.$axios.post('/auth/validate-code', this.recoverPasswordForm)
-        this.showNewPasswordForm = true
-      } catch (error) {
-        this.successMessage = 'An error occurred. Please try again.'
+        this.message = 'An error occurred. Please try again.'
       }
     }
   }
@@ -47,7 +40,12 @@ export default {
       Enter the email address you use on the platform. We will send you a
       link to reset your password.
     </p>
-    <FormulateForm v-slot="{ isLoading }" v-model="recoverPasswordForm" class="login-form" @submit="sendEmailConfirmation">
+    <FormulateForm
+      v-slot="{ isLoading }"
+      v-model="recoverPasswordForm"
+      class="login-form"
+      @submit="sendEmailConfirmation"
+    >
       <FormulateInput
         name="email"
         type="email"
@@ -55,8 +53,11 @@ export default {
         placeholder="Email address"
         validation="required|email"
       />
-      <p style="color: green; font-size: 0.8em">
-        {{ successMessage }}
+      <p v-show="success" style="color: green; font-size: 0.8em">
+        {{ message }}
+      </p>
+      <p v-show="!success" style="color: red; font-size: 0.8em">
+        {{ message }}
       </p>
       <FormulateInput
         v-show="!showInsertCodeForm"
@@ -65,7 +66,7 @@ export default {
         :label="isLoading ? 'Loading...' : 'Recover password'"
       />
     </FormulateForm>
-
-    <auth-change-password-form v-if="showInsertCodeForm" />
+    <auth-validate-change-password-code-form v-if="showInsertCodeForm && !showNewPasswordForm" />
+    <auth-change-password-form v-if="showNewPasswordForm" />
   </b-modal>
 </template>
