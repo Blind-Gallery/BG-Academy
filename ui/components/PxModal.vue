@@ -50,6 +50,7 @@ export default {
     <!-- Modal Content -->
     <div
       ref="modalContent"
+      :class="{'tw-max-w-lg': true, 'tw-max-h-screen': true, 'tw-overflow-y-auto': true}"
       class="tw-bg-white tw-rounded-lg tw-shadow-lg tw-max-w-lg tw-w-full tw-p-6 tw-transform tw-scale-50 tw-transition-transform tw-duration-200 tw-relative"
       @click.stop
     >
