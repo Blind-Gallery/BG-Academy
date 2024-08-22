@@ -11,7 +11,9 @@ export default {
       form: {
         code: ''
       },
-      isLoading: false
+      success: false,
+      isLoading: false,
+      message: ''
     }
   },
   methods: {
@@ -30,11 +32,13 @@ export default {
           code: this.form.code
         }
         this.isLoading = true
+        this.success = true
         await this.$axios.post('/auth/validate-recover-password-code', payload)
         this.$emit('code-validated')
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
+        this.success = false
         this.message = 'An error occurred. Please try again.'
       }
     }

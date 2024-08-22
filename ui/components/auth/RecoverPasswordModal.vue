@@ -8,13 +8,16 @@ export default {
       message: '',
       success: false,
       showInsertCodeForm: false,
-      showNewPasswordForm: false
+      showNewPasswordForm: false,
+      userId: ''
     }
   },
   methods: {
     async sendEmailConfirmation () {
       try {
-        await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
+        const { data: { userId } } = await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
+        console.info(JSON.stringify(userId))
+        this.userId = userId
         this.message = 'Password recovery email sent. Check your inbox.'
         this.success = true
         this.showInsertCodeForm = true
@@ -71,6 +74,9 @@ export default {
       :email="recoverPasswordForm.email"
       @code-validated="showNewPasswordForm = true"
     />
-    <auth-change-password-form v-if="showNewPasswordForm" />
+    <auth-change-password-form
+      v-if="showNewPasswordForm"
+      :user-id="userId"
+    />
   </b-modal>
 </template>

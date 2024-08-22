@@ -1,5 +1,11 @@
 <script>
 export default {
+  props: {
+    userId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       passwordData: {},
@@ -20,14 +26,16 @@ export default {
         return
       }
       try {
+        console.info('userId: ' + this.userId)
         const payload = {
-          ...this.passwordData,
-          userId: this.$auth.user.id
+          password: this.passwordData.newPassword,
+          userId: this.userId
         }
         await this.$axios.post('/users/change-password', payload)
         this.message = 'Password changed successfully.'
         this.success = true
       } catch (error) {
+        console.error(error)
         this.message = 'An error occurred. Please try again.'
       }
     }
@@ -43,7 +51,7 @@ export default {
 
     <FormulateForm v-slot="{ isLoading }" v-model="passwordData" class="w-100" @submit="changePassword">
       <FormulateInput
-        name="password"
+        name="newPassword"
         type="password"
         label="Current password"
         placeholder="Enter password"
@@ -53,7 +61,7 @@ export default {
         }"
       />
       <FormulateInput
-        name="newPassword"
+        name="confirmPassword"
         type="password"
         label="New password"
         placeholder="Enter password"

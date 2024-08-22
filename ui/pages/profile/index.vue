@@ -56,7 +56,9 @@
           </FormulateForm>
         </div>
 
-        <auth-change-password-form />
+        <auth-change-password-form
+          :user-id="$auth.user.id"
+        />
 
         <div v-if="!$auth.user.tezos_info">
           <hr>
