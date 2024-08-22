@@ -29,7 +29,7 @@
                 <NuxtLink class="hover:tw-no-underline" to="buyCourse/5f1f6044-21ba-4409-880e-02cd36568697">
                   <button-PxSecondary
                     text="View course"
-                    icon="navigate-next"
+                    suffix-icon="navigate-next"
                   />
                 </NuxtLink>
                 <span class="tw-text-gray-500 tw-text-sm">Subscribe to join the webinar</span>
