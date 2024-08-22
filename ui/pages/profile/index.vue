@@ -56,34 +56,7 @@
           </FormulateForm>
         </div>
 
-        <div class="my-4">
-          <p><b>Change password</b></p>
-
-          <FormulateForm v-slot="{ isLoading }" v-model="passwordData" class="w-100" @submit="changePassword">
-            <FormulateInput
-              name="password"
-              type="password"
-              label="Current password"
-              placeholder="Enter password"
-              validation="required|matches:/[0-9]/|min:8,length"
-              :validation-messages="{
-                matches: 'Passwords must include a number.',
-              }"
-            />
-            <FormulateInput
-              name="newPassword"
-              type="password"
-              label="New password"
-              placeholder="Enter password"
-              validation="required"
-              validation-name="Confirmation"
-            />
-
-            <button :disabled="isLoading" type="submit" class="primary-btn">
-              {{ isLoading ? 'Saving changes':'Save changes' }}
-            </button>
-          </FormulateForm>
-        </div>
+        <auth-change-password-form />
 
         <div v-if="!$auth.user.tezos_info">
           <hr>

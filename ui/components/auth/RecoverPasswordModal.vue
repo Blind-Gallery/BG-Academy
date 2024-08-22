@@ -9,11 +9,20 @@ export default {
     }
   },
   methods: {
-    async doRecover () {
+    async sendEmailConfirmation () {
       try {
         this.successMessage = ''
         await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
         this.successMessage = 'Password recovery email sent. Check your inbox.'
+        // show insert code form
+      } catch (error) {
+        this.successMessage = 'An error occurred. Please try again.'
+      }
+    },
+    async validateCode () {
+      try {
+        await this.$axios.post('/auth/validate-code', this.recoverPasswordForm)
+        // show new password form
       } catch (error) {
         this.successMessage = 'An error occurred. Please try again.'
       }
@@ -36,7 +45,7 @@ export default {
       Enter the email address you use on the platform. We will send you a
       link to reset your password.
     </p>
-    <FormulateForm v-slot="{ isLoading }" v-model="recoverPasswordForm" class="login-form" @submit="doRecover">
+    <FormulateForm v-slot="{ isLoading }" v-model="recoverPasswordForm" class="login-form" @submit="sendEmailConfirmation">
       <FormulateInput
         name="email"
         type="email"
