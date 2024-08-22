@@ -535,7 +535,6 @@ export default {
       show: true,
       invalidMessage: '',
       successMessage: '',
-      signInForm: {},
       recoverPasswordForm: {},
       signUpForm: {},
       walletForm: {},
@@ -650,24 +649,6 @@ export default {
         await disconnectWallet()
       }
       this.$auth.logout()
-    },
-
-    async emailConnect () {
-      try {
-        await this.$auth.loginWith('local', {
-          data: {
-            ...this.signInForm
-          }
-        })
-        this.$bvModal.hide('signin')
-        this.$refs.alert.showAlert('Successful login')
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          this.invalidMessage = 'Invalid email or password'
-        } else {
-          this.invalidMessage = 'Sign In error'
-        }
-      }
     },
 
     async walletConnect () {
