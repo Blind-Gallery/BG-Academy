@@ -23,16 +23,14 @@
                       Become an educator
                     </span>
                   </b-nav-item>
-                  <b-nav-item v-b-modal.signup>
-                    <button class="secondary-btn small">
-                      Sign Up
-                    </button>
-                  </b-nav-item>
-                  <b-nav-item v-b-modal.signin>
-                    <button v-b-modal.signin class="primary-btn small">
-                      Sign In
-                    </button>
-                  </b-nav-item>
+
+                  <button class="secondary-btn small" @click="openModal('auth-PxSignUp')">
+                    Sign Up
+                  </button>
+
+                  <button class="primary-btn small" @click="openModal('auth-PxSignIn')">
+                    Sign In
+                  </button>
                 </b-navbar-nav>
               </b-navbar-nav>
             </b-collapse>
@@ -156,7 +154,7 @@
         <p style="text-align: center; font-size: small">
           Don't have an account yet?
           <a
-            v-b-modal.signup
+
             class="nuxt-link-exact-active nuxt-link-active"
             @click="$bvModal.hide('signin')"
           >
