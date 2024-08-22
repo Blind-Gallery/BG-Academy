@@ -12,6 +12,14 @@ module.exports = {
         h5: '1.25rem',
         h6: '1rem'
       },
+      container: {
+        center: true,
+        padding: '1rem',
+        screens: {
+          lg: '1240px'
+        }
+
+      },
       margin: {
         h1: '1rem 0rem',
         h2: '1rem 0rem',
