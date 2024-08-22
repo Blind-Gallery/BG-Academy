@@ -185,13 +185,15 @@ class Login {
     if (!user) {
       throw new Unauthorized('Wrong email')
     }
+    log.info(JSON.stringify(user, null, 4))
+    log.info(`Recover password for user: ${user.id}`)
     const code = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000)
     await this.gql.request(
       UPDATE_CHANGE_PASSWORD_REQUEST_CODE, { email, code })
 
     await this.email.sendRecoverPasswordEmail({ to: email, code })
 
-    return { success: true }
+    return { success: true, userId: user.id }
   }
 
   async validateRecoverPasswordCode ({ email, code }) {

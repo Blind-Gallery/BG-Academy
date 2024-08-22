@@ -85,7 +85,8 @@ const recoverPasswordSchema = {
       type: 'object',
       required: ['success'],
       properties: {
-        success: { type: 'boolean' }
+        success: { type: 'boolean' },
+        userId: { type: 'string' }
       }
     }
   }
