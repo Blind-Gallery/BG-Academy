@@ -2,6 +2,7 @@
 <template>
   <div>
     <PxAlert ref="alert" />
+    <PxModal ref="modalInstance" />
     <!--HEADER-->
     <header class="sticky-top">
       <b-container style="max-width: 1240px">
