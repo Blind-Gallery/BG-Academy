@@ -5,7 +5,9 @@ export default {
       recoverPasswordForm: {
         email: ''
       },
-      successMessage: ''
+      successMessage: '',
+      showInsertCodeForm: false,
+      showNewPasswordForm: false
     }
   },
   methods: {
@@ -14,7 +16,7 @@ export default {
         this.successMessage = ''
         await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
         this.successMessage = 'Password recovery email sent. Check your inbox.'
-        // show insert code form
+        this.showInsertCodeForm = true
       } catch (error) {
         this.successMessage = 'An error occurred. Please try again.'
       }
@@ -22,7 +24,7 @@ export default {
     async validateCode () {
       try {
         await this.$axios.post('/auth/validate-code', this.recoverPasswordForm)
-        // show new password form
+        this.showNewPasswordForm = true
       } catch (error) {
         this.successMessage = 'An error occurred. Please try again.'
       }
@@ -56,7 +58,14 @@ export default {
       <p style="color: green; font-size: 0.8em">
         {{ successMessage }}
       </p>
-      <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Recover password'" />
+      <FormulateInput
+        v-show="!showInsertCodeForm"
+        type="submit"
+        :disabled="isLoading"
+        :label="isLoading ? 'Loading...' : 'Recover password'"
+      />
     </FormulateForm>
+
+    <auth-change-password-form v-if="showInsertCodeForm" />
   </b-modal>
 </template>
