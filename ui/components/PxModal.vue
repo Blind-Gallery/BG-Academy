@@ -41,7 +41,7 @@ export default {
   <!-- Modal Background -->
   <div
     ref="modal"
-    class="tw-fixed tw-inset-0 tw-bg-gray-900 tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50 tw-transition-opacity tw-duration-200 tw-opacity-0 tw-pointer-events-none"
+    class="tw-fixed tw-z-[1021] tw-inset-0 tw-bg-gray-900 tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50 tw-transition-opacity tw-duration-200 tw-opacity-0 tw-pointer-events-none"
     @click="closeModalOnBackgroundClick"
   >
     <!-- Modal Content -->
