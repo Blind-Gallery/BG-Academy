@@ -16,11 +16,26 @@ export default {
   },
   methods: {
     async validateCode () {
+      if (!this.form.code) {
+        this.message = 'Please enter the code.'
+        return
+      }
+      if (!this.form.code) {
+        this.message = 'Please enter the code.'
+        return
+      }
       try {
-        await this.$axios.post('/auth/validate-code', this.form)
-        this.$router.push('/auth/change-password')
+        const payload = {
+          email: this.email,
+          code: this.form.code
+        }
+        this.isLoading = true
+        await this.$axios.post('/auth/validate-recover-password-code', payload)
+        this.$emit('code-validated')
+        this.isLoading = false
       } catch (error) {
-        this.$toast.error('Invalid code. Please try again.')
+        this.isLoading = false
+        this.message = 'An error occurred. Please try again.'
       }
     }
   }
