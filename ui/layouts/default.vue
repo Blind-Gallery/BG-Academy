@@ -647,6 +647,11 @@ export default {
     })
   },
   methods: {
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
+
     sendFeedback () {
       console.info(this.courseFeedback)
     },
