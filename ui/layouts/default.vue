@@ -24,11 +24,11 @@
                     </span>
                   </b-nav-item>
 
-                  <button class="secondary-btn small" @click="openModal('auth-PxSignUp')">
+                  <button class="secondary-btn small" @click="openModal('auth-signUpForm')">
                     Sign Up
                   </button>
 
-                  <button class="primary-btn small" @click="openModal('auth-PxSignIn')">
+                  <button class="primary-btn small" @click="openModal('auth-signInForm')">
                     Sign In
                   </button>
                 </b-navbar-nav>
