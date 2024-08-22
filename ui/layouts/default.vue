@@ -591,27 +591,6 @@ export default {
         'We have send you an email to recover your password!'
     },
 
-    async getWalletAccessData () {
-      const { connectAccount, requestLoginSignPayload } = dappClient()
-      const wallet = await connectAccount()
-      if (!wallet.success) {
-        console.error('Wallet not connected')
-      }
-      const {
-        publicKey,
-        wallet: tezosAddress,
-        signedPayload: signedMessage,
-        payload
-      } = await requestLoginSignPayload()
-      const data = {
-        ...this.walletForm,
-        publicKey,
-        wallet: tezosAddress,
-        signedMessage,
-        payload
-      }
-      return data
-    },
     async doSignUpWallet () {
       try {
         const data = await this.getWalletAccessData()
