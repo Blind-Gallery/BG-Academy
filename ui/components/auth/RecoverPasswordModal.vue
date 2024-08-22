@@ -66,7 +66,11 @@ export default {
         :label="isLoading ? 'Loading...' : 'Recover password'"
       />
     </FormulateForm>
-    <auth-validate-change-password-code-form v-if="showInsertCodeForm && !showNewPasswordForm" />
+    <auth-validate-change-password-code-form
+      v-if="showInsertCodeForm && !showNewPasswordForm"
+      :email="recoverPasswordForm.email"
+      @code-validated="showNewPasswordForm = true"
+    />
     <auth-change-password-form v-if="showNewPasswordForm" />
   </b-modal>
 </template>
