@@ -50,6 +50,7 @@ query ($email: String = "") {
       email
       password
       verification_code
+      change_password_request_code
     }
     tezos_info {
       signedMessage

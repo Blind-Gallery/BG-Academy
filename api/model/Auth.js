@@ -193,6 +193,17 @@ class Login {
 
     return { success: true }
   }
+
+  async validateRecoverPasswordCode ({ email, code }) {
+    const user = await this.getUserByEmail(email)
+    if (!user) {
+      throw new Unauthorized('Wrong email')
+    }
+    if (user.email_info.change_password_request_code !== code) {
+      throw new Unauthorized('Wrong code')
+    }
+    return { success: true }
+  }
 }
 
 module.exports = Login

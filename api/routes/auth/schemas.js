@@ -117,10 +117,31 @@ const logoutSchema = {
   }
 }
 
+const validateRecoverPasswordCodeSchema = {
+  tags,
+  body: {
+    type: 'object',
+    properties: {
+      email: { type: 'string' },
+      code: { type: 'string' }
+    }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   recoverPasswordSchema,
   loginSchema,
   signUpSchema,
   refreshSchema,
-  logoutSchema
+  logoutSchema,
+  validateRecoverPasswordCodeSchema
 }
