@@ -180,13 +180,6 @@ export default {
       const response = await this.$axios.$post('users/register-wallet', data)
       console.info(response)
     },
-
-    async changePassword (data) {
-      data.userId = this.$auth.user.id
-      const response = await this.$axios.$post('users/change-password', data)
-      console.info(response)
-    },
-
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')
