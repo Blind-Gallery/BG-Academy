@@ -1,7 +1,7 @@
 const log = require('pino')()
 const { create } = require('ipfs-http-client')
 const { TezosConstants } = require('../constants')
-require('envkey')
+require('dotenv').config()
 
 class TZIP {
   constructor ({

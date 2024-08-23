@@ -1,4 +1,4 @@
-require('envkey')
+require('dotenv').config()
 const sgMail = require('@sendgrid/mail')
 const log = require('pino')()
 class Email {
@@ -7,6 +7,7 @@ class Email {
     this.sendgrid.setApiKey(apiKey)
   }
 
+  // eslint-disable-next-line camelcase
   async sendDynamicTemplate (to, template_id, dynamic_template_data) {
     let response = null
     const msg = {
@@ -20,9 +21,11 @@ class Email {
               email: to
             }
           ],
+          // eslint-disable-next-line camelcase
           dynamic_template_data
         }
       ],
+      // eslint-disable-next-line camelcase
       template_id
     }
 
@@ -56,9 +59,9 @@ class Email {
     return res
   }
 
-  async sendRecoverPasswordEmail ({ to }) {
+  async sendRecoverPasswordEmail ({ to, code }) {
     // const subject = 'Recover your password'
-    const res = await this.sendDynamicTemplate(to, 'd-0e252054914c4f7ea06b627f65fc23a6')
+    const res = await this.sendDynamicTemplate(to, 'd-0e252054914c4f7ea06b627f65fc23a6', { code })
     return res
   }
 

@@ -213,7 +213,7 @@ export default {
             modules (order_by: {created_at: asc}) {
               title
               id
-              chapters {
+              chapters (order_by: {created_at: asc}) {
                 id
                 title
               }

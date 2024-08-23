@@ -7,6 +7,7 @@ const {
   refreshSchema,
   logoutSchema,
   recoverPasswordSchema,
+  validateRecoverPasswordCodeSchema,
   userSchema
 } = require('./schemas')
 
@@ -21,6 +22,7 @@ module.exports = async function (fastify, opts) {
     fastify.post('/logout', { schema: logoutSchema }, logoutHandler)
     fastify.get('/user', { schema: userSchema }, userHandler)
     fastify.post('/recover-password', { schema: recoverPasswordSchema }, recoverPasswordHandler)
+    fastify.post('/validate-recover-password-code', { schema: validateRecoverPasswordCodeSchema }, validateRecoverPasswordCodeHandler)
   })
 }
 
@@ -92,4 +94,9 @@ async function userHandler (req, reply) {
 
 async function recoverPasswordHandler (req, reply) {
   return this.login.recoverPassword(req.body)
+}
+
+async function validateRecoverPasswordCodeHandler (req, reply) {
+  const response = await this.login.validateRecoverPasswordCode(req.body)
+  return response
 }

@@ -1,6 +1,6 @@
 const { create, urlSource } = require('ipfs-http-client')
 const mime = require('mime-types')
-require('envkey')
+require('dotenv').config()
 
 class BaseIpfs {
   constructor () {

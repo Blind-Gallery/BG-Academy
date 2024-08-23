@@ -56,34 +56,9 @@
           </FormulateForm>
         </div>
 
-        <div class="my-4">
-          <p><b>Change password</b></p>
-
-          <FormulateForm v-slot="{ isLoading }" v-model="passwordData" class="w-100" @submit="changePassword">
-            <FormulateInput
-              name="password"
-              type="password"
-              label="Current password"
-              placeholder="Enter password"
-              validation="required|matches:/[0-9]/|min:8,length"
-              :validation-messages="{
-                matches: 'Passwords must include a number.',
-              }"
-            />
-            <FormulateInput
-              name="newPassword"
-              type="password"
-              label="New password"
-              placeholder="Enter password"
-              validation="required"
-              validation-name="Confirmation"
-            />
-
-            <button :disabled="isLoading" type="submit" class="primary-btn">
-              {{ isLoading ? 'Saving changes':'Save changes' }}
-            </button>
-          </FormulateForm>
-        </div>
+        <auth-change-password-form
+          :user-id="$auth.user.id"
+        />
 
         <div v-if="!$auth.user.tezos_info">
           <hr>
@@ -207,13 +182,6 @@ export default {
       const response = await this.$axios.$post('users/register-wallet', data)
       console.info(response)
     },
-
-    async changePassword (data) {
-      data.userId = this.$auth.user.id
-      const response = await this.$axios.$post('users/change-password', data)
-      console.info(response)
-    },
-
     redirectionHome () {
       if (!this.$auth.loggedIn) {
         this.$router.push('/')

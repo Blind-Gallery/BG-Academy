@@ -93,7 +93,7 @@ class User {
   }
 
   async createWithPassword ({ name, email, password }) {
-    const verificationCode = `${Math.floor(Math.random() * 1000000)}`
+    const verificationCode = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000)
     const data = {
       user: {
         name,
@@ -101,7 +101,7 @@ class User {
           data: {
             email,
             password: await bcrypt.hash(password, 10),
-            verificationCode
+            verification_code: verificationCode
           }
         }
       }
@@ -224,6 +224,23 @@ class User {
 
   async changePassword ({ userId, password, newPassword }) {
     // get user information, if user not found, throw error
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    await this.gql.request(
+      UPDATE_USER_PASSWORD, {
+        password: await bcrypt.hash(newPassword, 10),
+        userId
+      })
+
+    return { userId, success: true }
+  }
+
+  async resetPassword ({ userId, password, newPassword }) {
     const { users_by_pk: user } = await this.gql.request(
       GET_USER_FROM_ID, { userId })
 
