@@ -63,7 +63,7 @@ export default {
         {{ invalidMessage }}
       </p>
       <div class="tw-mb-2 ">
-        <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-recoverForm')"> Did you forget the password?</span>
+        <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-recover-password-flow')"> Did you forget the password?</span>
       </div>
       <FormulateInput
         type="submit"
