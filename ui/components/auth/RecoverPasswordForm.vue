@@ -33,6 +33,7 @@ export default {
         await this.$axios.post('/users/reset-password', payload)
         this.message = 'Password changed successfully.'
         this.success = true
+        this.$emit('password-changed')
       } catch (error) {
         console.error(error)
         this.message = 'An error occurred. Please try again.'

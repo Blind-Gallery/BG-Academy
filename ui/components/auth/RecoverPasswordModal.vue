@@ -23,6 +23,11 @@ export default {
       } catch (error) {
         this.message = 'An error occurred. Please try again.'
       }
+    },
+    passwordChanged () {
+      this.showInsertCodeForm = false
+      this.showNewPasswordForm = false
+      this.$emit('password-changed')
     }
   }
 }
@@ -76,6 +81,7 @@ export default {
     <auth-recover-password-form
       v-if="showNewPasswordForm"
       :user-id="userId"
+      @password-changed="passwordChanged"
     />
   </b-modal>
 </template>
