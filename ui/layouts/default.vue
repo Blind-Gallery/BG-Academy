@@ -18,13 +18,13 @@
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
                 <b-navbar-nav class="d-flex align-items-center main-menu">
-                  <b-nav-item v-b-modal.educatorsForm>
-                    <span v-b-modal.educatorsForm class="small">
+                  <b-nav-item @click="openModal('support-become-an-educator-form')">
+                    <span class="small">
                       Become an educator
                     </span>
                   </b-nav-item>
 
-                  <button class="secondary-btn small" @click="openModal('auth-sign-up-form')">
+                  <button class=" secondary-btn small" @click="openModal('auth-sign-up-form')">
                     Sign Up
                   </button>
 
@@ -64,44 +64,6 @@
           </b-navbar>
         </div>
       </b-container>
-      <!--EDUCATORS FORM-->
-      <b-modal id="educatorsForm" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <h2>Become an educator</h2>
-
-          <span style="cursor: pointer" @click="close()">
-            <Icon width="32" color="#888" icon="material-symbols:close" />
-          </span>
-        </template>
-        <div class="mb-4">
-          <p class="m-0 small">
-            <span style="font-weight: 600">Join Our Educator Community:</span><br>
-            Are you an experienced in the field of digital art?
-          </p>
-          <span class="text-secondary small">We welcome passionate educators to join our community. Share your
-            expertise and shape the future of digital art education.
-          </span>
-        </div>
-        <FormulateForm v-slot="{ isLoading }" v-model="educatorsForm" class="login-form" @submit="sendEducatorForm">
-          <FormulateInput name="name" type="text" label="Your name" placeholder="Name" validation="required" />
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="educator@academy.co"
-            validation="required|email"
-          />
-          <FormulateInput
-            name="description"
-            type="textarea"
-            label="What kind of educational course would you like to create?"
-            placeholder=""
-            validation="required"
-          />
-          <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Apply'" />
-        </FormulateForm>
-      </b-modal>
-
       <!--MODAL FEEDBACK-->
       <b-modal id="modal-feedback" centered hide-footer>
         <template #modal-header="{ close }">
@@ -313,7 +275,6 @@ export default {
       recoverPasswordForm: {},
       signUpForm: {},
       walletForm: {},
-      educatorsForm: {},
       courseFeedback: {}
     }
   },
@@ -331,17 +292,6 @@ export default {
     sendFeedback () {
       console.info(this.courseFeedback)
     },
-    sendEducatorForm () {
-      try {
-        this.$axios.$post('/emails/become-an-instructor', this.educatorsForm)
-        this.$bvModal.hide('educatorsForm')
-        this.$refs.alert.showAlert('Success', 'Thank you for applying!')
-      } catch (error) {
-        console.error(error)
-      }
-      console.info(`Send this form ${this.educatorsForm}`)
-    },
-
     doRecover () {
       this.successMessage =
         'We have send you an email to recover your password!'
