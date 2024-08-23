@@ -268,10 +268,7 @@ export default {
   data () {
     return {
       courseRate: null,
-      isWalletFlow: false,
       show: true,
-      invalidMessage: '',
-      successMessage: '',
       courseFeedback: {}
     }
   },
@@ -285,14 +282,10 @@ export default {
       const modalInstance = this.$refs.modalInstance
       modalInstance.showModal(component)
     },
-
     sendFeedback () {
       console.info(this.courseFeedback)
+      // migrate logic to new component
     },
-    doGoogleConnect () {
-      this.$auth.loginWith('google')
-    },
-
     async doLogout () {
       const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
       const { connected: isWalletConnected } = await checkIfWalletIsConnected()
