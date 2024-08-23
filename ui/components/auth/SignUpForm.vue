@@ -17,7 +17,7 @@ export default {
             ...signUpForm
           }
         })
-        this.$bvModal.hide('signup')
+        this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 400) {
           this.invalidMessage =

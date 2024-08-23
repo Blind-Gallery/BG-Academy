@@ -24,8 +24,7 @@ export default {
         if (isWalletConnected && !this.$auth.loggedIn) {
           await disconnectWallet()
         }
-
-        this.$bvModal.hide('signup')
+        this.$emit('closeModal')
       } catch (error) {
         console.error(error)
 
