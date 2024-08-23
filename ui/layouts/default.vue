@@ -433,55 +433,10 @@ export default {
       }
       console.info(`Send this form ${this.educatorsForm}`)
     },
-    async doEmailSignUp () {
-      try {
-        const signUpForm = this.signUpForm
-        await this.$axios.$post('users', signUpForm)
-        this.$auth.loginWith('local', {
-          data: {
-            ...signUpForm
-          }
-        })
-        this.$bvModal.hide('signup')
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          this.invalidMessage =
-            'There is already an existing account with the email address'
-        } else {
-          this.invalidMessage = 'Sing Up error'
-        }
-      }
-    },
 
     doRecover () {
       this.successMessage =
         'We have send you an email to recover your password!'
-    },
-
-    async doSignUpWallet () {
-      try {
-        const data = await this.getWalletAccessData()
-        await this.$axios.$post('users', data)
-        await this.$auth.loginWith('local', {
-          data
-        })
-
-        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-        const { connected: isWalletConnected } =
-          await checkIfWalletIsConnected()
-
-        if (isWalletConnected && !this.$auth.loggedIn) {
-          await disconnectWallet()
-        }
-
-        this.$bvModal.hide('signup')
-      } catch (error) {
-        console.error(error)
-
-        if (error.response && error.response.status === 400) {
-          this.invalidMessage = 'This wallet is already registered'
-        }
-      }
     },
 
     doGoogleConnect () {
@@ -517,17 +472,8 @@ export default {
             "This user doesn't exist. Please sign up and create an account first."
         }
       }
-    },
-
-    onReset () {
-      this.signInForm = {}
-      this.signUpForm = {}
-
-      this.invalidMessage = ''
-      this.successMessage = ''
-
-      this.isWalletFlow = false
     }
+
   }
 }
 </script>
