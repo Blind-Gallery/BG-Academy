@@ -3,7 +3,8 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
-      walletForm: {}
+      walletForm: {},
+      invalidMessage: null
     }
   },
 
@@ -24,7 +25,8 @@ export default {
         this.$bvModal.hide('signin')
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          console.info(error)
+          this.invalidMessage =
+            "This user doesn't exist. Please sign up and create an account first."
         }
       }
     },
@@ -67,5 +69,12 @@ export default {
       />
       Connect Wallet
     </button>
+
+    <p
+      class="small m-0 text-center"
+      style="font-size: small; color: #960505"
+    >
+      {{ invalidMessage }}
+    </p>
   </div>
 </template>
