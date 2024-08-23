@@ -66,21 +66,14 @@
       </b-container>
 
       <!--RECOVER PASSWORD-->
-      <auth-recover-password-modal />
-
       <!--EDUCATORS FORM-->
       <b-modal id="educatorsForm" centered hidden-header hide-footer>
         <template #modal-header="{ close }">
           <h2>Become an educator</h2>
 
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
+          <span style="cursor: pointer" @click="close()">
+            <Icon width="32" color="#888" icon="material-symbols:close" />
+          </span>
         </template>
         <div class="mb-4">
           <p class="m-0 small">
@@ -91,19 +84,8 @@
             expertise and shape the future of digital art education.
           </span>
         </div>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="educatorsForm"
-          class="login-form"
-          @submit="sendEducatorForm"
-        >
-          <FormulateInput
-            name="name"
-            type="text"
-            label="Your name"
-            placeholder="Name"
-            validation="required"
-          />
+        <FormulateForm v-slot="{ isLoading }" v-model="educatorsForm" class="login-form" @submit="sendEducatorForm">
+          <FormulateInput name="name" type="text" label="Your name" placeholder="Name" validation="required" />
           <FormulateInput
             name="email"
             type="email"
@@ -118,11 +100,7 @@
             placeholder=""
             validation="required"
           />
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Apply'"
-          />
+          <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Apply'" />
         </FormulateForm>
       </b-modal>
 
@@ -130,14 +108,9 @@
       <b-modal id="modal-feedback" centered hide-footer>
         <template #modal-header="{ close }">
           <span />
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
+          <span style="cursor: pointer" @click="close()">
+            <Icon width="32" color="#888" icon="material-symbols:close" />
+          </span>
         </template>
         <h4>
           Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
@@ -150,12 +123,7 @@
         <div class="mb-4">
           <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
         </div>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="courseFeedback"
-          class="login-form"
-          @submit="sendFeedback"
-        >
+        <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="sendFeedback">
           <FormulateInput
             name="feedback"
             type="textarea"
@@ -163,38 +131,28 @@
             placeholder=""
           />
 
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Send feedback'"
-          />
+          <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Send feedback'" />
         </FormulateForm>
       </b-modal>
     </header>
     <notifications position="bottom right" />
 
     <Nuxt />
-    <footer
-      class="py-5 mt-5"
-      fluid
-      style="background-color: rgb(246, 246, 246)"
-    >
+    <footer class="py-5 mt-5" fluid style="background-color: rgb(246, 246, 246)">
       <b-container style="max-width: 1240px">
         <b-row class="align-items-center justify-content-center">
           <b-col cols="12" lg="4">
-            <svg
-              width="160px"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1465.09 333.79"
-            >
+            <svg width="160px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1465.09 333.79">
               <defs>
                 <style>
                   .cls-1 {
                   fill: #00b9cd;
                   }
+
                   .cls-2 {
                   fill: #242230;
                   }
+
                   .cls-3 {
                   fill: #6c757d;
                   }
@@ -302,19 +260,10 @@
               <p class="text-secondary m-0" style="font-size: small">
                 Powered by
               </p>
-              <img
-                class="ml-2"
-                src="/logos/tezos.png"
-                width="55px"
-                alt="tezos"
-              >
+              <img class="ml-2" src="/logos/tezos.png" width="55px" alt="tezos">
             </div>
           </b-col>
-          <b-col
-            lg="auto"
-            class="d-none d-lg-block"
-            style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px"
-          />
+          <b-col lg="auto" class="d-none d-lg-block" style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px" />
 
           <b-col cols="12" lg="4" class="m-4">
             <p class="m-0" style="font-weight: 600; font-size: 18px">
@@ -325,11 +274,11 @@
               anything!
             </p>
             <div class="d-flex align-items-center ">
-              <div class="d-flex align-items-center justify-content-center" style="width: 2rem; background: #00b9cd; height: 2rem;  border-radius: 5px; overflow: hidden;">
-                <a
-                  href="https://discord.gg/zxxZv6HUfr"
-                  target="_blank"
-                >
+              <div
+                class="d-flex align-items-center justify-content-center"
+                style="width: 2rem; background: #00b9cd; height: 2rem;  border-radius: 5px; overflow: hidden;"
+              >
+                <a href="https://discord.gg/zxxZv6HUfr" target="_blank">
                   <Icon color="#ffff" icon="fa6-brands:discord" width="1.5rem" />
                 </a>
               </div>
