@@ -26,12 +26,11 @@ export default {
         return
       }
       try {
-        console.info('userId: ' + this.userId)
         const payload = {
-          password: this.passwordData.newPassword,
+          newPassword: this.passwordData.newPassword,
           userId: this.userId
         }
-        await this.$axios.post('/users/change-password', payload)
+        await this.$axios.post('/users/reset-password', payload)
         this.message = 'Password changed successfully.'
         this.success = true
       } catch (error) {

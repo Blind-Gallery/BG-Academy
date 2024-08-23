@@ -16,7 +16,6 @@ export default {
     async sendEmailConfirmation () {
       try {
         const { data: { userId } } = await this.$axios.post('/auth/recover-password', this.recoverPasswordForm)
-        console.info(JSON.stringify(userId))
         this.userId = userId
         this.message = 'Password recovery email sent. Check your inbox.'
         this.success = true
@@ -74,7 +73,7 @@ export default {
       :email="recoverPasswordForm.email"
       @code-validated="showNewPasswordForm = true"
     />
-    <auth-change-password-recover-form
+    <auth-recover-password-form
       v-if="showNewPasswordForm"
       :user-id="userId"
     />
