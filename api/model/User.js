@@ -239,6 +239,23 @@ class User {
 
     return { userId, success: true }
   }
+
+  async resetPassword ({ userId, password, newPassword }) {
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    await this.gql.request(
+      UPDATE_USER_PASSWORD, {
+        password: await bcrypt.hash(newPassword, 10),
+        userId
+      })
+
+    return { userId, success: true }
+  }
 }
 
 module.exports = User
