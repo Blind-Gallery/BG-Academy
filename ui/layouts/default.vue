@@ -24,7 +24,7 @@
                     </span>
                   </b-nav-item>
 
-                  <button class="secondary-btn small" @click="openModal('auth-signUpForm')">
+                  <button class="secondary-btn small" @click="openModal('auth-sign-up-form')">
                     Sign Up
                   </button>
 
