@@ -9,30 +9,11 @@ alter table "public"."emails" add column "change_password_request_code" text
  null;
 
 ALTER TABLE emails
-ADD COLUMN is_verified BOOLEAN DEFAULT false;
+RENAME COLUMN "isVerified" TO is_verified;
 
 ALTER TABLE emails
-ADD COLUMN verification_code TEXT null;
+RENAME COLUMN "verificationCode" TO verification_code;
 
-UPDATE emails
-SET is_verified = (
-  SELECT "isVerified"
-  FROM emails
-  WHERE emails.id = emails.id
-);
-
-UPDATE emails
-SET verification_code = (
-  SELECT "verificationCode"
-  FROM emails
-  WHERE emails.id = emails.id
-);
-
-ALTER TABLE emails
-DROP COLUMN "isVerified";
-
-ALTER TABLE emails
-DROP COLUMN "verificationCode";
 CREATE OR REPLACE FUNCTION update_change_password_request()
 RETURNS TRIGGER AS $$
 BEGIN
