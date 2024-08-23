@@ -64,8 +64,6 @@
           </b-navbar>
         </div>
       </b-container>
-
-      <!--RECOVER PASSWORD-->
       <!--EDUCATORS FORM-->
       <b-modal id="educatorsForm" centered hidden-header hide-footer>
         <template #modal-header="{ close }">
