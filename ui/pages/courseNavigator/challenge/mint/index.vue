@@ -14,7 +14,7 @@ export default {
   methods: {
     doMint () {
       try {
-        console.info('success')
+        this.$router.push('/courseNavigator/challenge/success')
       } catch (e) {
         console.error(e)
       }
