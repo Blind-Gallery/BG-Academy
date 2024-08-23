@@ -272,9 +272,6 @@ export default {
       show: true,
       invalidMessage: '',
       successMessage: '',
-      recoverPasswordForm: {},
-      signUpForm: {},
-      walletForm: {},
       courseFeedback: {}
     }
   },
@@ -292,11 +289,6 @@ export default {
     sendFeedback () {
       console.info(this.courseFeedback)
     },
-    doRecover () {
-      this.successMessage =
-        'We have send you an email to recover your password!'
-    },
-
     doGoogleConnect () {
       this.$auth.loginWith('google')
     },
@@ -308,30 +300,7 @@ export default {
         await disconnectWallet()
       }
       this.$auth.logout()
-    },
-
-    async walletConnect () {
-      try {
-        const data = await this.getWalletAccessData()
-        await this.$auth.loginWith('local', {
-          data
-        })
-        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-        const { connected: isWalletConnected } =
-          await checkIfWalletIsConnected()
-        if (isWalletConnected && !this.$auth.loggedIn) {
-          await disconnectWallet()
-        }
-
-        this.$bvModal.hide('signin')
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          this.invalidMessage =
-            "This user doesn't exist. Please sign up and create an account first."
-        }
-      }
     }
-
   }
 }
 </script>
