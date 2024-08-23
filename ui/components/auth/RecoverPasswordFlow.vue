@@ -27,7 +27,7 @@ export default {
     passwordChanged () {
       this.showInsertCodeForm = false
       this.showNewPasswordForm = false
-      this.$emit('switchComponent', 'auth-sign-in-form')
+      this.$emit('switchComponent', 'auth-log-in-form')
     }
   }
 }
