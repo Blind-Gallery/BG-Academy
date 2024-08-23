@@ -23,14 +23,15 @@
                       Become an educator
                     </span>
                   </b-nav-item>
+                  <div class="tw-flex tw-items-center lg:tw-gap-3">
+                    <button class=" secondary-btn small" @click="openModal('auth-sign-up-form')">
+                      Sign Up
+                    </button>
 
-                  <button class=" secondary-btn small" @click="openModal('auth-sign-up-form')">
-                    Sign Up
-                  </button>
-
-                  <button class="primary-btn small" @click="openModal('auth-log-in-form')">
-                    Sign In
-                  </button>
+                    <button class="primary-btn small" @click="openModal('auth-log-in-form')">
+                      Sign In
+                    </button>
+                  </div>
                 </b-navbar-nav>
               </b-navbar-nav>
             </b-collapse>
