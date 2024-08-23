@@ -16,7 +16,6 @@ export default {
   methods: {
     async changePassword () {
       try {
-        console.info('userId: ' + this.userId)
         const payload = {
           password: this.passwordData.newPassword,
           userId: this.userId
