@@ -63,7 +63,7 @@ export default {
       <FormulateInput
         name="confirmPassword"
         type="password"
-        label="New password"
+        label="Confirm password"
         placeholder="Enter password"
         validation="required"
         validation-name="Confirmation"
