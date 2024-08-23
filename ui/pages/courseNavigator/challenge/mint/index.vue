@@ -37,7 +37,7 @@ export default {
 <template>
   <div class="tw-container tw-px-4 tw-mx-auto  lg:tw-container">
     <div class="tw-grid tw-grid-cols-12 tw-gap-4 lg:tw-my-12 tw-flex tw-justify-center">
-      <div class="tw-col-span-12 lg:tw-col-span-6 lg:tw-p-4 tw-shadow-sm tw-rounded">
+      <div class="tw-col-span-12 lg:tw-col-span-6 lg:tw-p-4 tw-shadow-md tw-rounded">
         <h4>Mint your project on objkt.com</h4>
         <FormulateForm
           v-slot="{ isLoading }"
@@ -73,7 +73,7 @@ export default {
           />
         </FormulateForm>
       </div>
-      <div class="tw-col-span-12 lg:tw-col-span-6 lg:tw-p-4 tw-shadow-sm tw-rounded">
+      <div class="tw-col-span-12 lg:tw-col-span-6 lg:tw-p-4 tw-shadow-md tw-rounded">
         <div>
           <div v-if="previewUrl" class="tw-relative tw-w-full ">
             <div class="tw-w-full tw-h-full tw-overflow-hidden tw-relative" style="padding-bottom: 100%;">
