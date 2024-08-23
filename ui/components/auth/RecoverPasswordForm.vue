@@ -53,7 +53,7 @@ export default {
       <FormulateInput
         name="newPassword"
         type="password"
-        label="Current password"
+        label="New password"
         placeholder="Enter password"
         validation="required|matches:/[0-9]/|min:8,length"
         :validation-messages="{
