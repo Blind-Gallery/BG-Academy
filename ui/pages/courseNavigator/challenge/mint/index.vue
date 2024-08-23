@@ -13,6 +13,7 @@ export default {
 
   methods: {
     doMint () {
+      // TODO ADD ERROR NOTIFICATIONS
       try {
         this.$router.push('/courseNavigator/challenge/success')
       } catch (e) {
