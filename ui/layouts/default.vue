@@ -2,6 +2,7 @@
 <template>
   <div>
     <PxAlert ref="alert" />
+    <PxModal ref="modalInstance" />
     <!--HEADER-->
     <header class="sticky-top">
       <b-container style="max-width: 1240px">
@@ -17,21 +18,20 @@
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
                 <b-navbar-nav class="d-flex align-items-center main-menu">
-                  <b-nav-item v-b-modal.educatorsForm>
-                    <span v-b-modal.educatorsForm class="small">
+                  <b-nav-item @click="openModal('support-become-an-educator-form')">
+                    <span class="small">
                       Become an educator
                     </span>
                   </b-nav-item>
-                  <b-nav-item v-b-modal.signup>
-                    <button class="secondary-btn small">
+                  <div class="tw-flex tw-items-center lg:tw-gap-3">
+                    <button class=" secondary-btn small" @click="openModal('auth-sign-up-form')">
                       Sign Up
                     </button>
-                  </b-nav-item>
-                  <b-nav-item v-b-modal.signin>
-                    <button v-b-modal.signin class="primary-btn small">
+
+                    <button class="primary-btn small" @click="openModal('auth-log-in-form')">
                       Sign In
                     </button>
-                  </b-nav-item>
+                  </div>
                 </b-navbar-nav>
               </b-navbar-nav>
             </b-collapse>
@@ -65,350 +65,13 @@
           </b-navbar>
         </div>
       </b-container>
-
-      <!--MODAL SIGN IN-->
-      <b-modal id="signin" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <h2>Welcome Back!</h2>
-
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="signInForm"
-          class="login-form"
-          @submit="emailConnect"
-        >
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="Email address"
-            validation="required|email"
-          />
-          <FormulateInput
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Your password"
-            validation="required|matches:/[0-9]/|min:8,length"
-            :validation-messages="{
-              matches: 'Passwords must include a number.',
-            }"
-          />
-          <a
-            v-b-modal.recoverPassword
-            class="m-0"
-            style="font-size: small"
-            @click="$bvModal.hide('signin')"
-          >
-            Did you forget your password?
-          </a>
-          <p class="small" style="font-size: small; color: #960505">
-            {{ invalidMessage }}
-          </p>
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Sign In'"
-          />
-        </FormulateForm>
-
-        <div class="divider">
-          <hr>
-          <span>OR </span>
-          <hr>
-        </div>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="walletConnect"
-        >
-          <Icon
-            icon="material-symbols:account-balance-wallet-outline"
-            color="#00b9cd"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
-          />
-          Connect Wallet
-        </button>
-        <button
-          class="secondary-btn"
-          style="width: 100%; position: relative; margin-bottom: 1rem"
-          @click="doGoogleConnect"
-        >
-          <Icon
-            icon="flat-color-icons:google"
-            width="21"
-            style="position: absolute; left: 24px; top: 9px"
-          />
-          Continue with Google
-        </button>
-
-        <p style="text-align: center; font-size: small">
-          Don't have an account yet?
-          <a
-            v-b-modal.signup
-            class="nuxt-link-exact-active nuxt-link-active"
-            @click="$bvModal.hide('signin')"
-          >
-            Sign Up
-          </a>
-        </p>
-      </b-modal>
-
-      <!--RECOVER PASSWORD-->
-      <b-modal id="recoverPassword" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <h2>Recover password</h2>
-
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-        <p style="font-size: small">
-          Enter the email address you use on the platform. We will send you a
-          link to reset your password.
-        </p>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="recoverPasswordForm"
-          class="login-form"
-          @submit="doRecover"
-        >
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="Email address"
-            validation="required|email"
-          />
-          <p style="color: green; font-size: 0.8em">
-            {{ successMessage }}
-          </p>
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Recover password'"
-          />
-        </FormulateForm>
-      </b-modal>
-
-      <!--MODAL SIGN UP-->
-      <b-modal id="signup" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <h2>Create new account</h2>
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-
-        <FormulateForm
-          v-if="!isWalletFlow"
-          v-slot="{ isLoading }"
-          v-model="signUpForm"
-          class="login-form"
-          @submit="doEmailSignUp"
-        >
-          <FormulateInput
-            name="name"
-            type="text"
-            label="Your name"
-            placeholder="Your name"
-            validation="required"
-          />
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="Email address"
-            validation="required|email"
-          />
-          <FormulateInput
-            label="Password"
-            type="password"
-            name="password"
-            validation="required|matches:/[0-9]/|min:8,length"
-            :validation-messages="{
-              matches: 'Passwords must include a number.',
-            }"
-          />
-          <FormulateInput
-            label="Confirm password"
-            type="password"
-            name="password_confirm"
-            validation="required|confirm"
-            validation-name="Password confirmation"
-          />
-          <p class="small" style="font-size: small; color: #960505">
-            {{ invalidMessage }}
-          </p>
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Sign up'"
-          />
-        </FormulateForm>
-
-        <FormulateForm
-          v-else
-          v-slot="{ isLoading }"
-          v-model="walletForm"
-          @submit="doSignUpWallet"
-        >
-          <FormulateInput
-            name="name"
-            type="text"
-            label="Your name"
-            placeholder="Your name"
-            validation="required"
-          />
-
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Connect wallet'"
-          />
-          <p
-            class="small m-0 text-center"
-            style="font-size: small; color: #960505"
-          >
-            {{ invalidMessage }}
-          </p>
-        </FormulateForm>
-
-        <div v-if="!isWalletFlow">
-          <div class="divider">
-            <hr>
-            <span>OR </span>
-            <hr>
-          </div>
-          <button
-            class="secondary-btn"
-            style="width: 100%; position: relative; margin-bottom: 1rem"
-            @click="isWalletFlow = true"
-          >
-            <Icon
-              icon="material-symbols:account-balance-wallet-outline"
-              color="#00b9cd"
-              width="21"
-              style="position: absolute; left: 24px; top: 9px"
-            />
-            Continue with wallet
-          </button>
-          <button
-            class="secondary-btn"
-            style="width: 100%; position: relative"
-            @click="doGoogleConnect"
-          >
-            <Icon
-              icon="flat-color-icons:google"
-              width="21"
-              style="position: absolute; left: 24px; top: 9px"
-            />
-            Continue with Google
-          </button>
-        </div>
-
-        <p class="mt-4" style="text-align: center; font-size: small">
-          Already have an account?
-          <a
-            v-b-modal.signin
-            class="nuxt-link-exact-active nuxt-link-active"
-            @click="$bvModal.hide('signup')"
-          >
-            Sign In
-          </a>
-        </p>
-      </b-modal>
-
-      <!--EDUCATORS FORM-->
-      <b-modal id="educatorsForm" centered hidden-header hide-footer>
-        <template #modal-header="{ close }">
-          <h2>Become an educator</h2>
-
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
-        </template>
-        <div class="mb-4">
-          <p class="m-0 small">
-            <span style="font-weight: 600">Join Our Educator Community:</span><br>
-            Are you an experienced in the field of digital art?
-          </p>
-          <span class="text-secondary small">We welcome passionate educators to join our community. Share your
-            expertise and shape the future of digital art education.
-          </span>
-        </div>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="educatorsForm"
-          class="login-form"
-          @submit="sendEducatorForm"
-        >
-          <FormulateInput
-            name="name"
-            type="text"
-            label="Your name"
-            placeholder="Name"
-            validation="required"
-          />
-          <FormulateInput
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="educator@academy.co"
-            validation="required|email"
-          />
-          <FormulateInput
-            name="description"
-            type="textarea"
-            label="What kind of educational course would you like to create?"
-            placeholder=""
-            validation="required"
-          />
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Apply'"
-          />
-        </FormulateForm>
-      </b-modal>
-
       <!--MODAL FEEDBACK-->
       <b-modal id="modal-feedback" centered hide-footer>
         <template #modal-header="{ close }">
           <span />
-          <span
-            style="cursor: pointer"
-            @click="close()"
-          ><Icon
-            width="32"
-            color="#888"
-            icon="material-symbols:close"
-          /></span>
+          <span style="cursor: pointer" @click="close()">
+            <Icon width="32" color="#888" icon="material-symbols:close" />
+          </span>
         </template>
         <h4>
           Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
@@ -421,12 +84,7 @@
         <div class="mb-4">
           <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
         </div>
-        <FormulateForm
-          v-slot="{ isLoading }"
-          v-model="courseFeedback"
-          class="login-form"
-          @submit="sendFeedback"
-        >
+        <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="sendFeedback">
           <FormulateInput
             name="feedback"
             type="textarea"
@@ -434,38 +92,28 @@
             placeholder=""
           />
 
-          <FormulateInput
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Send feedback'"
-          />
+          <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Send feedback'" />
         </FormulateForm>
       </b-modal>
     </header>
     <notifications position="bottom right" />
 
     <Nuxt />
-    <footer
-      class="py-5 mt-5"
-      fluid
-      style="background-color: rgb(246, 246, 246)"
-    >
+    <footer class="py-5 mt-5" fluid style="background-color: rgb(246, 246, 246)">
       <b-container style="max-width: 1240px">
         <b-row class="align-items-center justify-content-center">
           <b-col cols="12" lg="4">
-            <svg
-              width="160px"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1465.09 333.79"
-            >
+            <svg width="160px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1465.09 333.79">
               <defs>
                 <style>
                   .cls-1 {
                   fill: #00b9cd;
                   }
+
                   .cls-2 {
                   fill: #242230;
                   }
+
                   .cls-3 {
                   fill: #6c757d;
                   }
@@ -573,19 +221,10 @@
               <p class="text-secondary m-0" style="font-size: small">
                 Powered by
               </p>
-              <img
-                class="ml-2"
-                src="/logos/tezos.png"
-                width="55px"
-                alt="tezos"
-              >
+              <img class="ml-2" src="/logos/tezos.png" width="55px" alt="tezos">
             </div>
           </b-col>
-          <b-col
-            lg="auto"
-            class="d-none d-lg-block"
-            style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px"
-          />
+          <b-col lg="auto" class="d-none d-lg-block" style="border-left: 1px solid rgb(0 0 0 / 10%); height: 150px" />
 
           <b-col cols="12" lg="4" class="m-4">
             <p class="m-0" style="font-weight: 600; font-size: 18px">
@@ -596,11 +235,11 @@
               anything!
             </p>
             <div class="d-flex align-items-center ">
-              <div class="d-flex align-items-center justify-content-center" style="width: 2rem; background: #00b9cd; height: 2rem;  border-radius: 5px; overflow: hidden;">
-                <a
-                  href="https://discord.gg/zxxZv6HUfr"
-                  target="_blank"
-                >
+              <div
+                class="d-flex align-items-center justify-content-center"
+                style="width: 2rem; background: #00b9cd; height: 2rem;  border-radius: 5px; overflow: hidden;"
+              >
+                <a href="https://discord.gg/zxxZv6HUfr" target="_blank">
                   <Icon color="#ffff" icon="fa6-brands:discord" width="1.5rem" />
                 </a>
               </div>
@@ -630,15 +269,7 @@ export default {
   data () {
     return {
       courseRate: null,
-      isWalletFlow: false,
       show: true,
-      invalidMessage: '',
-      successMessage: '',
-      signInForm: {},
-      recoverPasswordForm: {},
-      signUpForm: {},
-      walletForm: {},
-      educatorsForm: {},
       courseFeedback: {}
     }
   },
@@ -648,95 +279,14 @@ export default {
     })
   },
   methods: {
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
     sendFeedback () {
       console.info(this.courseFeedback)
+      // TODO: migrate logic to new component
     },
-    sendEducatorForm () {
-      try {
-        this.$axios.$post('/emails/become-an-instructor', this.educatorsForm)
-        this.$bvModal.hide('educatorsForm')
-        this.$refs.alert.showAlert('Success', 'Thank you for applying!')
-      } catch (error) {
-        console.error(error)
-      }
-      console.info(`Send this form ${this.educatorsForm}`)
-    },
-    async doEmailSignUp () {
-      try {
-        const signUpForm = this.signUpForm
-        await this.$axios.$post('users', signUpForm)
-        this.$auth.loginWith('local', {
-          data: {
-            ...signUpForm
-          }
-        })
-        this.$bvModal.hide('signup')
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          this.invalidMessage =
-            'There is already an existing account with the email address'
-        } else {
-          this.invalidMessage = 'Sing Up error'
-        }
-      }
-    },
-
-    doRecover () {
-      this.successMessage =
-        'We have send you an email to recover your password!'
-    },
-
-    async getWalletAccessData () {
-      const { connectAccount, requestLoginSignPayload } = dappClient()
-      const wallet = await connectAccount()
-      if (!wallet.success) {
-        console.error('Wallet not connected')
-      }
-      const {
-        publicKey,
-        wallet: tezosAddress,
-        signedPayload: signedMessage,
-        payload
-      } = await requestLoginSignPayload()
-      const data = {
-        ...this.walletForm,
-        publicKey,
-        wallet: tezosAddress,
-        signedMessage,
-        payload
-      }
-      return data
-    },
-    async doSignUpWallet () {
-      try {
-        const data = await this.getWalletAccessData()
-        await this.$axios.$post('users', data)
-        await this.$auth.loginWith('local', {
-          data
-        })
-
-        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-        const { connected: isWalletConnected } =
-          await checkIfWalletIsConnected()
-
-        if (isWalletConnected && !this.$auth.loggedIn) {
-          await disconnectWallet()
-        }
-
-        this.$bvModal.hide('signup')
-      } catch (error) {
-        console.error(error)
-
-        if (error.response && error.response.status === 400) {
-          this.invalidMessage = 'This wallet is already registered'
-        }
-      }
-    },
-
-    doGoogleConnect () {
-      this.$auth.loginWith('google')
-    },
-
     async doLogout () {
       const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
       const { connected: isWalletConnected } = await checkIfWalletIsConnected()
@@ -744,56 +294,6 @@ export default {
         await disconnectWallet()
       }
       this.$auth.logout()
-    },
-
-    async emailConnect () {
-      try {
-        await this.$auth.loginWith('local', {
-          data: {
-            ...this.signInForm
-          }
-        })
-        this.$bvModal.hide('signin')
-        this.$refs.alert.showAlert('Successful login')
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          this.invalidMessage = 'Invalid email or password'
-        } else {
-          this.invalidMessage = 'Sign In error'
-        }
-      }
-    },
-
-    async walletConnect () {
-      try {
-        const data = await this.getWalletAccessData()
-        await this.$auth.loginWith('local', {
-          data
-        })
-        const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-        const { connected: isWalletConnected } =
-          await checkIfWalletIsConnected()
-        if (isWalletConnected && !this.$auth.loggedIn) {
-          await disconnectWallet()
-        }
-
-        this.$bvModal.hide('signin')
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          this.invalidMessage =
-            "This user doesn't exist. Please sign up and create an account first."
-        }
-      }
-    },
-
-    onReset () {
-      this.signInForm = {}
-      this.signUpForm = {}
-
-      this.invalidMessage = ''
-      this.successMessage = ''
-
-      this.isWalletFlow = false
     }
   }
 }
