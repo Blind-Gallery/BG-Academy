@@ -1,4 +1,4 @@
-require('envkey')
+require('dotenv').config()
 
 const CHAIN = process.env.TEZOS_PROTOCOL
 const DEFAULT_CONFIRMATION_BLOCKS = 1
