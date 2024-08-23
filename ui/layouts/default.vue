@@ -28,7 +28,7 @@
                     Sign Up
                   </button>
 
-                  <button class="primary-btn small" @click="openModal('auth-signInForm')">
+                  <button class="primary-btn small" @click="openModal('auth-log-in-form')">
                     Sign In
                   </button>
                 </b-navbar-nav>

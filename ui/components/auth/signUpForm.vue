@@ -100,7 +100,7 @@ export default {
 
     <div class="tw-w-100 tw-flex tw-justify-center tw-items-center tw-my-4 tw-gap-1">
       <span class="tw-text-sm tw-text-center tw-text-gray-500">Already have an account?</span>
-      <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-signInForm')"> Sign In</span>
+      <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-log-in-form')"> Sign In</span>
     </div>
   </div>
 </template>
