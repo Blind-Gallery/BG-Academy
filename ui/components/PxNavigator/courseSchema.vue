@@ -20,6 +20,7 @@
 
       <!-- TEST CONTENT -->
       <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
+      <PxNavigator-challengeCard v-if="false" />
     </div>
   </div>
 </template>
