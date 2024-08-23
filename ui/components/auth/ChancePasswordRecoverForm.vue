@@ -14,7 +14,17 @@ export default {
     }
   },
   methods: {
+    validatePasswordMatch () {
+      if (this.passwordData.newPassword !== this.passwordData.confirmPassword) {
+        this.message = 'Passwords do not match.'
+        return false
+      }
+      return true
+    },
     async changePassword () {
+      if (!this.validatePasswordMatch()) {
+        return
+      }
       try {
         console.info('userId: ' + this.userId)
         const payload = {

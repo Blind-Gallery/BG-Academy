@@ -74,7 +74,7 @@ export default {
       :email="recoverPasswordForm.email"
       @code-validated="showNewPasswordForm = true"
     />
-    <auth-change-password-form
+    <auth-change-password-recover-form
       v-if="showNewPasswordForm"
       :user-id="userId"
     />
