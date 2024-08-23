@@ -284,7 +284,7 @@ export default {
     },
     sendFeedback () {
       console.info(this.courseFeedback)
-      // migrate logic to new component
+      // TODO: migrate logic to new component
     },
     async doLogout () {
       const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
