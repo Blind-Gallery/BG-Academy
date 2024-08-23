@@ -17,7 +17,6 @@ export default {
       modalContent.classList.remove('tw-scale-50')
       modalContent.classList.add('tw-scale-100')
     },
-
     closeModal () {
       const modal = this.$refs.modal
       const modalContent = this.$refs.modalContent
