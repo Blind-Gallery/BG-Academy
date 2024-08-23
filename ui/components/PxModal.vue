@@ -66,7 +66,11 @@ export default {
 
       <!-- Modal Body -->
       <div class="tw-my-4">
-        <component :is="currentComponent" @switchComponent="switchComponent" />
+        <component
+          :is="currentComponent"
+          @switchComponent="switchComponent"
+          @closeModal="closeModal"
+        />
       </div>
     </div>
   </div>
