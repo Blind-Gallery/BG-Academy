@@ -27,7 +27,7 @@ export default {
     passwordChanged () {
       this.showInsertCodeForm = false
       this.showNewPasswordForm = false
-      this.$emit('password-changed')
+      this.$emit('switchComponent', 'auth-sign-in-form')
     }
   }
 }
@@ -35,14 +35,7 @@ export default {
 </script>
 
 <template>
-  <b-modal id="recoverPassword" centered hidden-header hide-footer>
-    <template #modal-header="{ close }">
-      <h2>Recover password</h2>
-
-      <span style="cursor: pointer" @click="close()">
-        <Icon width="32" color="#888" icon="material-symbols:close" />
-      </span>
-    </template>
+  <div>
     <p style="font-size: small">
       Enter the email address you use on the platform. We will send you a
       link to reset your password.
@@ -78,10 +71,6 @@ export default {
       :email="recoverPasswordForm.email"
       @code-validated="showNewPasswordForm = true"
     />
-    <auth-recover-password-form
-      v-if="showNewPasswordForm"
-      :user-id="userId"
-      @password-changed="passwordChanged"
-    />
-  </b-modal>
+    <auth-recover-password-form v-if="showNewPasswordForm" :user-id="userId" @password-changed="passwordChanged" />
+  </div>
 </template>
