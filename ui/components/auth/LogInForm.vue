@@ -15,6 +15,7 @@ export default {
             ...this.signInForm
           }
         })
+        this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 401) {
           this.invalidMessage = 'Invalid email or password'
@@ -76,7 +77,9 @@ export default {
       <span>OR </span>
       <hr>
     </div>
-    <auth-log-in-wallet-button />
+    <auth-log-in-wallet-button
+      @closeModal="$emit('closeModal')"
+    />
     <div class="tw-w-100 tw-flex tw-justify-center tw-items-center tw-my-4 tw-gap-1">
       <span class="tw-text-sm tw-text-center tw-text-gray-500">Don't have an account yet?</span>
       <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-sign-up-form')"> Sign Up</span>

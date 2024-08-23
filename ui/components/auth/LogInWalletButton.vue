@@ -23,6 +23,7 @@ export default {
         }
 
         this.$bvModal.hide('signin')
+        this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 401) {
           this.invalidMessage =
