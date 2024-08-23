@@ -88,7 +88,7 @@ export default {
 
     <button
       class="tw-rounded tw-border tw-text-cyan-500 tw-p-2 tw-border-cyan-500 hover:tw-border-cyan-600 tw-ease-in-out tw-duration-200 hover:tw-text-cyan-600 tw-w-full"
-      @click="$emit('switchComponent', 'auth-walletForm')"
+      @click="$emit('switchComponent', 'auth-sign-up-wallet-form')"
     >
       <Icon
         icon="material-symbols:account-balance-wallet-outline"
