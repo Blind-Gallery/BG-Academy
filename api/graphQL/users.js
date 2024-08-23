@@ -49,7 +49,8 @@ query ($email: String = "") {
     email_info {
       email
       password
-      verificationCode
+      verification_code
+      change_password_request_code
     }
     tezos_info {
       signedMessage
@@ -68,7 +69,7 @@ query ($wallet: String = "") {
     email_info {
       email
       password
-      verificationCode
+      verification_code
     }
     tezos_info {
       signedMessage
@@ -129,6 +130,25 @@ mutation (
   }
 }
 `
+
+const UPDATE_CHANGE_PASSWORD_REQUEST_CODE = gql`
+mutation (
+  $email: String = "",
+  $code: String = ""
+) {
+  update_emails(
+    where: {
+      email: {_eq: $email}
+    },
+    _set: {
+      change_password_request_code: $code
+    }
+  ) {
+    affected_rows
+  }
+}
+`
+
 module.exports = {
   GET_USER_FROM_ID,
   GET_TEZOS_FROM_WALLET,
@@ -138,5 +158,6 @@ module.exports = {
   CREATE_USER,
   UPDATE_USER,
   REGISTER_WALLET,
-  UPDATE_USER_PASSWORD
+  UPDATE_USER_PASSWORD,
+  UPDATE_CHANGE_PASSWORD_REQUEST_CODE
 }

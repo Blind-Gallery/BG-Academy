@@ -25,6 +25,7 @@ class Payments {
   }
 
   async getOrCreatePaymentIntent ({ courseId, userId }) {
+    // TODO: Check if payment intent already exists
     log.info(`Creating payment intent for course ${courseId} and user ${userId}`)
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_PAYMENT_INTENT,
