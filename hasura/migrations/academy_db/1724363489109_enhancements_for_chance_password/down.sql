@@ -13,30 +13,11 @@ DROP TRIGGER IF EXISTS trigger_reset_change_password_request ON emails;
 DROP FUNCTION IF EXISTS reset_change_password_request();
 
 ALTER TABLE emails
-ADD COLUMN "isVerified" BOOLEAN DEFAULT false;
+RENAME COLUMN is_verified TO "isVerified";
 
 ALTER TABLE emails
-ADD COLUMN "verificationCode" TEXT null;
+RENAME COLUMN verification_code TO "verificationCode";
 
-UPDATE emails
-SET "isVerified" = (
-  SELECT is_verified
-  FROM emails
-  WHERE emails.id = emails.id
-);
-
-UPDATE emails
-SET "verificationCode" = (
-  SELECT verification_code
-  FROM emails
-  WHERE emails.id = emails.id
-);
-
-ALTER TABLE emails
-DROP COLUMN is_verified;
-
-ALTER TABLE emails
-DROP COLUMN verification_code;
 -- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
 -- alter table "public"."emails" add column "change_password_request_code" text
