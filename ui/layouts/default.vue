@@ -15,25 +15,14 @@
 </template>
 
 <script>
-import { dappClient } from '~/services/tezos'
 
 export default {
   data () {
     return {
 
     }
-  },
-
-  methods: {
-    async doLogout () {
-      const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
-      const { connected: isWalletConnected } = await checkIfWalletIsConnected()
-      if (isWalletConnected) {
-        await disconnectWallet()
-      }
-      this.$auth.logout()
-    }
   }
+
 }
 </script>
 
