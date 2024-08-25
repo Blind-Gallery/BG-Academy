@@ -178,25 +178,11 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
-      courseRate: null,
-      show: true,
-      courseFeedback: {}
+
     }
   },
-  mounted () {
-    this.$root.$on('bv::modal::show', (bvEvent, signup) => {
-      this.onReset(bvEvent, signup)
-    })
-  },
+
   methods: {
-    openModal (component) {
-      const modalInstance = this.$refs.modalInstance
-      modalInstance.showModal(component)
-    },
-    sendFeedback () {
-      console.info(this.courseFeedback)
-      // TODO: migrate logic to new component
-    },
     async doLogout () {
       const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
       const { connected: isWalletConnected } = await checkIfWalletIsConnected()
