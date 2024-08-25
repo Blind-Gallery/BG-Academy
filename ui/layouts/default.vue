@@ -2,100 +2,10 @@
 <template>
   <div>
     <PxAlert ref="alert" />
-    <PxModal ref="modalInstance" />
-    <!--HEADER-->
-    <header class="sticky-top">
-      <b-container style="max-width: 1240px">
-        <div>
-          <b-navbar class="px-0 justify-content-between" toggleable="lg">
-            <b-navbar-brand to="/">
-              <img src="../assets/academy-logo.png" alt="logo" width="160px">
-            </b-navbar-brand>
-
-            <b-navbar-toggle v-if="!$auth.loggedIn" target="nav-collapse" />
-
-            <b-collapse v-if="!$auth.loggedIn" id="nav-collapse" is-nav>
-              <!-- Right aligned nav items -->
-              <b-navbar-nav class="ml-auto">
-                <b-navbar-nav class="d-flex align-items-center main-menu">
-                  <b-nav-item @click="openModal('support-become-an-educator-form')">
-                    <span class="small">
-                      Become an educator
-                    </span>
-                  </b-nav-item>
-                  <div class="tw-flex tw-items-center lg:tw-gap-3">
-                    <button class=" secondary-btn small" @click="openModal('auth-sign-up-form')">
-                      Sign Up
-                    </button>
-
-                    <button class="primary-btn small" @click="openModal('auth-log-in-form')">
-                      Sign In
-                    </button>
-                  </div>
-                </b-navbar-nav>
-              </b-navbar-nav>
-            </b-collapse>
-
-            <!-- <button v-else class="tertiary-btn ml-auto" @click="doLogout">
-              <Icon
-                icon="material-symbols:logout-rounded"
-                width="24"
-                color="#888"
-              />
-              Log out
-            </button> -->
-
-            <div v-else>
-              <b-dropdown size="lg" variant="link" toggle-class="text-decoration-none" no-caret>
-                <template #button-content>
-                  <div class="header-pfp">
-                    <b-avatar width="100%" :src="$auth.user.pfp" />
-                  </div>
-                </template>
-                <b-dropdown-item href="#">
-                  <NuxtLink style="color:black; text-decoration: none;" to="/profile">
-                    Edit profile
-                  </NuxtLink>
-                </b-dropdown-item>
-                <b-dropdown-item @click="doLogout">
-                  Log out
-                </b-dropdown-item>
-              </b-dropdown>
-            </div>
-          </b-navbar>
-        </div>
-      </b-container>
-      <!--MODAL FEEDBACK-->
-      <b-modal id="modal-feedback" centered hide-footer>
-        <template #modal-header="{ close }">
-          <span />
-          <span style="cursor: pointer" @click="close()">
-            <Icon width="32" color="#888" icon="material-symbols:close" />
-          </span>
-        </template>
-        <h4>
-          Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
-        </h4>
-        <hr>
-        <p class="small">
-          Help us to rate this course to keep improving our content
-        </p>
-
-        <div class="mb-4">
-          <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
-        </div>
-        <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="sendFeedback">
-          <FormulateInput
-            name="feedback"
-            type="textarea"
-            label="Tell us what you liked and what you would improve about this course."
-            placeholder=""
-          />
-
-          <FormulateInput type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Send feedback'" />
-        </FormulateForm>
-      </b-modal>
+    <header class="tw-sticky tw-top-0 tw-py-4 tw-z-[1020] tw-px-2">
+      <layout-PxHeader />
     </header>
+
     <notifications position="bottom right" />
 
     <Nuxt />
