@@ -49,11 +49,12 @@ export default {
       <NuxtLink to="/">
         <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV" width="150px">
       </NuxtLink>
-      <div class="tw-flex tw-items-center tw-gap-2">
+      <div v-if="!$auth.loggedIn" class="tw-flex tw-items-center tw-gap-2">
         <button-PxTertiary text="Become an Educator" @click="openModal('support-become-an-educator-form');closeMobileMenu " />
         <button-PxSecondary text="Sign Up" @click="openModal('auth-sign-up-form')" />
         <button-PxPrimary text="Sign In" @click="openModal('auth-log-in-form')" />
       </div>
+      <layout-PxProfile v-else />
     </div>
     <!-- RESPONSIVE MENU BTNS -->
     <div class="tw-flex tw-items-center tw-justify-between lg:tw-hidden">
@@ -61,14 +62,18 @@ export default {
         <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV" width="150px">
       </NuxtLink>
 
-      <button v-if="!mobileMenuOpen" class="tw-block lg:tw-hidden tw-p-2 tw-rounded-md tw-focus:outline-none" @click="openMobileMenu">
-        <Icon width="32" icon="material-symbols-light:menu" />
-      </button>
+      <div v-if="!$auth.loggedIn">
+        <button v-if="!mobileMenuOpen" class="tw-block lg:tw-hidden tw-p-2 tw-rounded-md tw-focus:outline-none" @click="openMobileMenu">
+          <Icon width="32" icon="material-symbols-light:menu" />
+        </button>
 
-      <button v-else class="tw-block lg:tw-hidden tw-p-2 tw-rounded-md tw-focus:outline-none" @click="closeMobileMenu">
-        <Icon width="32" icon="material-symbols-light:close" />
-      </button>
+        <button v-else class="tw-block lg:tw-hidden tw-p-2 tw-rounded-md tw-focus:outline-none" @click="closeMobileMenu">
+          <Icon width="32" icon="material-symbols-light:close" />
+        </button>
+      </div>
+      <layout-PxProfile v-else />
     </div>
+
     <!-- RESPONSIVE MENU -->
     <div class="tw-relative">
       <div ref="responsiveMenu" class="tw-mt-4 tw-py-4 tw-flex tw-flex-col tw-gap-4 lg:tw-hidden tw-left-[-110%] tw-absolute tw-bg-white tw-w-full tw-ease-in-out tw-duration-200">
