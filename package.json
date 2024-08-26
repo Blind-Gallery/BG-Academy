@@ -5,7 +5,7 @@
     "scripts": {
     "postinstall": "if [ $CLIENT_ENV ]; then npm run postinstall-client; elif [ $SERVER_ENV ]; then npm run postinstall-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
     "postinstall-client": "cd ui && NODE_ENV=development yarn && yarn build",
-    "postinstall-server": "cd api && npm install",
+    "postinstall-server": "NODE_MODULES_CACHE=false ls && cd api && ls && npm install",
     "start": "if [ $CLIENT_ENV ]; then npm run start-client; elif [ $SERVER_ENV ]; then npm run start-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
     "start-client": "NODE_ENV=production cd ui && yarn start",
     "start-server": "NODE_ENV=production cd api && npm run start"
