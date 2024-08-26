@@ -247,9 +247,8 @@ export default {
         loader: 'file-loader'
       })
       config.module.rules.push({
-        test: /\.js$/,
+        test: /node_modules[\\/]@walletconnect/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!(marked|@walletconnect)\/).*/,
         options: {
           presets: ['@babel/preset-env']
         }
@@ -267,8 +266,7 @@ export default {
     '/plugins',
     'vue-stripe-checkout',
     'stripe-element-payment',
-    '@vue-stripe/vue-stripe',
-    'marked'
+    '@vue-stripe/vue-stripe'
   ]
 }
 
