@@ -238,6 +238,9 @@ const USER_COURSES = gql`query ($id: String = "") {
           last_chapter_id_seen
           course_id
           progress
+          course {
+            challenge
+          }
         }
       }`
 

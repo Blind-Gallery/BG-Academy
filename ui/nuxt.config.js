@@ -198,7 +198,6 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
       babelrc: true,
@@ -248,8 +247,9 @@ export default {
         loader: 'file-loader'
       })
       config.module.rules.push({
-        test: /node_modules[\\/]@walletconnect/,
+        test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules\/(?!(marked|@walletconnect)\/).*/,
         options: {
           presets: ['@babel/preset-env']
         }
@@ -267,7 +267,8 @@ export default {
     '/plugins',
     'vue-stripe-checkout',
     'stripe-element-payment',
-    '@vue-stripe/vue-stripe'
+    '@vue-stripe/vue-stripe',
+    'marked'
   ]
 }
 
