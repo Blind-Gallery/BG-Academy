@@ -104,6 +104,7 @@ query ($id: uuid!) {
     resources
     video_id
     next_chapter_id
+    challenge
     module {
       id
       duration
