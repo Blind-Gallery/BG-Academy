@@ -16,5 +16,6 @@
   "license": "MIT",
   "engines": {
     "node": "18.19.1"
-  }
+  },
+  "cacheDirectories": ["ui/node_modules", "api/node_modules"]
 }
