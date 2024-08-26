@@ -36,7 +36,7 @@ export default {
     ]
   },
   plugins: [
-
+    { src: '~/plugins/vue-markdown.js', ssr: false, mode: 'client' },
     { src: '~/plugins/vue-stripe.js', ssr: false },
     { src: '~/plugins/vue-confetti.js', mode: 'client' },
     { src: '~/plugins/notifications-ssr', ssr: true },

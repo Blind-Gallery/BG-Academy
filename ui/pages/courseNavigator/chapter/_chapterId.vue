@@ -58,7 +58,7 @@
           </Transition>
         </b-row>
 
-        <b-row v-if="chapterInfo.info || chapterInfo.resources">
+        <b-row v-if="(chapterInfo.info || chapterInfo.resources) && !loading">
           <b-col>
             <div class="w-100">
               <b-tabs content-class="mt-3">
@@ -90,7 +90,6 @@ import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
-import VueMarkdown from 'vue-markdown-render'
 import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
@@ -150,8 +149,7 @@ const USER_COURSES = gql`query ($id: String = "") {
 
 export default {
   components: {
-    PxPlayer,
-    VueMarkdown
+    PxPlayer
   },
 
   data () {
