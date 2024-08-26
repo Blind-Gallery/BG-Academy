@@ -1,5 +1,5 @@
 const log = require('pino')()
-const { create } = require('ipfs-http-client')
+const { create } = require('kubo-rpc-client')
 const { TezosConstants } = require('../constants')
 require('dotenv').config()
 
@@ -61,7 +61,7 @@ class TZIP {
   }
 
   async getMetadataCID () {
-    const metadataCID = await this.client.add(JSON.stringify(this.params))
+    const metadataCID = await this.client.pin.add(JSON.stringify(this.params))
     return 'ipfs://' + metadataCID.path
   }
 }

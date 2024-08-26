@@ -1,4 +1,4 @@
-const { create, urlSource } = require('ipfs-http-client')
+const { create } = require('kubo-rpc-client')
 const mime = require('mime-types')
 require('dotenv').config()
 
@@ -71,19 +71,11 @@ class BaseIpfs {
   }
 
   /**
-   * @param {String} data to store
-   * @returns {String} cid of the stored data
-   */
-  async fromUrl (url) {
-    return this.client.add(urlSource(url))
-  }
-
-  /**
    * @param {String or Uint8Array} data to store
    * @returns {String} cid of the stored data
    */
   async add (data) {
-    return await this.client.add(data)
+    return await this.client.pin.add(data)
   }
 
   /**
