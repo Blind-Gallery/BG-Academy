@@ -3,24 +3,14 @@
     <div v-if="!$apollo.loading">
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
-          <b-col
-            lg="9"
-            cols="12"
-
-            :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
-          >
+          <b-col lg="9" cols="12" :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'">
             <span
               v-b-tooltip.hover
               :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
               class="toggleNav-icon"
               @click="doHideNavBar()"
             >
-              <Icon
-                icon="material-symbols:menu-open"
-                :rotate="!navBarHidden ? '2':'null'"
-                width="32"
-                color="#fff"
-              />
+              <Icon icon="material-symbols:menu-open" :rotate="!navBarHidden ? '2':'null'" width="32" color="#fff" />
             </span>
 
             <div>
@@ -29,7 +19,6 @@
                 :video-id="chapterInfo.video_id"
                 :chapter-id="chapterInfo.id"
                 width="100%"
-
                 @ended-video="handleEndedVideo"
               />
             </div>
@@ -38,13 +27,13 @@
                 <h4>{{ chapterInfo.title }}</h4>
               </div>
               <div>
-                <button v-if="!endOfCourse" class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                <button
+                  v-if="!endOfCourse"
+                  class="primary-btn d-flex align-items-center justify-content-center"
+                  @click="nextChapter"
+                >
                   <span>Next</span>
-                  <Icon
-                    icon="material-symbols:skip-next-rounded"
-                    width="24"
-                    color="#fff"
-                  />
+                  <Icon icon="material-symbols:skip-next-rounded" width="24" color="#fff" />
                 </button>
               </div>
             </div>
@@ -63,24 +52,21 @@
 
               <div class="course-nav-container">
                 <!-- navigator -->
-                <PxNavigatorCourseSchema
-                  v-if="courseId"
-                  :course-id="courseId"
-                />
+                <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
               </div>
             </b-col>
           </Transition>
         </b-row>
 
-        <b-row v-if="false">
+        <b-row v-if="chapterInfo.info || chapterInfo.resources">
           <b-col>
             <div class="w-100">
               <b-tabs content-class="mt-3">
-                <b-tab title="Chapter info" active>
-                  <p>{{ chapterInfo.info }}</p>
+                <b-tab v-if="chapterInfo.info" title="Chapter info">
+                  <vue-markdown :source="chapterInfo.info" />
                 </b-tab>
-                <b-tab title="Resources">
-                  <p>{{ chapterInfo.resources }}</p>
+                <b-tab v-if="chapterInfo.resources" title="Resources">
+                  <vue-markdown :source="chapterInfo.resources" />
                 </b-tab>
               </b-tabs>
             </div>
@@ -104,6 +90,7 @@ import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore } from 'swiper-vue2'
 
 import 'swiper/swiper-bundle.css'
+import VueMarkdown from 'vue-markdown-render'
 import PxPlayer from '~/components/PxPlayer.vue'
 
 SwiperCore.use([Pagination, Navigation])
@@ -163,7 +150,8 @@ const USER_COURSES = gql`query ($id: String = "") {
 
 export default {
   components: {
-    PxPlayer
+    PxPlayer,
+    VueMarkdown
   },
 
   data () {
