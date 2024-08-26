@@ -47,6 +47,7 @@
     "ipfs-http-client": "53.0.1",
     "it-all": "^3.0.3",
     "jsonwebtoken": "^9.0.1",
+    "kubo-rpc-client": "^4.1.1",
     "mime-types": "^2.1.35",
     "pdfjs": "^2.5.2",
     "puppeteer": "^21.3.6",
