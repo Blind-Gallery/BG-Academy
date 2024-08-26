@@ -36,7 +36,8 @@ export default {
     ]
   },
   plugins: [
-
+    { src: '~/plugins/dompurify.js', mode: 'client' },
+    { src: '~/plugins/marked.js' },
     { src: '~/plugins/vue-stripe.js', ssr: false },
     { src: '~/plugins/vue-confetti.js', mode: 'client' },
     { src: '~/plugins/notifications-ssr', ssr: true },
@@ -248,7 +249,9 @@ export default {
         loader: 'file-loader'
       })
       config.module.rules.push({
-        test: /node_modules[\\/]@walletconnect/,
+        test: /\.m?js$/,
+        type: 'javascript/auto',
+        exclude: /node_modules\/(?!(marked|@walletconnect)\/).*/,
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env']
@@ -267,7 +270,8 @@ export default {
     '/plugins',
     'vue-stripe-checkout',
     'stripe-element-payment',
-    '@vue-stripe/vue-stripe'
+    '@vue-stripe/vue-stripe',
+    'marked'
   ]
 }
 

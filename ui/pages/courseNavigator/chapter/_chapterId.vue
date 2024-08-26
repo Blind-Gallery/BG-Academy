@@ -49,9 +49,7 @@
               </div>
             </div>
 
-            <div v-if="loading">
-              <b-skeleton-img />
-            </div>
+            <div v-dompurify-html="markDownTest" />
           </b-col>
           <!--HIDE NAV BAR ICON-->
 
@@ -168,6 +166,7 @@ export default {
 
   data () {
     return {
+      markdown: '# Title',
       courseId: '',
       testMessage: '',
       isEndedVideo: false,
@@ -217,6 +216,10 @@ export default {
       const noPendingQuestions = questions.length === 0
 
       return isLastModule && isLastChapter && noPendingQuestions
+    },
+    markDownTest () {
+      const rawHTML = this.$marked(this.markdown)
+      return rawHTML
     }
 
   },
