@@ -4,6 +4,10 @@
       <div v-if="comingSoon" class=" coming-soon">
         <span class="small " style="color: #00b9cd;"><b>Coming soon</b></span>
       </div>
+
+      <div v-if="comingSoon" class="category">
+        <span style="color: #ffff;"><b>{{ category }}</b></span>
+      </div>
       <div class="card-data p-4">
         <div class="d-flex align-items-center mb-2">
           <b-avatar style="border: 1px solid #fff;" :src="pfp" size="2rem" class="mr-2" /><span class="small">{{ instructor }}</span>
@@ -61,6 +65,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    category: {
+      type: String,
+      required: false,
+      default: 'Artists'
     }
   }
 }
@@ -113,10 +122,26 @@ export default {
 .coming-soon{
   z-index: 5;
   background-color: #fff;
-  right: 0; padding: 0.5rem;
+  right: 0;
+  padding: 0.5rem;
   border-radius: 0px 0px 0px 10px;
   position: absolute;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.category{
+  z-index:5;
+  background-color: #00000083;
+  left: 0;
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  padding:0.25rem;
+  margin:0.5rem;
+  min-width: 100px;
+  max-width: 150px;
+  text-align: center;
+ border-radius: 50px;
+ font-size: small;
 }
 
 @media (max-width:425px){

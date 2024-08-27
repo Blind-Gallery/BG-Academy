@@ -104,7 +104,6 @@
                 <b-col v-for="item in user_course" :key="item.id" cols="12" lg="4">
                   <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
                     <PxCard
-
                       :pfp="item.course.teacher.pfp"
                       :instructor="item.course.teacher.name"
                       :description="item.course.description"
@@ -226,29 +225,17 @@
             Upcoming courses
           </h4>
           <b-row>
-            <b-col cols="12" lg="6">
+            <b-col v-for="(course,index) in comingCourses" :key="index" cols="12" lg="6">
               <PxCardCourse
                 is-progress="false"
-                pfp="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo"
-                instructor="By Paul Schmidt, COO at fxhash"
-                description="Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors."
-                title="Introduction to Generative Art"
+                :pfp="course.pfp"
+                :instructor="course.instructor"
+                :description="course.description"
+                :title="course.title"
                 url=""
-                cover="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW"
+                :cover="course.cover"
                 :coming-soon="true"
-              />
-            </b-col>
-
-            <b-col cols="12" lg="6">
-              <PxCardCourse
-                :coming-soon="true"
-                is-progress="false"
-                pfp="https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg"
-                instructor="By Uncap Collective"
-                description="Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem."
-                title="A Collectors Journey"
-                url=""
-                cover="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s"
+                :category="course.category"
               />
             </b-col>
           </b-row>
@@ -563,7 +550,58 @@ export default {
         mintedDate: '04/09/2023',
         transaction: 'ooRhd...JVYDAM',
         transactionURL: 'https://tzkt.io/ooRhdcXTPCoYcAp33sRA3R1d5YFbbWXQDSVczTKjL3a8NJVYDAM/64307659/1'
-      }]
+      }],
+      comingCourses:
+      [
+        {
+          pfp: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo',
+          instructor: 'By Paul Schmidt, COO at fxhash',
+          title: 'Introduction to Generative Art',
+          description: 'Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW',
+          category: 'Artists, Collectors'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg',
+          instructor: 'By Uncap Collective',
+          title: 'A Collectors Journey',
+          description: 'Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s',
+          category: 'Collectors'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1589977797451288576/zZ_JdJaB_400x400.jpg',
+          instructor: 'By Dist',
+          title: 'Designing Sounds for Beginners',
+          description: 'Learn the fundamentals of digital sound-making for creatives.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmannDKXVxP2sqg9hKcEUi9ytRDBxRVS4zAAyYttmmxsVn',
+          category: 'Artists'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1525982570327990273/YJ8grBE8_400x400.jpg',
+          instructor: 'By Haiver',
+          title: 'Mastering The Artist Statement',
+          description: 'Learn how to create a simple and powerful artist statement.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK',
+          category: 'Artists'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1562451296338206720/kyeAnsga_400x400.jpg',
+          instructor: 'By Heeey',
+          title: 'Generative Coded Art 101',
+          description: 'Learn the fundamental concepts and history behind generative art.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC',
+          category: 'Artists, Collectors'
+        },
+        {
+          pfp: 'https://pbs.twimg.com/profile_images/1684158464551944193/_UYRB1ZM_400x400.jpg',
+          instructor: 'By ilithya',
+          title: 'Introduction to pixel shaders',
+          description: 'This course will walk you through the basics of computational thinking and creative coding with pixel shaders in GLSL.',
+          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby',
+          category: 'Artists'
+        }
+      ]
 
     }
   },
