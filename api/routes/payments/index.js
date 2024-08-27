@@ -6,7 +6,8 @@ const {
   stripePaymentIntent,
   stripePaymentVerify,
   tezosPaymentIntent,
-  tezosPaymentVerify
+  tezosPaymentVerify,
+  giftCourseSchema
 } = require('./schemas')
 
 /**
@@ -24,6 +25,8 @@ module.exports = async function (fastify, opts) {
     fastify.post('/tezos/payment-intent', { schema: tezosPaymentIntent }, tezosPaymentIntentHandler)
     // Endpoint when a user wants to verify a tezos payment
     fastify.post('/tezos/verify-payment', { schema: tezosPaymentVerify }, tezosPaymentVerifyHandler)
+    // Endpoint when a user wants to gift a course
+    fastify.post('/gift-course', { schema: giftCourseSchema }, giftCourseHandler)
   })
 }
 
@@ -61,4 +64,9 @@ async function tezosPaymentVerifyHandler (req, reply) {
 async function stripePaymentVerifyHandler (req, reply) {
   const { success, courseId } = await this.payments.verifyStripePayment(req.body)
   return { success, courseId }
+}
+
+async function giftCourseHandler (req, reply) {
+  const { success } = await this.payments.giftCourse(req.body)
+  return { success }
 }
