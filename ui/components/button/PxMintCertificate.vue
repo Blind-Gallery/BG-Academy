@@ -2,7 +2,7 @@
   <div class="w-100">
     <button
       v-if="!hash"
-      class="secondary-btn w-100"
+      class="tw-flex tw-w-full  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200"
       :disabled="loading"
       @click="getCertificate"
     >
@@ -11,10 +11,8 @@
     </button>
 
     <a v-else class="text-decoration-none w-100" :href="`${TZKT_ENDPOINT}/${hash}`" target="_blank">
-      <button class="secondary-btn w-100">
-
+      <button class="tw-flex tw-w-full  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200">
         Check transaction
-
       </button>
     </a>
   </div>
