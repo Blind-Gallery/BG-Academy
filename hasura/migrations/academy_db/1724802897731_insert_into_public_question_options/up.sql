@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Narrative generative art.', E'4250a8d7-0394-479d-a6ea-31ea11df39bd', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
