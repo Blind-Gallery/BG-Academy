@@ -56,8 +56,8 @@ class Documents {
       const pdf = await page.pdf({ format: 'A4', landscape: true })
       const image = await page.screenshot({ fullPage: true })
       await browser.close()
-      const pdfCID = await this.uploadToIPFS.add(pdf, `${data.student}-${data.courseTitle}-certificate.pdf`)
-      const imageCID = await this.uploadToIPFS.add(image, `${data.student}-${data.courseTitle}-image.png`)
+      const pdfCID = await this.uploadToIPFS(pdf, `${data.student}-${data.courseTitle}-certificate.pdf`)
+      const imageCID = await this.uploadToIPFS(image, `${data.student}-${data.courseTitle}-image.png`)
       return { pdfCID, imageCID }
     } catch (error) {
       log.error(error)

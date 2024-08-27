@@ -20,7 +20,7 @@ class Documents {
   }
 
   async uploadFile ({ buffer, fileType, fileName }) {
-    const cid = await this.docs.uploadToIPFS(buffer)
+    const cid = await this.docs.uploadToIPFS(buffer, fileName)
     return { cid }
   }
 
