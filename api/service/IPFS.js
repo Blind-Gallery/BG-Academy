@@ -12,7 +12,7 @@ class IPFS {
     }
   }
 
-  async upload (buffer, fileName) {
+  async add (buffer, fileName) {
     const form = new FormData()
     form.append('file', buffer, fileName)
     const auth = this.getHeaders()
