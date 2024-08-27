@@ -53,6 +53,8 @@
               <div class="course-nav-container">
                 <!-- navigator -->
                 <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
+
+                <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
               </div>
             </b-col>
           </Transition>
@@ -124,6 +126,7 @@ query ($id: uuid!) {
       course {
         id
         name
+        challenge
         modules(order_by: {created_at: asc}) {
           id
           next_module_id
@@ -158,6 +161,7 @@ export default {
       testMessage: '',
       isEndedVideo: false,
       loading: false,
+      challenge: null,
       chapterInfo: {
         id: '',
         video_id: '862461136',
@@ -249,6 +253,7 @@ export default {
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
         const courseId = this.chapterInfo.module.course.id
         this.courseId = data.chapters_by_pk.module.course.id
+        this.challenge = data.chapters_by_pk.module.course.challenge
         this.verifyUserCourses(courseId)
       } catch (err) {
         this.loading = false
