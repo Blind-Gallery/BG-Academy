@@ -1,5 +1,5 @@
 'use strict'
-const log = require('pino')()
+const { logger } = require('../../service')
 
 const {
   loginSchema,
@@ -69,8 +69,8 @@ async function signUpHandler (req, reply) {
 }
 
 async function refreshHandler (req, reply) {
-  log.info('======================= Refreshing token')
-  log.info(`refresh_token: ${JSON.stringify(req.cookies, null, 4)}`)
+  logger.info('======================= Refreshing token')
+  logger.info(`refresh_token: ${JSON.stringify(req.cookies, null, 4)}`)
   const {
     refreshToken
   } = req.cookies

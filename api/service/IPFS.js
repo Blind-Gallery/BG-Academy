@@ -1,4 +1,4 @@
-const log = require('pino')()
+const logger = require('./Logger')
 
 const FormData = require('form-data')
 const axios = require('axios').default
@@ -25,10 +25,10 @@ class IPFS {
         }
       })
 
-      log.info(`File uploaded! - File hash: ${response.data.Hash}`)
+      logger.info(`File uploaded! - File hash: ${response.data.Hash}`)
       return response.data.Hash
     } catch (error) {
-      log.error(`Error uploading file: ${fileName}, error: ${JSON.stringify(error)}`)
+      logger.error(`Error uploading file: ${fileName}, error: ${JSON.stringify(error)}`)
     }
   }
 }

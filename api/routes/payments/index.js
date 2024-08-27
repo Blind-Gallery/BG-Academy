@@ -1,5 +1,5 @@
 'use strict'
-const log = require('pino')()
+const { logger } = require('../../service')
 
 const {
   stripeSchema,
@@ -38,13 +38,13 @@ module.exports[Symbol.for('plugin-meta')] = {
 async function stripeVerificationHandler (req, reply) {
   const sig = req.headers['stripe-signature']
   const response = await this.payments.verifyStripeWebhook(sig, req.rawBody)
-  log.info(`stripe verify response:  ${JSON.stringify(response)}`)
+  logger.info(`stripe verify response:  ${JSON.stringify(response)}`)
   return response
 }
 
 async function stripePaymentIntentHandler (req, reply) {
   const paymentIntent = await this.payments.createStripePaymentIntent(req.body)
-  log.info(`Payment intent: ${JSON.stringify(paymentIntent)}`)
+  logger.info(`Payment intent: ${JSON.stringify(paymentIntent)}`)
   return { paymentIntent }
 }
 

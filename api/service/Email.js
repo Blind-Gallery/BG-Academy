@@ -1,6 +1,6 @@
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail')
-const log = require('pino')()
+const logger = require('./Logger')
 class Email {
   constructor ({ apiKey }) {
     this.sendgrid = sgMail
@@ -31,9 +31,9 @@ class Email {
 
     try {
       response = await this.sendgrid.send(msg)
-      log.info(`Status code: ${response[0].statusCode}`)
+      logger.info(`Status code: ${response[0].statusCode}`)
     } catch (error) {
-      log.error(`Error sending email to ${to} with error: `, error)
+      logger.error(`Error sending email to ${to} with error: `, error)
     }
 
     return response[0]
