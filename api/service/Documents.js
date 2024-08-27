@@ -12,9 +12,12 @@ class Documents {
     this.ipfs = new IPFS()
   }
 
-  async uploadToIPFS (file) {
-    const data = await this.ipfs.add({ content: file })
-    const cid = data.path
+  async uploadToIPFS (buffer, fileName) {
+    const cid = await this.ipfs.add(buffer, fileName)
+    log.info(`Document uploaded! - File hash: ${cid}`)
+    if (!cid) {
+      throw new Error('Error uploading file')
+    }
     return cid
   }
 
@@ -24,6 +27,7 @@ class Documents {
       const invoicePath = path.resolve(`./templates/${name}.html`)
       return await readFile(invoicePath, 'utf8')
     } catch (err) {
+      log.error('Error loading template file:', err)
       return Promise.reject(new Error('Could not load html template'))
     }
   }
@@ -41,6 +45,7 @@ class Documents {
    * }
    */
   async generateCertificate (data) {
+    log.info('Generating certificate')
     try {
       const res = await this.getTemplateHtml('certificate')
       const template = hb.compile(res, { strict: true })
@@ -48,13 +53,11 @@ class Documents {
       const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] })
       const page = await browser.newPage()
       await page.setContent(html)
-      const pdf = await page.pdf({ format: 'A4' })
+      const pdf = await page.pdf({ format: 'A4', landscape: true })
       const image = await page.screenshot({ fullPage: true })
       await browser.close()
-      const pdfIPFS = await this.ipfs.add({ content: pdf })
-      const pdfCID = pdfIPFS.path
-      const imageIPFS = await this.ipfs.add({ content: image })
-      const imageCID = imageIPFS.path
+      const pdfCID = await this.uploadToIPFS(pdf, `${data.student}-${data.courseTitle}-certificate.pdf`)
+      const imageCID = await this.uploadToIPFS(image, `${data.student}-${data.courseTitle}-image.png`)
       return { pdfCID, imageCID }
     } catch (error) {
       log.error(error)
