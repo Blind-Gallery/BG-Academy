@@ -82,7 +82,7 @@ class Login {
         user
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e.message)
       throw new Unauthorized('Wrong email')
     }
   }
@@ -121,7 +121,7 @@ class Login {
         user
       }
     } catch (e) {
-      logger.error(e)
+      logger.error(e.message)
       throw new Unauthorized('Wrong wallet')
     }
   }
@@ -185,7 +185,6 @@ class Login {
     if (!user) {
       throw new Unauthorized('Wrong email')
     }
-    logger.info(JSON.stringify(user, null, 4))
     logger.info(`Recover password for user: ${user.id}`)
     const code = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000)
     await this.gql.request(
