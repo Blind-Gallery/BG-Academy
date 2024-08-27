@@ -52,12 +52,12 @@ class TZIP {
   }
 
   async getMetadataCID () {
-    const metadataCID = await this.client.add(Buffer.from(JSON.stringify(this.params)))
+    const metadataCID = await this.client.add(Buffer.from(JSON.stringify(this.params)), `${this.params.name}-metadata.json`)
     log.info(`Metadata CID: ${metadataCID.path}`)
     if (!metadataCID) {
       throw new Error('Error uploading metadata')
     }
-    return 'ipfs://' + metadataCID.path
+    return 'ipfs://' + metadataCID
   }
 }
 

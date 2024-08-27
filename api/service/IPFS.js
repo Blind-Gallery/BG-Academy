@@ -28,7 +28,7 @@ class IPFS {
       log.info(`File uploaded! - File hash: ${response.data.Hash}`)
       return response.data.Hash
     } catch (error) {
-      log.error('Error uploading file:', error)
+      log.error(`Error uploading file: ${fileName}, error: ${JSON.stringify(error)}`)
     }
   }
 }
