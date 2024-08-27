@@ -23,11 +23,11 @@
           Instructed by {{ instructor }}
         </p>
         <div class="tw-flex tw-flex-col tw-gap-2">
-          <button-px-download-certificate
+          <certificate-download-button
             :course-id="courseId"
           />
 
-          <button-px-mint-certificate v-if="$auth?.user?.tezos_info" :hash="opHash" :course-id="courseId" />
+          <certificate-mint-button v-if="$auth?.user?.tezos_info" :hash="opHash" :course-id="courseId" />
         </div>
       </div>
     </div>
