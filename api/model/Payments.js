@@ -195,6 +195,7 @@ class Payments {
   }
 
   async addCourseToUser ({ courseId, userId }) {
+    logger.debug(`Adding course ${courseId} to user ${userId}`)
     const { insert_user_course_one: userCourse } = await this.gql.request(
       ADD_USER_TO_COURSE,
       { courseId, userId }
@@ -207,13 +208,11 @@ class Payments {
 
   async sendWelcomeToCourseEmail ({ courseId, userId }) {
     const { courses_by_pk: course } = await this.gql.request(
-      GET_COURSE_BY_ID,
-      { id: courseId }
+      GET_COURSE_BY_ID, { id: courseId }
     )
 
     const { users_by_pk: { email_info: emailInfo } } = await this.gql.request(
-      GET_USER_FROM_ID,
-      { id: userId }
+      GET_USER_FROM_ID, { userId }
     )
 
     if (!emailInfo?.email) {
@@ -227,8 +226,15 @@ class Payments {
       to: emailInfo.email,
       title: course.title,
       image: course.thumbnail,
-      link: 'https://academy.blindgallery.xyz/courseNavigator/chapter/2f2cf15e-ba25-4dbc-a5ae-384973fed5f5'
+      link: `https://academy.blindgallery.xyz/courseNavigator/chapter/${course.modules[0].chapters[0].id}`
     })
+  }
+
+  async giftCourse ({ courseId, userId }) {
+    logger.info(`Gifting course ${courseId} to user ${userId}`)
+    await this.addCourseToUser({ courseId, userId })
+
+    return { success: true }
   }
 
   async verifyStripePayment ({ paymentIntent, paymentIntentClientSecret }) {
