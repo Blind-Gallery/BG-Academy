@@ -21,20 +21,23 @@
           Instructed by {{ instructor }}
         </p>
 
-        <certificates-download-button
+        <px-download-certificate
           :course-id="courseId"
           class="mb-2"
         />
         <div v-if="$auth?.user?.tezos_info" class="d-flex w-100">
-          <certificates-mint-button :hash="opHash" :course-id="courseId" />
+          <px-mint-certificate :hash="opHash" :course-id="courseId" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PxDownloadCertificate from './button/PxDownloadCertificate.vue'
+import PxMintCertificate from './button/PxMintCertificate.vue'
 
 export default {
+  components: { PxDownloadCertificate, PxMintCertificate },
   props: {
     cover: {
       type: String,
