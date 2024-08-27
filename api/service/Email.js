@@ -54,18 +54,21 @@ class Email {
   }
 
   async sendWelcomeEmail ({ to }) {
+    logger.info(`Sending welcome email to ${to}`)
     // const subject = 'Welcome to the Academy by Blind Gallery'
     const res = await this.sendDynamicTemplate(to, 'd-5c203a8116914367a9da56dd352ef786')
     return res
   }
 
   async sendRecoverPasswordEmail ({ to, code }) {
+    logger.info(`Sending recover password email to ${to}`)
     // const subject = 'Recover your password'
     const res = await this.sendDynamicTemplate(to, 'd-0e252054914c4f7ea06b627f65fc23a6', { code })
     return res
   }
 
   async sendThanksForPurchaseEmail ({ to, title, image, link }) {
+    logger.info(`Sending thanks for purchase email to ${to} - ${link}`)
     const res = await this.sendDynamicTemplate(to, 'd-ca164928139a4d5da393809c8fc7d1a4', { title, image, link })
     return res
   }
