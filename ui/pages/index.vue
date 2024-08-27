@@ -150,7 +150,7 @@
               </div>
               <b-row>
                 <b-col v-for="certificates in user_course" :key="certificates?.course_id" lg="4">
-                  <PxCertificate
+                  <card-PxCertificate
                     :title="certificates?.course?.name"
                     :instructor="certificates?.course?.teacher?.name"
                     :cover="certificates?.course?.thumbnail"
