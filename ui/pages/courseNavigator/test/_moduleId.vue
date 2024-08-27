@@ -187,6 +187,7 @@
               <div class="course-nav-container">
                 <!-- add navigator  -->
                 <PxNavigatorCourseSchema :course-id="courseId" />
+                <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
               </div>
             </b-col>
           </Transition>
@@ -250,6 +251,7 @@ query ($id: uuid!) {
     id
     title
     course {
+      challenge
       id
       modules(order_by: {created_at: asc}) {
         id
@@ -321,6 +323,7 @@ export default {
       opHash: null,
       correctAnswers: 0,
       scorePercentage: 0,
+      challenge: null,
       loading: false,
       module: {
         id: '',
@@ -423,6 +426,7 @@ export default {
         })
         this.module = Object.assign({}, data.modules_by_pk)
         this.courseId = data.modules_by_pk.course.id
+        this.challenge = data.modules_by_pk.course.challenge
         this.verifyUserCourses(this.courseId)
         this.getCourseCertificate(this.courseId)
       } catch (err) {
@@ -431,6 +435,7 @@ export default {
         console.error(this.$route.params.chapterId)
       }
     },
+
     formatOptions (options) {
       const formattedOptions = {}
       for (const option of options) {
