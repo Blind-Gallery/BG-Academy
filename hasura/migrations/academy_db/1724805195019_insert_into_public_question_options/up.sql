@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'They represent ownership or proof of authenticity for unique digital items, including generative artworks.', E'55c6f583-41e8-49c5-8bbb-60bd8b58351e', E'c1b7a959-3fa9-493b-a804-e0e5a59ea68f');

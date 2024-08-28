@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'They are the only way generative art can be displayed and sold.', E'd20d1fd5-5098-4524-880a-6c7e081fc965', E'c1b7a959-3fa9-493b-a804-e0e5a59ea68f');
