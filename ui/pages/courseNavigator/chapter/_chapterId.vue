@@ -51,7 +51,24 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <!-- navigator -->
+                <certificate-open-modal-button :approved-course="true" @click="openModal()" />
+
+                <PxModal ref="modalInstance">
+                  <template #body>
+                    <div>
+                      <certificate-base-card
+                        v-if="courseId"
+                        :title="certificateInfo?.course?.name"
+                        :instructor="certificateInfo?.course?.teacher?.name"
+                        :cover="certificateInfo?.course?.thumbnail"
+                        :student="$auth.user.name"
+                        :course-id="courseId"
+                        :op-hash="certificateInfo?.certificate_mint_op"
+                      />
+                    </div>
+                  </template>
+                </PxModal>
+
                 <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
 
                 <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
