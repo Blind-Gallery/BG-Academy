@@ -1,54 +1,76 @@
+<script>
+export default {
+  data () {
+    return {
+      courseId: null
+    }
+  },
+
+  mounted () {
+    this.courseId = this.$route.params.courseId
+  }
+}
+</script>
+
 <template>
-  <div class="tw-container tw-px-4 tw-mx-auto tw-flex tw-justify-center tw-items-center lg:tw-container">
-    <div class="tw-flex tw-items-center  tw-flex-col tw-justify-center lg:tw-my-12">
-      <div class="tw-w-full">
-        <h4>Mint your project on objkt.com</h4>
+  <div class="tw-container tw-py-6">
+    <div class="tw-grid tw-grid-cols-12 tw-gap-4">
+      <div class="lg:tw-col-span-9 tw-col-span-12">
+        <div class="tw-flex tw-items-center  tw-flex-col tw-justify-center lg:tw-my-12">
+          <div class="tw-w-full">
+            <h4>Mint your project on objkt.com</h4>
+          </div>
+          <div class="tw-columns-1 lg:tw-columns-4 tw-my-4">
+            <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
+              <div class="tw-flex tw-border tw-flex-col tw-gap-2  tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
+                <Icon style="color:#00B9CD" icon="material-symbols-light:account-balance-wallet-outline" width="2.5rem" />
+                <h6 class="tw-font-bold ">
+                  Go to <a href="https://objkt.com/" target="_blank">objkt.com</a>
+                </h6>
+                <p class="tw-text-xs tw-text-gray-500">
+                  Connect your wallet to the site, if you don't have one, you can create one <a href="https://www.templewallet.com/" target="_blank">here.</a>
+                </p>
+              </div>
+            </div>
+            <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
+              <div class=" tw-w-full tw-flex tw-border tw-flex-col tw-gap-2  tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
+                <Icon style="color:#00B9CD" icon="material-symbols-light:add-circle-outline" width="2.5rem" />
+                <h6 class="tw-font-bold ">
+                  Create a new token
+                </h6>
+                <p class="tw-text-xs tw-text-gray-500">
+                  At the top of the menu, click on your profile picture and select the “Create” option.
+                </p>
+              </div>
+            </div>
+            <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
+              <div class=" tw-w-full tw-flex tw-border tw-flex-col tw-gap-2 tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
+                <Icon style="color:#00B9CD" icon="material-symbols-light:file-copy-outline-rounded" width="2.5rem" />
+                <h6 class="tw-font-bold ">
+                  Fill the form
+                </h6>
+                <p class="tw-text-xs tw-text-gray-500">
+                  Fill in the required fields and upload your project file.
+                </p>
+              </div>
+            </div>
+            <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
+              <div class=" tw-w-full tw-flex  tw-border tw-flex-col tw-gap-2 tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
+                <div><Icon style="color:#00B9CD" icon="material-symbols-light:checkbook-outline-rounded" width="2.5rem" /></div>
+                <h6 class="tw-font-bold ">
+                  Mint your shader
+                </h6>
+                <p class="tw-text-xs tw-text-gray-500">
+                  Sign in the transactions using your wallet to mint (upload) your shader to the blockchain.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="tw-columns-1 lg:tw-columns-4 tw-my-4">
-        <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
-          <div class="tw-flex tw-border tw-flex-col tw-gap-2  tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
-            <Icon style="color:#00B9CD" icon="material-symbols-light:account-balance-wallet-outline" width="2.5rem" />
-            <h6 class="tw-font-bold ">
-              Go to <a href="https://objkt.com/" target="_blank">objkt.com</a>
-            </h6>
-            <p class="tw-text-xs tw-text-gray-500">
-              Connect your wallet to the site, if you don't have one, you can create one <a href="https://www.templewallet.com/" target="_blank">here.</a>
-            </p>
-          </div>
-        </div>
-        <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
-          <div class=" tw-w-full tw-flex tw-border tw-flex-col tw-gap-2  tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
-            <Icon style="color:#00B9CD" icon="material-symbols-light:add-circle-outline" width="2.5rem" />
-            <h6 class="tw-font-bold ">
-              Create a new token
-            </h6>
-            <p class="tw-text-xs tw-text-gray-500">
-              At the top of the menu, click on your profile picture and select the “Create” option.
-            </p>
-          </div>
-        </div>
-        <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
-          <div class=" tw-w-full tw-flex tw-border tw-flex-col tw-gap-2 tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
-            <Icon style="color:#00B9CD" icon="material-symbols-light:file-copy-outline-rounded" width="2.5rem" />
-            <h6 class="tw-font-bold ">
-              Fill the form
-            </h6>
-            <p class="tw-text-xs tw-text-gray-500">
-              Fill in the required fields and upload your project file.
-            </p>
-          </div>
-        </div>
-        <div class="tw-w-full tw-mb-4 lg:tw-mb-0">
-          <div class=" tw-w-full tw-flex  tw-border tw-flex-col tw-gap-2 tw-rounded tw-shadow-sm tw-border-l-4 tw-border-l-cyan-500 tw-p-4 tw-h-[200px]">
-            <div><Icon style="color:#00B9CD" icon="material-symbols-light:checkbook-outline-rounded" width="2.5rem" /></div>
-            <h6 class="tw-font-bold ">
-              Mint your shader
-            </h6>
-            <p class="tw-text-xs tw-text-gray-500">
-              Sign in the transactions using your wallet to mint (upload) your shader to the blockchain.
-            </p>
-          </div>
-        </div>
+      <div v-if="$route.params.courseId" class="lg:tw-col-span-3 tw-col-span-12 tw-max-h-[600px] tw-overflow-y-auto">
+        <PxNavigatorCourseSchema :course-id="courseId" />
+        <PxNavigatorChallengeCard :class="$route.params.courseId === courseId ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
       </div>
     </div>
   </div>
