@@ -167,6 +167,21 @@ const USER_COURSES = gql`query ($id: String = "") {
         }
       }`
 
+const COURSE_CERTIFICATE = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      certificate_mint_op
+      course {
+        name
+        teacher {
+          name
+        }
+        thumbnail
+      }
+    }
+  }
+`
+
 export default {
   components: {
     PxPlayer
@@ -179,6 +194,7 @@ export default {
       isEndedVideo: false,
       loading: false,
       challenge: null,
+      certificateInfo: null,
       chapterInfo: {
         id: '',
         video_id: '862461136',
@@ -262,6 +278,22 @@ export default {
         })
     },
 
+    async getCertificateData (id) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_CERTIFICATE,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: id
+          }
+        })
+        this.certificateInfo = Object.assign({}, data.user_course_by_pk)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+      }
+    },
+
     async getChapter () {
       try {
         const { data } = await this.$apollo.query({
@@ -276,6 +308,7 @@ export default {
         this.courseId = data.chapters_by_pk.module.course.id
         this.challenge = data.chapters_by_pk.module.course.challenge
         this.verifyUserCourses(courseId)
+        this.getCertificateData(courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
