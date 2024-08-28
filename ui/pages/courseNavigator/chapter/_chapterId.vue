@@ -51,7 +51,7 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <certificate-open-modal-button :approved-course="true" @click="openModal()" />
+                <certificate-open-modal-button :course-id="courseId" @click="openModal()" />
 
                 <PxModal ref="modalInstance">
                   <template #body>
