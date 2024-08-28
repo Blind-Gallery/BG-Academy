@@ -1,32 +1,52 @@
 <!-- eslint-disable vue/no-side-effects-in-computed-properties -->
 <template>
   <div>
-    <header class="tw-sticky tw-top-0 tw-py-4 tw-z-[1020] tw-px-2">
+    <header ref="header" class="tw-sticky tw-top-0 tw-py-4 tw-z-[1020] tw-px-2">
       <layout-PxHeader />
     </header>
 
     <notifications position="bottom right" />
 
-    <Nuxt />
-    <footer class="tw-bg-gray-100">
+    <Nuxt :style="mainContentStyle" />
+    <footer ref="footer" class="tw-bg-gray-100">
       <layout-PxFooter />
     </footer>
   </div>
 </template>
 
 <script>
-
 export default {
   data () {
     return {
+      mainContentStyle: {}
+    }
+  },
+  mounted () {
+    this.updateMainContentMinHeight()
+    window.addEventListener('resize', this.updateMainContentMinHeight)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.updateMainContentMinHeight)
+  },
+  methods: {
+    updateMainContentMinHeight () {
+      const headerHeight = this.$refs.header.offsetHeight
+      const footerHeight = this.$refs.footer.offsetHeight
 
+      const minHeight = `calc(100vh - ${headerHeight}px - ${footerHeight}px)`
+
+      this.mainContentStyle = {
+        minHeight
+      }
     }
   }
-
 }
 </script>
 
 <style>
+.main-content {
+  min-height: calc(100vh - var(67px) - var(132px));
+}
 html {
   scroll-behavior: smooth;
 }
