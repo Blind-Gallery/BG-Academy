@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-container tw-px-4 tw-mx-auto  lg:tw-container">
+  <div class="tw-container tw-px-4 tw-mx-auto tw-flex tw-justify-center tw-items-center lg:tw-container">
     <div class="tw-flex tw-items-center  tw-flex-col tw-justify-center lg:tw-my-12">
       <div class="tw-w-full">
         <h4>Mint your project on objkt.com</h4>
