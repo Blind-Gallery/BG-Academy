@@ -1,5 +1,5 @@
 const { Unauthorized, BadRequest } = require('http-errors')
-const log = require('pino')()
+const { logger } = require('../service')
 
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
@@ -80,12 +80,12 @@ class User {
 
     // Create user
     if (email && password) {
-      log.info('Creating user with email and password')
+      logger.info('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
-      log.info('Creating user with wallet and signed message')
+      logger.info('Creating user with wallet and signed message')
       return this.createWithWallet({ name, wallet, publicKey, signedMessage, payload })
     }
 
@@ -153,7 +153,7 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    log.info(`User created ${JSON.stringify(user)}`)
+    logger.info(`User created ${JSON.stringify(user)}`)
 
     // Todo: retrieve user data from blockchain and save it
 

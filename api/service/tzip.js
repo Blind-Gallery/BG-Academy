@@ -1,6 +1,6 @@
-const log = require('pino')()
-const { create } = require('ipfs-http-client')
+const logger = require('./Logger')
 const { TezosConstants } = require('../constants')
+const IPFS = require('./IPFS')
 require('dotenv').config()
 
 class TZIP {
@@ -43,17 +43,8 @@ class TZIP {
       thumbnailUri
     }
 
-    const { hostname, port, protocol } = new URL(process.env.IPFS_URL)
-    const auth = 'Basic ' + Buffer.from(process.env.INFURA_PROJECT_ID + ':' +
-      process.env.INFURA_API_KEY).toString('base64')
-    this.client = create({
-      host: hostname,
-      port,
-      protocol,
-      headers: {
-        authorization: auth
-      }
-    })
+    const client = new IPFS()
+    this.client = client
   }
 
   getMetadata () {
@@ -61,8 +52,12 @@ class TZIP {
   }
 
   async getMetadataCID () {
-    const metadataCID = await this.client.add(JSON.stringify(this.params))
-    return 'ipfs://' + metadataCID.path
+    const metadataCID = await this.client.add(Buffer.from(JSON.stringify(this.params)), `${this.params.name}-metadata.json`)
+    logger.info(`Metadata CID: ${metadataCID.path}`)
+    if (!metadataCID) {
+      throw new Error('Error uploading metadata')
+    }
+    return 'ipfs://' + metadataCID
   }
 }
 
@@ -121,7 +116,7 @@ class TZIPFactory {
     tags,
     thumbnail
   }) {
-    log.info(`createWithDefaults ${artifact} - ${attributes} - ${creators} - ${decimals} - ${description} - ${display} - ${name} - ${rights} - ${royalties} - ${symbol} - ${tags} - ${thumbnail}`)
+    logger.info(`createWithDefaults ${artifact} - ${attributes} - ${creators} - ${decimals} - ${description} - ${display} - ${name} - ${rights} - ${royalties} - ${symbol} - ${tags} - ${thumbnail}`)
     if (!name) {
       name = 'Blind Gallery Academy Certificate'
     }

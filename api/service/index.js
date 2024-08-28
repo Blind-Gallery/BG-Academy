@@ -7,6 +7,7 @@ const Stripe = require('./Stripe')
 const Tezos = require('./Tezos')
 const CoinGecko = require('./CoinGecko')
 const TZIPFactory = require('./tzip')
+const logger = require('./Logger')
 const {
   AcademySmartContract,
   SbtSmartContract
@@ -23,5 +24,6 @@ module.exports = {
   CoinGecko,
   AcademySmartContract,
   SbtSmartContract,
-  TZIPFactory
+  TZIPFactory,
+  logger
 }

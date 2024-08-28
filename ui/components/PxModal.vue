@@ -70,6 +70,8 @@ export default {
           @switchComponent="switchComponent"
           @closeModal="closeModal"
         />
+
+        <slot name="body" />
       </div>
     </div>
   </div>

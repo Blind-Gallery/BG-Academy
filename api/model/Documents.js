@@ -1,5 +1,5 @@
 const { BadRequest } = require('http-errors')
-const log = require('pino')()
+const { logger } = require('../service')
 
 const { TZIPFactory } = require('../service')
 const { TZKT_ENDPOINT } = require('../constants/tezos')
@@ -20,7 +20,7 @@ class Documents {
   }
 
   async uploadFile ({ buffer, fileType, fileName }) {
-    const cid = await this.docs.uploadToIPFS(buffer)
+    const cid = await this.docs.uploadToIPFS(buffer, fileName)
     return { cid }
   }
 
@@ -29,7 +29,7 @@ class Documents {
       const { user_course: userCourse } = await this.gql.request(GET_USER_COURSE_INFO, { courseId, userId })
       return userCourse
     } catch (err) {
-      log.error(err)
+      logger.error(err)
       throw new BadRequest('Error getting certificate')
     }
   }
@@ -39,7 +39,7 @@ class Documents {
       const { update_user_course_by_pk: userCourse } = await this.gql.request(UPDATE_USER_COURSE_CERTIFICATE, { courseId, userId, certificateCID, certificateImageCID })
       return userCourse
     } catch (err) {
-      log.error(err)
+      logger.error(err)
       throw new BadRequest('Error updating certificate')
     }
   }
@@ -76,12 +76,34 @@ class Documents {
         { courseId, userId, soulBoundTokenId, opHash })
       return userCourse
     } catch (err) {
-      log.error(err)
+      logger.error(err)
       throw new BadRequest('Error updating certificate')
     }
   }
 
+  async assertUserIsAllowedToGenerateCertificate ({ courseId, userId }) {
+    logger.info(`Checking if user ${userId} is allowed to generate certificate for course ${courseId}`)
+    const { user_course: userCourse } = await this.gql.request(GET_USER_COURSE_INFO, { courseId, userId })
+
+    if (!userCourse[0]) throw new BadRequest('User not enrolled in course')
+
+    const userQuestions = userCourse[0].user_info.user_questions
+    if (!userQuestions.length) throw new BadRequest('User has not completed any questions')
+
+    const courseQuestions = userCourse[0].course.modules
+    const totalQuestions = courseQuestions.reduce((acc, module) => acc + module.questions_aggregate.aggregate.count, 0)
+    logger.debug(`Total questions in course: ${totalQuestions}`)
+
+    const correctQuestions = userQuestions.filter(q => q.answer.is_correct).length
+    const percentage = (correctQuestions / totalQuestions) * 100
+    logger.info(`User has completed ${percentage}% of questions, correct: ${correctQuestions}, total: ${totalQuestions}`)
+    if (percentage < 70) throw new BadRequest('User has not completed enough questions')
+
+    logger.info('User is allowed to generate certificate')
+  }
+
   async generateCertificate ({ courseId, userId }) {
+    await this.assertUserIsAllowedToGenerateCertificate({ courseId, userId })
     let cid = ''
     // Check if certificate already exists
     const userCourse = await this.getCertificate({ courseId, userId })
@@ -103,7 +125,7 @@ class Documents {
 
       cid = pdfCID
     } catch (err) {
-      log.error(err)
+      logger.error(err)
     }
 
     return { cid }
@@ -135,7 +157,7 @@ class Documents {
       await this.updateSoulBoundCertificate({ courseId, userId, opHash })
       return { status, opHash }
     } catch (err) {
-      log.error(err)
+      logger.error(err)
     }
   }
 }

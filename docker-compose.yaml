@@ -21,7 +21,7 @@ services:
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://data-connector-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://data-connector-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://data-connector-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://data-connector-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://data-connector-agent:8081/api/v1/snowflake"}}}}'
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'unauthorized'
-      ACTION_SERVER_ENDPOINT: http://host.docker.internal:5000/
+      ACTION_SERVER_ENDPOINT: http://host.docker.internal:3000/
     depends_on:
       data-connector-agent:
         condition: service_healthy
