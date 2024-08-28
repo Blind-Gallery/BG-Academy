@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Generative AI art.', E'66f52200-91a0-44b7-b649-e0fa375b8445', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');

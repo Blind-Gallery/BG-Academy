@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Algorithmic abstraction.', E'62220c6a-7ab6-45d7-a48e-87d6375d1f64', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
