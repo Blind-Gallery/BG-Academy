@@ -12,10 +12,10 @@ INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id
 
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'Which style of generative art draws inspiration from natural phenomena and biological processes?', null, E'95390883-1a17-406b-87c8-679af4dba456', E'3c863d7e-cf4c-4dfd-8c98-fa117cee3908');
 
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Algorithmic abstraction.', E'62220c6a-7ab6-45d7-a48e-87d6375d1f64', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Algorithmic abstraction.', E'62220c6a-7ab6-45d7-a48e-87d6375d1f64', E'95390883-1a17-406b-87c8-679af4dba456');
 
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Narrative generative art.', E'4250a8d7-0394-479d-a6ea-31ea11df39bd', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Narrative generative art.', E'4250a8d7-0394-479d-a6ea-31ea11df39bd', E'95390883-1a17-406b-87c8-679af4dba456');
 
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Generative AI art.', E'66f52200-91a0-44b7-b649-e0fa375b8445', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Generative AI art.', E'66f52200-91a0-44b7-b649-e0fa375b8445', E'95390883-1a17-406b-87c8-679af4dba456');
 
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Organic generative art.', E'16c2a2c8-6cfb-4ab9-b5d6-0f8051fd1177', E'd190d41a-b6ae-41a2-bd6f-00481e9002a0');
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Organic generative art.', E'16c2a2c8-6cfb-4ab9-b5d6-0f8051fd1177', E'95390883-1a17-406b-87c8-679af4dba456');
