@@ -21,7 +21,7 @@ app.listen({
   host: process.env.HOST || '::'
 }, (err) => {
   if (err) {
-    app.log.error(err)
+    app.logger.error(err)
     process.exit(1)
   }
 })

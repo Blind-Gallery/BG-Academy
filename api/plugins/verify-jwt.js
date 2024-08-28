@@ -6,16 +6,16 @@ const { Unauthorized } = require('http-errors')
 const hasuraDomain = 'https://hasura.io/jwt/claims'
 
 async function authenticate (req) {
-  const log = req.log
+  const logger = req.log
   if (req.headers && req.headers.authorization) {
     const authComponents = req.headers.authorization.split(' ')
     if (authComponents.length === 2 && authComponents[0].toLowerCase() === 'bearer') {
       const token = authComponents[1]
       if (token !== '') {
         try {
-          log.info(`Received access token from request header: ${token}`)
+          logger.info(`Received access token from request header: ${token}`)
           const verifiedToken = this.jwt.verifyToken(token)
-          log.info(`Verified token: ${JSON.stringify(verifiedToken, null, 4)}`)
+          logger.info(`Verified token: ${JSON.stringify(verifiedToken, null, 4)}`)
           const hasuraClaims = verifiedToken[hasuraDomain]
 
           req.user = {
@@ -24,7 +24,7 @@ async function authenticate (req) {
           return
         } catch (err) {
           const msg = `Authentication failed, error: ${err}`
-          log.info(`Authentication failed, error: ${err}`)
+          logger.info(`Authentication failed, error: ${err}`)
           throw new Unauthorized(msg)
         }
       }

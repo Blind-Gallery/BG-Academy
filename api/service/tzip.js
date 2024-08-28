@@ -1,4 +1,4 @@
-const log = require('pino')()
+const logger = require('./Logger')
 const { TezosConstants } = require('../constants')
 const IPFS = require('./IPFS')
 require('dotenv').config()
@@ -53,7 +53,7 @@ class TZIP {
 
   async getMetadataCID () {
     const metadataCID = await this.client.add(Buffer.from(JSON.stringify(this.params)), `${this.params.name}-metadata.json`)
-    log.info(`Metadata CID: ${metadataCID.path}`)
+    logger.info(`Metadata CID: ${metadataCID.path}`)
     if (!metadataCID) {
       throw new Error('Error uploading metadata')
     }
@@ -116,7 +116,7 @@ class TZIPFactory {
     tags,
     thumbnail
   }) {
-    log.info(`createWithDefaults ${artifact} - ${attributes} - ${creators} - ${decimals} - ${description} - ${display} - ${name} - ${rights} - ${royalties} - ${symbol} - ${tags} - ${thumbnail}`)
+    logger.info(`createWithDefaults ${artifact} - ${attributes} - ${creators} - ${decimals} - ${description} - ${display} - ${name} - ${rights} - ${royalties} - ${symbol} - ${tags} - ${thumbnail}`)
     if (!name) {
       name = 'Blind Gallery Academy Certificate'
     }

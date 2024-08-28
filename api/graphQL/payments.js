@@ -8,6 +8,11 @@ query ($id: String!) {
     price
     thumbnail
     name
+    modules(order_by: {created_at: asc}, limit: 1) {
+      chapters(order_by: {created_at: asc}, limit: 1) {
+        id
+      }
+    }
   }
 }
 `

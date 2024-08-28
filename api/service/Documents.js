@@ -1,4 +1,5 @@
-const log = require('pino')()
+const logger = require('./Logger')
+
 const fs = require('fs')
 const path = require('path')
 const utils = require('util')
@@ -14,7 +15,7 @@ class Documents {
 
   async uploadToIPFS (buffer, fileName) {
     const cid = await this.ipfs.add(buffer, fileName)
-    log.info(`Document uploaded! - File hash: ${cid}`)
+    logger.info(`Document uploaded! - File hash: ${cid}`)
     if (!cid) {
       throw new Error('Error uploading file')
     }
@@ -22,12 +23,12 @@ class Documents {
   }
 
   async getTemplateHtml (name) {
-    log.info('Loading template file in memory')
+    logger.info('Loading template file in memory')
     try {
       const invoicePath = path.resolve(`./templates/${name}.html`)
       return await readFile(invoicePath, 'utf8')
     } catch (err) {
-      log.error('Error loading template file:', err)
+      logger.error('Error loading template file:', err)
       return Promise.reject(new Error('Could not load html template'))
     }
   }
@@ -45,7 +46,7 @@ class Documents {
    * }
    */
   async generateCertificate (data) {
-    log.info('Generating certificate')
+    logger.info('Generating certificate')
     try {
       const res = await this.getTemplateHtml('certificate')
       const template = hb.compile(res, { strict: true })
@@ -60,7 +61,7 @@ class Documents {
       const imageCID = await this.uploadToIPFS(image, `${data.student}-${data.courseTitle}-image.png`)
       return { pdfCID, imageCID }
     } catch (error) {
-      log.error(error)
+      logger.error(error)
       throw error
     }
   }

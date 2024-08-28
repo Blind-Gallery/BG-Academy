@@ -38,3 +38,10 @@ array_relationships:
         table:
           name: user_module
           schema: public
+  - name: user_questions
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: user_question
+          schema: public

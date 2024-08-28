@@ -1,6 +1,23 @@
-actions: []
+actions:
+  - name: gift_course
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_SERVER_ENDPOINT}}payments/gift-course'
+      forward_client_headers: true
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "userId" :{{$body.input.req.user_id}},
+              "courseId" :{{$body.input.req.course_id}}
+            }
+        template_engine: Kriti
+        version: 2
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+    - name: giftCourseInput
+  objects:
+    - name: giftCourseOutput
   scalars: []
