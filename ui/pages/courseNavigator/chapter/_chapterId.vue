@@ -234,6 +234,10 @@ export default {
   },
 
   methods: {
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
