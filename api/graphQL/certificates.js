@@ -5,16 +5,38 @@ query ($userId: String!, $courseId: String!) {
   user_course(where: {user_id: {_eq: $userId}, course_id: {_eq: $courseId}}) {
     certificate_cid
     certificate_image_cid
+    course {
+      name
+      teacher {
+        name
+      }
+      modules {
+        questions_aggregate {
+          aggregate {
+            count
+          }
+        }
+      }
+    }
     user_info {
       name
       tezos_info {
         wallet
       }
-    }
-    course {
-      name
-      teacher {
-        name
+      user_questions(
+        where: {
+          question: {
+            module: {
+              course_id: {
+                _eq: $courseId
+              }
+            }
+          }
+        }
+      ) {
+        answer {
+          is_correct
+        }
       }
     }
   }
