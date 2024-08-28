@@ -164,9 +164,28 @@
             <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
               <!--NAV BAR PARENT CONTAINER-->
 
-              <div class="course-nav-container">
-                <!-- add navigator  -->
-                <PxNavigatorCourseSchema :course-id="courseId" />
+              <div>
+                <!-- TODO: ADD VALIDATION TO KNOW IF THE USER HAS ALREADY ENDED THE EXAMS -->
+                <certificate-open-modal-button :approved-course="true" @click="openModal('certificate-modal-card')" />
+                <PxModal ref="modalInstance">
+                  <template #body>
+                    <div>
+                      <certificate-base-card
+                        v-if="courseId"
+                        :title="certificateInfo?.course?.name"
+                        :instructor="certificateInfo?.course?.teacher?.name"
+                        :cover="certificateInfo?.course?.thumbnail"
+                        :student="$auth.user.name"
+                        :course-id="courseId"
+                        :op-hash="certificateInfo?.certificate_mint_op"
+                      />
+                    </div>
+                  </template>
+                </PxModal>
+
+                <PxNavigatorCourseSchema
+                  :course-id="courseId"
+                />
                 <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
               </div>
             </b-col>
