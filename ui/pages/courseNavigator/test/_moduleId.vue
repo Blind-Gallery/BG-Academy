@@ -1,26 +1,6 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <b-modal id="claim-certificate" centered hide-header hide-footer>
-        <div class="d-flex align-items-center justify-content-center flex-column">
-          <div class="d-flex align-items-center justify-content-center w-75">
-            <Icon icon="material-symbols:verified-outline-rounded" color="#00b9cd" width="64" />
-          </div>
-
-          <h2 style="color:#00b9cd">
-            Congratulations!
-          </h2>
-
-          <p class="small text-center">
-            You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
-          </p>
-          <div class="d-flex mt-4 flex-column w-100" style="gap:1rem">
-            <certificates-download-button :course-id="courseId" />
-            <certificates-mint-button :hash="opHash" :course-id="courseId" />
-          </div>
-        </div>
-      </b-modal>
-
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
