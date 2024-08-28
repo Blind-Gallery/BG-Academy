@@ -1,0 +1,1 @@
+INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id") VALUES (E'What is a defining feature of generative art?', null, E'9a572d3b-2f65-4bc0-84b5-9b2f0729ee1c', E'3c863d7e-cf4c-4dfd-8c98-fa117cee3908');

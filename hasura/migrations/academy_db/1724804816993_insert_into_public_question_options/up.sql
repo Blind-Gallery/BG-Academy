@@ -1,0 +1,1 @@
+INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (true, E'Its ability to produce unique and unpredictable outcomes.', E'd5665a2b-ec2b-4cfb-8591-90d0991e3e9e', E'9a572d3b-2f65-4bc0-84b5-9b2f0729ee1c');
