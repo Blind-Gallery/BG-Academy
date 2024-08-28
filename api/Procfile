@@ -1,1 +1,1 @@
-worker: cd api && ls && es -- npm run start
+web: cd api && ls && npm run start
