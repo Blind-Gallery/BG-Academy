@@ -280,6 +280,21 @@ mutation ($objects: [user_question_insert_input!]!) {
   }
 }`
 
+const COURSE_CERTIFICATE = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      certificate_mint_op
+      course {
+        name
+        teacher {
+          name
+        }
+        thumbnail
+      }
+    }
+  }
+`
+
 export default {
   components: {
     Swiper,
@@ -318,6 +333,7 @@ export default {
       scorePercentage: 0,
       challenge: null,
       loading: false,
+      certificateInfo: null,
       module: {
         id: '',
         title: '',
@@ -366,18 +382,26 @@ export default {
   },
 
   methods: {
-    getCourseCertificate (courseId) {
-      this.$apollo.query({
-        query: CERTIFICATE_MINT_OP,
-        variables: {
-          user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
-          course_id: courseId
-        }
-      }).then((response) => {
-        this.opHash = response.data.user_course_by_pk.certificate_mint_op
-      }).catch((error) => {
-        console.error(error)
-      })
+
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
+
+    async getCertificateData (id) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_CERTIFICATE,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: id
+          }
+        })
+        this.certificateInfo = Object.assign({}, data.user_course_by_pk)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+      }
     },
 
     verifyUserCourses (courseId) {
@@ -421,7 +445,7 @@ export default {
         this.courseId = data.modules_by_pk.course.id
         this.challenge = data.modules_by_pk.course.challenge
         this.verifyUserCourses(this.courseId)
-        this.getCourseCertificate(this.courseId)
+        this.getCertificateData(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
