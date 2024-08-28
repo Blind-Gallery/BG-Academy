@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'They replace traditional art forms entirely.', E'8570d3a8-f18d-409a-931a-b1908a08e08c', E'c1b7a959-3fa9-493b-a804-e0e5a59ea68f');

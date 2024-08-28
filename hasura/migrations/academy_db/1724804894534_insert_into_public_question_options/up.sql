@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Its strict adherence to realism and photorealistic styles.', E'f828a2d6-e986-4804-9438-4ff1a5586dcd', E'9a572d3b-2f65-4bc0-84b5-9b2f0729ee1c');

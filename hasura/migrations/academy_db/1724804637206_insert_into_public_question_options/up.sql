@@ -1,1 +1,0 @@
-INSERT INTO "public"."question_options"("is_correct", "text", "id", "question_id") VALUES (false, E'Its consistent and predictable outcomes.', E'b9ae092e-aba6-402c-8b67-c53f8c41f25c', E'9a572d3b-2f65-4bc0-84b5-9b2f0729ee1c');
