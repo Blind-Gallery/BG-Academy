@@ -1,13 +1,51 @@
 <script>
+import { gql } from 'graphql-tag'
+
+const COURSE_CERTIFICATE = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      certificate_mint_op
+      course {
+        name
+        teacher {
+          name
+        }
+        thumbnail
+      }
+    }
+  }
+`
 export default {
   data () {
     return {
-      courseId: null
+      courseId: null,
+      certificateInfo: null
     }
   },
-
-  mounted () {
+  async mounted () {
     this.courseId = this.$route.params.courseId
+    await this.getCertificateData()
+  },
+  methods: {
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
+    async getCertificateData () {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_CERTIFICATE,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: this.courseId
+          }
+        })
+        this.certificateInfo = Object.assign({}, data.user_course_by_pk)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+      }
+    }
   }
 }
 </script>
@@ -69,6 +107,22 @@ export default {
         </div>
       </div>
       <div v-if="$route.params.courseId" class="lg:tw-col-span-3 tw-col-span-12 tw-max-h-[600px] tw-overflow-y-auto">
+        <certificate-open-modal-button :approved-course="true" @click="openModal()" />
+        <PxModal ref="modalInstance">
+          <template #body>
+            <div>
+              <certificate-base-card
+                v-if="courseId"
+                :title="certificateInfo?.course?.name"
+                :instructor="certificateInfo?.course?.teacher?.name"
+                :cover="certificateInfo?.course?.thumbnail"
+                :student="$auth.user.name"
+                :course-id="courseId"
+                :op-hash="certificateInfo?.certificate_mint_op"
+              />
+            </div>
+          </template>
+        </PxModal>
         <PxNavigatorCourseSchema :course-id="courseId" />
         <PxNavigatorChallengeCard :class="$route.params.courseId === courseId ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
       </div>
