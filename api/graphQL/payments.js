@@ -6,6 +6,7 @@ query ($id: String!) {
     onchain_id
     id
     price
+    discount_price
     thumbnail
     name
     modules(order_by: {created_at: asc}, limit: 1) {
