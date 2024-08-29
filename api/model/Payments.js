@@ -46,11 +46,16 @@ class Payments {
       { id: courseId }
     )
 
-    logger.info(`Course data: ${JSON.stringify(course)}`)
+    logger.debug(`Course data: ${JSON.stringify(course)}`)
+    logger.info(`Course ${courseId} has a price: ${course.price}`)
+    let price = course.price
 
-    logger.info(`Course price: ${course.price}`)
+    if (course.discount_price) {
+      logger.info(`Course ${courseId} has a discount price: ${course.discount_price}`)
+      price = course.discount_price
+    }
 
-    return { price: course.price, onchainId: course.onchain_id }
+    return { price, onchainId: course.onchain_id }
   }
 
   async getTezosPrice (usdAmount) {

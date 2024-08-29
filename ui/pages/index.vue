@@ -453,7 +453,13 @@ export default {
   apollo: {
     courses: {
       query: gql`query {
-        courses {
+        courses(
+          where: {
+            visible: {
+              _eq: true
+            }
+          }
+        ) {
           id
           level
           language
@@ -472,8 +478,13 @@ export default {
     },
     user_course: {
       query: gql`query ($id: String = "") {
-        user_course( where:
-          {user_id: {_eq: $id}}) {
+        user_course(
+          where: {
+            user_id: {
+              _eq: $id
+            }
+          }
+        ) {
           last_chapter_id_seen
           course_id
           progress
