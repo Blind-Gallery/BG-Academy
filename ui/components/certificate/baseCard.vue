@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="tw-rounded tw-shadow tw-overflow-hidden">
+    <div :class="approvedCourse ? '':'tw-opacity-50 tw-cursor-not-allowed' " class="tw-rounded tw-shadow tw-overflow-hidden">
       <div class="tw-w-full tw-h-[260px]">
         <img class="tw-w-full tw-h-full tw-object-cover" :src="cover" alt="Cover Image">
       </div>
@@ -11,6 +11,7 @@
           </h6>
           <div>
             <Icon
+              v-if="approvedCourse"
               v-b-tooltip.hover
               title="Course certificate"
               color="#00b9cd"
@@ -22,7 +23,7 @@
         <p class="tw-text-sm tw-text-gray-500">
           Instructed by {{ instructor }}
         </p>
-        <div class="tw-flex tw-flex-col tw-gap-2">
+        <div v-if="approvedCourse" class="tw-flex tw-flex-col tw-gap-2">
           <certificate-download-button
             :course-id="courseId"
           />
