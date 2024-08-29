@@ -157,6 +157,7 @@
                     :student="$auth.user.name"
                     :course-id="certificates?.course_id"
                     :op-hash="certificates?.certificate_mint_op"
+                    @certificate-received="handleCertificate"
                   />
                 </b-col>
               </b-row>
