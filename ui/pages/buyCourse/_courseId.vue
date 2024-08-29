@@ -88,7 +88,7 @@
                 <p class="m-0">
                   Access course
                 </p>
-                <span v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'" class="tw-text-green-500 tw-text-xs">Launch Discount (You save 25%!)</span>
+                <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
               <div v-if="courses[0].id !== '5f1f6044-21ba-4409-880e-02cd36568697'">
                 <button class="primary-btn w-100 " @click="openModal">
@@ -104,7 +104,7 @@
                 <payments-tezos-generate :course-id="courses[0].id" />
               </div>
               <div v-else class="tw-p-2 tw-rounded tw-border">
-                <span class="tw-text-xs">Launch on September 3rd, 6 pm CET / 12 pm EST</span>
+                <span class="tw-text-xs">Launch on {{ courses[0].release_date | formatDate }}</span>
               </div>
             </div>
 
@@ -245,6 +245,30 @@ export default {
           }
         }
       }
+    }
+  },
+  filters: {
+    formatDate (value) {
+      const date = new Date(value)
+
+      // Get the month name
+      const options = { month: 'long' }
+      const month = new Intl.DateTimeFormat('en-US', options).format(date)
+
+      // Get the day and add "rd"
+      const day = date.getDate()
+      const dayWithSuffix = `${day}rd`
+
+      // Get the hour (6 PM)
+      let hours = date.getHours()
+      let period = 'AM'
+      if (hours >= 12) {
+        hours = hours % 12 || 12
+        period = 'PM'
+      }
+      if (hours === 6) { period = 'PM' }
+
+      return `${month} ${dayWithSuffix}, ${hours} ${period}`
     }
   },
 
