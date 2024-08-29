@@ -76,21 +76,21 @@
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
                   <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                    ${{ courses[0].price }}
+                    ${{ courses[0].discount_price || courses[0].price }}
                   </h2>
                   <h6
-                    v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'"
+                    v-if="courses[0].discount_price"
                     class="m-0  tw-line-through tw-text-gray-500"
                   >
-                    $99
+                    ${{ courses[0].price }}
                   </h6>
                 </div>
                 <p class="m-0">
                   Access course
                 </p>
-                <span v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'" class="tw-text-green-500 tw-text-xs">Launch Discount (You save 25%!)</span>
+                <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
-              <div v-if="courses[0].id !== '5f1f6044-21ba-4409-880e-02cd36568697'">
+              <div v-if="courses[0].release_date ? new Date(courses[0].release_date) < new Date() : true">
                 <button class="primary-btn w-100 " @click="openModal">
                   <Icon
                     icon="material-symbols:credit-card"
@@ -104,7 +104,7 @@
                 <payments-tezos-generate :course-id="courses[0].id" />
               </div>
               <div v-else class="tw-p-2 tw-rounded tw-border">
-                <span class="tw-text-xs">Launch on September 3rd, 6 pm CET / 12 pm EST</span>
+                <span class="tw-text-xs">Launch on {{ courses[0].release_date | formatDate }}</span>
               </div>
             </div>
 
@@ -206,10 +206,12 @@ export default {
             language
             level
             price
+            discount_price
             summary
             thumbnail
             thumbnail_video
             duration
+            release_date
             modules (order_by: {created_at: asc}) {
               title
               id
@@ -243,6 +245,30 @@ export default {
           }
         }
       }
+    }
+  },
+  filters: {
+    formatDate (value) {
+      const date = new Date(value)
+
+      // Get the month name
+      const options = { month: 'long' }
+      const month = new Intl.DateTimeFormat('en-US', options).format(date)
+
+      // Get the day and add "rd"
+      const day = date.getDate()
+      const dayWithSuffix = `${day}rd`
+
+      // Get the hour (6 PM)
+      let hours = date.getHours()
+      let period = 'AM'
+      if (hours >= 12) {
+        hours = hours % 12 || 12
+        period = 'PM'
+      }
+      if (hours === 6) { period = 'PM' }
+
+      return `${month} ${dayWithSuffix}, ${hours} ${period}`
     }
   },
 

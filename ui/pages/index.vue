@@ -205,11 +205,7 @@
           </SwiperSlide>
         </Swiper>
         <!--SWIPER CONTROLS-->
-        <div v-if="totalSlides > 1" class="d-flex align-items-center justify-content-end" style="gap:1rem">
-          <p class="m-0">
-            <b> {{ currentSlide }} </b>/{{ totalSlides }}
-          </p>
-
+        <div class="d-flex align-items-center justify-content-end" style="gap:1rem">
           <div ref="lastSlideBtn" :class="isFirstSlide === false? `last-slide`:`last-slide-disabled`" style="cursor: pointer;">
             <Icon
               icon="material-symbols:chevron-left"
@@ -457,7 +453,13 @@ export default {
   apollo: {
     courses: {
       query: gql`query {
-        courses {
+        courses(
+          where: {
+            visible: {
+              _eq: true
+            }
+          }
+        ) {
           id
           level
           language
@@ -476,8 +478,13 @@ export default {
     },
     user_course: {
       query: gql`query ($id: String = "") {
-        user_course( where:
-          {user_id: {_eq: $id}}) {
+        user_course(
+          where: {
+            user_id: {
+              _eq: $id
+            }
+          }
+        ) {
           last_chapter_id_seen
           course_id
           progress
