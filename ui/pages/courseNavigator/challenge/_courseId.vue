@@ -124,7 +124,8 @@ export default {
           </template>
         </PxModal>
         <PxNavigatorCourseSchema :course-id="courseId" />
-        <PxNavigatorChallengeCard :class="$route.params.courseId === courseId ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+        <PxNavigatorChallengeCard :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+        <PxNavigatorExploreCard :class="$route.path.includes('explore') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/explore/${courseId}`" />
       </div>
     </div>
   </div>
