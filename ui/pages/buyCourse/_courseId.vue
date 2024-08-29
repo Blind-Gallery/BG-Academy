@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PxModal ref="modalInstance" />
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
       <b-row v-if="!$apollo.loading" class="mt-md-3">
         <b-col
@@ -349,14 +350,19 @@ export default {
           console.error(error)
         })
     },
+    openSignUpModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
 
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')
       } else {
-        return this.$bvModal.show('signin')
+        this.openSignUpModal('auth-log-in-form')
       }
     }
+
   }
 }
 </script>
