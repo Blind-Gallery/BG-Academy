@@ -453,7 +453,13 @@ export default {
   apollo: {
     courses: {
       query: gql`query {
-        courses {
+        courses(
+          where: {
+            visible: {
+              _eq: true
+            }
+          }
+        ) {
           id
           level
           language
