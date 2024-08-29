@@ -76,13 +76,13 @@
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
                   <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                    ${{ courses[0].price }}
+                    ${{ courses[0].discount_price || courses[0].price }}
                   </h2>
                   <h6
-                    v-if="courses[0].id === '5f1f6044-21ba-4409-880e-02cd36568697'"
+                    v-if="courses[0].discount_price"
                     class="m-0  tw-line-through tw-text-gray-500"
                   >
-                    $99
+                    {{ courses[0].price }}
                   </h6>
                 </div>
                 <p class="m-0">
@@ -206,10 +206,12 @@ export default {
             language
             level
             price
+            discount_price
             summary
             thumbnail
             thumbnail_video
             duration
+            release_date
             modules (order_by: {created_at: asc}) {
               title
               id
