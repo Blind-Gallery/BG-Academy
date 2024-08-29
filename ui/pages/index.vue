@@ -24,7 +24,7 @@
               <div class="d-flex flex-row " style="gap:1.25rem; border-top: 1px solid rgb(0 0 0 / 10%); padding-top: 1.5rem;">
                 <div class="d-flex flex-column align-items-center">
                   <h4 class="mb-1">
-                    {{ user_course.filter(item => item.certificate_cid !== null).length }}
+                    {{ totalCertificates.length }}
                   </h4>
                   <div class="d-flex align-items-center justify-content-center">
                     <Icon
@@ -55,7 +55,7 @@
                 </div>
                 <div class="d-flex flex-column align-items-center ">
                   <h4 class="mb-1">
-                    {{ user_course.filter(item => item.certificate_cid !== null).length }}
+                    {{ totalCertificates.length }}
                   </h4>
                   <div class="d-flex align-items-center justify-content-center">
                     <Icon
@@ -516,7 +516,7 @@ export default {
 
   data () {
     return {
-
+      totalCertificates: [],
       targetBreakpoint: null,
       screenWidth: 0,
       breakpoints: {
@@ -597,6 +597,11 @@ export default {
 
     }
   },
+  computed: {
+    user () {
+      return this.$auth.user
+    }
+  },
 
   watch: {
     // This function allows you to listen to changes in screen size in order to determine the total slides of the swiper.
@@ -618,16 +623,27 @@ export default {
 
         this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
       }
+    },
+    user (newValue) {
+      if (newValue) {
+        this.totalCertificates = []
+      }
     }
 
   },
-
   mounted () {
     window.addEventListener('resize', this.updateScreenWidth)
     this.updateScreenWidth()
+    this.handleCertificate()
   },
 
   methods: {
+    handleCertificate (status) {
+      if (status) {
+        this.totalCertificates.push(status)
+      }
+      if (!this.$auth.user) { this.totalCertificates = [] }
+    },
     updateScreenWidth () {
       this.screenWidth = window.innerWidth
     },
