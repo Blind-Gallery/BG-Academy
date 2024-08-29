@@ -13,3 +13,7 @@ WHERE id = '4674105d-8dca-49d6-a705-512e66db9dfd';
 UPDATE modules
 SET you_will_learn = 'How blockchain technology has influenced long-form generative art, including NFTs, Art Blocks, and notable artists.'
 WHERE id = 'c5a014db-7995-4cb6-8514-2377f5d47988';
+
+UPDATE courses
+SET price = 40
+WHERE id = '9df7cd5f-d9b3-4f37-9693-15ed1be65cf5';
