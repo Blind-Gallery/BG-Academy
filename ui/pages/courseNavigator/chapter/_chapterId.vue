@@ -51,7 +51,7 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <certificate-open-modal-button :approved-course="true" @click="openModal()" />
+                <certificate-open-modal-button :course-id="courseId" @click="openModal()" />
 
                 <PxModal ref="modalInstance">
                   <template #body>
@@ -72,6 +72,7 @@
                 <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
 
                 <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
+                <PxNavigatorExploreCard :route="`/courseNavigator/explore/${courseId}`" />
               </div>
             </b-col>
           </Transition>

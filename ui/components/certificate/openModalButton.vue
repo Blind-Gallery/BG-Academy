@@ -1,12 +1,44 @@
 <script>
 export default {
   props: {
-    approvedCourse: {
+    courseId: {
       type: Boolean,
       required: false,
       default: false
     }
+  },
+  data () {
+    return {
+      approvedCourse: null
+    }
+  },
+
+  watch: {
+    courseId (newVal) {
+      if (newVal) {
+        this.getCertificate()
+      }
+    }
+  },
+
+  methods: {
+    async getCertificate () {
+      try {
+        const { cid } = await this.$axios.$post('/docs/certificate', {
+          userId: this.$auth.user.id,
+          courseId: this.courseId
+        })
+
+        this.approvedCourse = cid
+
+        this.$forceUpdate()
+      } catch (error) {
+        console.error('No certificate', error)
+      }
+    }
+
   }
+
 }
 </script>
 <template>

@@ -107,7 +107,7 @@ export default {
         </div>
       </div>
       <div v-if="$route.params.courseId" class="lg:tw-col-span-3 tw-col-span-12 tw-max-h-[600px] tw-overflow-y-auto">
-        <certificate-open-modal-button :approved-course="true" @click="openModal()" />
+        <certificate-open-modal-button :course-id="courseId" @click="openModal()" />
         <PxModal ref="modalInstance">
           <template #body>
             <div>
@@ -124,7 +124,8 @@ export default {
           </template>
         </PxModal>
         <PxNavigatorCourseSchema :course-id="courseId" />
-        <PxNavigatorChallengeCard :class="$route.params.courseId === courseId ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+        <PxNavigatorChallengeCard :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+        <PxNavigatorExploreCard :class="$route.path.includes('explore') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/explore/${courseId}`" />
       </div>
     </div>
   </div>

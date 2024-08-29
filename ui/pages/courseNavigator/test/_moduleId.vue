@@ -166,7 +166,7 @@
 
               <div>
                 <!-- TODO: ADD VALIDATION TO KNOW IF THE USER HAS ALREADY ENDED THE EXAMS -->
-                <certificate-open-modal-button :approved-course="true" @click="openModal('certificate-modal-card')" />
+                <certificate-open-modal-button :course-id="courseId" @click="openModal('certificate-modal-card')" />
                 <PxModal ref="modalInstance">
                   <template #body>
                     <div>
@@ -187,6 +187,7 @@
                   :course-id="courseId"
                 />
                 <PxNavigatorChallengeCard v-if="challenge" :route="`/courseNavigator/challenge/${courseId}`" />
+                <PxNavigatorExploreCard :route="`/courseNavigator/explore/${courseId}`" />
               </div>
             </b-col>
           </Transition>
