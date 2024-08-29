@@ -24,8 +24,10 @@ test('generateCertificate returns a valid CID', async (t) => {
     courseTitle: 'Blockchain',
     teacher: 'Hugo'
   }
-  const cid = await documents.generateCertificate(data)
-  t.ok(cid)
-  t.type(cid, 'string')
+  const { pdfCID, imageCID } = await documents.generateCertificate(data)
+  t.ok(pdfCID)
+  t.ok(imageCID)
+  t.type(pdfCID, 'string')
+  t.type(imageCID, 'string')
   t.end()
 })

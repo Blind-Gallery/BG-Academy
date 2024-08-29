@@ -1,7 +1,7 @@
 'use strict'
 
 // Read the .env file.
-require('envkey')
+require('dotenv').config()
 
 // Require the framework
 const Fastify = require('fastify')
@@ -21,7 +21,7 @@ app.listen({
   host: process.env.HOST || '::'
 }, (err) => {
   if (err) {
-    app.log.error(err)
+    app.logger.error(err)
     process.exit(1)
   }
 })

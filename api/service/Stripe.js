@@ -1,6 +1,6 @@
 const { BadRequest } = require('http-errors')
-const log = require('pino')()
-require('envkey')
+const logger = require('./Logger')
+require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class Payment {
@@ -31,9 +31,9 @@ class Payment {
       }
       paymentIntent = await stripe.paymentIntents.create(paymentIntentParams)
     } catch (err) {
-      log.error(err)
+      logger.error(err)
     }
-    log.info({ paymentIntent })
+    logger.info({ paymentIntent })
     return paymentIntent
   }
 
@@ -44,9 +44,9 @@ class Payment {
         receipt_email: receiptEmail
       })
     } catch (err) {
-      log.error(err)
+      logger.error(err)
     }
-    log.info({ paymentIntent })
+    logger.info({ paymentIntent })
     return paymentIntent
   }
 
@@ -58,22 +58,22 @@ class Payment {
     try {
       event = stripe.webhooks.constructEvent(body, signature, endpointSecret)
     } catch (err) {
-      log.error(err)
+      logger.error(err)
       throw new BadRequest(`Webhook Error: ${err.message}`)
     }
 
     switch (event.type) {
       case 'payment_intent.succeeded':
-        log.info(event.data.object)
+        logger.info(event.data.object)
         // Then define and call a function to handle the event payment_intent.succeeded
         break
 
       case 'payment_intent.payment_failed':
-        log.info(event.data.object)
+        logger.info(event.data.object)
         break
         // ... handle other event types
       default:
-        log.info(`Unhandled event type ${event.type}`)
+        logger.info(`Unhandled event type ${event.type}`)
     }
 
     return event

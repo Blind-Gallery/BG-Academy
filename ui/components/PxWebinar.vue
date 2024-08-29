@@ -11,22 +11,28 @@
               </div>
             </div>
             <div class="p-4">
-              <div class="border px-2 mb-2" style="border-radius:50px; width:fit-content">
-                <span class="text-secondary small">Webinar | D/M | TBD AM CST</span>
+              <div class="tw-border tw-rounded-full tw-px-2 tw-mb-2 tw-w-fit">
+                <span class="text-secondary small">Webinar | September 3rd, 6 pm CET / 12 pm EST
+
+                </span>
               </div>
 
-              <h4 class="m-0">
+              <h4 class="tw-m-0">
                 Introduction to Pixel Shaders
               </h4>
-              <span>With ilithya</span>
-              <p class="text-secondary small mt-2">
+              <span class="tw-text-sm">With ilithya</span>
+              <p class="tw-text-gray-500 tw-text-sm tw-mt-2">
                 Learn the basics of pixel aka fragment shaders in this webinar with the help of ilithya, a multidisciplinary artist and technologist with a background in creative development and design
               </p>
-              <!-- TODO: HACER CONEXIÓN DE RUTA AL CURSO DE ILITHYA -->
+
               <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <button class="primary-btn ">
-                  Buy course
-                </button>
+                <NuxtLink class="hover:tw-no-underline" to="buyCourse/5f1f6044-21ba-4409-880e-02cd36568697">
+                  <button-PxSecondary
+                    text="View course"
+                    suffix-icon="navigate-next"
+                  />
+                </NuxtLink>
+                <span class="tw-text-gray-500 tw-text-sm">Subscribe to join the webinar</span>
               </div>
               <hr class="w-100">
               <div class="w-100 d-flex align-items-center justify-content-center flex-column">
@@ -37,7 +43,6 @@
                   frameborder="0"
                   scrolling="no"
                 />
-                <span class="small text-secondary">Subscribe to join the webinar</span>
               </div>
             </div>
           </div>

@@ -1,106 +1,26 @@
 <template>
-  <div>
-    <div v-if="!$apollo.loading">
-      <div
-        v-for="(module, moduleIndex) in courses_by_pk.modules"
-        :key="moduleIndex"
-        style="cursor: pointer;"
-        class="border d-flex rounded  mb-2"
-      >
-        <div class="ml-3 rounded" style="border:1px solid #00b9cd; width: 2px;" />
-        <div class="w-100">
-          <!--TOGGLE MODULE-->
-          <div>
-            <div @click="toggleCollapse(module.id)">
-              <PxToggleCollapse :id="`toggle-${module.id}`" ref="toggle" :small-font="true" :toggle-name="module.title" />
-            </div>
-
-            <!--CHAPTERS COLLAPSE-->
-            <b-collapse
-              v-for="(chapter, chapterIndex) in module.chapters"
-              :id="`accordion-${module.id}`"
-              :key="chapterIndex"
-              class="mx-2"
-              role="tablist"
-              appear
-              :visible="isChapterActive(module.id)"
-            >
-              <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/chapter/' + chapter.id">
-                <div :class="$route.path === ('/courseNavigator/chapter/' + chapter.id) ? 'chapter-container_selected' : 'chapter-container'">
-                  <Icon
-                    class="progress-circle"
-                    icon="material-symbols:lens-outline"
-                    color="#00b9cd"
-                    width="1rem"
-                  />
-                  <div class="d-flex justify-content-between ">
-                    <p
-                      style="font-size: small; width: 190px;"
-                      class="m-0  text-secondary "
-                    >
-                      {{ chapter.title }}<br>
-                    </p>
-
-                    <Icon
-                      v-b-tooltip.hover
-                      title="Video"
-                      icon="material-symbols:smart-display-outline"
-                      color="#00b9cd"
-                      width="1rem"
-                      class="ml-2"
-                    />
-                  </div>
-                  <p style="font-size: small" class="m-0 text-secondary">
-                    {{ formatDuration(chapter.duration) }}
-                  </p>
-                </div>
-              </NuxtLink>
-            </b-collapse>
-            <b-collapse
-              v-if="module.questions.length > 0"
-              :id="`accordion-${module.id}`"
-              :key="chapterIndex"
-              class="mx-2"
-              role="tablist"
-              appear
-              :visible="isChapterActive(module.id)"
-            >
-              <NuxtLink class="course-route" style="text-decoration: none;" :to="'/courseNavigator/test/' + module.id">
-                <div :class="$route.path === ('/courseNavigator/test/' + module.id) ? 'chapter-container_selected' : 'chapter-container'">
-                  <Icon
-                    class="progress-circle"
-                    icon="material-symbols:lens-outline"
-                    color="#00b9cd"
-                    width="1rem"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p style="font-size: small;" class="m-0 text-secondary">
-                      Test<br>
-                    </p>
-                    <Icon
-                      v-b-tooltip.hover
-                      title="Test"
-                      icon="material-symbols:checklist-rounded"
-                      color="#00b9cd"
-                      width="1rem"
-                      class="ml-2"
-                    />
-                  </div>
-                  <p style="font-size: small" class="m-0 text-secondary">
-                    {{ module.questions.length }} questions.<br>
-                  </p>
-                </div>
-              </NuxtLink>
-            </b-collapse>
+  <div v-if="!$apollo.loading && courses_by_pk.modules">
+    <!-- WRAPPER -->
+    <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
+      <!-- COLLAPSE BUTTON -->
+      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
+        <div class="tw-w-full tw-flex tw-justify-between">
+          <span :class="chapterModule.id === activeModuleId ? 'tw-text-[#00b9cd]':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
+            {{ chapterModule.title }}
+          </span>
+          <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
+            <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
           </div>
         </div>
+        <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
       </div>
-    </div>
-    <div v-else class="d-flex align-items-center justify-content-center w-100" style="height: 80vh;">
-      <div class="d-flex flex-column align-items-center justify-content-center">
-        <Icon class="mb-5" icon="eos-icons:bubble-loading" width="4rem" />
-        <h5>Loading, please wait...</h5>
-      </div>
+      <!-- CHAPTER CONTENT -->
+
+      <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
+
+      <!-- TEST CONTENT -->
+      <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
+      <PxNavigator-challengeCard v-if="false" />
     </div>
   </div>
 </template>
@@ -142,72 +62,73 @@ export default {
   props: {
     courseId: {
       type: String,
-      required: true
+      required: false,
+      default: null
     }
   },
   data () {
     return {
       courseInfo: {
-        modules: []
+        chapterModules: []
       }
     }
   },
   computed: {
-
     activeModuleId () {
-      if (this.$route.params.moduleId) { return this.$route.params.moduleId }
-      const chapterIdFromRoute = this.$route.params.chapterId
-      for (const module of this.courseInfo.modules) {
-        for (const chapter of module.chapters) {
-          if (chapter.id === chapterIdFromRoute) {
-            return module.id
-          }
-        }
-      } return null
+      const { moduleId, chapterId } = this.$route.params
+      const { modules } = this.courseInfo
+
+      if (moduleId) { return moduleId }
+
+      if (!modules) { return moduleId }
+
+      return modules.find(module =>
+        module.chapters.some(chapter => chapter.id === chapterId)
+      )?.id || null
+    }
+  },
+
+  watch: {
+    activeModuleId (newVal) {
+      this.triggerCollapse(newVal)
     }
   },
   async created () {
     await this.getCourseSchema()
-    this.toggleCollapseActive()
   },
 
   methods: {
-    formatDuration (duration) {
-      const minutes = Math.floor(duration / 60)
-      const seconds = duration % 60
 
-      if (minutes > 0 && seconds > 0) {
-        return `${minutes} min ${seconds} sec`
-      } else if (minutes > 0) {
-        return `${minutes} min`
-      } else {
-        return `${seconds} sec`
-      }
-    },
     async getCourseSchema () {
-      const { data } = await this.$apollo.query({
-        query: GET_COURSE_SCHEMA,
-        variables: {
-          id: this.courseId
-        }
-      })
-
-      this.courseInfo = Object.assign({}, data.courses_by_pk)
-    },
-    isChapterActive (moduleId) {
-      return moduleId === this.activeModuleId
-    },
-    toggleCollapse (moduleId) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleId}`)
-    },
-
-    toggleCollapseActive () {
-      for (const toggle of this.$refs.toggle) {
-        if (toggle.$attrs.id.includes(this.activeModuleId)) {
-          toggle.toggleCollapse = true
-        }
+      if (!this.courseId) { return }
+      try {
+        const { data } = await this.$apollo.query({
+          query: GET_COURSE_SCHEMA,
+          variables: {
+            id: this.courseId
+          }
+        })
+        this.courseInfo = Object.assign({}, data.courses_by_pk)
+      } catch (error) {
+        console.error(error)
       }
+    },
+
+    toggleIcon (element, className) {
+      element.classList.toggle(className)
+    },
+
+    toggleContent (element) {
+      element.classList.toggle('tw-overflow-hidden')
+      element.classList.toggle('tw-max-h-[900px]')
+    },
+
+    triggerCollapse (moduleIndex) {
+      this.toggleIcon(this.$refs[`collapseIcon${moduleIndex}`][0], 'tw-rotate-180')
+      const contentInstance = this.$refs[`collapseContent${moduleIndex}`][0]
+      this.toggleContent(contentInstance)
     }
+
   }
 }
 </script>

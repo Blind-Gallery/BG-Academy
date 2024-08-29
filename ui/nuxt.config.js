@@ -36,7 +36,7 @@ export default {
     ]
   },
   plugins: [
-
+    { src: '~/plugins/vue-markdown.js', ssr: false, mode: 'client' },
     { src: '~/plugins/vue-stripe.js', ssr: false },
     { src: '~/plugins/vue-confetti.js', mode: 'client' },
     { src: '~/plugins/notifications-ssr', ssr: true },
@@ -64,7 +64,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@braid/vue-formulate/nuxt',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
+    '@nuxt/postcss8'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -74,7 +75,9 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    '@nuxtjs/tailwindcss'
+
   ],
 
   googleAnalytics: {
@@ -195,7 +198,6 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
       babelrc: true,

@@ -1,26 +1,6 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <b-modal id="claim-certificate" centered hide-header hide-footer>
-        <div class="d-flex align-items-center justify-content-center flex-column">
-          <div class="d-flex align-items-center justify-content-center w-75">
-            <Icon icon="material-symbols:verified-outline-rounded" color="#00b9cd" width="64" />
-          </div>
-
-          <h2 style="color:#00b9cd">
-            Congratulations!
-          </h2>
-
-          <p class="small text-center">
-            You have successfully completed this course, now you can mint your certificate on the Tezos blockchain and/or download it as a PDF.
-          </p>
-          <div class="d-flex mt-4 flex-column w-100" style="gap:1rem">
-            <certificates-download-button :course-id="courseId" />
-            <certificates-mint-button :hash="opHash" :course-id="courseId" />
-          </div>
-        </div>
-      </b-modal>
-
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
           <b-col
@@ -184,34 +164,30 @@
             <b-col v-if="!navBarHidden" key="1" lg="3" cols="12">
               <!--NAV BAR PARENT CONTAINER-->
 
-              <div class="course-nav-container">
-                <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
-                    Modules
-                  </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
-                </div>
+              <div>
+                <!-- TODO: ADD VALIDATION TO KNOW IF THE USER HAS ALREADY ENDED THE EXAMS -->
+                <certificate-open-modal-button :course-id="courseId" @click="openModal('certificate-modal-card')" />
+                <PxModal ref="modalInstance">
+                  <template #body>
+                    <div>
+                      <certificate-base-card
+                        v-if="courseId"
+                        :title="certificateInfo?.course?.name"
+                        :instructor="certificateInfo?.course?.teacher?.name"
+                        :cover="certificateInfo?.course?.thumbnail"
+                        :student="$auth.user.name"
+                        :course-id="courseId"
+                        :op-hash="certificateInfo?.certificate_mint_op"
+                      />
+                    </div>
+                  </template>
+                </PxModal>
 
-                <div v-if="false" class="d-flex flex-column">
-                  <b-progress
-                    class="mb-2"
-                    height="5px"
-                    value="2"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p class="small">
-                      Progress
-                    </p>
-                    <p class="small">
-                      2%
-                    </p>
-                  </div>
-                </div>
-
-                <!-- add navigator  -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema
+                  :course-id="courseId"
+                />
+                <PxNavigatorChallengeCard v-if="challenge === 'mint'" :route="`/courseNavigator/challenge/${courseId}`" />
+                <PxNavigatorExploreCard v-if="challenge === 'explore'" :route="`/courseNavigator/explore/${courseId}`" />
               </div>
             </b-col>
           </Transition>
@@ -251,18 +227,15 @@ import 'swiper/swiper-bundle.css'
 
 SwiperCore.use([Pagination, Navigation])
 
-const CERTIFICATE_MINT_OP = gql`query ($user_id: String!, $course_id: String!){
- user_course_by_pk(course_id: $course_id, user_id: $user_id) {
-    certificate_mint_op
-  }
-}`
-
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
           {user_id: {_eq: $id}}) {
           last_chapter_id_seen
           course_id
           progress
+          course {
+            challenge
+          }
         }
       }`
 
@@ -272,6 +245,7 @@ query ($id: uuid!) {
     id
     title
     course {
+      challenge
       id
       modules(order_by: {created_at: asc}) {
         id
@@ -306,6 +280,21 @@ mutation ($objects: [user_question_insert_input!]!) {
     affected_rows
   }
 }`
+
+const COURSE_CERTIFICATE = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      certificate_mint_op
+      course {
+        name
+        teacher {
+          name
+        }
+        thumbnail
+      }
+    }
+  }
+`
 
 export default {
   components: {
@@ -343,7 +332,9 @@ export default {
       opHash: null,
       correctAnswers: 0,
       scorePercentage: 0,
+      challenge: null,
       loading: false,
+      certificateInfo: null,
       module: {
         id: '',
         title: '',
@@ -392,18 +383,26 @@ export default {
   },
 
   methods: {
-    getCourseCertificate (courseId) {
-      this.$apollo.query({
-        query: CERTIFICATE_MINT_OP,
-        variables: {
-          user_id: this.$auth.loggedIn ? this.$auth.user.id : '',
-          course_id: courseId
-        }
-      }).then((response) => {
-        this.opHash = response.data.user_course_by_pk.certificate_mint_op
-      }).catch((error) => {
-        console.error(error)
-      })
+
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
+
+    async getCertificateData (id) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_CERTIFICATE,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: id
+          }
+        })
+        this.certificateInfo = Object.assign({}, data.user_course_by_pk)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+      }
     },
 
     verifyUserCourses (courseId) {
@@ -445,14 +444,16 @@ export default {
         })
         this.module = Object.assign({}, data.modules_by_pk)
         this.courseId = data.modules_by_pk.course.id
+        this.challenge = data.modules_by_pk.course.challenge
         this.verifyUserCourses(this.courseId)
-        this.getCourseCertificate(this.courseId)
+        this.getCertificateData(this.courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
         console.error(this.$route.params.chapterId)
       }
     },
+
     formatOptions (options) {
       const formattedOptions = {}
       for (const option of options) {
@@ -775,7 +776,7 @@ input:checked ~ label {
 .test label{
   margin: 0;
 }
-  .formulate-input-group-item {
+.formulate-input-group-item {
     border: 1px solid rgba(0, 0, 0, .1);
     border-radius: .5em;
     padding: .5em;
@@ -795,7 +796,7 @@ input:checked ~ label {
     &[data-has-value] {
       background-color: #00b9cd3f;
     }
-  }
+}
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;

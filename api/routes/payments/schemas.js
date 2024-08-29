@@ -56,7 +56,8 @@ const tezosPaymentIntent = {
       type: 'object',
       required: ['tezos'],
       properties: {
-        tezos: { type: 'number' }
+        tezos: { type: 'number' },
+        onchainId: { type: 'number' }
       }
     }
   }
@@ -100,10 +101,28 @@ const stripePaymentVerify = {
   }
 }
 
+const giftCourseSchema = {
+  tags,
+  body: {
+    courseId: { type: 'string' },
+    email: { type: 'string' }
+  },
+  response: {
+    200: {
+      type: 'object',
+      required: ['success'],
+      properties: {
+        success: { type: 'boolean' }
+      }
+    }
+  }
+}
+
 module.exports = {
   stripeSchema,
   stripePaymentIntent,
   tezosPaymentIntent,
   tezosPaymentVerify,
-  stripePaymentVerify
+  stripePaymentVerify,
+  giftCourseSchema
 }

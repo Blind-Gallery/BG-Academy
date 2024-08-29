@@ -1,0 +1,15 @@
+type Mutation {
+  gift_course(
+    req: giftCourseInput!
+  ): giftCourseOutput
+}
+
+input giftCourseInput {
+  course_id: String
+  user_id: String
+}
+
+type giftCourseOutput {
+  success: String
+}
+

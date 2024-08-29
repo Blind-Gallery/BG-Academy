@@ -1,16 +1,5 @@
 version: "3.6"
 services:
-  action-server:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    restart: on-failure:3
-    environment:
-      PORT: 3000
-      NODE_ENV: production
-      ENVKEY: ${ENVKEY}
   graphql-engine:
     image: hasura/graphql-engine:v2.27.0
     ports:
@@ -31,6 +20,8 @@ services:
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://data-connector-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://data-connector-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://data-connector-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://data-connector-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://data-connector-agent:8081/api/v1/snowflake"}}}}'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'unauthorized'
+      ACTION_SERVER_ENDPOINT: http://host.docker.internal:3000/
     depends_on:
       data-connector-agent:
         condition: service_healthy
@@ -57,6 +48,5 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
-
 volumes:
   db_data:

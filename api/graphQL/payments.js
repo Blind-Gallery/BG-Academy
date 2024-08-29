@@ -6,8 +6,14 @@ query ($id: String!) {
     onchain_id
     id
     price
+    discount_price
     thumbnail
     name
+    modules(order_by: {created_at: asc}, limit: 1) {
+      chapters(order_by: {created_at: asc}, limit: 1) {
+        id
+      }
+    }
   }
 }
 `
@@ -37,7 +43,19 @@ mutation ($courseId: String!, $userId: String!) {
     object: {
       course_id: $courseId,
       user_id: $userId,
-      transaction_info: {data: {transactions_stripe_transaction_info: {data: {}}, transactions_tezos_transaction_info: {data: {}}}}}, on_conflict: {constraint: payments_pkey, update_columns: updated_at}) {
+      transaction_info: {
+        data: {
+          transactions_stripe_transaction_info: {
+            data: {}
+          },
+          transactions_tezos_transaction_info: {
+            data: {}
+          }
+        }
+      }
+    },
+    on_conflict: { constraint: payments_pkey, update_columns: updated_at
+  }) {
     user_id
     course_id
     transaction_info {
@@ -48,7 +66,7 @@ mutation ($courseId: String!, $userId: String!) {
   }
 }
 `
-
+// TODO: fix this mutation - update instead
 const CREATE_STRIPE_PAYMENT_INTENT = gql`
 mutation (
   $courseId: String!,
@@ -85,7 +103,7 @@ mutation (
   }
 }
 `
-
+// TODO: fix this mutation - update instead
 const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
   $courseId: String!,

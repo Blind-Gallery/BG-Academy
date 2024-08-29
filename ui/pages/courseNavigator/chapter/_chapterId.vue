@@ -3,24 +3,14 @@
     <div v-if="!$apollo.loading">
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
-          <b-col
-            lg="9"
-            cols="12"
-
-            :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'"
-          >
+          <b-col lg="9" cols="12" :class="!navBarHidden ? 'course-video mb-1':'course-video__toggle mb-1'">
             <span
               v-b-tooltip.hover
               :title="!navBarHidden ? 'Hide course navigator': 'Show course navigator'"
               class="toggleNav-icon"
               @click="doHideNavBar()"
             >
-              <Icon
-                icon="material-symbols:menu-open"
-                :rotate="!navBarHidden ? '2':'null'"
-                width="32"
-                color="#fff"
-              />
+              <Icon icon="material-symbols:menu-open" :rotate="!navBarHidden ? '2':'null'" width="32" color="#fff" />
             </span>
 
             <div>
@@ -29,7 +19,6 @@
                 :video-id="chapterInfo.video_id"
                 :chapter-id="chapterInfo.id"
                 width="100%"
-
                 @ended-video="handleEndedVideo"
               />
             </div>
@@ -38,13 +27,13 @@
                 <h4>{{ chapterInfo.title }}</h4>
               </div>
               <div>
-                <button class="primary-btn d-flex align-items-center justify-content-center" @click="nextChapter">
+                <button
+                  v-if="!endOfCourse"
+                  class="primary-btn d-flex align-items-center justify-content-center"
+                  @click="nextChapter"
+                >
                   <span>Next</span>
-                  <Icon
-                    icon="material-symbols:skip-next-rounded"
-                    width="24"
-                    color="#fff"
-                  />
+                  <Icon icon="material-symbols:skip-next-rounded" width="24" color="#fff" />
                 </button>
               </div>
             </div>
@@ -62,47 +51,42 @@
               <!--NAV BAR PARENT CONTAINER-->
 
               <div class="course-nav-container">
-                <div class="d-flex justify-content-between">
-                  <p class="small" style="font-weight: 600;">
-                    Modules
-                  </p>
-                  <p v-if="false" class="small">
-                    Completed: 0/3
-                  </p>
-                </div>
+                <certificate-open-modal-button :course-id="courseId" @click="openModal()" />
 
-                <div v-if="false" class="d-flex flex-column">
-                  <b-progress
-                    class="mb-2"
-                    height="5px"
-                    value="2"
-                  />
-                  <div class="d-flex justify-content-between">
-                    <p class="small">
-                      Progress
-                    </p>
-                    <p class="small">
-                      2%
-                    </p>
-                  </div>
-                </div>
+                <PxModal ref="modalInstance">
+                  <template #body>
+                    <div>
+                      <certificate-base-card
+                        v-if="courseId"
+                        :title="certificateInfo?.course?.name"
+                        :instructor="certificateInfo?.course?.teacher?.name"
+                        :cover="certificateInfo?.course?.thumbnail"
+                        :student="$auth.user.name"
+                        :course-id="courseId"
+                        :op-hash="certificateInfo?.certificate_mint_op"
+                      />
+                    </div>
+                  </template>
+                </PxModal>
 
-                <!-- navigator -->
-                <PxNavigatorCourseSchema :course-id="1" />
+                <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
+
+                <PxNavigatorChallengeCard v-if="challenge === 'mint'" :route="`/courseNavigator/challenge/${courseId}`" />
+                <PxNavigatorExploreCard v-if="challenge === 'explore'" :route="`/courseNavigator/explore/${courseId}`" />
               </div>
             </b-col>
           </Transition>
         </b-row>
 
-        <b-row v-if="false">
+        <b-row v-if="(chapterInfo.info || chapterInfo.resources) && !loading">
           <b-col>
             <div class="w-100">
               <b-tabs content-class="mt-3">
-                <b-tab title="Chapter info" active>
-                  <p>{{ chapterInfo.info }}</p>
+                <b-tab v-if="chapterInfo.info" title="Chapter info">
+                  <vue-markdown :source="chapterInfo.info" />
                 </b-tab>
-                <b-tab title="Resources">
-                  <p>{{ chapterInfo.resources }}</p>
+                <b-tab v-if="chapterInfo.resources" title="Resources">
+                  <vue-markdown :source="chapterInfo.resources" />
                 </b-tab>
               </b-tabs>
             </div>
@@ -138,6 +122,7 @@ query ($id: uuid!) {
     title
     resources
     video_id
+    next_chapter_id
     module {
       id
       duration
@@ -159,6 +144,7 @@ query ($id: uuid!) {
       course {
         id
         name
+        challenge
         modules(order_by: {created_at: asc}) {
           id
           next_module_id
@@ -182,6 +168,21 @@ const USER_COURSES = gql`query ($id: String = "") {
         }
       }`
 
+const COURSE_CERTIFICATE = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      certificate_mint_op
+      course {
+        name
+        teacher {
+          name
+        }
+        thumbnail
+      }
+    }
+  }
+`
+
 export default {
   components: {
     PxPlayer
@@ -189,9 +190,12 @@ export default {
 
   data () {
     return {
+      courseId: '',
       testMessage: '',
       isEndedVideo: false,
       loading: false,
+      challenge: null,
+      certificateInfo: null,
       chapterInfo: {
         id: '',
         video_id: '862461136',
@@ -227,16 +231,30 @@ export default {
       })
 
       return foundModule ? foundModule.id : null
+    },
+    endOfCourse () {
+      const { next_module_id: nextModuleId, questions } = this.chapterInfo.module
+      const { next_chapter_id: nextChapterId } = this.chapterInfo
+
+      const isLastModule = !nextModuleId
+      const isLastChapter = !nextChapterId
+      const noPendingQuestions = questions.length === 0
+
+      return isLastModule && isLastChapter && noPendingQuestions
     }
 
   },
 
-  created () {
-    this.getChapter()
-    this.doResetTest()
+  async created () {
+    await this.getChapter()
+    await this.doResetTest()
   },
 
   methods: {
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
     isChapterActive (moduleId) {
       return moduleId === this.activeModuleId
     },
@@ -261,6 +279,22 @@ export default {
         })
     },
 
+    async getCertificateData (id) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_CERTIFICATE,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: id
+          }
+        })
+        this.certificateInfo = Object.assign({}, data.user_course_by_pk)
+      } catch (err) {
+        this.loading = false
+        console.error('error fetching course', err)
+      }
+    },
+
     async getChapter () {
       try {
         const { data } = await this.$apollo.query({
@@ -272,7 +306,10 @@ export default {
         this.chapterInfo = Object.assign({}, data.chapters_by_pk)
         this.$set(this.chapterInfo, 'video_id', data.chapters_by_pk.video_id)
         const courseId = this.chapterInfo.module.course.id
+        this.courseId = data.chapters_by_pk.module.course.id
+        this.challenge = data.chapters_by_pk.module.course.challenge
         this.verifyUserCourses(courseId)
+        this.getCertificateData(courseId)
       } catch (err) {
         this.loading = false
         console.error('error fetching course', err)
@@ -349,18 +386,25 @@ export default {
     },
 
     nextChapter () {
-      const modules = this.chapterInfo.module.course.modules
-      const activeModule = modules.find(module => module.id === this.activeModuleId)
+      const { next_chapter_id: nextChapterId, module } = this.chapterInfo
+      const { questions, next_module_id: nextModuleId, id: currentModuleId, course } = module
+      const moduleHasTest = questions.length > 0
 
-      if (activeModule) {
-        const chapterArray = activeModule.chapters
-        const targetChapterId = this.$route.params.chapterId
-        const index = chapterArray.findIndex(chapter => chapter.id === targetChapterId)
+      const getFirstChapterId = () => {
+        const nextModule = course.modules.find(module => module.id === nextModuleId)
+        return nextModule ? nextModule.chapters[0].id : null
+      }
 
-        if (index !== -1 && index < chapterArray.length - 1) {
-          this.$router.push(`/courseNavigator/chapter/${chapterArray[index + 1].id}`)
-        } else {
-          this.$router.push(`/courseNavigator/test/${this.activeModuleId}`)
+      const navigateTo = path => this.$router.push(path)
+
+      if (nextChapterId) {
+        navigateTo(`/courseNavigator/chapter/${nextChapterId}`)
+      } else if (moduleHasTest) {
+        navigateTo(`/courseNavigator/test/${currentModuleId}`)
+      } else {
+        const firstChapterId = getFirstChapterId()
+        if (firstChapterId) {
+          navigateTo(`/courseNavigator/chapter/${firstChapterId}`)
         }
       }
     },

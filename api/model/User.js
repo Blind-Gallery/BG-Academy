@@ -1,5 +1,5 @@
 const { Unauthorized, BadRequest } = require('http-errors')
-const log = require('pino')()
+const { logger } = require('../service')
 
 const bcrypt = require('bcrypt')
 const { verifySignature } = require('@taquito/utils')
@@ -80,12 +80,12 @@ class User {
 
     // Create user
     if (email && password) {
-      log.info('Creating user with email and password')
+      logger.info('Creating user with email and password')
       return this.createWithPassword({ name, email, password })
     }
 
     if (wallet && signedMessage) {
-      log.info('Creating user with wallet and signed message')
+      logger.info('Creating user with wallet and signed message')
       return this.createWithWallet({ name, wallet, publicKey, signedMessage, payload })
     }
 
@@ -93,7 +93,7 @@ class User {
   }
 
   async createWithPassword ({ name, email, password }) {
-    const verificationCode = `${Math.floor(Math.random() * 1000000)}`
+    const verificationCode = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000)
     const data = {
       user: {
         name,
@@ -101,7 +101,7 @@ class User {
           data: {
             email,
             password: await bcrypt.hash(password, 10),
-            verificationCode
+            verification_code: verificationCode
           }
         }
       }
@@ -153,7 +153,7 @@ class User {
     const { insert_users_one: user } = await this.gql.request(
       CREATE_USER, data)
 
-    log.info(`User created ${JSON.stringify(user)}`)
+    logger.info(`User created ${JSON.stringify(user)}`)
 
     // Todo: retrieve user data from blockchain and save it
 
@@ -224,6 +224,23 @@ class User {
 
   async changePassword ({ userId, password, newPassword }) {
     // get user information, if user not found, throw error
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+
+    if (!user) {
+      throw new BadRequest('User not found')
+    }
+
+    await this.gql.request(
+      UPDATE_USER_PASSWORD, {
+        password: await bcrypt.hash(newPassword, 10),
+        userId
+      })
+
+    return { userId, success: true }
+  }
+
+  async resetPassword ({ userId, password, newPassword }) {
     const { users_by_pk: user } = await this.gql.request(
       GET_USER_FROM_ID, { userId })
 
