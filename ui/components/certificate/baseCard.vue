@@ -70,12 +70,31 @@ export default {
   },
   data () {
     return {
-      TZKT_ENDPOINT: null
+      TZKT_ENDPOINT: null,
+      approvedCourse: null
     }
   },
 
-  methods: {
+  async mounted () {
+    await this.getCertificate()
+  },
 
+  methods: {
+    async getCertificate () {
+      try {
+        const { cid } = await this.$axios.$post('/docs/certificate', {
+          userId: this.$auth.user.id,
+          courseId: this.courseId
+        })
+
+        this.approvedCourse = cid
+        this.$emit('certificate-received', cid)
+        this.$forceUpdate()
+      } catch (error) {
+        console.error('No certificate', error)
+        this.$emit('certificate-received', false)
+      }
+    }
   }
 
 }
