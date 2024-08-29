@@ -205,11 +205,7 @@
           </SwiperSlide>
         </Swiper>
         <!--SWIPER CONTROLS-->
-        <div v-if="totalSlides > 1" class="d-flex align-items-center justify-content-end" style="gap:1rem">
-          <p class="m-0">
-            <b> {{ currentSlide }} </b>/{{ totalSlides }}
-          </p>
-
+        <div class="d-flex align-items-center justify-content-end" style="gap:1rem">
           <div ref="lastSlideBtn" :class="isFirstSlide === false? `last-slide`:`last-slide-disabled`" style="cursor: pointer;">
             <Icon
               icon="material-symbols:chevron-left"
