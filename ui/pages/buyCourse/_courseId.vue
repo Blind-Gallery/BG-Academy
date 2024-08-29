@@ -82,7 +82,7 @@
                     v-if="courses[0].discount_price"
                     class="m-0  tw-line-through tw-text-gray-500"
                   >
-                    {{ courses[0].price }}
+                    ${{ courses[0].price }}
                   </h6>
                 </div>
                 <p class="m-0">
