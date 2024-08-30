@@ -11,9 +11,7 @@
 
       <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
 
-      <!-- TEST CONTENT -->
       <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
-      <PxNavigator-challengeCard v-if="false" />
     </div>
   </div>
 </template>
@@ -125,6 +123,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
