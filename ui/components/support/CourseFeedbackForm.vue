@@ -22,13 +22,11 @@ export default {
 
 <template>
   <div>
-    <h4>
-      Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
+    <h4 class="tw-text-cyan-500">
+      Help us to rate this course to keep improving our content
     </h4>
     <hr>
-    <p class="small">
-      Help us to rate this course to keep improving our content
-    </p>
+
     <div class="mb-4">
       <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
     </div>
