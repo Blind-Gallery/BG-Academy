@@ -81,9 +81,10 @@ export default {
       @after-leave="afterLeave"
     >
       <div v-show="!isCollapsed">
-        <p class="tw-text-sm tw-text-gray-500 tw-m-0 tw-p-2">
-          {{ description }}
-        </p>
+        <vue-markdown
+          class="tw-text-sm tw-text-gray-500 tw-m-0 tw-p-2"
+          :source="description"
+        />
       </div>
     </transition>
   </div>
