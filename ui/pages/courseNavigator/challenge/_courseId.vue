@@ -126,7 +126,7 @@ export default {
             </div>
           </template>
         </PxModal>
-        <PxNavigatorCourseSchema :course-id="courseId" />
+        <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
       </div>
     </div>
   </div>

@@ -184,6 +184,7 @@
                 </PxModal>
 
                 <PxNavigatorCourseSchema
+                  v-if="courseId"
                   :course-id="courseId"
                 />
               </div>
