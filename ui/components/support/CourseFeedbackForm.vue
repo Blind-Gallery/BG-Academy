@@ -30,7 +30,7 @@ export default {
     <div class="mb-4">
       <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
     </div>
-    <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="sendFeedback">
+    <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="submitFeedback">
       <FormulateInput
         name="feedback"
         type="textarea"
