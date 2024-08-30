@@ -25,6 +25,7 @@ export default {
           userId: this.$auth.user.id
         }
         await this.$axios.post('/course/feedback', payload)
+        this.$notify({ type: 'success', text: 'Feedback successfully sent' })
         this.$emit('closeModal')
       } catch (error) {
         this.invalidMessage = 'Feedback submission error'
