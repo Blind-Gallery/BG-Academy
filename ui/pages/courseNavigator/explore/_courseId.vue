@@ -58,8 +58,10 @@ export default {
     }
   },
   async mounted () {
-    this.courseId = this.$route.params.courseId
     await this.getCertificateData()
+  },
+  created () {
+    this.courseId = this.$route.params.courseId
   },
   methods: {
     openModal (component) {
