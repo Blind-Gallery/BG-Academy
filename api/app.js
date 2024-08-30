@@ -12,7 +12,8 @@ const {
   User,
   Documents,
   Payments,
-  Emails
+  Emails,
+  Course
 } = require('./model')
 
 const {
@@ -85,12 +86,17 @@ async function decorateFastifyInstance (fastify) {
   const emails = new Emails({
     email
   })
+  const course = new Course({
+    gql,
+    jwt
+  })
   fastify.decorate('login', login)
   fastify.decorate('user', user)
   fastify.decorate('jwt', jwt)
   fastify.decorate('documents', documents)
   fastify.decorate('payments', payments)
   fastify.decorate('emails', emails)
+  fastify.decorate('course', course)
 }
 
 // Pass --options via CLI arguments in command to enable these options.
