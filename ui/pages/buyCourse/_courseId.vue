@@ -285,7 +285,17 @@ export default {
   },
   computed: {
     isAccessible: function () {
-      return (this.courses[0].release_date ? new Date(this.courses[0].release_date) < new Date() : true) || EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
+      return this.isReleased || this.hasEarlyAccess
+    },
+    isReleased: function () {
+      const releaseDate = this.courses[0].release_date
+      return !releaseDate || new Date(releaseDate) < new Date()
+    },
+    hasEarlyAccess: function () {
+      if (!this.$auth.loggedIn) {
+        return false
+      }
+      return EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
     },
     ...mapGetters('tezosWallet', [
       'wallet',
