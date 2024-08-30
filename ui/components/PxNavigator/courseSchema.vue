@@ -1,5 +1,8 @@
 <template>
   <div v-if="!$apollo.loading && courses_by_pk.modules">
+    <PxModal ref="modalInstance" />
+    <button-PxSecondary class="tw-mb-2" text="Rate this course" width="tw-w-full" prefix-icon="rate-review-outline-rounded" @click="openModal('support-course-feedback-form')" />
+
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
       <PxNavigator-ModuleCard :active-module="activeModuleId" :module-info="chapterModule" @click.native="triggerCollapse(chapterModule.id)">
         <template #icon>
@@ -123,6 +126,10 @@ export default {
       this.toggleIcon(this.$refs[`collapseIcon${moduleIndex}`][0], 'tw-rotate-180')
       const contentInstance = this.$refs[`collapseContent${moduleIndex}`][0]
       this.toggleContent(contentInstance)
+    },
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
     }
 
   }
