@@ -20,7 +20,7 @@ module.exports[Symbol.for('plugin-meta')] = {
 }
 
 async function updateFeedbackHandler (req, reply) {
-  const { feedback, rating, route } = req.body
-  await this.course.updateFeedback(feedback, rating, route)
+  const { feedback, rating, route, userId } = req.body
+  await this.course.updateFeedback(feedback, rating, route, userId)
   return { message: 'Feedback updated' }
 }
