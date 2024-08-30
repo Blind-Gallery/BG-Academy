@@ -1,13 +1,40 @@
 const { gql } = require('graphql-request')
 
+const GET_COURSE_ID_FROM_CHAPTER_ID = gql`
+query (
+  $id: uuid!
+) {
+  chapters_by_pk(id: $id) {
+    module {
+      course_id
+    }
+  }
+}
+`
+
+const GET_COURSE_ID_FROM_MODULE_ID = gql`
+query (
+  $id: uuid!
+) {
+  modules_by_pk(id: $id) {
+    course_id
+  }
+}
+`
 const UPDATE_FEEDBACK = gql`
 mutation (
   $feedback: String!,
   $courseId: String!,
   $userId: String!
+  $rating: Int!
+  $route: String!
   ) {
   update_user_course(
-    _set: {feedback: $feedback},
+    _set: {
+      feedback: $feedback,
+      feedback_rating: $rating,
+      feedback_route: $route
+    },
     where: {
       course_id: {_eq: $courseId},
       user_id: {_eq: $userId}
@@ -36,6 +63,8 @@ mutation (
 `
 
 module.exports = {
+  GET_COURSE_ID_FROM_CHAPTER_ID,
+  GET_COURSE_ID_FROM_MODULE_ID,
   UPDATE_FEEDBACK,
   MARK_CHAPTER_AS_COMPLETE
 }
