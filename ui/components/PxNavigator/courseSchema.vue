@@ -84,7 +84,9 @@ export default {
 
   watch: {
     activeModuleId (newVal) {
-      this.triggerCollapse(newVal)
+      if (newVal) {
+        this.triggerCollapse(newVal)
+      }
     }
   },
   async created () {
