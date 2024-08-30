@@ -132,6 +132,7 @@
                 /></span>
               </template>
               <div>
+                <!-- this line makes the discount_price have priority over the general price -->
                 <payments-stripe-generate
                   :price="courses[0].discount_price || courses[0].price"
                   :course-id="courses[0].id"
