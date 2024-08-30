@@ -30,7 +30,7 @@ export default {
       <Icon v-if="prefixIcon" :icon="`material-symbols-light:${prefixIcon}`" width="1.5rem" />
       <span>{{ text }}</span>
       <div v-if="suffixIcon">
-        <Icon :icon="`material-symbols-light:${suffixIcon}`" width="1.5rem" />
+        <Icon :icon="`material-symbols-light:${suffixIcon}`" width="1.25rem" />
       </div>
     </button>
   </div>
