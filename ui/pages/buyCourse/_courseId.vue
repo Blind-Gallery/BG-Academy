@@ -91,7 +91,7 @@
                 </p>
                 <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
-              <div v-if="courses[0].release_date ? new Date(courses[0].release_date) < new Date() : true">
+              <div v-if="(courses[0].release_date ? new Date(courses[0].release_date) < new Date() : true) || allowEarlyAccess.includes($auth.user.id)">
                 <button class="primary-btn w-100 " @click="openModal">
                   <Icon
                     icon="material-symbols:credit-card"
@@ -184,6 +184,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
+import { allowEarlyAccess } from '@/constants'
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -274,7 +275,13 @@ export default {
   },
 
   data () {
-    return { userCourses: [], showFullDescription: false, maxLength: 700 }
+    return {
+      userCourses: [],
+      showFullDescription:
+      false,
+      maxLength: 700,
+      allowEarlyAccess
+    }
   },
   computed: {
     ...mapGetters('tezosWallet', [
