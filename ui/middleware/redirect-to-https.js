@@ -6,7 +6,7 @@ const isSecure = trustedProxies.includes(clientIp) &&
                  req.headers['x-forwarded-proto'] === 'https';
     if (!isSecure) {
       const {host} = req.headers
-      const url = req.url
+      const {url} = req
       return redirect(301, `https://${host}${url}`)
     }
   }
