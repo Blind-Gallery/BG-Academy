@@ -35,24 +35,17 @@ class Course {
     return handler(id, this.gql)
   }
 
-  constructFeedbackText (feedback, rating, route) {
-    return `${feedback} - ${rating}/5 (feedback from ${route})`
-  }
-
-  async callUpdateFeedback (feedbackText, courseId, userId) {
+  async callUpdateFeedback (feedback, rating, route, courseId, userId) {
     return this.gql.request(UPDATE_FEEDBACK, {
-      feedback: feedbackText,
-      courseId,
-      userId
+      feedback, rating, route, courseId, userId
     })
   }
 
   async updateFeedback (feedback, rating, route, userId) {
     logger.info(`Updating feedback for course ${route}`)
     const courseId = await this.getCourseIdFromRoute(route)
-    const feedbackText = this.constructFeedbackText(feedback, rating, route)
-    logger.debug(`Feedback: ${feedbackText}`)
-    await this.callUpdateFeedback(feedbackText, courseId, userId)
+    logger.debug(`Feedback: ${feedback} ${rating} Route: ${route} User: ${userId}`)
+    await this.callUpdateFeedback(feedback, rating, route, courseId, userId)
   }
 }
 

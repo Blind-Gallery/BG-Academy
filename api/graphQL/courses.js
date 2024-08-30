@@ -26,9 +26,15 @@ mutation (
   $feedback: String!,
   $courseId: String!,
   $userId: String!
+  $rating: Int!
+  $route: String!
   ) {
   update_user_course(
-    _set: {feedback: $feedback},
+    _set: {
+      feedback: $feedback,
+      feedback_rating: $rating,
+      feedback_route: $route
+    },
     where: {
       course_id: {_eq: $courseId},
       user_id: {_eq: $userId}
