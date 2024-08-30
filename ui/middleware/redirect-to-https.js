@@ -4,7 +4,8 @@ export default function ({ req, redirect }) {
     if (!isSecure) {
       const { host } = req.headers
       const { url } = req
-      return redirect(301, `https://${host}${url}`)
+      // Use 307 for temporary redirect or 308 for permanent redirect
+      return redirect(307, `https://${host}${url}`)
     }
   }
 }
