@@ -1,4 +1,7 @@
 export default {
+  router: {
+    middleware: 'redirect-to-https'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   formulate: {
     configPath: '@/plugins/formulate.config.js'
