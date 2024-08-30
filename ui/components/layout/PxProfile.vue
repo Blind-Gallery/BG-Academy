@@ -2,7 +2,7 @@
   <div>
     <div class="tw-relative">
       <div @click.stop="toggleDropdown">
-        <img v-if="$auth.user.pfp && imageLoaded" class="tw-overflow-hidden tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer" :src="$auth.user.pfp" @error="onImageError">
+        <img v-if="$auth.user.pfp && imageLoaded" class="tw-overflow-hidden tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer tw-object-cover" :src="$auth.user.pfp" @error="onImageError">
 
         <div v-else class="tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer tw-border tw-flex tw-items-center tw-justify-center">
           <Icon
