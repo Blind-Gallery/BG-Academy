@@ -186,8 +186,6 @@
                 <PxNavigatorCourseSchema
                   :course-id="courseId"
                 />
-                <PxNavigatorChallengeCard v-if="challenge === 'mint'" :route="`/courseNavigator/challenge/${courseId}`" />
-                <PxNavigatorExploreCard v-if="challenge === 'explore'" :route="`/courseNavigator/explore/${courseId}`" />
               </div>
             </b-col>
           </Transition>

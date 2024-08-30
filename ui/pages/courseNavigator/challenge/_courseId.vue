@@ -124,7 +124,6 @@ export default {
           </template>
         </PxModal>
         <PxNavigatorCourseSchema :course-id="courseId" />
-        <PxNavigatorChallengeCard :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
       </div>
     </div>
   </div>

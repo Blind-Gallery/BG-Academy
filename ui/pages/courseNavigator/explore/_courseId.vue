@@ -118,7 +118,6 @@ export default {
           </template>
         </PxModal>
         <PxNavigatorCourseSchema :course-id="courseId" />
-        <PxNavigatorExploreCard :class="$route.path.includes('explore') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/explore/${courseId}`" />
       </div>
     </div>
   </div>

@@ -13,6 +13,8 @@
 
       <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
     </div>
+    <PxNavigatorChallengeCard v-if="courses_by_pk.challenge === 'mint'" :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+    <PxNavigatorExploreCard v-if="courses_by_pk.challenge === 'explore'" :class="$route.path.includes('explore') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/explore/${courseId}`" />
   </div>
 </template>
 
@@ -22,6 +24,7 @@ import { gql } from 'graphql-tag'
 const GET_COURSE_SCHEMA = gql`
 query MyQuery($id: String!) {
   courses_by_pk(id: $id) {
+    challenge
     modules(order_by: {created_at: asc}) {
       id
       next_module_id
