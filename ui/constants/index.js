@@ -1,8 +1,5 @@
 // allow list
-export const earlyAccessUserIds = [
-  '3543e441-782b-4e65-93dc-b8f0e65b3be7',
-  'e42ed0e9-2256-41a3-8e77-d49b750eb5c1'
-]
+export const earlyAccessUserIds = process.env.TEAM_USER_IDS
 
 // Tezos
 export const TEZTOK_API = 'https://api.teztok.com/v1/graphql'
