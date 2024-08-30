@@ -72,7 +72,7 @@
             class="d-lg-none"
           />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <accordion-courseInstructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
+            <accordion-course-instructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
@@ -285,7 +285,17 @@ export default {
   },
   computed: {
     isAccessible: function () {
-      return (this.courses[0].release_date ? new Date(this.courses[0].release_date) < new Date() : true) || EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
+      return this.isReleased || this.hasEarlyAccess
+    },
+    isReleased: function () {
+      const releaseDate = this.courses[0].release_date
+      return !releaseDate || new Date(releaseDate) < new Date()
+    },
+    hasEarlyAccess: function () {
+      if (!this.$auth.loggedIn) {
+        return false
+      }
+      return EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
     },
     ...mapGetters('tezosWallet', [
       'wallet',
