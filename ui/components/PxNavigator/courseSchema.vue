@@ -1,20 +1,13 @@
 <template>
   <div v-if="!$apollo.loading && courses_by_pk.modules">
-    <!-- WRAPPER -->
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
-      <!-- COLLAPSE BUTTON -->
-      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
-        <div class="tw-w-full tw-flex tw-justify-between">
-          <span :class="chapterModule.id === activeModuleId ? 'tw-text-[#00b9cd]':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
-            {{ chapterModule.title }}
-          </span>
+      <PxNavigator-ModuleCard :active-module="activeModuleId" :module-info="chapterModule" @click.native="triggerCollapse(chapterModule.id)">
+        <template #icon>
           <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
           </div>
-        </div>
-        <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
-      </div>
-      <!-- CHAPTER CONTENT -->
+        </template>
+      </PxNavigator-ModuleCard>
 
       <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
 
