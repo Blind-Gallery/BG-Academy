@@ -133,7 +133,7 @@
               </template>
               <div>
                 <payments-stripe-generate
-                  :price="courses[0].price"
+                  :price="courses[0].discount_price || courses[0].price"
                   :course-id="courses[0].id"
                 />
               </div>
