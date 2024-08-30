@@ -1,5 +1,15 @@
 <template>
   <div v-if="!$apollo.loading && courses_by_pk.modules">
+    <PxModal ref="modalInstance" />
+    <button-PxSecondary
+      v-if="!hasFeedback"
+      class="tw-mb-2"
+      text="Rate this course"
+      width="tw-w-full"
+      prefix-icon="rate-review-outline-rounded"
+      @click="openModal('support-course-feedback-form')"
+    />
+
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
       <PxNavigator-ModuleCard :active-module="activeModuleId" :module-info="chapterModule" @click.native="triggerCollapse(chapterModule.id)">
         <template #icon>
@@ -41,6 +51,15 @@ query MyQuery($id: String!) {
     }
   }
 }`
+
+const COURSE_FEEDBACK = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      feedback
+    }
+  }
+`
+
 export default {
   apollo: {
     courses_by_pk: {
@@ -62,6 +81,7 @@ export default {
   },
   data () {
     return {
+      hasFeedback: null,
       courseInfo: {
         chapterModules: []
       }
@@ -91,9 +111,25 @@ export default {
   },
   async created () {
     await this.getCourseSchema()
+    await this.getFeedback()
   },
 
   methods: {
+    async getFeedback () {
+      if (!this.courseId) { return }
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_FEEDBACK,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: this.courseId
+          }
+        })
+        this.hasFeedback = data.user_course_by_pk.feedback
+      } catch (error) {
+        console.error(error)
+      }
+    },
 
     async getCourseSchema () {
       if (!this.courseId) { return }
@@ -123,6 +159,10 @@ export default {
       this.toggleIcon(this.$refs[`collapseIcon${moduleIndex}`][0], 'tw-rotate-180')
       const contentInstance = this.$refs[`collapseContent${moduleIndex}`][0]
       this.toggleContent(contentInstance)
+    },
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
     }
 
   }
