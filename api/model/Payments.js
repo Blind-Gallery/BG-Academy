@@ -8,6 +8,7 @@ const {
   CREATE_TEZOS_PAYMENT_INTENT,
   CREATE_STRIPE_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
+  GET_USER_COURSE,
   GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
   GET_USER_FROM_ID
 } = require('../graphQL')
@@ -201,10 +202,16 @@ class Payments {
 
   async addCourseToUser ({ courseId, userId }) {
     logger.debug(`Adding course ${courseId} to user ${userId}`)
+
+    const { user_course_by_pk: existing } = await this.gql.request(
+      GET_USER_COURSE, { courseId, userId })
+
+    if (existing) {
+      logger.info(`User already has course ${courseId}`)
+      return existing
+    }
     const { insert_user_course_one: userCourse } = await this.gql.request(
-      ADD_USER_TO_COURSE,
-      { courseId, userId }
-    )
+      ADD_USER_TO_COURSE, { courseId, userId })
 
     await this.sendWelcomeToCourseEmail({ courseId, userId })
     logger.info(`User course: ${JSON.stringify(userCourse)} - email sent`)
