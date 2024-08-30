@@ -9,8 +9,22 @@ export default {
 
   methods: {
     async submitFeedback () {
+      if (!this.$auth.loggedIn) {
+        this.invalidMessage = 'Please login to submit feedback'
+        return
+      }
+      if (!this.courseRate) {
+        this.invalidMessage = 'Please rate the course'
+        return
+      }
       try {
-        await this.$axios.post('/course/feedback', this.feedbackForm)
+        const payload = {
+          route: this.$nuxt.$route.path,
+          rating: this.courseRate,
+          feedback: this.courseFeedback.feedback,
+          userId: this.$auth.user.id
+        }
+        await this.$axios.post('/course/feedback', payload)
         this.$emit('closeModal')
       } catch (error) {
         this.invalidMessage = 'Feedback submission error'
