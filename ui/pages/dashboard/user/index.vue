@@ -36,7 +36,7 @@ export default {
     },
     users_aggregate: {
       query: gql`query ($id: String) {
-        users_aggregate(where: {courses: {user_id: {_eq: $id}}}) {
+        users_aggregate(where: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}) {
           aggregate {
             count
           }
