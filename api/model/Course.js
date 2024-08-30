@@ -44,7 +44,7 @@ class Course {
   async updateFeedback (feedback, rating, route, userId) {
     logger.info(`Updating feedback for course ${route}`)
     const courseId = await this.getCourseIdFromRoute(route)
-    logger.debug(`Feedback: ${feedback} ${rating} Route: ${route} User: ${userId}`)
+    logger.debug(`Feedback: ${feedback} ${rating} Route: ${route}/5 User: ${userId}`)
     await this.callUpdateFeedback(feedback, rating, route, courseId, userId)
   }
 }
