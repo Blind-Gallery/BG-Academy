@@ -16,5 +16,5 @@ WHERE id = 'b2b58372-1a97-42b5-ac2e-c04a52fe841a';
 
 --- this last one needs more context
 UPDATE teachers
-SET description = E'ilithya is a multidisciplinary artist and technologist with a background in creative development and design from México, based in Germany. She has a B.A. in Marketing and is a self-taught programmer working at the intersection of art and technology. Her preferred medium to produce is shaders in OpenGL Shading Language. In 2016, she began teaching programming and creative coding.'
+SET description = E'[ilithya](https://ilithya.rocks/) is a multidisciplinary artist and technologist with a background in creative development and design from México, based in Germany. She has a B.A. in Marketing and is a self-taught programmer working at the intersection of art and technology. Her preferred medium to produce is shaders in OpenGL Shading Language. In 2016, she began teaching programming and creative coding.'
 WHERE id = 'f7b3b3b4-0b3b-4b3b-8b3b-0b3b3b3b3b3b';
