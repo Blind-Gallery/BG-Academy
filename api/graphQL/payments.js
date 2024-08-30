@@ -147,6 +147,16 @@ mutation ($courseId: String!, $userId: String!) {
   }
 }
 `
+
+const GET_USER_COURSE = gql`
+query ($courseId: String!, $userId: String!) {
+  user_course_by_pk(course_id: $courseId, user_id: $userId) {
+    user_id
+    course_id
+    last_chapter_id_seen
+  }
+}
+`
 const GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT = gql`
 query ($paymentIntent: String!) {
   stripe_transaction_info(where: {payment_intent: {_eq: $paymentIntent}}) {
@@ -168,5 +178,6 @@ module.exports = {
   CREATE_STRIPE_PAYMENT_INTENT,
   CREATE_TEZOS_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
+  GET_USER_COURSE,
   GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
 }
