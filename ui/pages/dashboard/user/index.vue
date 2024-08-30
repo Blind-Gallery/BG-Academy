@@ -77,7 +77,7 @@ export default {
     },
     emails_aggregate: {
       query: gql`query ($id: String) {
-        emails_aggregate (where: {user_info: {courses: {course_id: {_eq: $id}}}}) {
+        emails_aggregate(where: {user_info: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}}) {
           aggregate {
             count
           }
