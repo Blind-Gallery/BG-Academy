@@ -44,6 +44,15 @@ query MyQuery($id: String!) {
     }
   }
 }`
+
+const COURSE_FEEDBACK = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      feedback
+    }
+  }
+`
+
 export default {
   apollo: {
     courses_by_pk: {
@@ -65,6 +74,7 @@ export default {
   },
   data () {
     return {
+      hasFeedback: null,
       courseInfo: {
         chapterModules: []
       }
@@ -94,9 +104,25 @@ export default {
   },
   async created () {
     await this.getCourseSchema()
+    await this.getFeedback()
   },
 
   methods: {
+    async getFeedback () {
+      if (!this.courseId) { return }
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_FEEDBACK,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: this.courseId
+          }
+        })
+        this.hasFeedback = data.user_course_by_pk.feedback
+      } catch (error) {
+        console.error(error)
+      }
+    },
 
     async getCourseSchema () {
       if (!this.courseId) { return }
