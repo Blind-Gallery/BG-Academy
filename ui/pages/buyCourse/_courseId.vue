@@ -184,7 +184,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
-import { allowEarlyAccess } from '@/constants'
+import { earlyAccessUserIds } from '@/constants'
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -279,15 +279,12 @@ export default {
       userCourses: [],
       showFullDescription:
       false,
-      maxLength: 700,
-      allowEarlyAccess
+      maxLength: 700
     }
   },
   computed: {
-    computed: {
-      isAccessible () {
-        return (this.courses[0].release_date ? new Date(this.courses[0].release_date) < new Date() : true) || this.allowEarlyAccess.includes(this.$auth.user.id)
-      }
+    isAccessible: function () {
+      return (this.courses[0].release_date ? new Date(this.courses[0].release_date) < new Date() : true) || earlyAccessUserIds.includes(this.$auth.user.id)
     },
     ...mapGetters('tezosWallet', [
       'wallet',
