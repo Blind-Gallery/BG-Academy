@@ -91,7 +91,7 @@
                 </p>
                 <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
-              <div v-if="(courses[0].release_date ? new Date(courses[0].release_date) < new Date() : true) || allowEarlyAccess.includes($auth.user.id)">
+              <div v-if="isAccessible">
                 <button class="primary-btn w-100 " @click="openModal">
                   <Icon
                     icon="material-symbols:credit-card"
@@ -284,6 +284,11 @@ export default {
     }
   },
   computed: {
+    computed: {
+      isAccessible () {
+        return (this.courses[0].release_date ? new Date(this.courses[0].release_date) < new Date() : true) || this.allowEarlyAccess.includes(this.$auth.user.id)
+      }
+    },
     ...mapGetters('tezosWallet', [
       'wallet',
       'publicKey',
