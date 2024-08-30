@@ -46,7 +46,8 @@ export default {
   env: {
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     STRIPE_ACCOUNT: process.env.STRIPE_ACCOUNT,
-    TEZOS_PROTOCOL: process.env.TEZOS_PROTOCOL
+    TEZOS_PROTOCOL: process.env.TEZOS_PROTOCOL,
+    EARLY_ACCESS_USER_IDS: process.env.EARLY_ACCESS_USER_IDS
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
