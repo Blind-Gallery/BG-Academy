@@ -106,8 +106,30 @@ def main():
         def __init__(self, administrator, metadata):
             AdminInterface.__init__(self, administrator)
             self.data.metadata = metadata
-            self.data.courses = sp.cast({},types.course_map)
-            self.data.course_count = sp.nat(0)
+            self.data.courses = sp.cast({
+                1: sp.record(
+                    name="Introduction to the Blockchain Art World",
+                    price=20,
+                    is_active=True,
+                    teacher=sp.address('tz1UdddbVe3icmr5LRP1monxfR13ChsidcoX'),
+                    teacher_cut=70
+                ),
+                2: sp.record(
+                    name="Introduction to pixel shaders",
+                    price=99,
+                    is_active=True,
+                    teacher=sp.address('tz1WZLQKCC4VUrYPH7JcBLQrBuennozLq3g5'),
+                    teacher_cut=70
+                ),
+                3: sp.record(
+                    name="A History of Generative Art",
+                    price=40,
+                    is_active=True,
+                    teacher=sp.address('tz2TXC827RDrVYarjmGEJ3o3p2qNosw3Y6DR'),
+                    teacher_cut=50
+                ),
+            },types.course_map)
+            self.data.course_count = sp.nat(3)
             self.data.user_courses = sp.cast({},types.user_courses_map)
 
         @sp.entrypoint
@@ -252,9 +274,12 @@ def test():
     
 
     contract_metadata = sp.scenario_utils.metadata_of_url(
-            "ipfs://QmaiAUj1FFNGYTu8rLBjc3eeN9cSKwaF8EGMBNDmhzPNFd"
+            "ipfs://QmT9RrZtLX9qJH6kCQLkD8TwsQTbfXyd9wvubCCji6xSHT"
         )
-    c1 = main.Academy(admin.address, contract_metadata)
+    c1 = main.Academy(
+        admin.address,
+        # sp.address('tz1ZLedXnXnPbk43LD1sHHG3NMXG7ZveZ1jr'),
+        contract_metadata)
     scenario += c1
 
     scenario.h2("Add moderators")
