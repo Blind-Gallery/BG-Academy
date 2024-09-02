@@ -80,11 +80,11 @@ export default {
         console.error('You need to be logged in to access this page')
         return
       }
-      const { payment_intent: paymentIntent, payment_intent_client_secret: paymentIntentClientSecret, opHash, courseId } = this.$route.query
+      const { payment_intent: paymentIntent, payment_intent_client_secret: paymentIntentClientSecret, opHash, courseId, onchainId } = this.$route.query
       if (paymentIntent && paymentIntentClientSecret) {
         this.stripeVerify(paymentIntent, paymentIntentClientSecret)
-      } else if (opHash && courseId) {
-        this.tezosVerify(opHash, courseId)
+      } else if (opHash && courseId && onchainId) {
+        this.tezosVerify(opHash, courseId, onchainId)
       } else {
         this.error = 'Something went wrong'
       }
@@ -101,12 +101,13 @@ export default {
         this.error = error.message
       }
     },
-    async tezosVerify (opHash, courseId) {
+    async tezosVerify (opHash, courseId, onchainId) {
       try {
         await this.$axios.$post('/payments/tezos/verify-payment', {
           userId: this.$auth.user.id,
           opHash,
-          courseId
+          courseId,
+          onchainId
         })
         this.courseId = courseId
       } catch (error) {

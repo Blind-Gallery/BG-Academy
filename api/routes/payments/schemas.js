@@ -68,7 +68,8 @@ const tezosPaymentVerify = {
   body: {
     userId: { type: 'string' },
     opHash: { type: 'string' },
-    courseId: { type: 'string' }
+    courseId: { type: 'string' },
+    onchainId: { type: 'number' }
   },
   response: {
     200: {
