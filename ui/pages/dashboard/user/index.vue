@@ -1,16 +1,17 @@
 <template>
-  <div class="dashboard-container">
-    <h1>Dashboard by teacher</h1>
-    <div style="text-align: left;">
-      <p>Number of courses: {{ courses_aggregate.aggregate.count }}</p>
-      <p>Number of users: {{ users_aggregate.aggregate.count }}</p>
-      <p>Number of tezos - users: {{ tezos_aggregate.aggregate.count }}</p>
-      <p>Number of email - users: {{ emails_aggregate.aggregate.count }}</p>
-      <p>Last course bought at: {{ user_course[0]?.created_at }}</p>
-      <p>Number of credit card sales: {{ transactions_stripe_transaction_info[0]?.courses_payments?.length || 0 }}</p>
-      <p>Number of tezos sales: {{ transactions_tezos_transaction_info[0]?.courses_payments?.length || 0 }}</p>
-      <p>Total volume credit card: {{ total_volume_credit_card }}</p>
-      <p>Total volume tezos: {{ total_volume_tezos }}</p>
+  <div class="tw-container ">
+    <div>
+      <span class="tw-text-sm tw-text-gray-500">Hi {{ $auth.user.name }}!</span>
+      <h4 class="tw-mt-0">
+        Sales Dashboard
+      </h4>
+      <div class="tw-columns-1 lg:tw-columns-5">
+        <dashboard-stats-card icon="material-symbols-light:calendar-month-outline-rounded" title="Date of the last sale" :date="formattedDate" />
+        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Credit card sales" :sales="transactions_stripe_transaction_info[0]?.courses_payments?.length || 0" />
+        <dashboard-stats-card icon="token:xtz" title="Tezos sales" :sales="transactions_tezos_transaction_info[0]?.courses_payments?.length || 0" />
+        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Total volume credit card" :volume="total_volume_credit_card" />
+        <dashboard-stats-card icon="token:xtz" title="Total volume tezos" :volume="formattedVolumeTezos" />
+      </div>
     </div>
   </div>
 </template>
