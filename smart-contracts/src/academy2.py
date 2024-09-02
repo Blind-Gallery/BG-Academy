@@ -82,7 +82,7 @@ def main():
         @sp.entrypoint
         def set_administrator(self, params):
             """(Admin only) Set the contract administrator."""
-            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZED"
             self.data.administrator = params
 
         @sp.onchain_view()
@@ -92,13 +92,13 @@ def main():
         @sp.entrypoint
         def add_moderator(self, params):
             sp.cast(params, sp.record(moderator=sp.address, name=sp.string),)
-            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZED"
             self.data.moderators = sp.update_map(params.moderator, sp.Some(params.name), self.data.moderators)
 
         @sp.entrypoint
         def remove_moderator(self, params):
             sp.cast(params.moderator, sp.address)
-            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZED"
 
             del self.data.moderators[params.moderator]
 
@@ -111,7 +111,7 @@ def main():
             self.data.user_courses = sp.cast({},types.user_courses_map)
 
         @sp.entrypoint
-        def crate_course(self, params):
+        def create_course(self, params):
             sp.cast(params, sp.record(
                 name=sp.string,
                 price=sp.nat,
@@ -226,11 +226,37 @@ def test():
     scenario = sp.test_scenario("Academy", [types, main])
     scenario.h1("Academy")
 
-    # We first define a contract and add it to the scenario
-    admin = sp.test_account("Administrator")
-    scenario.show(admin.address)
+    scenario.h2("Accounts")
+    admin = sp.test_account("admin")
+    mod1 = sp.test_account("mod1")
+    mod2 = sp.test_account("mod2")
+
+    alice = sp.test_account("Alice")
+    bob = sp.test_account("Bob")
+    tomas = sp.test_account("Tomas")
+    pedro = sp.test_account("Pedro")
+    teacher1 = sp.test_account("Teacher1")
+    teacher2 = sp.test_account("Teacher2")
+    teacher3 = sp.test_account("Teacher3")
+    scenario.show([alice, bob, tomas, pedro])
+    
+
     contract_metadata = sp.scenario_utils.metadata_of_url(
             "ipfs://QmaiAUj1FFNGYTu8rLBjc3eeN9cSKwaF8EGMBNDmhzPNFd"
         )
     c1 = main.Academy(admin.address, contract_metadata)
     scenario += c1
+
+    scenario.h2("Add moderators")
+    c1.add_moderator(moderator=mod1.address, name="mod1", _sender=admin)
+    c1.add_moderator(moderator=mod2.address, name="mod2", _sender=admin)
+    c1.add_moderator(moderator=mod1.address, name="mod1", _sender=tomas, _valid=False)
+
+    scenario.h2("Create courses")
+    c1.create_course(
+            name="Course 1",
+            price=100,
+            teacher=teacher1.address,
+            teacher_cut=10,
+            _sender=admin
+            )
