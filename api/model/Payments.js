@@ -1,6 +1,6 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
 const { logger } = require('../service')
-
+const { TRANSACTION_TYPES } = require('../constants/payments')
 const {
   GET_COURSE_BY_ID,
   CREATE_PAYMENT_INTENT,
@@ -10,7 +10,8 @@ const {
   ADD_USER_TO_COURSE,
   GET_USER_COURSE,
   GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
-  GET_USER_FROM_ID
+  GET_USER_FROM_ID,
+  UPDATE_PAYMENT_INFO
 } = require('../graphQL')
 
 class Payments {
@@ -26,7 +27,6 @@ class Payments {
   }
 
   async getOrCreatePaymentIntent ({ courseId, userId }) {
-    // TODO: Check if payment intent already exists
     const { payments_by_pk: payment } = await this.gql.request(
       GET_PAYMENT_INTENT_INFO,
       { courseId, userId }
@@ -46,7 +46,7 @@ class Payments {
       CREATE_PAYMENT_INTENT,
       { courseId, userId }
     )
-    logger.info(`Payment intent: ${JSON.stringify(newPayment)}`)
+    logger.debug(`Payment intent: ${JSON.stringify(newPayment)}`)
 
     return {
       transactionId: newPayment?.transaction_info?.id,
@@ -210,7 +210,7 @@ class Payments {
     return { tezos: tezosPrice, onchainId }
   }
 
-  async addCourseToUser ({ courseId, userId }) {
+  async addCourseToUser ({ courseId, userId, transactionType = TRANSACTION_TYPES.GIFT }) {
     logger.debug(`Adding course ${courseId} to user ${userId}`)
 
     const { user_course_by_pk: existing } = await this.gql.request(
@@ -225,6 +225,11 @@ class Payments {
 
     await this.sendWelcomeToCourseEmail({ courseId, userId })
     logger.info(`User course: ${JSON.stringify(userCourse)} - email sent`)
+
+    await this.getOrCreatePaymentIntent({ courseId, userId })
+    await this.gql.request(
+      UPDATE_PAYMENT_INFO,
+      { courseId, userId, transactionType })
     return userCourse
   }
 
@@ -254,7 +259,7 @@ class Payments {
 
   async giftCourse ({ courseId, userId }) {
     logger.info(`Gifting course ${courseId} to user ${userId}`)
-    await this.addCourseToUser({ courseId, userId })
+    await this.addCourseToUser({ courseId, userId, transactionType: TRANSACTION_TYPES.GIFT })
 
     return { success: true }
   }
@@ -273,7 +278,8 @@ class Payments {
     const courseId = stripePayment[0]?.transaction_info?.payment_info?.course_id
     await this.addCourseToUser({
       courseId,
-      userId: stripePayment[0]?.transaction_info?.payment_info?.user_id
+      userId: stripePayment[0]?.transaction_info?.payment_info?.user_id,
+      transactionType: TRANSACTION_TYPES.STRIPE
     })
     return { success: true, courseId }
   }
@@ -281,7 +287,11 @@ class Payments {
   async verifyTezosPayment ({ onchainId, courseId, userId, opHash }) {
     logger.info('Verifying tezos payment intent')
     await this.getTezosPayment({ userId, onchainId, courseId })
-    await this.addCourseToUser({ courseId, userId })
+    await this.addCourseToUser({
+      courseId,
+      userId,
+      transactionType: TRANSACTION_TYPES.TEZOS
+    })
     return { success: true, courseId }
   }
 }
