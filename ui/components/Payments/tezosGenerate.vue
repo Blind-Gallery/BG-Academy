@@ -79,7 +79,7 @@ export default {
         console.info(batchOp)
         if (status === 'applied') {
           console.info('Payment successful')
-          this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.onchainId}`)
+          this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.courseId}&onchainId=${this.onchainId}`)
         } else {
           console.error('Payment failed')
         }
