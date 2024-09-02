@@ -108,14 +108,14 @@ class Academy extends BlindGalleryPermissions {
    * @param {number} courseId
    * @param {number} price
    */
-  async payCourse ({ courseId, price }) {
+  async payCourse ({ courseId, user, price }) {
     await this._initialized
     const batchOperation = await this.Tezos.wallet
       .batch([
         {
           kind: OpKind.TRANSACTION,
           ...this.contract.methods
-            .pay_course(courseId)
+            .buy_course(courseId, user)
             .toTransferParams({ amount: price })
         }
       ])
