@@ -1,27 +1,30 @@
 <template>
   <div v-if="!$apollo.loading && courses_by_pk.modules">
-    <!-- WRAPPER -->
+    <PxModal ref="modalInstance" />
+    <button-PxSecondary
+      v-if="!hasFeedback"
+      class="tw-mb-2"
+      text="Rate this course"
+      width="tw-w-full"
+      prefix-icon="rate-review-outline-rounded"
+      @click="openModal('support-course-feedback-form')"
+    />
+
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
-      <!-- COLLAPSE BUTTON -->
-      <div class="tw-cursor-pointer tw-flex tw-flex-col hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-p-4" @click="triggerCollapse(chapterModule.id)">
-        <div class="tw-w-full tw-flex tw-justify-between">
-          <span :class="chapterModule.id === activeModuleId ? 'tw-text-[#00b9cd]':''" class="tw-font-bold tw-text-sm   tw-mb-0 tw-truncate">
-            {{ chapterModule.title }}
-          </span>
+      <PxNavigator-ModuleCard :active-module="activeModuleId" :module-info="chapterModule" @click.native="triggerCollapse(chapterModule.id)">
+        <template #icon>
           <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
           </div>
-        </div>
-        <span class="tw-text-xs tw-text-gray-500">Chapters: {{ chapterModule.chapters.length }}</span>
-      </div>
-      <!-- CHAPTER CONTENT -->
+        </template>
+      </PxNavigator-ModuleCard>
 
       <PxNavigator-ChapterCard v-for="(chapter, chapterIndex) in chapterModule.chapters" :key="chapterIndex" :route="chapter.id" :title="chapter.title" :duration="chapter.duration" />
 
-      <!-- TEST CONTENT -->
       <PxNavigator-TestCard v-if="chapterModule.questions.length > 0" :route="chapterModule.id" :questions="chapterModule.questions.length" />
-      <PxNavigator-challengeCard v-if="false" />
     </div>
+    <PxNavigatorChallengeCard v-if="courses_by_pk.challenge === 'mint'" :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+    <PxNavigatorExploreCard v-if="courses_by_pk.challenge === 'explore'" :class="$route.path.includes('explore') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/explore/${courseId}`" />
   </div>
 </template>
 
@@ -31,6 +34,7 @@ import { gql } from 'graphql-tag'
 const GET_COURSE_SCHEMA = gql`
 query MyQuery($id: String!) {
   courses_by_pk(id: $id) {
+    challenge
     modules(order_by: {created_at: asc}) {
       id
       next_module_id
@@ -47,6 +51,15 @@ query MyQuery($id: String!) {
     }
   }
 }`
+
+const COURSE_FEEDBACK = gql`
+  query ($courseId: String!, $userId: String!) {
+    user_course_by_pk(course_id: $courseId, user_id: $userId) {
+      feedback
+    }
+  }
+`
+
 export default {
   apollo: {
     courses_by_pk: {
@@ -68,6 +81,7 @@ export default {
   },
   data () {
     return {
+      hasFeedback: null,
       courseInfo: {
         chapterModules: []
       }
@@ -90,14 +104,32 @@ export default {
 
   watch: {
     activeModuleId (newVal) {
-      this.triggerCollapse(newVal)
+      if (newVal) {
+        this.triggerCollapse(newVal)
+      }
     }
   },
   async created () {
     await this.getCourseSchema()
+    await this.getFeedback()
   },
 
   methods: {
+    async getFeedback () {
+      if (!this.courseId) { return }
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_FEEDBACK,
+          variables: {
+            userId: this.$auth.loggedIn ? this.$auth.user.id : '',
+            courseId: this.courseId
+          }
+        })
+        this.hasFeedback = data.user_course_by_pk.feedback
+      } catch (error) {
+        console.error(error)
+      }
+    },
 
     async getCourseSchema () {
       if (!this.courseId) { return }
@@ -127,11 +159,12 @@ export default {
       this.toggleIcon(this.$refs[`collapseIcon${moduleIndex}`][0], 'tw-rotate-180')
       const contentInstance = this.$refs[`collapseContent${moduleIndex}`][0]
       this.toggleContent(contentInstance)
+    },
+    openModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
     }
 
   }
 }
 </script>
-
-<style>
-</style>

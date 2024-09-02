@@ -9,8 +9,23 @@ export default {
 
   methods: {
     async submitFeedback () {
+      if (!this.$auth.loggedIn) {
+        this.invalidMessage = 'Please login to submit feedback'
+        return
+      }
+      if (!this.courseRate) {
+        this.invalidMessage = 'Please rate the course'
+        return
+      }
       try {
-        await this.$axios.post('/course/feedback', this.feedbackForm)
+        const payload = {
+          route: this.$nuxt.$route.path,
+          rating: this.courseRate,
+          feedback: this.courseFeedback.feedback,
+          userId: this.$auth.user.id
+        }
+        await this.$axios.post('/course/feedback', payload)
+        this.$notify({ type: 'success', text: 'Feedback successfully sent' })
         this.$emit('closeModal')
       } catch (error) {
         this.invalidMessage = 'Feedback submission error'
@@ -22,17 +37,15 @@ export default {
 
 <template>
   <div>
-    <h4>
-      Congratulations for completing <span style="color:#00B9CD">Introduction to the Blockchain Art World</span>
+    <h4 class="tw-text-cyan-500">
+      Help us to rate this course to keep improving our content
     </h4>
     <hr>
-    <p class="small">
-      Help us to rate this course to keep improving our content
-    </p>
+
     <div class="mb-4">
       <b-form-rating v-model="courseRate" color="#00b9cd" size="lg" />
     </div>
-    <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="sendFeedback">
+    <FormulateForm v-slot="{ isLoading }" v-model="courseFeedback" class="login-form" @submit="submitFeedback">
       <FormulateInput
         name="feedback"
         type="textarea"

@@ -2,9 +2,8 @@
   <div>
     <div class="tw-relative">
       <div @click.stop="toggleDropdown">
-        <div v-if="$auth.user.pfp" class="tw-overflow-hidden tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer">
-          <img v-if="$auth.user.pfp" :src="$auth.user.pfp">
-        </div>
+        <img v-if="$auth.user.pfp && imageLoaded" class="tw-overflow-hidden tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer tw-object-cover" :src="$auth.user.pfp" @error="onImageError">
+
         <div v-else class="tw-rounded-full tw-w-[35px] tw-h-[35px] tw-cursor-pointer tw-border tw-flex tw-items-center tw-justify-center">
           <Icon
             icon="material-symbols-light:person"
@@ -54,7 +53,8 @@ import { dappClient } from '~/services/tezos'
 export default {
   data () {
     return {
-      isDropdownVisible: false
+      isDropdownVisible: false,
+      imageLoaded: true
     }
   },
   mounted () {
@@ -64,6 +64,9 @@ export default {
     document.removeEventListener('click', this.handleClickOutside)
   },
   methods: {
+    onImageError () {
+      this.imageLoaded = false
+    },
     async doLogout () {
       const { disconnectWallet, checkIfWalletIsConnected } = dappClient()
       const { connected: isWalletConnected } = await checkIfWalletIsConnected()

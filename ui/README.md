@@ -7,7 +7,10 @@
 $ yarn install
 
 # serve with hot reload at localhost:3000
-$ infisical run --path=/ui yarn dev
+Note: 
+  The --env=dev flag is used to specify the environment configuration for development mode. While infisical defaults to the dev environment. Others values are staging and production.
+
+$ infisical run --env=dev --path=/ui yarn dev
 
 # build for production and launch server
 $ yarn build

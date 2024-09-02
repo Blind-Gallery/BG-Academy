@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PxModal ref="modalInstance" />
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
       <b-row v-if="!$apollo.loading" class="mt-md-3">
         <b-col
@@ -71,7 +72,7 @@
             class="d-lg-none"
           />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <accordion-courseInstructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
+            <accordion-course-instructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
@@ -90,7 +91,7 @@
                 </p>
                 <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
-              <div v-if="courses[0].release_date ? new Date(courses[0].release_date) < new Date() : true">
+              <div v-if="isAccessible">
                 <button class="primary-btn w-100 " @click="openModal">
                   <Icon
                     icon="material-symbols:credit-card"
@@ -131,8 +132,9 @@
                 /></span>
               </template>
               <div>
+                <!-- this line makes the discount_price have priority over the general price -->
                 <payments-stripe-generate
-                  :price="courses[0].price"
+                  :price="courses[0].discount_price || courses[0].price"
                   :course-id="courses[0].id"
                 />
               </div>
@@ -183,6 +185,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
+import { EARLY_ACCESS_USER_IDS } from '@/constants'
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -273,9 +276,27 @@ export default {
   },
 
   data () {
-    return { userCourses: [], showFullDescription: false, maxLength: 700 }
+    return {
+      userCourses: [],
+      showFullDescription:
+      false,
+      maxLength: 700
+    }
   },
   computed: {
+    isAccessible: function () {
+      return this.isReleased || this.hasEarlyAccess
+    },
+    isReleased: function () {
+      const releaseDate = this.courses[0].release_date
+      return !releaseDate || new Date(releaseDate) < new Date()
+    },
+    hasEarlyAccess: function () {
+      if (!this.$auth.loggedIn) {
+        return false
+      }
+      return EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
+    },
     ...mapGetters('tezosWallet', [
       'wallet',
       'publicKey',
@@ -349,14 +370,19 @@ export default {
           console.error(error)
         })
     },
+    openSignUpModal (component) {
+      const modalInstance = this.$refs.modalInstance
+      modalInstance.showModal(component)
+    },
 
     openModal () {
       if (this.$auth.loggedIn) {
         return this.$bvModal.show('credit-pay')
       } else {
-        return this.$bvModal.show('signin')
+        this.openSignUpModal('auth-log-in-form')
       }
     }
+
   }
 }
 </script>
