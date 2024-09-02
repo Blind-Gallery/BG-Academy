@@ -7,7 +7,8 @@ export default {
     },
     sales: {
       type: Number,
-      default: null
+      default: 0,
+      validator: value => value >= 0
     },
     volume: {
       type: Number,
