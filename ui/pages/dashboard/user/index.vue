@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+  <div class="dashboard-container">
     <h1>Dashboard by teacher</h1>
     <div style="text-align: left;">
       <p>Number of courses: {{ courses_aggregate.aggregate.count }}</p>
@@ -14,12 +14,23 @@
     </div>
   </div>
 </template>
-
 <script>
 import { gql } from 'graphql-tag'
 
 export default {
   apollo: {
+    teachers: {
+      query: gql`query ($id: String) {
+        teachers(where: {user_id: {_eq: $id}}) {
+          id
+        }
+      }`,
+      variables () {
+        return {
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
+        }
+      }
+    },
     courses_aggregate: {
       query: gql`query ($id: String) {
         courses_aggregate(where: {teacher: {user_id: {_eq: $id}}}) {
@@ -30,7 +41,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -44,7 +55,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -57,7 +68,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -71,7 +82,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -85,7 +96,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -105,7 +116,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -125,7 +136,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     }
@@ -133,16 +144,45 @@ export default {
   data () {
     return {
       total_volume_credit_card: 0,
-      total_volume_tezos: 0
+      total_volume_tezos: 0,
+      user_id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
     }
   },
-  mounted () {
-    this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-      this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
-    })
-    this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-      this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
-    })
+  watch: {
+    teachers: {
+      handler () {
+        if (this.teachers.length === 0) {
+          this.$router.push('/')
+        }
+      },
+      deep: true
+    },
+    transactions_stripe_transaction_info: {
+      handler () {
+        this.total_volume_credit_card = 0
+        this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
+          this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
+        })
+      },
+      deep: true
+    },
+    transactions_tezos_transaction_info: {
+      handler () {
+        this.total_volume_tezos = 0
+        this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
+          this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
+        })
+      },
+      deep: true
+    }
   }
 }
 </script>
+<style scoped>
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+</style>
