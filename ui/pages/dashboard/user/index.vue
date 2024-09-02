@@ -149,6 +149,20 @@ export default {
       user_id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
     }
   },
+  computed: {
+    formattedDate () {
+      const createdAt = this.user_course[0]?.created_at
+      if (createdAt) {
+        const date = new Date(createdAt)
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' })
+      }
+      return 'Date not available'
+    },
+    formattedVolumeTezos () {
+      return Math.round(this.total_volume_tezos)
+    }
+  },
+
   watch: {
     teachers: {
       handler () {
