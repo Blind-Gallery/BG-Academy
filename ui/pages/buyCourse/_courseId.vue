@@ -280,7 +280,8 @@ export default {
       userCourses: [],
       showFullDescription:
       false,
-      maxLength: 700
+      maxLength: 700,
+      nowDate: new Date()
     }
   },
   computed: {
@@ -289,7 +290,7 @@ export default {
     },
     isReleased: function () {
       const releaseDate = this.courses[0].release_date
-      return !releaseDate || new Date(releaseDate) < new Date()
+      return !releaseDate || new Date(releaseDate) < this.nowDate
     },
     hasEarlyAccess: function () {
       if (!this.$auth.loggedIn) {
@@ -351,8 +352,14 @@ export default {
 
   mounted () {
     this.getUserCourses()
+    setInterval(() => {
+      this.updateNowDate()
+    }, 30000)
   },
   methods: {
+    updateNowDate () {
+      this.nowDate = new Date()
+    },
     toggleDescription () {
       this.showFullDescription = !this.showFullDescription
     },
