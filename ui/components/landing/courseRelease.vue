@@ -21,10 +21,10 @@
           <button-PxPrimary text="View course" />
         </NuxtLink>
       </div>
-      <div class="tw-w-full tw-flex tw-items-center  tw-order-1 lg:tw-order-2 tw-relative">
+      <div class="tw-w-full tw-flex tw-items-center tw-justify-center lg:tw-justify-start  tw-order-1 lg:tw-order-2 tw-relative">
         <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby" class="tw-w-full tw-h-auto" alt="Imagen">
         <div class="tw-absolute  tw-inset-0 tw-bg-gradient-to-l tw-from-transparent tw-to-white tw-opacity-100" />
-        <div class="tw-absolute  tw-overflow-hidden tw-rounded-full tw-w-[170px] tw-h-[170px]">
+        <div class="tw-absolute tw-overflow-hidden tw-rounded-full md:tw-w-[170px] md:tw-h-[170px] tw-w-[150px] tw-h-[150px]">
           <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmV2PBdksQNvsyMfwxcXVvq4Y22BA8rXWSVmTFnMkhB9FG">
         </div>
       </div>
