@@ -9,7 +9,7 @@
         <dashboard-stats-card icon="material-symbols-light:calendar-month-outline-rounded" title="Date of the last sale" :date="formattedDate" />
         <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Credit card sales" :sales="transactions_stripe_transaction_info[0]?.courses_payments?.length || 0" />
         <dashboard-stats-card icon="token:xtz" title="Tezos sales" :sales="transactions_tezos_transaction_info[0]?.courses_payments?.length || 0" />
-        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Total volume credit card" :volume="total_volume_credit_card" />
+        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Total volume credit card" :volume="formattedVolumeDollar" />
         <dashboard-stats-card icon="token:xtz" title="Total volume tezos" :volume="formattedVolumeTezos" />
       </div>
     </div>
@@ -159,7 +159,13 @@ export default {
       return 'Date not available'
     },
     formattedVolumeTezos () {
-      return Math.round(this.total_volume_tezos)
+      const decimalPlaces = 2
+      const factor = Math.pow(10, decimalPlaces)
+      const result = Math.round(this.total_volume_tezos * factor) / factor
+      return result.toLocaleString()
+    },
+    formattedVolumeDollar () {
+      return this.total_volume_credit_card.toLocaleString()
     }
   },
 
