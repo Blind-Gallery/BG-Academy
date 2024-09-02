@@ -1,9 +1,7 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <!--INTRODUCTION CONTAINER-->
-      <PxWebinar v-if="!$auth.loggedIn" />
-      <!--INFO CONTAINER-->
+      <landing-course-release v-if="!$auth.loggedIn" />
 
       <!--LOGGED CONTAINER-->
       <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
@@ -553,14 +551,6 @@ export default {
       comingCourses:
       [
         {
-          pfp: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmeHx3ZiRwKfznGtFw7cPruEFas24eBfxPbdVNC6HaAnLo',
-          instructor: 'By Paul Schmidt, COO at fxhash',
-          title: 'Introduction to Generative Art',
-          description: 'Paul Schimdt guides to the fundamental concepts behind generative art and why it is so unique for artists and collectors.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmR2BG2V3CtT4g7vq7Dn8tgjuYSKxzxzzhukYKx6V8wdmW',
-          category: 'Artists, Collectors'
-        },
-        {
           pfp: 'https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg',
           instructor: 'By Uncap Collective',
           title: 'A Collectors Journey',
@@ -591,15 +581,8 @@ export default {
           description: 'Learn the fundamental concepts and history behind generative art.',
           cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC',
           category: 'Artists, Collectors'
-        },
-        {
-          pfp: 'https://pbs.twimg.com/profile_images/1684158464551944193/_UYRB1ZM_400x400.jpg',
-          instructor: 'By ilithya',
-          title: 'Introduction to pixel shaders',
-          description: 'This course will walk you through the basics of computational thinking and creative coding with pixel shaders in GLSL.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby',
-          category: 'Artists'
         }
+
       ]
 
     }
