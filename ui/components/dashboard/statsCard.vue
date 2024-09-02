@@ -11,7 +11,7 @@ export default {
       validator: value => value >= 0
     },
     volume: {
-      type: Number,
+      type: String,
       default: null
     },
     date: {
