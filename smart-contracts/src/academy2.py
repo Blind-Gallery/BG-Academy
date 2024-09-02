@@ -44,6 +44,9 @@ def types():
         soul_bound_token_id=sp.nat,
     )
     user_courses_map: type = sp.map[user_course_key, user_course]
+    blind_gallery_address = sp.address('tz1UdddbVe3icmr5LRP1monxfR13ChsidcoX')
+
+    
 # A SmartPy module
 @sp.module
 def main():
@@ -79,7 +82,7 @@ def main():
         @sp.entrypoint
         def set_administrator(self, params):
             """(Admin only) Set the contract administrator."""
-            assert self.is_administrator_(sp.sender), "FA2_NOT_ADMIN"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
             self.data.administrator = params
 
         @sp.onchain_view()
@@ -89,13 +92,13 @@ def main():
         @sp.entrypoint
         def add_moderator(self, params):
             sp.cast(params, sp.record(moderator=sp.address, name=sp.string),)
-            assert self.is_administrator_(sp.sender), "FA2_NOT_ADMIN"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
             self.data.moderators = sp.update_map(params.moderator, sp.Some(params.name), self.data.moderators)
 
         @sp.entrypoint
         def remove_moderator(self, params):
             sp.cast(params.moderator, sp.address)
-            assert self.is_administrator_(sp.sender), "FA2_NOT_ADMIN"
+            assert self.is_administrator_(sp.sender), "USER_NOT_AUTHORIZEDmy"
 
             del self.data.moderators[params.moderator]
 
@@ -147,6 +150,12 @@ def main():
             )
 
         @sp.entrypoint
+        def delete_course(self, params):
+            sp.cast(params, sp.record(course_id=sp.nat))
+            assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
+            del self.data.courses[params.course_id]
+
+        @sp.entrypoint
         def add_course_to_user(self, params):
             sp.cast(params, sp.record(
                 course_id=sp.nat,
@@ -160,7 +169,57 @@ def main():
                 soul_bound_token_id=params.token_id
             )
 
-            # Tests
+        @sp.entrypoint
+        def remove_course_from_user(self, params):
+            sp.cast(params, sp.record(
+                course_id=sp.nat,
+                user=sp.address
+            ))
+            assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
+            del self.data.user_courses[(params.user, params.course_id)]
+
+        @sp.entrypoint
+        def update_soul_bound_token_id(self, params):
+            sp.cast(params, sp.record(
+                course_id=sp.nat,
+                user=sp.address,
+                token_id=sp.nat
+            ))
+            assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
+            self.data.user_courses[(params.user, params.course_id)].soul_bound_token_id = params.token_id
+
+        @sp.entrypoint
+        def buy_course(self, params):
+            sp.cast(params, sp.record(
+                course_id=sp.nat,
+                user=sp.address
+            ))
+            assert self.data.user_courses[(params.user, params.course_id)].is_paid, "ALREADY_PAID"
+            assert self.data.user_courses[(params.user, params.course_id)].is_active, "ALREADY_ACTIVE"
+            # sp.send(types.blind_gallery_address, sp.amount)
+            self.data.user_courses[(params.user, params.course_id)].is_paid = True
+            self.data.user_courses[(params.user, params.course_id)].is_active = True
+
+        @sp.entrypoint
+        def activate_course(self, params):
+            sp.cast(params, sp.record(
+                course_id=sp.nat,
+                user=sp.address
+            ))
+            assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
+            assert self.data.user_courses[(params.user, params.course_id)].is_active, "ALREADY_ACTIVE"
+            self.data.user_courses[(params.user, params.course_id)].is_active = True
+
+        @sp.entrypoint
+        def deactivate_course(self, params):
+            sp.cast(params, sp.record(
+                course_id=sp.nat,
+                user=sp.address
+            ))
+            assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
+            assert self.data.user_courses[(params.user, params.course_id)].is_active, "ALREADY_INACTIVE"
+            self.data.user_courses[(params.user, params.course_id)].is_active = False
+# Tests
 @sp.add_test()
 def test():
     # We define a test scenario, together with some outputs and checks
