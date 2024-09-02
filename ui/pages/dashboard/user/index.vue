@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+  <div class="dashboard-container">
     <h1>Dashboard by teacher</h1>
     <div style="text-align: left;">
       <p>Number of courses: {{ courses_aggregate.aggregate.count }}</p>
@@ -14,7 +14,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { gql } from 'graphql-tag'
 
@@ -179,3 +178,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+</style>
