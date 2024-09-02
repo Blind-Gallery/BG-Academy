@@ -66,7 +66,7 @@ export default {
         {
           kind: OpKind.TRANSACTION,
           ...academyContract.methods
-            .pay_course(this.onchainId)
+            .buy_course(this.onchainId, this.$auth.user.tezos_info.wallet)
             .toTransferParams({ amount: this.tezosPrice })
         }
       ]
