@@ -23,8 +23,11 @@ export default {
     }
   },
   async mounted () {
-    this.courseId = this.$route.params.courseId
     await this.getCertificateData()
+  },
+
+  created () {
+    this.courseId = this.$route.params.courseId
   },
   methods: {
     openModal (component) {
@@ -123,8 +126,7 @@ export default {
             </div>
           </template>
         </PxModal>
-        <PxNavigatorCourseSchema :course-id="courseId" />
-        <PxNavigatorChallengeCard :class="$route.path.includes('challenge') ? 'tw-text-cyan-500':''" :route="`/courseNavigator/challenge/${courseId}`" />
+        <PxNavigatorCourseSchema v-if="courseId" :course-id="courseId" />
       </div>
     </div>
   </div>
