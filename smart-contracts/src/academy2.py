@@ -194,12 +194,22 @@ def main():
                 course_id=sp.nat,
                 user=sp.address
             ))
-            assert self.data.user_courses[(params.user, params.course_id)].is_paid, "ALREADY_PAID"
-            assert self.data.user_courses[(params.user, params.course_id)].is_active, "ALREADY_ACTIVE"
-            # sp.send(types.blind_gallery_address, sp.amount)
+            assert self.data.user_courses[(params.user, params.course_id)].is_paid == False, "ALREADY_PAID"
+            assert self.data.user_courses[(params.user, params.course_id)].is_active == False, "ALREADY_ACTIVE"
+            assert sp.amount > sp.mutez(0), "INVALID_AMOUNT"
+  
             self.data.user_courses[(params.user, params.course_id)].is_paid = True
             self.data.user_courses[(params.user, params.course_id)].is_active = True
 
+            teacher_cut = sp.split_tokens(sp.amount, self.data.courses[params.course_id].teacher_cut, 100)
+            sp.send(
+                self.data.courses[params.course_id].teacher,
+                teacher_cut
+            )
+            sp.send(
+                types.blind_gallery_address,
+                sp.amount - teacher_cut
+            )
         @sp.entrypoint
         def activate_course(self, params):
             sp.cast(params, sp.record(
@@ -207,7 +217,7 @@ def main():
                 user=sp.address
             ))
             assert self.is_admin_or_mod(sp.sender), "USER_NOT_AUTHORIZED"
-            assert self.data.user_courses[(params.user, params.course_id)].is_active, "ALREADY_ACTIVE"
+            assert self.data.user_courses[(params.user, params.course_id)].is_active == False, "ALREADY_ACTIVE"
             self.data.user_courses[(params.user, params.course_id)].is_active = True
 
         @sp.entrypoint
@@ -254,9 +264,82 @@ def test():
 
     scenario.h2("Create courses")
     c1.create_course(
-            name="Course 1",
-            price=100,
-            teacher=teacher1.address,
-            teacher_cut=10,
-            _sender=admin
-            )
+        name="Course 1",
+        price=100,
+        teacher=teacher1.address,
+        teacher_cut=70,
+        _sender=admin)
+    c1.create_course(
+        name="Course 2",
+        price=200,
+        teacher=teacher2.address,
+        teacher_cut=50,
+        _sender=admin)
+    c1.create_course(
+        name="Course 3",
+        price=300,
+        teacher=teacher3.address,
+        teacher_cut=10,
+        _sender=admin)
+    
+    scenario.h2("Update courses")
+
+    c1.update_course(
+        course_id=1,
+        name="Course 1 updated",
+        price=100,
+        teacher=teacher1.address,
+        teacher_cut=70,
+        is_active=True,
+        _sender=admin)
+    
+
+    scenario.h2("Add courses to users (create payment intent)")
+    c1.add_course_to_user(
+        course_id=1,
+        user=alice.address,
+        token_id=0,
+        _sender=admin)
+    c1.add_course_to_user(
+        course_id=2,
+        user=alice.address,
+        token_id=0,
+        _sender=admin)
+    c1.add_course_to_user(
+        course_id=3,
+        user=alice.address,
+        token_id=0,
+        _sender=admin)
+    
+    scenario.h2("Buy courses")
+    c1.buy_course(course_id=1, user=alice.address, _sender=alice, _valid=False)
+    c1.buy_course(
+        course_id=1,
+        user=alice.address,
+        _sender=admin,
+        _amount=sp.tez(100))
+    c1.buy_course(
+        course_id=1,
+        user=alice.address,
+        _sender=admin,
+        _amount=sp.tez(100),
+        _valid=False)
+    scenario.h2("Update soul bound token id")
+    c1.update_soul_bound_token_id(
+        course_id=1,
+        user=alice.address,
+        token_id=1,
+        _sender=admin)
+    
+
+    scenario.h2("Deactivate course")
+    c1.deactivate_course(course_id=1, user=alice.address, _sender=admin)
+
+    scenario.h2("Activate course")
+    c1.activate_course(course_id=1, user=alice.address, _sender=admin)
+
+    scenario.h2("Remove course from user")
+    c1.remove_course_from_user(course_id=1, user=alice.address, _sender=admin)
+
+    scenario.h2("Delete course")
+    c1.delete_course(course_id=1, _sender=admin)
