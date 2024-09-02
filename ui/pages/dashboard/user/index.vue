@@ -20,7 +20,7 @@ import { gql } from 'graphql-tag'
 
 export default {
   apollo: {
-    teacher: {
+    teachers: {
       query: gql`query ($id: String) {
         teachers(where: {user_id: {_eq: $id}}) {
           id
@@ -28,7 +28,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -42,7 +42,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -56,7 +56,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -69,7 +69,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -83,7 +83,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -97,7 +97,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -117,7 +117,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     },
@@ -137,7 +137,7 @@ export default {
       }`,
       variables () {
         return {
-          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
         }
       }
     }
@@ -145,16 +145,14 @@ export default {
   data () {
     return {
       total_volume_credit_card: 0,
-      total_volume_tezos: 0
+      total_volume_tezos: 0,
+      user_id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
     }
   },
   watch: {
-    teacher: {
+    teachers: {
       handler () {
-        if (!this.$auth.loggedIn) {
-          return
-        }
-        if (!this.teacher.length) {
+        if (this.teachers.length === 0) {
           this.$router.push('/')
         }
       },
