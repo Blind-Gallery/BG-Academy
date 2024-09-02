@@ -27,17 +27,31 @@ class Payments {
 
   async getOrCreatePaymentIntent ({ courseId, userId }) {
     // TODO: Check if payment intent already exists
+    const { payments_by_pk: payment } = await this.gql.request(
+      GET_PAYMENT_INTENT_INFO,
+      { courseId, userId }
+    )
+
+    if (payment) {
+      logger.info(`Payment intent already exists for course ${courseId} and user ${userId}`)
+      return {
+        transactionId: payment?.transaction_info?.id,
+        stripeTransactionId: payment?.transaction_info?.stripe_transaction_id,
+        tezosTransactionId: payment?.transaction_info?.tezos_transaction_id
+      }
+    }
+
     logger.info(`Creating payment intent for course ${courseId} and user ${userId}`)
-    const { insert_payments_one: payment } = await this.gql.request(
+    const { insert_payments_one: newPayment } = await this.gql.request(
       CREATE_PAYMENT_INTENT,
       { courseId, userId }
     )
-    logger.info(`Payment intent: ${JSON.stringify(payment)}`)
+    logger.info(`Payment intent: ${JSON.stringify(newPayment)}`)
 
     return {
-      transactionId: payment?.transaction_info?.id,
-      stripeTransactionId: payment?.transaction_info?.stripe_transaction_id,
-      tezosTransactionId: payment?.transaction_info?.tezos_transaction_id
+      transactionId: newPayment?.transaction_info?.id,
+      stripeTransactionId: newPayment?.transaction_info?.stripe_transaction_id,
+      tezosTransactionId: newPayment?.transaction_info?.tezos_transaction_id
     }
   }
 
@@ -69,20 +83,20 @@ class Payments {
   }
 
   async getStripePayment (userId, courseId) {
-    const { payments } = await this.gql.request(
+    const { payments_by_pk: payment } = await this.gql.request(
       GET_PAYMENT_INTENT_INFO,
       { userId, courseId }
     )
-    const stripePayment = payments[0]?.transaction_info?.transactions_stripe_transaction_info
+    const stripePayment = payment?.transaction_info?.transactions_stripe_transaction_info
     return stripePayment
   }
 
   async getTezosPayment ({ userId, onchainId, courseId }) {
-    const { payments } = await this.gql.request(
+    const { payments_by_pk: payment } = await this.gql.request(
       GET_PAYMENT_INTENT_INFO,
       { userId, courseId }
     )
-    const tezosPayment = payments[0]?.transaction_info?.transactions_tezos_transaction_info
+    const tezosPayment = payment?.transaction_info?.transactions_tezos_transaction_info
     return tezosPayment
   }
 
@@ -90,38 +104,34 @@ class Payments {
     paymentIntent, courseId,
     userId, paymentIntentClientSecret, amount
   }) {
-    logger.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
+    logger.debug(`Storing stripe payment intent for ${courseId} and ${userId}`)
     if (!paymentIntent || !courseId || !userId || !paymentIntentClientSecret || !amount) {
       throw new BadRequest('Missing required fields')
     }
-    logger.info(`Storing stripe payment intent for ${courseId} and ${userId}`)
-    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
-    logger.info(`Transaction id: ${transactionId}`)
-    const { insert_payments_one: payment } = await this.gql.request(
+    logger.debug(`Storing stripe payment intent for ${courseId} and ${userId}`)
+    const { stripeTransactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
+    logger.debug(`Transaction id: ${stripeTransactionId}`)
+    const { update_stripe_transaction_info_by_pk: payment } = await this.gql.request(
       CREATE_STRIPE_PAYMENT_INTENT,
       {
         paymentIntent,
-        courseId,
-        userId,
         paymentIntentClientSecret,
         amount,
-        transactionId
+        stripeTransactionId
       }
     )
     return payment
   }
 
   async storeTezosPaymentIntent ({ courseId, userId, wallet, amount }) {
-    logger.info(`Storing tezos payment intent for ${courseId} and ${userId}`)
-    const { transactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
+    logger.debug(`Storing tezos payment intent for ${courseId} and ${userId}`)
+    const { tezosTransactionId } = await this.getOrCreatePaymentIntent({ courseId, userId })
     const { insert_payments_one: payment } = await this.gql.request(
       CREATE_TEZOS_PAYMENT_INTENT,
       {
-        courseId,
-        userId,
         amount,
         wallet,
-        transactionId
+        tezosTransactionId
       }
     )
     return payment
@@ -174,7 +184,7 @@ class Payments {
     }
 
     try {
-      logger.info()
+      logger.info(`Creating tezos payment intent for ${tezosPrice} tez - ${price} USD`)
       await this.storeTezosPaymentIntent({
         courseId,
         userId,
