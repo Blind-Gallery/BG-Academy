@@ -70,7 +70,7 @@ query ($courseId: String!, $userId: String!) {
   }
 }
 `
-// TODO: fix this mutation - update instead
+
 const CREATE_STRIPE_PAYMENT_INTENT = gql`
 mutation (
   $stripeTransactionId: String!,
@@ -97,7 +97,7 @@ mutation (
 }
 
 `
-// TODO: fix this mutation - update instead
+
 const CREATE_TEZOS_PAYMENT_INTENT = gql`
 mutation (
   $tezosTransactionId: String!,
@@ -157,6 +157,26 @@ query ($paymentIntent: String!) {
 }
 `
 
+const UPDATE_PAYMENT_INFO = gql`
+mutation (
+  $courseId: String!,
+  $userId: String!,
+  $transactionType: transaction_types_enum!
+) {
+  update_payments_by_pk(
+    pk_columns: {
+      user_id: $userId,
+      course_id: $courseId
+    },
+    _set: {
+      transaction_type: $transactionType
+    }
+  ) {
+    user_id
+    course_id
+  }
+}
+`
 module.exports = {
   GET_COURSE_BY_ID,
   GET_PAYMENT_INTENT_INFO,
@@ -165,5 +185,6 @@ module.exports = {
   CREATE_TEZOS_PAYMENT_INTENT,
   ADD_USER_TO_COURSE,
   GET_USER_COURSE,
-  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT
+  GET_PAYMENT_INTENT_INFO_FROM_STRIPE_INTENT,
+  UPDATE_PAYMENT_INFO
 }
