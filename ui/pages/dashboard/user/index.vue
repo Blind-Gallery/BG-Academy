@@ -20,6 +20,18 @@ import { gql } from 'graphql-tag'
 
 export default {
   apollo: {
+    teacher: {
+      query: gql`query ($id: String) {
+        teachers(where: {user_id: {_eq: $id}}) {
+          id
+        }
+      }`,
+      variables () {
+        return {
+          id: this.$auth.loggedIn ? this.$auth.user.id : ''
+        }
+      }
+    },
     courses_aggregate: {
       query: gql`query ($id: String) {
         courses_aggregate(where: {teacher: {user_id: {_eq: $id}}}) {
@@ -136,13 +148,36 @@ export default {
       total_volume_tezos: 0
     }
   },
-  mounted () {
-    this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-      this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
-    })
-    this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-      this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
-    })
+  watch: {
+    teacher: {
+      handler () {
+        if (!this.$auth.loggedIn) {
+          return
+        }
+        if (!this.teacher.length) {
+          this.$router.push('/')
+        }
+      },
+      deep: true
+    },
+    transactions_stripe_transaction_info: {
+      handler () {
+        this.total_volume_credit_card = 0
+        this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
+          this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
+        })
+      },
+      deep: true
+    },
+    transactions_tezos_transaction_info: {
+      handler () {
+        this.total_volume_tezos = 0
+        this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
+          this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
+        })
+      },
+      deep: true
+    }
   }
 }
 </script>
