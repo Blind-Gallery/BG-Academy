@@ -2,9 +2,9 @@
 export default {
   props: {
     courseId: {
-      type: Boolean,
+      type: String,
       required: false,
-      default: false
+      default: ''
     }
   },
   data () {

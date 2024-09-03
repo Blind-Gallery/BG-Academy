@@ -74,7 +74,7 @@ class Documents {
       const { update_user_course_by_pk: userCourse } = await this.gql.request(
         UPDATE_USER_COURSE_SOUL_BOUND_CERTIFICATE,
         { courseId, userId, soulBoundTokenId, opHash })
-      return userCourse
+      return { userCourse, soulBoundTokenId }
     } catch (err) {
       logger.error(err)
       throw new BadRequest('Error updating certificate')
@@ -154,10 +154,12 @@ class Documents {
       const tokenCall = this.sbtSC.createBadge(userCourse.user_info.tezos_info.wallet, metadataCID, 1)
       calls.push(tokenCall)
       const { status, opHash } = await this.sbtSC.mint(calls)
-      await this.updateSoulBoundCertificate({ courseId, userId, opHash })
-      return { status, opHash }
+      const { soulBoundTokenId } = await this.updateSoulBoundCertificate({ courseId, userId, opHash })
+      logger.info(`Minted soul bound certificate for user ${userId} in course ${courseId} - tokenId: ${soulBoundTokenId}`)
+      return { status, opHash, soulBoundTokenId }
     } catch (err) {
       logger.error(err)
+      throw new BadRequest('Error minting certificate')
     }
   }
 }

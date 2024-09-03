@@ -53,7 +53,7 @@ class TZIP {
 
   async getMetadataCID () {
     const metadataCID = await this.client.add(Buffer.from(JSON.stringify(this.params)), `${this.params.name}-metadata.json`)
-    logger.info(`Metadata CID: ${metadataCID.path}`)
+    logger.info(`Metadata CID: ${metadataCID}`)
     if (!metadataCID) {
       throw new Error('Error uploading metadata')
     }

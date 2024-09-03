@@ -1,26 +1,46 @@
 <template>
   <div class="w-100">
     <button
-      v-if="!hash"
+      v-if="!soulBoundTokenId"
       class="tw-flex tw-w-full  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200"
       :disabled="loading"
       @click="getCertificate"
     >
-      <span v-if="loading">Claiming Certificate...</span>
+      <span v-if="loading">Claiming Certificate... Please wait</span>
       <span v-else>Claim certificate</span>
     </button>
 
-    <a v-else class="text-decoration-none w-100" :href="`${TZKT_ENDPOINT}/${hash}`" target="_blank">
+    <a v-else class="text-decoration-none w-100" :href="`https://objkt.com/tokens/${contractAddress}/${soulBoundTokenId}`" target="_blank">
       <button class="tw-flex tw-w-full  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200">
-        Check transaction
+        See in objkt
       </button>
     </a>
   </div>
 </template>
 
 <script>
-import { TZKT_ENDPOINT } from '~/constants'
+import { gql } from 'graphql-tag'
+import { TZKT_ENDPOINT, CONTRACT_ADDRESS } from '~/constants'
+
+const GET_CERTIFICATE_INFO = gql`
+  query ($courseId: String!, $userId: String!) {
+  user_course_by_pk(course_id: $courseId, user_id: $userId) {
+    soul_bound_token_id
+  }
+}
+`
 export default {
+  apollo: {
+    user_course_by_pk: {
+      query: GET_CERTIFICATE_INFO,
+      variables () {
+        return {
+          courseId: this.courseId,
+          userId: this.$auth.user.id
+        }
+      }
+    }
+  },
   props: {
     courseId: {
       type: String,
@@ -34,25 +54,28 @@ export default {
   },
   data () {
     return {
+      contractAddress: CONTRACT_ADDRESS.sbt,
+      tokenId: null,
       loading: false,
       url: null,
-      TZKT_ENDPOINT: null
+      TZKT_ENDPOINT
     }
   },
-
-  mounted () {
-    this.TZKT_ENDPOINT = TZKT_ENDPOINT
+  computed: {
+    soulBoundTokenId () {
+      return this.user_course_by_pk?.soul_bound_token_id || this.tokenId
+    }
   },
   methods: {
     async getCertificate () {
       try {
         this.loading = true
-        const { status, opHash } = await this.$axios.$post('/docs/mint', {
+        const { soulBoundTokenId } = await this.$axios.$post('/docs/mint', {
           userId: this.$auth.user.id,
           courseId: this.courseId
         })
-        console.info(status, opHash)
         this.$notify({ type: 'success', text: 'Certificate successfully minted' })
+        this.tokenId = soulBoundTokenId
       } catch (e) {
         console.error(e)
         this.loading = false

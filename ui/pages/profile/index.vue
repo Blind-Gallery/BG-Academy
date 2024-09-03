@@ -42,6 +42,7 @@
               validation="required"
             />
             <FormulateInput
+              v-if="false"
               :value="$auth.user.email_info ? $auth.user.email_info.email : $auth.user.email_info"
               name="email"
               type="email"
@@ -57,10 +58,11 @@
         </div>
 
         <auth-change-password-form
+          v-if="false"
           :user-id="$auth.user.id"
         />
 
-        <div v-if="!$auth.user.tezos_info">
+        <div v-if="false">
           <hr>
           <div class="d-flex flex-column my-4">
             <p class="m-0">
@@ -77,7 +79,7 @@
           </div>
         </div>
 
-        <div v-else>
+        <div v-if="false">
           <hr>
           <div class="d-flex ">
             <p style="color:#3ed082">
