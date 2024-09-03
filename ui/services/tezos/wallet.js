@@ -78,8 +78,7 @@ export default class BeaconWalletService {
   }
 
   async contractInteraction (contractAddress, entryPoint, parameter) {
-    const contract = await Tezos.wallet.at(contractAddress)
-    console.info('contract', contract)
+    await Tezos.wallet.at(contractAddress)
   }
 
   async autoLogin () {
