@@ -183,6 +183,7 @@ class User {
       signedMessage,
       payload
     }) {
+    logger.info(`Registering wallet ${wallet} for user ${userId}`)
     const { users_by_pk: user } = await this.gql.request(
       GET_USER_FROM_ID, { userId })
 
@@ -197,11 +198,12 @@ class User {
     const { tezos: tezosInfo } = this.gql.request(
       GET_TEZOS_FROM_WALLET, { wallet })
 
+    logger.info(`Tezos info ${JSON.stringify(tezosInfo)}`)
     // merge user
     if (tezosInfo) {
+      logger.info(`Indeed, wallet ${wallet} is already registered`)
       throw new BadRequest('Wallet already registered')
     }
-
     const isVerified = verifySignature(
       payload,
       publicKey,
