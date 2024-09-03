@@ -14,6 +14,9 @@ query ($id: String!) {
         id
       }
     }
+    teacher {
+      name
+    }
   }
 }
 `
