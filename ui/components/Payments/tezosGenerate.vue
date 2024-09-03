@@ -76,7 +76,6 @@ export default {
         const batchOp = await batch.send()
         await batchOp.confirmation(1)
         const status = await batchOp.status()
-        console.info(batchOp)
         if (status === 'applied') {
           console.info('Payment successful')
           this.$router.push(`/buyCourse/success?opHash=${batchOp.opHash}&courseId=${this.courseId}&onchainId=${this.onchainId}`)
