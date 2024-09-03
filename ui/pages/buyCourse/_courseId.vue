@@ -110,7 +110,7 @@
             </div>
 
             <div v-else>
-              <NuxtLink :to="'/courseNavigator/chapter/' + userCourses[0].last_chapter_id_seen">
+              <NuxtLink :to="'/courseNavigator/chapter/' + courses[0].modules[0].chapters[0].id">
                 <button class="primary-btn w-100">
                   View course
                 </button>
