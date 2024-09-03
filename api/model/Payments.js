@@ -248,10 +248,10 @@ class Payments {
     }
 
     logger.info(`Sending welcome email to ${userId} for course ${courseId}`)
-
+    const title = `'${course.name}' by ${course.teacher.name}`
     await this.email.sendThanksForPurchaseEmail({
       to: emailInfo.email,
-      title: course.title,
+      title,
       image: course.thumbnail,
       link: `https://academy.blindgallery.xyz/courseNavigator/chapter/${course.modules[0].chapters[0].id}`
     })
