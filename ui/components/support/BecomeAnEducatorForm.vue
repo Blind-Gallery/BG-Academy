@@ -14,7 +14,6 @@ export default {
       } catch (error) {
         console.error(error)
       }
-      console.info(`Send this form ${this.educatorsForm}`)
     }
   }
 }
