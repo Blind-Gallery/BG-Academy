@@ -168,7 +168,6 @@
 
       <!--COURSES ROW-->
       <b-container
-        v-if="user_course.length === 0"
         id="explore-courses"
         style="max-width: 1240px;"
         class="my-5"
