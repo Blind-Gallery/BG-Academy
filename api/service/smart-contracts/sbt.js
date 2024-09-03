@@ -1,5 +1,5 @@
 const { MichelsonMap, OpKind } = require('@taquito/taquito')
-const { char2Bytes } = require('@taquito/tzip16')
+const { char2Bytes } = require('@taquito/utils')
 const logger = require('../Logger')
 const { TezosConstants } = require('../../constants')
 const BlindGalleryPermissions = require('./base')
