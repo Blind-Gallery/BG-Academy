@@ -195,7 +195,7 @@ class User {
       throw new BadRequest('Wallet already registered')
     }
 
-    const { tezos: tezosInfo } = this.gql.request(
+    const { tezos: tezosInfo } = await this.gql.request(
       GET_TEZOS_FROM_WALLET, { wallet })
 
     logger.info(`Tezos info ${JSON.stringify(tezosInfo)}`)
@@ -214,7 +214,7 @@ class User {
     }
 
     try {
-      const { insert_tezos_one: tezos } = this.gql.request(
+      const { insert_tezos_one: tezos } = await this.gql.request(
         REGISTER_WALLET, {
           userId,
           wallet,
