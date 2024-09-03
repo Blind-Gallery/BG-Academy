@@ -41,9 +41,9 @@ async function getDocumentHandler (req, reply) {
 async function mintDocumentHandler (req, reply) {
   // const token = req.headers.authorization.split(' ')[1]
   // req.body.token = token
-  await this.documents.mintSoulBoundCertificate(req.body)
+  const response = await this.documents.mintSoulBoundCertificate(req.body)
 
-  return { certificate: 'minted' }
+  return { ...response }
 }
 
 async function uploadFileHandler (req, reply) {

@@ -28,7 +28,8 @@ const mintCertificateSchema = {
       type: 'object',
       properties: {
         status: { type: 'string' },
-        opHash: { type: 'string' }
+        opHash: { type: 'string' },
+        soulBoundTokenId: { type: 'number' }
       }
     }
   }
