@@ -118,6 +118,7 @@ export default {
   },
 
   auth: {
+    redirect: false,
     strategies: {
       google: {
         scheme: 'oauth2',
