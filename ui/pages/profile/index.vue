@@ -179,8 +179,12 @@ export default {
     async connectWallet () {
       const data = await this.getWalletAccessData()
       data.userId = this.$auth.user.id
-      const response = await this.$axios.$post('users/register-wallet', data)
-      console.info(response)
+      try {
+        await this.$axios.$post('users/register-wallet', data)
+      } catch (error) {
+        console.error(error)
+        // TODO: Handle error alert the user
+      }
     },
     redirectionHome () {
       if (!this.$auth.loggedIn) {
