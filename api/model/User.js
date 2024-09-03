@@ -211,15 +211,19 @@ class User {
       throw new Unauthorized('Invalid signature')
     }
 
-    const { insert_tezos_one: tezos } = this.gql.request(
-      REGISTER_WALLET, {
-        userId,
-        wallet,
-        publicKey,
-        signedMessage
-      })
-
-    return tezos
+    try {
+      const { insert_tezos_one: tezos } = this.gql.request(
+        REGISTER_WALLET, {
+          userId,
+          wallet,
+          publicKey,
+          signedMessage
+        })
+      return tezos
+    } catch (error) {
+      logger.error(error)
+      throw new BadRequest('Error registering wallet')
+    }
   }
 
   async changePassword ({ userId, password, newPassword }) {
