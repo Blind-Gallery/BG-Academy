@@ -171,7 +171,7 @@
         class="my-5"
       >
         <h4 class="mb-4">
-          See our latest courses
+          Our latest courses
         </h4>
 
         <Swiper
@@ -440,9 +440,10 @@
 <script>
 import { Pagination, EffectFade, Navigation } from 'swiper'
 import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
-
-import 'swiper/swiper-bundle.css'
 import { gql } from 'graphql-tag'
+import 'swiper/swiper-bundle.css'
+
+import { IPFS } from '@/constants'
 
 SwiperCore.use([Pagination, Navigation])
 
@@ -520,6 +521,7 @@ export default {
 
   data () {
     return {
+      gateway: IPFS.GATEWAY,
       totalCertificates: [],
       targetBreakpoint: null,
       screenWidth: 0,
@@ -554,7 +556,7 @@ export default {
           instructor: 'By Uncap Collective',
           title: 'A Collectors Journey',
           description: 'Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s',
+          cover: `${IPFS.GATEWAY}QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s`,
           category: 'Collectors'
         },
         {
@@ -562,7 +564,7 @@ export default {
           instructor: 'By Dist',
           title: 'Designing Sounds for Beginners',
           description: 'Learn the fundamentals of digital sound-making for creatives.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmannDKXVxP2sqg9hKcEUi9ytRDBxRVS4zAAyYttmmxsVn',
+          cover: `${IPFS.GATEWAY}QmannDKXVxP2sqg9hKcEUi9ytRDBxRVS4zAAyYttmmxsVn`,
           category: 'Artists'
         },
         {
@@ -570,7 +572,7 @@ export default {
           instructor: 'By Haiver',
           title: 'Mastering The Artist Statement',
           description: 'Learn how to create a simple and powerful artist statement.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK',
+          cover: `${IPFS.GATEWAY}QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK`,
           category: 'Artists'
         },
         {
@@ -578,7 +580,7 @@ export default {
           instructor: 'By Heeey',
           title: 'Generative Coded Art 101',
           description: 'Learn the fundamental concepts and history behind generative art.',
-          cover: 'https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC',
+          cover: `${IPFS.GATEWAY}QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC`,
           category: 'Artists, Collectors'
         }
 

@@ -1,9 +1,19 @@
+<script>
+import { IPFS } from '@/constants'
+export default {
+  data () {
+    return {
+      gateway: IPFS.GATEWAY
+    }
+  }
+}
+</script>
 <template>
   <div>
     <div class="tw-container lg:tw-flex tw-items-center tw-justify-between tw-py-6">
       <div class="tw-flex tw-flex-col tw-border-b-2 tw-pb-2 lg:tw-pb-0 lg:tw-border-b-0">
         <NuxtLink to="/" class="tw-mb-4">
-          <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV" width="110px">
+          <img :src="`${gateway}QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV`" width="110px">
         </NuxtLink>
         <span class="tw-text-xs tw-text-gray-500">© 2024 Blind Gallery Academy. All rights reserved.</span>
         <span class="tw-text-xs tw-text-gray-500">Powered by Tezos.</span>

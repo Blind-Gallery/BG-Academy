@@ -1,3 +1,13 @@
+<script>
+import { IPFS } from '@/constants'
+export default {
+  data () {
+    return {
+      gateway: IPFS.GATEWAY
+    }
+  }
+}
+</script>
 <template>
   <div>
     <b-container style="max-width: 1240px;">
@@ -5,9 +15,9 @@
         <b-col col lg="6">
           <div class="w-100 rounded overflow-hidden shadow-sm">
             <div class="overflow-hidden position-relative d-flex justify-content-center align-items-center" style="height:200px">
-              <img width="100%" src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby">
+              <img width="100%" :src="`${gateway}QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby`">
               <div class="position-absolute">
-                <b-avatar style="border:5px solid white" class="rounded" size="8rem" variant="info" src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmV2PBdksQNvsyMfwxcXVvq4Y22BA8rXWSVmTFnMkhB9FG" />
+                <b-avatar style="border:5px solid white" class="rounded" size="8rem" variant="info" :src="`${gateway}QmV2PBdksQNvsyMfwxcXVvq4Y22BA8rXWSVmTFnMkhB9FG`" />
               </div>
             </div>
             <div class="p-4">

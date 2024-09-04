@@ -25,6 +25,8 @@ test('generateCertificate returns a valid CID', async (t) => {
     teacher: 'Hugo'
   }
   const { pdfCID, imageCID } = await documents.generateCertificate(data)
+  console.log(`Document CID: ${pdfCID}, Image CID: ${imageCID}`)
+  console.log(`PDF: https://blind-gallery.infura-ipfs.io/ipfs/${pdfCID}`)
   t.ok(pdfCID)
   t.ok(imageCID)
   t.type(pdfCID, 'string')

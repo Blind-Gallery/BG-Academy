@@ -1,7 +1,10 @@
 <script>
+import { IPFS } from '@/constants'
+
 export default {
   data () {
     return {
+      gateway: IPFS.GATEWAY,
       mobileMenuOpen: false
     }
   },
@@ -47,7 +50,7 @@ export default {
     <!-- DESKTOP MENU -->
     <div class="tw-container lg:tw-flex tw-items-center tw-justify-between tw-hidden">
       <NuxtLink to="/">
-        <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV" width="150px">
+        <img :src="`${gateway}QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV`" width="150px">
       </NuxtLink>
       <div v-if="!$auth.loggedIn" class="tw-flex tw-items-center tw-gap-2">
         <button-PxTertiary text="Become an Educator" @click="openModal('support-become-an-educator-form');closeMobileMenu " />
@@ -59,7 +62,7 @@ export default {
     <!-- RESPONSIVE MENU BTNS -->
     <div class="tw-flex tw-items-center tw-justify-between lg:tw-hidden">
       <NuxtLink to="/">
-        <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV" width="150px">
+        <img :src="`${gateway}QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV`" width="150px">
       </NuxtLink>
 
       <div v-if="!$auth.loggedIn">
