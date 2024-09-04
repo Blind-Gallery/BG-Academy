@@ -185,7 +185,7 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
-import { EARLY_ACCESS_USER_IDS } from '@/constants'
+import { ALLOW_LIST } from '@/constants'
 
 const USER_COURSES = gql`query ($id: String = "") {
         user_course( where:
@@ -296,7 +296,7 @@ export default {
       if (!this.$auth.loggedIn) {
         return false
       }
-      return EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
+      return ALLOW_LIST.EARLY_ACCESS_USER_IDS.includes(this.$auth.user.id)
     },
     ...mapGetters('tezosWallet', [
       'wallet',

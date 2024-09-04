@@ -3,12 +3,12 @@ import { BeaconWallet } from '@taquito/beacon-wallet'
 import { SigningType } from '@airgap/beacon-sdk'
 import { Tezos } from './utils'
 
-import { ENDPOINT, DEFAULT_MATRIX_NODE, CHAIN_NAME, APP_NAME } from '@/constants'
+import { TEZOS, METADATA } from '@/constants'
 
 const options = {
-  name: APP_NAME,
-  matrixNodes: [DEFAULT_MATRIX_NODE],
-  preferredNetwork: CHAIN_NAME,
+  name: METADATA.APP_NAME,
+  matrixNodes: [TEZOS.DEFAULT_MATRIX_NODE],
+  preferredNetwork: TEZOS.CHAIN_NAME,
   featuredWallets: ['autonomy', 'kukai', 'temple', 'naan'],
   disableDefaultEvents: false
 }
@@ -50,8 +50,8 @@ export default class BeaconWalletService {
     await client.clearActiveAccount()
     return client.requestPermissions({
       network: {
-        type: CHAIN_NAME,
-        rpcUrl: ENDPOINT
+        type: TEZOS.CHAIN_NAME,
+        rpcUrl: TEZOS.ENDPOINT
       }
     })
   }
@@ -61,8 +61,8 @@ export default class BeaconWalletService {
     Tezos.setWalletProvider(this.beaconWallet)
     await this.beaconWallet.requestPermissions({
       network: {
-        type: CHAIN_NAME,
-        rpcUrl: ENDPOINT
+        type: TEZOS.CHAIN_NAME,
+        rpcUrl: TEZOS.ENDPOINT
       }
     })
     this.tezosAddress = await this.beaconWallet.getPKH()
