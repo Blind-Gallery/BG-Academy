@@ -171,7 +171,7 @@
         class="my-5"
       >
         <h4 class="mb-4">
-          See our latest courses
+          Our latest courses
         </h4>
 
         <Swiper
