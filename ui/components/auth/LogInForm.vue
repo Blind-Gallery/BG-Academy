@@ -8,10 +8,16 @@ export default {
   },
 
   methods: {
+    async getIp () {
+      const { ip } = await this.$axios.$get('https://api.ipify.org?format=json')
+      return ip
+    },
     async emailConnect () {
       try {
+        const ipAddress = await this.getIp()
         await this.$auth.loginWith('local', {
           data: {
+            ipAddress,
             ...this.signInForm
           }
         })

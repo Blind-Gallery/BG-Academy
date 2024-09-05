@@ -9,9 +9,15 @@ export default {
   },
 
   methods: {
+    async getIp () {
+      const { ip } = await this.$axios.$get('https://api.ipify.org?format=json')
+      return ip
+    },
     async walletConnect () {
       try {
+        const ipAddress = await this.getIp()
         const data = await this.getWalletAccessData()
+        data.ipAddress = ipAddress
         await this.$auth.loginWith('local', {
           data
         })
