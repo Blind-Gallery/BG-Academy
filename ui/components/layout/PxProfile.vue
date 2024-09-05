@@ -33,7 +33,7 @@
             <li
               class="hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer tw-rounded tw-flex tw-items-center tw-gap-2 tw-p-2 tw-whitespace-nowrap"
 
-              @click="doLogout; closeDropdown"
+              @click="doLogout"
             >
               <Icon
                 icon="material-symbols-light:logout-rounded"
