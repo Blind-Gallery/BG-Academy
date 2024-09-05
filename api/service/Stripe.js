@@ -102,7 +102,7 @@ class Payment {
       customerInfo.email = user.email_info.email
     }
     if (user.tezos_info) {
-      customerInfo.tezos_wallet = user.tezos_info.wallet
+      customerInfo.metadata.tezos_wallet = user.tezos_info.wallet
     }
 
     if (customerId) {
