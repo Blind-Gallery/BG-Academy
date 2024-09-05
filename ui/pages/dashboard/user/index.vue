@@ -1,7 +1,7 @@
 <template>
   <div class="tw-container ">
     <div>
-      <span class="tw-text-sm tw-text-gray-500">Hi {{ $auth.user.name }}!</span>
+      <span class="tw-text-sm tw-text-gray-500">Hi {{ $auth?.user?.name }}!</span>
       <h4 class="tw-mt-0">
         Sales Dashboard
       </h4>
