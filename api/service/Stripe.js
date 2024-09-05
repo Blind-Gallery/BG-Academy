@@ -1,7 +1,10 @@
 const { BadRequest, InternalServerError } = require('http-errors')
 const logger = require('./Logger')
 require('dotenv').config()
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe = require('stripe')(
+  process.env.STRIPE_SECRET_KEY,
+  { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
+)
 
 class Payment {
   /**
@@ -190,6 +193,16 @@ class Payment {
     }
   }
 
+  /**
+   * Calculates the tax for a given amount and currency.
+   *
+   * @param {number} amount - The amount to calculate tax for.
+   * @param {string} currency - The currency of the amount.
+   * @param {string} reference - The reference for the tax calculation.
+   * @param {string} customerId - The ID of the customer.
+   * @returns {string} - The ID of the tax calculation.
+   * @throws {InternalServerError} - If the tax calculation fails.
+   */
   async calculateTax (amount, currency, reference, customerId) {
     let id = null
     const { taxCode } = await this.retrieveTaxSettings()
