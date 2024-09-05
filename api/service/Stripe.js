@@ -5,6 +5,7 @@ const stripe = require('stripe')(
   process.env.STRIPE_SECRET_KEY,
   { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
 )
+const axios = require('axios').default
 
 class Payment {
   /**
@@ -79,6 +80,41 @@ class Payment {
     logger.debug({ customer })
 
     return customer
+  }
+
+  async registerCustomer ({ customerId = null, user, ip }) {
+    const { data: details } = await axios.get(`http://ip-api.com/json/${ip}`)
+    logger.debug(details)
+    const customerInfo = {
+      name: user.name,
+      address: {
+        country: details.countryCode
+      },
+      tax: {
+        ip_address: ip
+      },
+      metadata: {
+
+      }
+    }
+    logger.debug({ customerInfo })
+    if (user.email_info) {
+      customerInfo.email = user.email_info.email
+    }
+    if (user.tezos_info) {
+      customerInfo.tezos_wallet = user.tezos_info.wallet
+    }
+
+    if (customerId) {
+      logger.debug(`Updating customer ${customerId}`)
+      await this.updateCustomer(customerId, customerInfo)
+      return customerId
+    }
+
+    logger.debug('Creating customer')
+    const customer = await this.createCustomer(customerInfo)
+
+    return customer.id
   }
 
   /**
