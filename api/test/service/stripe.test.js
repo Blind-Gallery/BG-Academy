@@ -71,6 +71,21 @@ describe('Test Stripe service - Customers', () => {
     assert.ok(customer)
     assert.ok(customer.id)
   })
+
+  test('Create a customer without email should not fail', async (t) => {
+    // arrange
+    const customerInfo = {
+      name: faker.person.firstName()
+    }
+    // act
+    const customer = await stripe.createCustomer(customerInfo)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+
+    await stripe.deleteCustomer(customer.id)
+  })
 })
 
 describe('Test Stripe service - Payment intents', () => {
