@@ -4,16 +4,68 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class Payment {
-  async createCustomer (metadata) {
+  /**
+   * Creates a customer using the provided customer information.
+   *
+   * @param {Object} customerInfo - The customer information.
+   * @returns {Promise<Object>} - A promise that resolves to the created customer object.
+   */
+  async createCustomer (customerInfo) {
     let customer = null
     try {
       customer = await stripe.customers.create({
-        ...metadata
+        ...customerInfo
       })
     } catch (err) {
       logger.error(err)
     }
     logger.info({ customer })
+    return customer
+  }
+
+  /**
+   * Retrieves a customer from Stripe.
+   *
+   * @param {string} customerId - The ID of the customer to retrieve.
+   * @returns {Promise<Object>} - A promise that resolves to the retrieved customer object.
+   */
+  async retrieveCustomer (customerId) {
+    const customer = await stripe.customers.retrieve(customerId)
+    logger.debug({ customer })
+
+    return customer
+  }
+
+  /**
+   * Updates a customer in Stripe.
+   *
+   * @param {string} customerId - The ID of the customer to update.
+   * @param {Object} customerInfo - The updated customer information.
+   * @returns {Promise<Object>} - A promise that resolves to the updated customer object.
+   */
+  async updateCustomer (customerId, customerInfo) {
+    let customer = null
+    try {
+      customer = await stripe.customers.update(customerId, {
+        ...customerInfo
+      })
+    } catch (err) {
+      logger.error(err)
+    }
+    logger.debug({ customer })
+    return customer
+  }
+
+  /**
+   * Deletes a customer from Stripe.
+   *
+   * @param {string} customerId - The ID of the customer to delete.
+   * @returns {Promise<Object>} - A promise that resolves to the deleted customer object.
+   */
+  async deleteCustomer (customerId) {
+    const customer = await stripe.customers.del(customerId)
+    logger.debug({ customer })
+
     return customer
   }
 
