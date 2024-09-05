@@ -48,7 +48,7 @@ export default {
           <span class="tw-text-sm">Edit profile</span>
         </div>
       </NuxtLink>
-      <NuxtLink to="/settings/password" class="hover:tw-no-underline">
+      <NuxtLink v-if="$auth.user.email_info" to="/settings/password" class="hover:tw-no-underline">
         <div :class="$route.path === '/settings/password' ? 'tw-bg-white tw-border-l-4 tw-border-cyan-500 tw-shadow-sm': ''" class="tw-flex tw-items-center tw-gap-2 tw-text-gray-500 tw-cursor-pointer tw-p-2 hover:tw-bg-white hover:tw-shadow-sm tw-rounded tw-ease-in-out tw-duration-200">
           <div>
             <Icon icon="material-symbols-light:password" width="1.25rem" />
@@ -86,7 +86,7 @@ export default {
               <span class="tw-text-sm">Edit profile</span>
             </div>
           </NuxtLink>
-          <NuxtLink to="/settings/password" class="hover:tw-no-underline">
+          <NuxtLink v-if="$auth.user.email_info" to="/settings/password" class="hover:tw-no-underline">
             <div :class="$route.path === '/settings/password' ? ' tw-border-l-4 tw-border-cyan-500': ''" class="tw-flex tw-items-center tw-gap-2 tw-text-gray-500 tw-cursor-pointer tw-p-2 hover:tw-bg-gray-100  tw-ease-in-out tw-duration-200">
               <div>
                 <Icon icon="material-symbols-light:password" width="1.25rem" />
