@@ -7,7 +7,32 @@ const stripe = require('stripe')(
 )
 const axios = require('axios').default
 
-class Payment {
+async function safeStripeOperation (operation, errorMessage) {
+  try {
+    const result = await operation()
+    logger.debug(`Stripe operation successful: ${JSON.stringify(result)}`)
+    return result
+  } catch (err) {
+    logger.error(`${errorMessage}: ${err.message}`)
+    throw new InternalServerError(errorMessage)
+  }
+}
+class Stripe {
+  async getIPDetails (ip) {
+    const { data } = await axios.get(`http://ip-api.com/json/${ip}`)
+    return data
+  }
+
+  async customerOperation (operation, id, info = {}) {
+    if (!id && operation !== 'create') {
+      throw new BadRequest('Customer ID is required!')
+    }
+    return safeStripeOperation(
+      () => stripe.customers[operation](id, info),
+      `Failed to ${operation} customer`
+    )
+  }
+
   /**
    * Creates a customer using the provided customer information.
    *
@@ -15,16 +40,7 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the created customer object.
    */
   async createCustomer (customerInfo) {
-    let customer = null
-    try {
-      customer = await stripe.customers.create({
-        ...customerInfo
-      })
-    } catch (err) {
-      logger.error(err)
-    }
-    logger.info({ customer })
-    return customer
+    return this.customerOperation('create', null, customerInfo)
   }
 
   /**
@@ -34,13 +50,7 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the retrieved customer object.
    */
   async retrieveCustomer (customerId) {
-    if (!customerId) {
-      throw new BadRequest('Customer ID is required')
-    }
-    const customer = await stripe.customers.retrieve(customerId)
-    logger.debug({ customer })
-
-    return customer
+    return this.customerOperation('retrieve', customerId)
   }
 
   /**
@@ -51,19 +61,7 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the updated customer object.
    */
   async updateCustomer (customerId, customerInfo) {
-    if (!customerId) {
-      throw new BadRequest('Customer ID is required!')
-    }
-    let customer = null
-    try {
-      customer = await stripe.customers.update(customerId, {
-        ...customerInfo
-      })
-    } catch (err) {
-      logger.error(err)
-    }
-    logger.debug({ customer })
-    return customer
+    return this.customerOperation('update', customerId, customerInfo)
   }
 
   /**
@@ -73,13 +71,7 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the deleted customer object.
    */
   async deleteCustomer (customerId) {
-    if (!customerId) {
-      throw new BadRequest('Customer ID is required!')
-    }
-    const customer = await stripe.customers.del(customerId)
-    logger.debug({ customer })
-
-    return customer
+    return this.customerOperation('delete', customerId)
   }
 
   async registerCustomer ({ customerId = null, user, ip }) {
@@ -267,4 +259,4 @@ class Payment {
   }
 }
 
-module.exports = Payment
+module.exports = Stripe
