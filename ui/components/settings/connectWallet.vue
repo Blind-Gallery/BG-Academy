@@ -1,6 +1,15 @@
 <script>
 import { dappClient } from '~/services/tezos'
 export default {
+  computed: {
+    formattedWallet () {
+      const wallet = this.$auth.user.tezos_info.wallet
+      if (wallet && wallet.length > 10) {
+        return `${wallet.substring(0, 7)}...${wallet.substring(wallet.length - 5)}`
+      }
+      return wallet
+    }
+  },
   methods: {
     async getWalletAccessData () {
       const { connectAccount, requestLoginSignPayload, checkIfWalletIsConnected } = dappClient()
@@ -68,16 +77,24 @@ export default {
           </button>
         </div>
         <div v-else>
-          <h6 class="tw-font-bold">
-            This wallet is linked to your account
+          <h6 class="tw-font-bold tw-text-sm">
+            Wallet linked to your account
           </h6>
-          <div class="tw-flex tw-items-center tw-justify-between tw-border tw-rounded tw-p-2">
-            <div class="tw-flex tw-items-center tw-gap-2   tw-text-sm tw-text-gray-500">
-              <div><Icon icon="material-symbols-light:account-balance-wallet-outline" width="1.25rem" /></div> <span> {{ $auth.user.tezos_info.wallet }}</span>
+          <div class="tw-flex tw-items-center tw-justify-between  tw-border tw-p-2 tw-rounded tw-truncate">
+            <div class="tw-flex tw-items-center tw-gap-2">
+              <div>
+                <Icon style="color:#0D61FF" icon="cryptocurrency:xtz" width="1.5rem" height="1.5rem" />
+              </div>
+              <div>
+                <span class="tw-text-gray-500 tw-text-sm">{{ formattedWallet }}</span>
+              </div>
             </div>
-            <Icon style="color:rgb(34 197 94)" icon="svg-spinners:pulse" width="1.25rem" />
+            <div v-if="$auth.user.email_info">
+              <button class="tw-text-sm tw-text-red-500 hover:tw-text-red-500 tw-ease-in-out tw-duration-200">
+                Remove
+              </button>
+            </div>
           </div>
-          <span class="tw-text-xs tw-text-gray-500">Tezos wallet</span>
         </div>
       </div>
     </div>
