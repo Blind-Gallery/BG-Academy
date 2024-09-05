@@ -17,25 +17,25 @@ export default {
         </div>
         <div>
           <h1 class="tw-m-0">
-            Introduction to <span class="tw-text-cyan-500">Pixel Shaders</span>
+            A History of <span class="tw-text-cyan-500"><br>Generative Art</span>
           </h1>
           <div class="tw-flex tw-gap-2 tw-items-center">
-            <span>Instructed by ilithya</span>
+            <span>Instructed by Heeey</span>
           </div>
         </div>
         <p class="tw-text-gray-500 tw-text-sm">
-          This course is designed for beginners eager to dive into the world of computational thinking and creative coding with pixel shaders, commonly known as fragment shaders, in GLSL.
+          In this course we will dive deep into the rich tapestry of generative art, with the goal to obtain a comprehensive exploration of its historical context, examining pivotal moments, key figures, and groundbreaking movements that shaped its trajectory.
         </p>
 
-        <NuxtLink class="hover:tw-no-underline" to="buyCourse/5f1f6044-21ba-4409-880e-02cd36568697">
+        <NuxtLink class="hover:tw-no-underline" to="buyCourse/9df7cd5f-d9b3-4f37-9693-15ed1be65cf5">
           <button-PxPrimary text="View course" />
         </NuxtLink>
       </div>
       <div class="tw-w-full tw-flex tw-items-center tw-justify-center lg:tw-justify-start  tw-order-1 lg:tw-order-2 tw-relative">
-        <img :src="`${gateway}QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby`" class="tw-w-full tw-h-auto" alt="Imagen">
+        <img :src="`${gateway}QmPP99ZU4TRai5zVeUPyLnscDM4QxGgEByJiTwa155rwmB`" class="tw-w-full tw-h-auto" alt="Imagen">
         <div class="tw-absolute  tw-inset-0 tw-bg-gradient-to-l tw-from-transparent tw-to-white tw-opacity-100" />
         <div class="tw-absolute tw-overflow-hidden tw-rounded-full md:tw-w-[170px] md:tw-h-[170px] tw-w-[150px] tw-h-[150px]">
-          <img :src="`${gateway}QmV2PBdksQNvsyMfwxcXVvq4Y22BA8rXWSVmTFnMkhB9FG`">
+          <img :src="`${gateway}QmVcpQcNSNhmYdLuTZzgTxmkMtr7qyNQKRnDpwLCiVTTDL`">
         </div>
       </div>
     </div>
