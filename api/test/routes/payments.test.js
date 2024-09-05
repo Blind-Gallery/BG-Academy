@@ -6,7 +6,7 @@ const { build } = require('../helper')
 test('default root route', async (t) => {
   const app = await build(t)
 
-  const res = await app.inject({
+  await app.inject({
     url: '/payments/tezos/payment-intent'
   })
 
