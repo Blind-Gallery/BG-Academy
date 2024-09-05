@@ -32,7 +32,7 @@ export default {
         </NuxtLink>
       </div>
       <div class="tw-w-full tw-flex tw-items-center tw-justify-center lg:tw-justify-start  tw-order-1 lg:tw-order-2 tw-relative">
-        <img :src="`${gateway}QmPP99ZU4TRai5zVeUPyLnscDM4QxGgEByJiTwa155rwmB`" class="tw-w-full tw-h-auto" alt="Imagen">
+        <img :src="`${gateway}QmPP99ZU4TRai5zVeUPyLnscDM4QxGgEByJiTwa155rwmB`" class="tw-w-full tw-h-auto" alt="Course Cover Image">
         <div class="tw-absolute  tw-inset-0 tw-bg-gradient-to-l tw-from-transparent tw-to-white tw-opacity-100" />
         <div class="tw-absolute tw-overflow-hidden tw-rounded-full md:tw-w-[170px] md:tw-h-[170px] tw-w-[150px] tw-h-[150px]">
           <img :src="`${gateway}QmVcpQcNSNhmYdLuTZzgTxmkMtr7qyNQKRnDpwLCiVTTDL`">
