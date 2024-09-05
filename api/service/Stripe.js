@@ -37,6 +37,13 @@ class Payment {
     return paymentIntent
   }
 
+  /**
+   * Updates a payment intent with the specified ID and receipt email.
+   *
+   * @param {string} paymentIntentId - The ID of the payment intent to update.
+   * @param {string} receiptEmail - The email address to associate with the payment intent receipt.
+   * @returns {Promise<Object>} - A promise that resolves to the updated payment intent object.
+   */
   async paymentIntentUpdate (paymentIntentId, receiptEmail) {
     let paymentIntent = null
     try {
@@ -50,6 +57,14 @@ class Payment {
     return paymentIntent
   }
 
+  /**
+   * Verifies the webhook event signature and processes the event.
+   *
+   * @param {string} signature - The signature of the webhook event.
+   * @param {object} body - The body of the webhook event.
+   * @returns {object} - The processed event object.
+   * @throws {BadRequest} - If there is an error in the webhook event.
+   */
   async verify (signature, body) {
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
 
@@ -77,6 +92,28 @@ class Payment {
     }
 
     return event
+  }
+
+  /**
+   * Retrieves the tax settings.
+   *
+   * @returns {Object} The tax settings object.
+   * @throws {Error} If failed to retrieve tax settings.
+   */
+  async retrieveTaxSettings () {
+    let taxSettings = null
+    try {
+      taxSettings = await stripe.tax.settings.retrieve()
+    } catch (err) {
+      logger.error(err)
+    }
+    if (!taxSettings) {
+      throw new Error('Failed to retrieve tax settings')
+    }
+    return {
+      taxCode: taxSettings.defaults.tax_code,
+      taxBehavior: taxSettings.defaults.tax_behavior
+    }
   }
 }
 
