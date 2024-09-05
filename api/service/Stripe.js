@@ -190,12 +190,13 @@ class Payment {
     }
   }
 
-  async calculateTax (amount, currency, reference) {
+  async calculateTax (amount, currency, reference, customerId) {
     let id = null
     const { taxCode } = await this.retrieveTaxSettings()
     try {
       const calculation = await stripe.tax.calculations.create({
         currency,
+        customer: customerId,
         line_items: [
           {
             amount,

@@ -1,7 +1,7 @@
 'use strict'
 const { faker } = require('@faker-js/faker')
 
-const { describe, test, before } = require('node:test')
+const { describe, test, before, after } = require('node:test')
 const assert = require('node:assert')
 const Stripe = require('../../service/Stripe.js')
 
@@ -101,8 +101,20 @@ describe('Test Stripe service - Payment intents', () => {
 
 describe('Test Stripe service - Taxes', () => {
   let stripe = null
-  before(() => {
+  let customerId = null
+  before(async () => {
     stripe = new Stripe()
+    const customerInfo = {
+      email: faker.internet.email(),
+      name: faker.person.firstName()
+    }
+    // act
+    const customer = await stripe.createCustomer(customerInfo)
+    customerId = customer.id
+  })
+
+  after(async () => {
+    await stripe.deleteCustomer(customerId)
   })
 
   test('Retrieves tax settings', async (t) => {
@@ -116,13 +128,13 @@ describe('Test Stripe service - Taxes', () => {
     assert.ok(taxSettings.taxCode)
   })
 
-  test('Calculates tax without a customer', async (t) => {
+  test('Calculates tax without a customer should fail', async (t) => {
     // arrange
     let failed = false
     let errorMessages = ''
     // act
     try {
-      await stripe.calculateTax(5000, 'usd', 'TEST')
+      await stripe.calculateTax(5000, 'usd', 'TEST', null)
     } catch (err) {
       failed = true
       errorMessages = err.message
@@ -130,5 +142,15 @@ describe('Test Stripe service - Taxes', () => {
     // assert
     assert.ok(failed)
     assert.equal(errorMessages, 'Failed to calculate tax')
+  })
+
+  test('Calculates tax with a customer', async (t) => {
+    // arrange
+
+    // act
+    const taxId = await stripe.calculateTax(5000, 'usd', 'TEST', customerId)
+
+    // assert
+    assert.ok(taxId)
   })
 })
