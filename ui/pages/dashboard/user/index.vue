@@ -103,7 +103,7 @@ export default {
     },
     transactions_stripe_transaction_info: {
       query: gql`query ($id: String) {
-        transactions_stripe_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}}) {
+        transactions_stripe_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}, courses_payments: {transaction_type: {_is_null: false}}}) {
           courses_payments(where: {transaction_info: {transactions_stripe_transaction_info: {amount: {_is_null: false}}}}) {
             transaction_info {
               transactions_stripe_transaction_info {
@@ -123,7 +123,7 @@ export default {
     },
     transactions_tezos_transaction_info: {
       query: gql`query ($id: String){
-        transactions_tezos_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}}) {
+        transactions_tezos_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}, courses_payments: {transaction_type: {_is_null: false}}}) {
           courses_payments(where: {transaction_info: {transactions_tezos_transaction_info: {amount: {_is_null: false}}}}) {
             transaction_info {
               transactions_tezos_transaction_info {
