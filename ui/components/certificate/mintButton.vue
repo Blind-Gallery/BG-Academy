@@ -20,7 +20,7 @@
 
 <script>
 import { gql } from 'graphql-tag'
-import { TZKT_ENDPOINT, CONTRACT_ADDRESS } from '~/constants'
+import { TEZOS } from '~/constants'
 
 const GET_CERTIFICATE_INFO = gql`
   query ($courseId: String!, $userId: String!) {
@@ -54,11 +54,11 @@ export default {
   },
   data () {
     return {
-      contractAddress: CONTRACT_ADDRESS.sbt,
+      contractAddress: TEZOS.CONTRACT_ADDRESS.sbt,
       tokenId: null,
       loading: false,
       url: null,
-      TZKT_ENDPOINT
+      TZKT_ENDPOINT: TEZOS.TZKT_ENDPOINT
     }
   },
   computed: {

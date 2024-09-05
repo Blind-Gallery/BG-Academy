@@ -11,7 +11,7 @@
 
 <script>
 import { dappClient } from '~/services/tezos'
-import { CONTRACT_ADDRESS } from '~/constants'
+import { TEZOS } from '~/constants'
 const { OpKind } = require('@taquito/taquito')
 
 export default {
@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       onchainId: 0,
-      contractAddress: CONTRACT_ADDRESS.academy,
+      contractAddress: TEZOS.CONTRACT_ADDRESS.academy,
       tezosPrice: 0
     }
   },
