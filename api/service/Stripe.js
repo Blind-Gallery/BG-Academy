@@ -4,6 +4,19 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class Payment {
+  async createCustomer (metadata) {
+    let customer = null
+    try {
+      customer = await stripe.customers.create({
+        ...metadata
+      })
+    } catch (err) {
+      logger.error(err)
+    }
+    logger.info({ customer })
+    return customer
+  }
+
   /**
    *
    * @param {*} amount
@@ -105,7 +118,7 @@ class Payment {
     try {
       taxSettings = await stripe.tax.settings.retrieve()
     } catch (err) {
-      logger.error(err)
+      logger.error(`Error while retrieving tax settings: ${err.message}`)
     }
     if (!taxSettings) {
       throw new Error('Failed to retrieve tax settings')
@@ -113,6 +126,25 @@ class Payment {
     return {
       taxCode: taxSettings.defaults.tax_code,
       taxBehavior: taxSettings.defaults.tax_behavior
+    }
+  }
+
+  async calculateTax (amount, currency, reference) {
+    const id = null
+    const { taxCode } = await this.retrieveTaxSettings()
+    try {
+      const calculation = await stripe.tax.calculations.create({
+        currency,
+        line_items: [
+          {
+            amount,
+            reference,
+            tax_code: taxCode
+          }
+        ]
+      })
+    } catch (err) {
+      logger.error(`Error while calculating tax: ${err.message}`)
     }
   }
 }
