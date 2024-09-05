@@ -30,6 +30,9 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the retrieved customer object.
    */
   async retrieveCustomer (customerId) {
+    if (!customerId) {
+      throw new BadRequest('Customer ID is required')
+    }
     const customer = await stripe.customers.retrieve(customerId)
     logger.debug({ customer })
 
@@ -44,6 +47,9 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the updated customer object.
    */
   async updateCustomer (customerId, customerInfo) {
+    if (!customerId) {
+      throw new BadRequest('Customer ID is required!')
+    }
     let customer = null
     try {
       customer = await stripe.customers.update(customerId, {
@@ -63,6 +69,9 @@ class Payment {
    * @returns {Promise<Object>} - A promise that resolves to the deleted customer object.
    */
   async deleteCustomer (customerId) {
+    if (!customerId) {
+      throw new BadRequest('Customer ID is required!')
+    }
     const customer = await stripe.customers.del(customerId)
     logger.debug({ customer })
 

@@ -15,25 +15,63 @@ describe('Stripe', () => {
   })
 })
 
-// describe.skip('Test Stripe service - Customers', () => {
-//   let stripe = null
-//   // const customerId = null
-//   before(() => {
-//     stripe = new Stripe()
-//   })
+describe('Test Stripe service - Customers', () => {
+  let stripe = null
+  let customerId = null
+  before(async () => {
+    stripe = new Stripe()
+  })
 
-//   test('Creates a customer', async (t) => {
-//     // arrange
+  test('Creates a customer', async (t) => {
+    // arrange
+    const customerInfo = {
+      email: faker.internet.email(),
+      name: faker.person.firstName()
+    }
+    // act
+    const customer = await stripe.createCustomer(customerInfo)
 
-//     // act
-//     // const customer = await stripe.createCustomer({
-//     //   email: 'erick@echolabs.co',
-//     //   name: 'Erick'
-//     // })
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
 
-//     // assert
-//   })
-// })
+    customerId = customer.id
+  })
+
+  test('Retrieves a customer', async (t) => {
+    // arrange
+    // act
+    const customer = await stripe.retrieveCustomer(customerId)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+  })
+
+  test('Updates a customer', async (t) => {
+    // arrange
+    const customerInfo = {
+      email: faker.internet.email(),
+      name: faker.person.firstName()
+    }
+    // act
+    const customer = await stripe.updateCustomer(customerId, customerInfo)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+  })
+
+  test('Deletes a customer', async (t) => {
+    // arrange
+    // act
+    const customer = await stripe.deleteCustomer(customerId)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+  })
+})
 
 describe('Test Stripe service - Payment intents', () => {
   let stripe = null
