@@ -1,4 +1,4 @@
-const { BadRequest } = require('http-errors')
+const { BadRequest, InternalServerError } = require('http-errors')
 const logger = require('./Logger')
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
@@ -121,7 +121,7 @@ class Payment {
       logger.error(`Error while retrieving tax settings: ${err.message}`)
     }
     if (!taxSettings) {
-      throw new Error('Failed to retrieve tax settings')
+      throw new InternalServerError('Failed to retrieve tax settings')
     }
     return {
       taxCode: taxSettings.defaults.tax_code,
@@ -130,7 +130,7 @@ class Payment {
   }
 
   async calculateTax (amount, currency, reference) {
-    const id = null
+    let id = null
     const { taxCode } = await this.retrieveTaxSettings()
     try {
       const calculation = await stripe.tax.calculations.create({
@@ -143,9 +143,16 @@ class Payment {
           }
         ]
       })
+      logger.debug({ calculation })
+      id = calculation.id
     } catch (err) {
       logger.error(`Error while calculating tax: ${err.message}`)
     }
+    if (!id) {
+      throw new InternalServerError('Failed to calculate tax')
+    }
+
+    return id
   }
 }
 
