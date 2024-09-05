@@ -57,6 +57,7 @@ async function decorateFastifyInstance (fastify) {
     gql,
     jwt,
     email,
+    stripe,
     opts
   })
   const user = new User({
