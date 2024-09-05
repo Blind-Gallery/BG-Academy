@@ -86,6 +86,41 @@ describe('Test Stripe service - Customers', () => {
 
     await stripe.deleteCustomer(customer.id)
   })
+
+  test('Create a customer without email should not fail', async (t) => {
+    // arrange
+    const customerInfo = {
+      name: faker.person.firstName()
+    }
+    // act
+    const customer = await stripe.createCustomer(customerInfo)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+
+    await stripe.deleteCustomer(customer.id)
+  })
+
+  test('Create a customer with custom fields', async (t) => {
+    // arrange
+    const customerInfo = {
+      name: faker.person.firstName(),
+      metadata: {
+        wallet: faker.string.alphanumeric(10)
+      }
+    }
+    // act
+    const customer = await stripe.createCustomer(customerInfo)
+
+    // assert
+    assert.ok(customer)
+    assert.ok(customer.id)
+    assert.ok(customer.metadata)
+    assert.equal(customer.metadata.wallet, customerInfo.metadata.wallet)
+
+    await stripe.deleteCustomer(customer.id)
+  })
 })
 
 describe('Test Stripe service - Payment intents', () => {
