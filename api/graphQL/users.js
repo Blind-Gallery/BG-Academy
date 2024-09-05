@@ -46,6 +46,7 @@ query ($email: String = "") {
     id
     name
     pfp
+    customer_id
     email_info {
       email
       password
@@ -66,6 +67,7 @@ query ($wallet: String = "") {
     id
     name
     pfp
+    customer_id
     email_info {
       email
       password
@@ -117,6 +119,24 @@ mutation (
 }
 `
 
+const REGISTER_CUSTOMER_ID = gql`
+mutation (
+  $id: String!, 
+  $customerId: String!
+) {
+  update_users_by_pk(
+    pk_columns: {
+      id: $id
+  }, 
+  _set: {
+    customer_id: $customerId
+  }) {
+    id
+    customer_id
+  }
+}
+`
+
 const UPDATE_USER_PASSWORD = gql`
 mutation (
   $userId: String!,
@@ -158,6 +178,7 @@ module.exports = {
   CREATE_USER,
   UPDATE_USER,
   REGISTER_WALLET,
+  REGISTER_CUSTOMER_ID,
   UPDATE_USER_PASSWORD,
   UPDATE_CHANGE_PASSWORD_REQUEST_CODE
 }
