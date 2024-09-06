@@ -20,6 +20,7 @@ export default {
     label: 'tw-text-sm',
     help: 'tw-text-xs tw-text-gray-500',
     error: 'tw-text-xs tw-text-red-500',
+    formErrors: 'tw-text-xs tw-text-red-500 tw-mb-2',
     wrapper: 'tw-mb-1'
   }
 }
