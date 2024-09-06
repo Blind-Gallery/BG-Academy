@@ -94,7 +94,7 @@
               <div v-if="isAccessible">
                 <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
 
-                <payments-tezos-generate :course-id="courses[0].id" />
+                <payments-tezos-generate v-if="$auth.user.tezos_info" :course-id="courses[0].id" />
               </div>
               <div v-else class="tw-p-2 tw-rounded tw-border">
                 <span class="tw-text-xs">Launch on {{ courses[0].release_date | formatDate }}</span>
