@@ -36,9 +36,9 @@ export default {
 
 <template>
   <div>
-    <h4 class="tw-text-cyan-500">
+    <h2 class="tw-text-cyan-500">
       Recover your password
-    </h4>
+    </h2>
     <p class="tw-text-xs tw-text-gray-500">
       Enter the email address you use on the platform. We will send you a
       link to reset your password.
