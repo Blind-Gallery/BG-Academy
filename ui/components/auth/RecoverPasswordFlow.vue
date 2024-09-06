@@ -21,7 +21,11 @@ export default {
         this.success = true
         this.showInsertCodeForm = true
       } catch (error) {
-        this.message = 'An error occurred. Please try again.'
+        if (error.response && error.response.status === 401) {
+          this.message = "This user doesn't exist. Please sign up and create an account first."
+        } else {
+          this.message = 'Something went wrong, please try again.'
+        }
       }
     },
     passwordChanged () {
