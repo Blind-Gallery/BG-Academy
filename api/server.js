@@ -7,8 +7,21 @@ require('dotenv').config()
 const Fastify = require('fastify')
 
 // Instantiate Fastify with some config
+const LOGGER_ENV = {
+  development: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname'
+      }
+    }
+  },
+  production: true,
+  test: false
+}
 const app = Fastify({
-  logger: true,
+  logger: LOGGER_ENV[process.env.NODE_ENV] || LOGGER_ENV.development,
   pluginTimeout: 10000
 })
 
