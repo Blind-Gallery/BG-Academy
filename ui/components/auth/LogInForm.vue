@@ -2,8 +2,7 @@
 export default {
   data () {
     return {
-      signInForm: {},
-      invalidMessage: null
+      signInForm: {}
     }
   },
 
@@ -18,9 +17,13 @@ export default {
         this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          this.invalidMessage = 'Invalid email or password'
+          this.$formulate.handle({
+            formErrors: ['Invalid email or password. Please check your credentials and try again.']
+          }, 'login')
         } else {
-          this.invalidMessage = 'Sign In error'
+          this.$formulate.handle({
+            formErrors: ['Something went wrong, please try again.']
+          }, 'login')
         }
       }
     }
@@ -36,7 +39,7 @@ export default {
     <FormulateForm
       v-slot="{ isLoading }"
       v-model="signInForm"
-      class="login-form"
+      name="login"
       @submit="emailConnect"
     >
       <FormulateInput
@@ -57,15 +60,10 @@ export default {
         }"
       />
 
-      <p
-        class="small m-0 text-center"
-        style="font-size: small; color: #960505"
-      >
-        {{ invalidMessage }}
-      </p>
       <div class="tw-mb-2 ">
         <span class="tw-text-sm tw-text-cyan-500 hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200 tw-cursor-pointer" @click="$emit('switchComponent', 'auth-recover-password-flow')"> Did you forget the password?</span>
       </div>
+      <FormulateErrors />
       <FormulateInput
         type="submit"
         :disabled="isLoading"
