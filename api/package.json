@@ -10,7 +10,7 @@
     "pretest": "standard",
     "test": "mocha \"test/**/*.test.js\"",
     "start-old": "fastify start --options -l info app.js",
-    "start": "node server.js",
+    "start": "NODE_ENV=production node server.js",
     "lint": "standard --fix",
     "dev": "fastify start -w -l info -P app.js"
   },
