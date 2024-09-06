@@ -92,15 +92,7 @@
                 <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
               <div v-if="isAccessible">
-                <button class="primary-btn w-100 " @click="openModal">
-                  <Icon
-                    icon="material-symbols:credit-card"
-                    color="#fff"
-
-                    width="21"
-                  />
-                  Credit card
-                </button>
+                <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
 
                 <payments-tezos-generate :course-id="courses[0].id" />
               </div>
