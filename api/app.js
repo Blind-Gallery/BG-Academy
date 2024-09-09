@@ -8,12 +8,12 @@ const { TezosConstants } = require('./constants')
 // const rawBody = require('raw-body')
 
 const {
-  Login,
-  User,
-  Documents,
-  Payments,
-  Emails,
-  Course
+  LoginModel,
+  UserModel,
+  DocumentsModel,
+  PaymentsModel,
+  EmailsModel,
+  CourseModel
 } = require('./model')
 
 const {
@@ -57,20 +57,20 @@ async function decorateFastifyInstance (fastify) {
   const academySC = new AcademySmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.academy })
   const sbtSC = new SbtSmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.sbt })
 
-  const login = new Login({
+  const login = new LoginModel({
     gql,
     jwt,
     email,
     stripe,
     opts
   })
-  const user = new User({
+  const user = new UserModel({
     gql,
     jwt,
     email,
     opts
   })
-  const documents = new Documents({
+  const documents = new DocumentsModel({
     gql,
     jwt,
     email,
@@ -78,7 +78,7 @@ async function decorateFastifyInstance (fastify) {
     docs: new Docs(),
     sbtSC
   })
-  const payments = new Payments({
+  const payments = new PaymentsModel({
     gql,
     email,
     opts,
@@ -88,10 +88,10 @@ async function decorateFastifyInstance (fastify) {
     tezos: Tezos,
     academySC
   })
-  const emails = new Emails({
+  const emails = new EmailsModel({
     email
   })
-  const course = new Course({
+  const course = new CourseModel({
     gql,
     jwt
   })

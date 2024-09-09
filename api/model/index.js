@@ -1,15 +1,15 @@
-const Login = require('./Login')
-const User = require('./User')
-const Documents = require('./Documents')
-const Payments = require('./Payments')
-const Emails = require('./Emails')
-const Course = require('./Course')
+const LoginModel = require('./Login')
+const UserModel = require('./User')
+const DocumentsModel = require('./Documents')
+const PaymentsModel = require('./Payments')
+const EmailsModel = require('./Emails')
+const CourseModel = require('./Course')
 
 module.exports = {
-  Login,
-  User,
-  Documents,
-  Payments,
-  Emails,
-  Course
+  LoginModel,
+  UserModel,
+  DocumentsModel,
+  PaymentsModel,
+  EmailsModel,
+  CourseModel
 }
