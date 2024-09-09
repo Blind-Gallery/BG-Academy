@@ -97,7 +97,7 @@ async function decorateFastifyInstance (fastify) {
   })
 
   const authController = new AuthController({
-    login: loginModel,
+    loginModel,
     stripe
   })
   fastify.decorate('authController', authController)

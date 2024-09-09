@@ -1,7 +1,7 @@
 const { logger } = require('../service')
 class AuthController {
-  constructor ({ login, stripe }) {
-    this.loginModel = login
+  constructor ({ loginModel, stripe }) {
+    this.loginModel = loginModel
     this.stripe = stripe
   }
 
