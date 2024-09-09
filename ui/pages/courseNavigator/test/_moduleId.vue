@@ -1,5 +1,10 @@
 <template>
   <div>
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-pass-test :title="certificateInfo?.course?.name" :instructor="certificateInfo?.course?.teacher?.name" />
+      </template>
+    </PxModal>
     <div v-if="!$apollo.loading">
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
@@ -382,7 +387,12 @@ export default {
   },
 
   methods: {
-
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     openModal (component) {
       const modalInstance = this.$refs.modalInstance
       modalInstance.showModal(component)
@@ -507,6 +517,9 @@ export default {
       }
 
       this.scorePercentage = Math.floor((this.correctAnswers / questions.length) * 100)
+      if (this.scorePercentage >= 80) {
+        this.openActivityModal()
+      }
 
       this.$apollo.mutate({
         mutation: UPDATE_USER_ANSWERS,
