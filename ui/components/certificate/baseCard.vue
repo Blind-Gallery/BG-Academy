@@ -10,20 +10,30 @@
         <img class="tw-w-full tw-h-full tw-object-cover" :src="cover" alt="Cover Image">
       </div>
       <div class="tw-p-4">
-        <div class="tw-flex tw-items-center tw-gap-2">
-          <h6 class="tw-font-bold tw-truncate">
-            {{ title }}
-          </h6>
-          <div>
-            <Icon
-              v-if="approvedCourse"
-              v-b-tooltip.hover
-              title="Course certificate"
-              color="#00b9cd"
-              icon="material-symbols:verified-outline"
-              width="1.25rem"
-            />
+        <div class="tw-flex tw-justify-between tw-items-center">
+          <div class="tw-flex tw-items-center tw-gap-2">
+            <h6 class="tw-font-bold tw-truncate">
+              {{ title }}
+            </h6>
+            <div>
+              <Icon
+                v-if="approvedCourse"
+                v-b-tooltip.hover
+                title="Course certificate"
+                color="#00b9cd"
+                icon="material-symbols-light:verified-outline"
+                width="1.5rem"
+              />
+            </div>
           </div>
+          <button v-if="approvedCourse" class="tw-cursor-pointer tw-shadow-sm  tw-w-[30px] tw-h-[30px] tw-rounded tw-flex tw-justify-center tw-items-center hover:tw-shadow  tw-duration-200 tw-ease-in-out" @click="openActivityModal()">
+            <Icon
+              v-b-tooltip.hover
+              title="Share on socials"
+              icon="material-symbols-light:share-outline"
+              width="1.5rem"
+            />
+          </button>
         </div>
         <p class="tw-text-sm tw-text-gray-500">
           Instructed by {{ instructor }}
