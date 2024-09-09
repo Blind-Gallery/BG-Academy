@@ -1,4 +1,4 @@
-const Login = require('./Auth')
+const Login = require('./Login')
 const User = require('./User')
 const Documents = require('./Documents')
 const Payments = require('./Payments')
