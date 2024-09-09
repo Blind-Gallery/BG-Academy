@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <div class="tw-flex tw-rounded tw-shadow tw-flex-col tw-gap-2 tw-pb-4 tw-px-4 tw-pt-6 tw-relative tw-h-[250px] tw-justify-between">
+  <div class="tw-flex tw-rounded tw-shadow tw-flex-col tw-gap-2 tw-p-4 tw-relative tw-h-[250px] tw-justify-between">
     <div class="tw-w-[40px] tw-h-[40px] tw-rounded-full tw-top-[-9%] tw-left-[10%] tw-shadow-sm tw-bg-cyan-500 tw-text-white tw-flex tw-items-center tw-justify-center tw-absolute">
       <Icon icon="material-symbols-light:format-quote" width="1.5rem" height="1.5rem" style="color: white" />
     </div>
