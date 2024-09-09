@@ -29,6 +29,10 @@ const {
 } = require('./service')
 
 const {
+  AuthController
+} = require('./controller')
+
+const {
   GRAPHQL_ENDPOINT,
   GRAPHQL_SECRET
 } = process.env
@@ -91,7 +95,12 @@ async function decorateFastifyInstance (fastify) {
     gql,
     jwt
   })
-  fastify.decorate('login', login)
+
+  const authController = new AuthController({
+    login,
+    stripe
+  })
+  fastify.decorate('authController', authController)
   fastify.decorate('user', user)
   fastify.decorate('jwt', jwt)
   fastify.decorate('documents', documents)
