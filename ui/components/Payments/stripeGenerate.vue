@@ -12,13 +12,14 @@
             validation="required|email"
             style="margin-bottom: 0.6rem;"
           />
-
           <FormulateInput
-            class="mt-4"
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Next'"
+            v-model="selectedCountry"
+            type="select"
+            label="What planet is the largest?"
+            :options="country"
+            style="margin-bottom: 0.6rem;"
           />
+          <FormulateInput class="mt-4" type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Next'" />
         </FormulateForm>
       </div>
       <div v-else>
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+import country from '@/constants/country.json'
 export default {
   props: {
     price: {
@@ -54,6 +56,7 @@ export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
+      selectedCountry: null,
       emailRegistered: false,
       email: this.$auth.user.email_info?.email || '',
       domain: window.location.origin,
@@ -105,12 +108,31 @@ export default {
 
     }
   },
+  computed: {
+    country () {
+      return country.map(c => ({
+        value: c.code,
+        label: c.name
+      }))
+    }
+  },
   created () {
     this.defineConfirmParams()
+    this.getIp()
   },
   methods: {
+    async getIp () {
+      try {
+        const response = await this.$axios.$get('https://api.ipify.org?format=json')
+        return response.ip
+      } catch (error) {
+        console.error('Error fetching IP:', error)
+        return null
+      }
+    },
     sendEmail () {
       this.emailRegistered = true
+      // tax calculation
       this.generatePaymentIntent()
     },
     async generatePaymentIntent () {

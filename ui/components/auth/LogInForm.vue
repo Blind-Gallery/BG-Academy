@@ -9,8 +9,13 @@ export default {
 
   methods: {
     async getIp () {
-      const { ip } = await this.$axios.$get('https://api.ipify.org?format=json')
-      return ip
+      try {
+        const response = await this.$axios.$get('https://api.ipify.org?format=json')
+        return response.ip
+      } catch (error) {
+        console.error('Error fetching IP:', error)
+        return null
+      }
     },
     async emailConnect () {
       try {
