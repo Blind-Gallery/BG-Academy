@@ -33,7 +33,7 @@
             :course-id="courseId"
           />
 
-          <certificate-mint-button v-if="$auth?.user?.tezos_info" :hash="opHash" :course-id="courseId" />
+          <certificate-mint-button v-if="$auth?.user?.tezos_info" :hash="opHash" :course-id="courseId" :title="title" :instructor="instructor" />
         </div>
       </div>
     </div>
