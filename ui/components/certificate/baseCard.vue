@@ -1,5 +1,10 @@
 <template>
   <div>
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-claim-certificate :title="title" :instructor="instructor" />
+      </template>
+    </PxModal>
     <div :class="approvedCourse ? '':'tw-opacity-50 tw-cursor-not-allowed' " class="tw-rounded tw-shadow tw-overflow-hidden">
       <div class="tw-w-full tw-h-[260px]">
         <img class="tw-w-full tw-h-full tw-object-cover" :src="cover" alt="Cover Image">
@@ -81,6 +86,12 @@ export default {
   },
 
   methods: {
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     async getCertificate () {
       try {
         const { cid } = await this.$axios.$post('/docs/certificate', {
