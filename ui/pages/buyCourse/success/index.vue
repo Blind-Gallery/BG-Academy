@@ -1,5 +1,6 @@
 <template>
   <div class="d-flex align-items-center justify-content-center" style="height: 90vh;">
+    <PxModal ref="activityModal" />
     <div
       class="
       d-flex
@@ -57,7 +58,16 @@ export default {
   created () {
     this.checkParams()
   },
+  mounted () {
+    this.openActivityModal('share-activity-course-purchase')
+  },
   methods: {
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     /**
      * Check if the user has been redirected from the payment page
      * and if the payment was successful give the user access to the course
