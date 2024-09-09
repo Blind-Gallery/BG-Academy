@@ -9,6 +9,10 @@ export default {
       type: String,
       required: true
     },
+    rol: {
+      type: String,
+      required: true
+    },
     social: {
       type: String,
       required: true
