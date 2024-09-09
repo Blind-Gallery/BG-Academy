@@ -57,20 +57,20 @@ async function decorateFastifyInstance (fastify) {
   const academySC = new AcademySmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.academy })
   const sbtSC = new SbtSmartContract({ contract: TezosConstants.CONTRACT_ADDRESSES.sbt })
 
-  const login = new LoginModel({
+  const loginModel = new LoginModel({
     gql,
     jwt,
     email,
     stripe,
     opts
   })
-  const user = new UserModel({
+  const userModel = new UserModel({
     gql,
     jwt,
     email,
     opts
   })
-  const documents = new DocumentsModel({
+  const documentsModel = new DocumentsModel({
     gql,
     jwt,
     email,
@@ -78,7 +78,7 @@ async function decorateFastifyInstance (fastify) {
     docs: new Docs(),
     sbtSC
   })
-  const payments = new PaymentsModel({
+  const paymentsModel = new PaymentsModel({
     gql,
     email,
     opts,
@@ -88,25 +88,25 @@ async function decorateFastifyInstance (fastify) {
     tezos: Tezos,
     academySC
   })
-  const emails = new EmailsModel({
+  const emailsModel = new EmailsModel({
     email
   })
-  const course = new CourseModel({
+  const courseModel = new CourseModel({
     gql,
     jwt
   })
 
   const authController = new AuthController({
-    login,
+    login: loginModel,
     stripe
   })
   fastify.decorate('authController', authController)
-  fastify.decorate('user', user)
+  fastify.decorate('user', userModel)
   fastify.decorate('jwt', jwt)
-  fastify.decorate('documents', documents)
-  fastify.decorate('payments', payments)
-  fastify.decorate('emails', emails)
-  fastify.decorate('course', course)
+  fastify.decorate('documents', documentsModel)
+  fastify.decorate('payments', paymentsModel)
+  fastify.decorate('emails', emailsModel)
+  fastify.decorate('course', courseModel)
 }
 
 // Pass --options via CLI arguments in command to enable these options.
