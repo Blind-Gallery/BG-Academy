@@ -40,7 +40,10 @@ class Stripe {
    * @returns {Promise<Object>} - A promise that resolves to the created customer object.
    */
   async createCustomer (customerInfo) {
-    return this.customerOperation('create', null, customerInfo)
+    return safeStripeOperation(
+      () => stripe.customers.create(customerInfo),
+      'Failed to create customer'
+    )
   }
 
   /**
