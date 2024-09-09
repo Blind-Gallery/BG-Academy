@@ -299,40 +299,11 @@ export default {
       nowDate: new Date(),
       recommendations: [
         {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmáaaaaaaaaaaaaaaaaaaaaaaaaaaaaan',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
-        },
-        {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmán',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
-        },
-        {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmán',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
-        },
-        {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmán',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
-        },
-        {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmán',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
-        },
-        {
-          quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-          social: 'https://x.com/Datzel3',
-          name: 'David Muñoz Guzmán',
-          pfp: 'https://pbs.twimg.com/profile_images/1829982915448492033/k9kS9gAd_400x400.jpg'
+          quote: 'ilithya’s course starts from the beginning, providing a newcomer to shaders (🙋🏻‍♂️) an opportunity to build a solid foundation for the future. ilithya provides very easy-to-understand explanations that have been difficult for me to grasp in the past. Highly recommend this course!',
+          social: 'https://x.com/richardegil',
+          name: 'Richard Gil',
+          rol: 'Artist/Developer/Designer',
+          pfp: 'https://pbs.twimg.com/profile_images/1060707742585892865/s1CoTb3p_400x400.jpg'
         }
       ],
       breakpoints: {
