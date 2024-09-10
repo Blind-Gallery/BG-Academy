@@ -2,7 +2,7 @@
   <div>
     <PxModal ref="activityModal">
       <template #body>
-        <share-activity-pass-test :title="certificateInfo?.course?.name" :instructor="certificateInfo?.course?.teacher?.name" />
+        <share-activity-pass-test :title="certificateInfo?.course?.name" :instructor="certificateInfo?.course?.teacher?.name" :course-id="courseId" />
       </template>
     </PxModal>
     <div v-if="!$apollo.loading">

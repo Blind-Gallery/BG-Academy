@@ -10,6 +10,10 @@ export default {
     instructor: {
       type: String,
       required: true
+    },
+    courseId: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -18,10 +22,11 @@ export default {
     },
     shareToInstagram () {
       shareSocialMediaService.shareToInstagram()
-      console.info('Instagram file was downloaded')
     },
-    shareToFarcaster () {
-      shareSocialMediaService.shareToFarcaster()
+    shareToWarpcast () {
+      const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
+      const urlToBuy = window.location.href + '/buyCourse/' + this.courseId
+      shareSocialMediaService.shareToWarpcast(msg, urlToBuy)
     }
   }
 }
@@ -50,7 +55,7 @@ export default {
         <div class="tw-flex tw-gap-2 tw-items-center">
           <div
             class="tw-flex tw-items-center tw-justify-center tw-border tw-p-2 tw-rounded tw-w-[40px] tw-h-[40px] hover:tw-bg-cyan-500 tw-duration-200 tw-ease-in-out tw-cursor-pointer hover:tw-text-white hover:tw-border-0"
-            @click="shareToFarcaster"
+            @click="shareToWarpcast"
           >
             <Icon icon="simple-icons:farcaster" width="1rem" height="1rem" />
           </div>
