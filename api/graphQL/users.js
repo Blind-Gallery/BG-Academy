@@ -4,6 +4,8 @@ const GET_USER_FROM_ID = gql`
 query ($userId: String!) {
   users_by_pk(id: $userId) {
     id
+    country
+    customer_id
     tezos_info {
       wallet
     }
@@ -46,6 +48,7 @@ query ($email: String = "") {
     id
     name
     pfp
+    country
     customer_id
     email_info {
       email
@@ -67,6 +70,7 @@ query ($wallet: String = "") {
     id
     name
     pfp
+    country
     customer_id
     email_info {
       email
@@ -122,17 +126,20 @@ mutation (
 const REGISTER_CUSTOMER_ID = gql`
 mutation (
   $id: String!, 
-  $customerId: String!
+  $customerId: String!,
+  $country: String!
 ) {
   update_users_by_pk(
     pk_columns: {
       id: $id
   }, 
   _set: {
-    customer_id: $customerId
+    customer_id: $customerId,
+    country: $country
   }) {
     id
     customer_id
+    country
   }
 }
 `
