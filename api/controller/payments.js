@@ -1,6 +1,7 @@
 class PaymentController {
-  constructor ({ paymentsModel }) {
+  constructor ({ paymentsModel, userModel }) {
     this.paymentsModel = paymentsModel
+    this.userModel = userModel
   }
 
   async stripeWebhook (req, res) {

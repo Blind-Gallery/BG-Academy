@@ -102,7 +102,8 @@ async function decorateFastifyInstance (fastify) {
     stripe
   })
   const paymentController = new PaymentController({
-    paymentsModel
+    paymentsModel,
+    userModel
   })
 
   fastify.decorate('authController', authController)
