@@ -162,9 +162,8 @@ export default {
         console.error(error)
       }
     },
-    async goToFirstChapterId () {
-      const course = await this.getCourseInfo()
-      this.$router.push(`/courseNavigator/chapter/${course.modules[0].chapters[0].id}`)
+    goToFirstChapterId () {
+      this.$router.push(`/courseNavigator/chapter/${this.courseInfo.modules[0].chapters[0].id}`)
     }
   }
 }
