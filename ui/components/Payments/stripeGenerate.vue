@@ -123,7 +123,11 @@ export default {
   methods: {
     async getIp () {
       try {
-        const response = await this.$axios.$get('https://api.ipify.org?format=json')
+        const response = await this.$axios.$get('https://api.ipify.org?format=json', {
+          headers: {
+            Authorization: undefined
+          }
+        })
         return response.ip
       } catch (error) {
         console.error('Error fetching IP:', error)
