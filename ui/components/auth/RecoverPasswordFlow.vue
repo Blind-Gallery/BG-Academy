@@ -21,7 +21,11 @@ export default {
         this.success = true
         this.showInsertCodeForm = true
       } catch (error) {
-        this.message = 'An error occurred. Please try again.'
+        if (error.response && error.response.status === 401) {
+          this.message = "This user doesn't exist. Please sign up and create an account first."
+        } else {
+          this.message = 'Something went wrong, please try again.'
+        }
       }
     },
     passwordChanged () {
@@ -36,7 +40,10 @@ export default {
 
 <template>
   <div>
-    <p style="font-size: small">
+    <h2 class="tw-text-cyan-500">
+      Recover your password
+    </h2>
+    <p class="tw-text-xs tw-text-gray-500">
       Enter the email address you use on the platform. We will send you a
       link to reset your password.
     </p>
@@ -53,10 +60,10 @@ export default {
         placeholder="Email address"
         validation="required|email"
       />
-      <p v-show="success" style="color: green; font-size: 0.8em">
+      <p v-show="success" class="tw-text-green-500 tw-text-xs">
         {{ message }}
       </p>
-      <p v-show="!success" style="color: red; font-size: 0.8em">
+      <p v-show="!success" class="tw-text-red-500 tw-text-xs">
         {{ message }}
       </p>
       <FormulateInput

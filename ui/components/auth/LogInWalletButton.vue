@@ -4,7 +4,7 @@ export default {
   data () {
     return {
       walletForm: {},
-      invalidMessage: null
+      errorMessage: null
     }
   },
 
@@ -37,8 +37,11 @@ export default {
         this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          this.invalidMessage =
+          this.errorMessage =
             "This user doesn't exist. Please sign up and create an account first."
+        } else {
+          this.errorMessage =
+            'Something went wrong, please try again.'
         }
       }
     },
@@ -83,10 +86,9 @@ export default {
     </button>
 
     <p
-      class="small m-0 text-center"
-      style="font-size: small; color: #960505"
+      class="tw-text-red-500 tw-text-xs tw-mb-0 tw-mt-2"
     >
-      {{ invalidMessage }}
+      {{ errorMessage }}
     </p>
   </div>
 </template>
