@@ -8,7 +8,7 @@ export const RCP_URI = 'https://mainnet.api.tez.ie'
 
 const endpoints = {
   mainnet: 'https://rpc.tzkt.io/mainnet',
-  ghostnet: 'https://rpc.tzkt.io/ghostnet'
+  ghostnet: 'https://rpc.ghostnet.teztnets.com/'
 }
 
 const tzktEndpoints = {
