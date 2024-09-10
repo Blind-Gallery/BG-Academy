@@ -56,7 +56,7 @@
             </h5>
 
             <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
-            <div v-if="$route.params.courseId ==='5f1f6044-21ba-4409-880e-02cd36568697'" class="tw-mt-8">
+            <div v-if="courses[0]?.recommendations.length" class="tw-mt-8">
               <h5>Recommendations</h5>
               <div class="tw-relative">
                 <swiper
@@ -64,7 +64,7 @@
                   :loop="false"
                   :breakpoints="breakpoints"
                 >
-                  <swiper-slide v-for="(recommendation, index) in recommendations" :key="index" class="tw-my-6 tw-px-2">
+                  <swiper-slide v-for="(recommendation, index) in courses[0]?.recommendations" :key="index" class="tw-my-6 tw-px-2">
                     <course-recommendation :quote="recommendation.quote" :name="recommendation.name" :social="recommendation.social" :pfp="recommendation.pfp" :role="recommendation.role" />
                   </swiper-slide>
                 </swiper>
