@@ -33,12 +33,12 @@ array_relationships:
         table:
           name: modules
           schema: public
-  - name: recomendations
+  - name: recommendations
     using:
       foreign_key_constraint_on:
         column: course_id
         table:
-          name: course_recomendations
+          name: course_recommendations
           schema: public
   - name: user_courses
     using:

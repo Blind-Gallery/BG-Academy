@@ -246,6 +246,13 @@ export default {
               description
             }
             teacher_id
+            recommendations {
+              name
+              pfp
+              quote
+              role
+              social
+            }
           }
         }
       `,
