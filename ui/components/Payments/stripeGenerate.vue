@@ -12,13 +12,16 @@
             validation="required|email"
             style="margin-bottom: 0.6rem;"
           />
-
           <FormulateInput
-            class="mt-4"
-            type="submit"
-            :disabled="isLoading"
-            :label="isLoading ? 'Loading...' : 'Next'"
+            v-show="false"
+            v-model="selectedCountry"
+            type="select"
+            label="Country"
+            :options="country"
+            :placeholder="countryPlaceholder"
+            style="margin-bottom: 0.6rem;"
           />
+          <FormulateInput class="mt-4" type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Next'" />
         </FormulateForm>
       </div>
       <div v-else>
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+import country from '@/constants/country.json'
 export default {
   props: {
     price: {
@@ -54,6 +58,7 @@ export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
+      selectedCountry: null,
       emailRegistered: false,
       email: this.$auth.user.email_info?.email || '',
       domain: window.location.origin,
@@ -105,16 +110,48 @@ export default {
 
     }
   },
+  computed: {
+    country () {
+      return country.map(c => ({
+        value: c.code,
+        label: c.name
+      }))
+    },
+    countryPlaceholder () {
+      if (this.selectedCountry) {
+        return this.selectedCountry
+      }
+      if (this.$auth.user.country) {
+        return this.$auth.user.country
+      }
+      return 'Select your country'
+    }
+  },
   created () {
     this.defineConfirmParams()
+    // look for the user's country
   },
   methods: {
+    async getIp () {
+      try {
+        const response = await this.$axios.$get('https://api.ipify.org?format=json', {
+          headers: {
+            Authorization: undefined
+          }
+        })
+        return response.ip
+      } catch (error) {
+        console.error('Error fetching IP:', error)
+        return null
+      }
+    },
     sendEmail () {
       this.emailRegistered = true
+      // tax calculation
       this.generatePaymentIntent()
     },
     async generatePaymentIntent () {
-      const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
+      const { paymentIntent } = await this.$axios.$post('/payments/stripe/payment-intent', {
         amount: this.price * 100,
         currency: 'usd',
         paymentMethodTypes: ['card'],

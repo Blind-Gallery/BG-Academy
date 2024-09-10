@@ -8,10 +8,21 @@ export default {
   },
 
   methods: {
+    async getIp () {
+      try {
+        const response = await this.$axios.$get('https://api.ipify.org?format=json')
+        return response.ip
+      } catch (error) {
+        console.error('Error fetching IP:', error)
+        return null
+      }
+    },
     async emailConnect () {
       try {
+        const ipAddress = await this.getIp()
         await this.$auth.loginWith('local', {
           data: {
+            ipAddress,
             ...this.signInForm
           }
         })
