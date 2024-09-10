@@ -13,10 +13,12 @@
             style="margin-bottom: 0.6rem;"
           />
           <FormulateInput
+            v-show="false"
             v-model="selectedCountry"
             type="select"
             label="Country"
             :options="country"
+            :placeholder="countryPlaceholder"
             style="margin-bottom: 0.6rem;"
           />
           <FormulateInput class="mt-4" type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Next'" />
@@ -114,11 +116,20 @@ export default {
         value: c.code,
         label: c.name
       }))
+    },
+    countryPlaceholder () {
+      if (this.selectedCountry) {
+        return this.selectedCountry
+      }
+      if (this.$auth.user.country) {
+        return this.$auth.user.country
+      }
+      return 'Select your country'
     }
   },
   created () {
     this.defineConfirmParams()
-    this.getIp()
+    // look for the user's country
   },
   methods: {
     async getIp () {
