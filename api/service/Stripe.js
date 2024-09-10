@@ -1,3 +1,5 @@
+const geoip = require('geoip-lite')
+
 const { BadRequest, InternalServerError } = require('http-errors')
 const logger = require('./Logger')
 require('dotenv').config()
@@ -19,8 +21,7 @@ async function safeStripeOperation (operation, errorMessage) {
 }
 class Stripe {
   async getIPDetails (ip) {
-    const { data } = await axios.get(`http://ip-api.com/json/${ip}`)
-    return data
+    return geoip.lookup(ip)
   }
 
   async customerOperation (operation, id, info = {}) {
@@ -78,12 +79,11 @@ class Stripe {
   }
 
   async registerCustomer ({ customerId = null, user, ip }) {
-    const { data: details } = await axios.get(`http://ip-api.com/json/${ip}`)
-    logger.debug(details)
+    const { country } = await this.getIPDetails(ip)
     const customerInfo = {
       name: user.name,
       address: {
-        country: details.countryCode
+        country
       },
       tax: {
         ip_address: ip
@@ -103,13 +103,13 @@ class Stripe {
     if (customerId) {
       logger.debug(`Updating customer ${customerId}`)
       await this.updateCustomer(customerId, customerInfo)
-      return { customerId, country: details.country }
+      return { customerId, country }
     }
 
     logger.debug('Creating customer')
     const customer = await this.createCustomer(customerInfo)
 
-    return { customerId: customer.id, country: details.country }
+    return { customerId: customer.id, country }
   }
 
   /**
