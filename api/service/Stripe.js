@@ -103,13 +103,13 @@ class Stripe {
     if (customerId) {
       logger.debug(`Updating customer ${customerId}`)
       await this.updateCustomer(customerId, customerInfo)
-      return customerId
+      return { customerId, country: details.country }
     }
 
     logger.debug('Creating customer')
     const customer = await this.createCustomer(customerInfo)
 
-    return customer.id
+    return { customerId: customer.id, country: details.country }
   }
 
   /**
