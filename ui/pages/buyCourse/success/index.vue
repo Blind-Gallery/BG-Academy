@@ -43,8 +43,13 @@ import { gql } from 'graphql-tag'
 const COURSE_INFO = gql`
 query ($id: String!) {
   courses_by_pk(id: $id) {
-    modules {
-      chapters {
+   name
+   thumbnail
+   teacher {
+      name
+    }
+    modules (order_by: {created_at: asc}) {
+      chapters (order_by: {created_at: asc}) {
         id
       }
     }
