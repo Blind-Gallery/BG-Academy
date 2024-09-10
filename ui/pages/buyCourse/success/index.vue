@@ -61,7 +61,21 @@ export default {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
       courseId: null,
-      error: null
+      error: null,
+      courseInfo: null
+    }
+  },
+
+  computed: {
+    handleCourseId () {
+      return this.courseId
+    }
+  },
+  watch: {
+    handleCourseId (newVal) {
+      if (newVal) {
+        this.getCourseInfo(newVal)
+      }
     }
   },
   created () {
