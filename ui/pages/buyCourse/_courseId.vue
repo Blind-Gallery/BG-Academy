@@ -304,15 +304,6 @@ export default {
       false,
       maxLength: 700,
       nowDate: new Date(),
-      recommendations: [
-        {
-          quote: 'ilithya’s course starts from the beginning, providing a newcomer to shaders (🙋🏻‍♂️) an opportunity to build a solid foundation for the future. ilithya provides very easy-to-understand explanations that have been difficult for me to grasp in the past.\n\n Highly recommend this course!',
-          social: 'https://x.com/richardegil',
-          name: 'Richard Gil',
-          role: 'Artist/Developer/Designer',
-          pfp: 'https://pbs.twimg.com/profile_images/1060707742585892865/s1CoTb3p_400x400.jpg'
-        }
-      ],
       breakpoints: {
         425: {
           slidesPerView: 1.25,
