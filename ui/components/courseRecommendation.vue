@@ -9,7 +9,7 @@ export default {
       type: String,
       required: true
     },
-    rol: {
+    role: {
       type: String,
       required: true
     },
@@ -45,7 +45,7 @@ export default {
           <h6 class="tw-text-sm  tw-truncate tw-m-0">
             {{ name }}
           </h6>
-          <span class="tw-text-xs tw-text-gray-500">{{ rol }}</span>
+          <span class="tw-text-xs tw-text-gray-500">{{ role }}</span>
         </div>
       </div>
       <a :href="social" target="_blank">
