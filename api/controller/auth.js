@@ -67,8 +67,7 @@ class AuthController {
   }
 
   async validateRecoverPasswordCode (req, res) {
-    const response = await this.loginModel.validateRecoverPasswordCode(req.body)
-    return response
+    return this.loginModel.validateRecoverPasswordCode(req.body)
   }
 }
 
