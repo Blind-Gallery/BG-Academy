@@ -1,12 +1,31 @@
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    instructor: {
+      type: String,
+      required: true
+    },
+    thumbnail: {
+      type: String,
+      required: true
+    }
+  }
+}
+
+</script>
 <template>
   <div>
     <h4 class="tw-text-cyan-500 tw-mb-4">
       Share your activity
     </h4>
     <div class="tw-border tw-flex tw-flex-col tw-rounded tw-p-4 tw-gap-4">
-      <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby">
+      <img :src="thumbnail">
       <p class="tw-m-0">
-        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">'Introduction to Pixel Shaders'</span> by ilithya! Check it out below
+        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}! Check it out below
       </p>
     </div>
     <hr>
