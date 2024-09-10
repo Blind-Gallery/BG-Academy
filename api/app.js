@@ -29,7 +29,8 @@ const {
 } = require('./service')
 
 const {
-  AuthController
+  AuthController,
+  PaymentController
 } = require('./controller')
 
 const {
@@ -100,11 +101,15 @@ async function decorateFastifyInstance (fastify) {
     loginModel,
     stripe
   })
+  const paymentController = new PaymentController({
+    paymentsModel
+  })
+
   fastify.decorate('authController', authController)
   fastify.decorate('user', userModel)
   fastify.decorate('jwt', jwt)
   fastify.decorate('documents', documentsModel)
-  fastify.decorate('payments', paymentsModel)
+  fastify.decorate('payments', paymentController)
   fastify.decorate('emails', emailsModel)
   fastify.decorate('course', courseModel)
 }
