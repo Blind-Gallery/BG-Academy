@@ -1,6 +1,10 @@
 <template>
   <div class="d-flex align-items-center justify-content-center" style="height: 90vh;">
-    <PxModal ref="activityModal" />
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-course-purchase :title="courseInfo?.name" :thumbnail="courseInfo?.thumbnail" :instructor="courseInfo?.teacher?.name" />
+      </template>
+    </PxModal>
     <div
       class="
       d-flex
