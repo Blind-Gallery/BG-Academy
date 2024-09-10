@@ -1,6 +1,4 @@
 'use strict'
-const { logger } = require('../../service')
-
 const {
   updateFeedbackSchema
 } = require('./schemas')

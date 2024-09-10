@@ -1,6 +1,4 @@
 'use strict'
-const { logger } = require('../../service')
-
 const {
   loginSchema,
   signUpSchema,
@@ -29,74 +27,35 @@ module.exports = async function (fastify, opts) {
 module.exports[Symbol.for('plugin-meta')] = {
   decorators: {
     fastify: [
-      'login'
+      'authController'
     ]
   }
 }
 
 async function loginHandler (req, reply) {
-  const {
-    token,
-    refreshToken,
-    user
-  } = await this.login.login(req.body)
-
-  reply.setCookie('refresh_token', refreshToken, {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-    maxAge: this.login.refreshTokenTTLSeconds()
-  })
-
-  return { token, refreshToken, user }
+  return this.authController.login(req, reply)
 }
 
 async function signUpHandler (req, reply) {
-  const {
-    token,
-    refreshToken,
-    user
-  } = await this.login.signUp(req.body)
-
-  reply.setCookie('refresh_token', refreshToken, {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-    maxAge: this.login.refreshTokenTTLSeconds()
-  })
-
-  return { token, refreshToken, user }
+  return this.authController.signup(req, reply)
 }
 
 async function refreshHandler (req, reply) {
-  logger.info('======================= Refreshing token')
-  logger.info(`refresh_token: ${JSON.stringify(req.cookies, null, 4)}`)
-  const {
-    refreshToken
-  } = req.cookies
-  return this.login.refresh({ refreshToken })
+  return this.authController.refresh(req, reply)
 }
 
 async function logoutHandler (req, reply) {
-  reply.setCookie('refresh_token', null, {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: true,
-    maxAge: 0
-  })
-  return this.login.logOut()
+  return this.authController.logout(req, reply)
 }
 
 async function userHandler (req, reply) {
-  const token = req.headers.authorization.split(' ')[1]
-  return this.login.user(token)
+  return this.authController.user(req, reply)
 }
 
 async function recoverPasswordHandler (req, reply) {
-  return this.login.recoverPassword(req.body)
+  return this.authController.recoverPassword(req.body)
 }
 
 async function validateRecoverPasswordCodeHandler (req, reply) {
-  const response = await this.login.validateRecoverPasswordCode(req.body)
-  return response
+  return this.authController.validateRecoverPasswordCode(req.body)
 }

@@ -137,7 +137,15 @@ class Payments {
     return payment
   }
 
-  async createStripePaymentIntent ({ amount, currency, paymentMethodTypes, receiptEmail, userId, courseId }) {
+  async createStripePaymentIntent ({
+    amount,
+    currency,
+    paymentMethodTypes,
+    receiptEmail,
+    userId,
+    courseId,
+    taxId
+  }) {
     let paymentIntent = null
     const oldPayment = await this.getStripePayment(userId, courseId)
     if (oldPayment?.payment_intent) {
@@ -148,7 +156,8 @@ class Payments {
       return paymentIntent
     }
     try {
-      paymentIntent = await this.stripe.paymentIntent(amount, currency, paymentMethodTypes, receiptEmail)
+      paymentIntent = await this.stripe.paymentIntent(
+        amount, currency, paymentMethodTypes, receiptEmail, taxId)
       await this.storeStripePayment({
         paymentIntent: paymentIntent.id,
         courseId,

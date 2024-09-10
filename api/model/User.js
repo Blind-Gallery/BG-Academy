@@ -22,6 +22,12 @@ class User {
     this.email = email
   }
 
+  async getUserById (userId) {
+    const { users_by_pk: user } = await this.gql.request(
+      GET_USER_FROM_ID, { userId })
+    return user
+  }
+
   /**
  * Retrieves a user's profile given their alias from the TZKT API.
  *
