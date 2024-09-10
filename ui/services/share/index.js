@@ -17,4 +17,8 @@ export default class ShareSocialMediaService {
   shareToInstagram () {
     this.createImage()
   }
+
+  shareToWarpcast (msj, urlEmbed) {
+    window.open(`https://warpcast.com/~/compose?text=${msj}&embeds[]=${urlEmbed}`)
+  }
 }
