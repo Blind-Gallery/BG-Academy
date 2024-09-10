@@ -41,6 +41,7 @@
     "fastify-plugin": "^4.0.0",
     "fastify-raw-body": "^4.2.2",
     "form-data": "^4.0.0",
+    "geoip-lite": "^1.4.10",
     "graphql": "^16.7.1",
     "graphql-request": "^6.1.0",
     "handlebars": "^4.7.8",
