@@ -65,7 +65,7 @@
                   :breakpoints="breakpoints"
                 >
                   <swiper-slide v-for="(recommendation, index) in recommendations" :key="index" class="tw-my-6 tw-px-2">
-                    <course-recommendation :quote="recommendation.quote" :name="recommendation.name" :social="recommendation.social" :pfp="recommendation.pfp" :rol="recommendation.rol" />
+                    <course-recommendation :quote="recommendation.quote" :name="recommendation.name" :social="recommendation.social" :pfp="recommendation.pfp" :role="recommendation.role" />
                   </swiper-slide>
                 </swiper>
 
@@ -302,7 +302,7 @@ export default {
           quote: 'ilithya’s course starts from the beginning, providing a newcomer to shaders (🙋🏻‍♂️) an opportunity to build a solid foundation for the future. ilithya provides very easy-to-understand explanations that have been difficult for me to grasp in the past.\n\n Highly recommend this course!',
           social: 'https://x.com/richardegil',
           name: 'Richard Gil',
-          rol: 'Artist/Developer/Designer',
+          role: 'Artist/Developer/Designer',
           pfp: 'https://pbs.twimg.com/profile_images/1060707742585892865/s1CoTb3p_400x400.jpg'
         }
       ],
