@@ -15,7 +15,7 @@
           <FormulateInput
             v-model="selectedCountry"
             type="select"
-            label="What planet is the largest?"
+            label="Country"
             :options="country"
             style="margin-bottom: 0.6rem;"
           />
