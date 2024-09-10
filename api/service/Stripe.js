@@ -124,7 +124,7 @@ class Stripe {
    * const pay = new Payment()
    * const paymentIntent = await pay.paymentIntent(5000, 'usd', ['card'], 'email.example.com')
    */
-  async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail) {
+  async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail, taxId) {
     let paymentIntent = null
     try {
       const paymentIntentParams = {
@@ -132,6 +132,13 @@ class Stripe {
         currency,
         automatic_payment_methods: {
           enabled: true
+        },
+        async_workflows: {
+          inputs: {
+            tax: {
+              calculation: taxId
+            }
+          }
         }
       }
       if (receiptEmail) {
