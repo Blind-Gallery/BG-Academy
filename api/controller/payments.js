@@ -15,14 +15,21 @@ class PaymentController {
 
   async stripePaymentIntent (req, res) {
     const {
-      id: userId,
       customer_id: customerId
     } = await this.userModel.getUserById(req.body.userId)
 
     const {
-      sku
+      sku,
+      price,
+      discount_price: discountPrice
     } = await this.courseModel.getCourseById(req.body.courseId)
-    req.log.info(`userId: ${userId}, customerId: ${customerId}, sku: ${sku}`)
+    const taxId = await this.paymentsModel.stripe.calculateTax(
+      discountPrice || price,
+      'usd',
+      `course-${sku}`,
+      customerId
+    )
+    req.body.taxId = taxId
     const paymentIntent = await this.paymentsModel.createStripePaymentIntent(req.body)
     return { paymentIntent }
   }
