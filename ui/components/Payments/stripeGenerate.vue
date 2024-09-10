@@ -151,7 +151,7 @@ export default {
       this.generatePaymentIntent()
     },
     async generatePaymentIntent () {
-      const { paymentIntent } = await this.$axios.$post('/payments/stripe/create-intent', {
+      const { paymentIntent } = await this.$axios.$post('/payments/stripe/payment-intent', {
         amount: this.price * 100,
         currency: 'usd',
         paymentMethodTypes: ['card'],

@@ -18,7 +18,7 @@ module.exports = async function (fastify, opts) {
     // This is a webhook for stripe
     fastify.post('/stripe', { schema: stripeSchema, config: { rawBody: true } }, stripeVerificationHandler)
     // Endpoint when a user wants to pay
-    fastify.post('/stripe/create-intent', { schema: stripePaymentIntent }, stripePaymentIntentHandler)
+    fastify.post('/stripe/payment-intent', { schema: stripePaymentIntent }, stripePaymentIntentHandler)
     // Endpoint when a user wants to verify a stripe payment
     fastify.post('/stripe/verify-payment', { schema: stripePaymentVerify }, stripePaymentVerifyHandler)
     // Endpoint when a user wants to pay with tezos
