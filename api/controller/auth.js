@@ -40,7 +40,6 @@ class AuthController {
   }
 
   async refresh (req, res) {
-    logger.info('======================= Refreshing token')
     logger.info(`refresh_token: ${JSON.stringify(req.cookies, null, 4)}`)
     const {
       refreshToken
