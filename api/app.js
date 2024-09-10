@@ -103,7 +103,8 @@ async function decorateFastifyInstance (fastify) {
   })
   const paymentController = new PaymentController({
     paymentsModel,
-    userModel
+    userModel,
+    courseModel
   })
 
   fastify.decorate('authController', authController)
