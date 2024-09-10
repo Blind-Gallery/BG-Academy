@@ -147,14 +147,20 @@ export default {
         this.error = error.message
       }
     },
-    async getCourseInfo () {
-      const { data } = await this.$apollo.query({
-        query: COURSE_INFO,
-        variables: {
-          id: this.courseId
-        }
-      })
-      return data.courses_by_pk
+    async getCourseInfo (courseId) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_INFO,
+          variables: {
+            id: courseId
+          }
+        })
+        this.courseInfo = data.courses_by_pk
+
+        return data.courses_by_pk
+      } catch (error) {
+        console.error(error)
+      }
     },
     async goToFirstChapterId () {
       const course = await this.getCourseInfo()
