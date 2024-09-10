@@ -82,7 +82,7 @@ export default {
     this.checkParams()
   },
   mounted () {
-    this.openActivityModal('share-activity-course-purchase')
+    this.openActivityModal()
   },
   methods: {
     openActivityModal (component) {
