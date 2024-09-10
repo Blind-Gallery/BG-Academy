@@ -7,7 +7,6 @@ const stripe = require('stripe')(
   process.env.STRIPE_SECRET_KEY,
   { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
 )
-const axios = require('axios').default
 
 async function safeStripeOperation (operation, errorMessage) {
   try {
