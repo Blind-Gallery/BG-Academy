@@ -24,7 +24,7 @@ class Course {
     this.gql = gql
   }
 
-  async getCourseByIf (id) {
+  async getCourseById (id) {
     const { courses_by_pk: course } = await this.gql.request(GET_COURSE_BY_ID, { id })
     return course
   }
