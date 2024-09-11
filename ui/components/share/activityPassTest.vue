@@ -16,19 +16,21 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      msg: `I just passed an exam from the ${this.title} by ${this.instructor}`,
+      urlToBuy: window.location.origin + '/buyCourse/' + this.courseId
+    }
+  },
   methods: {
     shareToTwitter () {
-      const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
-      const urlToBuy = window.location.origin + '/buyCourse/' + this.courseId
-      shareSocialMediaService.shareToTwitter(msg, urlToBuy)
+      shareSocialMediaService.shareToTwitter(this.msg, this.urlToBuy)
     },
     shareToInstagram () {
       shareSocialMediaService.shareToInstagram()
     },
     shareToWarpcast () {
-      const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
-      const urlToBuy = window.location.origin + '/buyCourse/' + this.courseId
-      shareSocialMediaService.shareToWarpcast(msg, urlToBuy)
+      shareSocialMediaService.shareToWarpcast(this.msg, this.urlToBuy)
     }
   }
 }

@@ -1,4 +1,6 @@
 <script>
+import ShareSocialMediaService from '@/services/share'
+const shareSocialMediaService = new ShareSocialMediaService('testPassed')
 export default {
   props: {
     title: {
@@ -8,6 +10,27 @@ export default {
     instructor: {
       type: String,
       required: true
+    },
+    courseId: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      msg: `I just claimed my certificate of completion to ${this.title} by ${this.instructor}`,
+      urlToBuy: window.location.origin + '/buyCourse/' + this.courseId
+    }
+  },
+  methods: {
+    shareToTwitter () {
+      shareSocialMediaService.shareToTwitter(this.msg, this.urlToBuy)
+    },
+    shareToInstagram () {
+      shareSocialMediaService.shareToInstagram()
+    },
+    shareToWarpcast () {
+      shareSocialMediaService.shareToWarpcast(this.msg, this.urlToBuy)
     }
   }
 }
