@@ -18,19 +18,21 @@ export default {
   },
   data () {
     return {
-      msg: `I just passed an exam from the ${this.title} by ${this.instructor}`,
-      urlToBuy: window.location.origin + '/buyCourse/' + this.courseId
+      msg: `I just passed an exam from the ${this.title} by ${this.instructor}`
     }
   },
   methods: {
+    getUrlToBuy () {
+      return window.location.origin + '/buyCourse/' + this.courseId
+    },
     shareToTwitter () {
-      shareSocialMediaService.shareToTwitter(this.msg, this.urlToBuy)
+      shareSocialMediaService.shareToTwitter(this.msg, this.getUrlToBuy())
     },
     shareToInstagram () {
       shareSocialMediaService.shareToInstagram()
     },
     shareToWarpcast () {
-      shareSocialMediaService.shareToWarpcast(this.msg, this.urlToBuy)
+      shareSocialMediaService.shareToWarpcast(this.msg, this.getUrlToBuy())
     }
   }
 }
