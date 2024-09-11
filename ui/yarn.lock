@@ -12090,13 +12090,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-saver@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "file-saver@npm:2.0.5"
-  checksum: c62d96e5cebc58b4bdf3ae8a60d5cf9607ad82f75f798c33a4ee63435ac2203002584d5256a2a780eda7feb5e19dc3b6351c2212e58b3f529e63d265a7cc79f7
-  languageName: node
-  linkType: hard
-
 "file-uri-to-path@npm:1.0.0":
   version: 1.0.0
   resolution: "file-uri-to-path@npm:1.0.0"
@@ -13502,13 +13495,6 @@ __metadata:
   version: 2.0.0
   resolution: "html-tags@npm:2.0.0"
   checksum: a02b47dd71de5572f16c9a1d88e2876fcc4d60bb36b7effce48cd3cd0bdd8fdcbf2602d968d2268d134767620d876edc08d8a6fc0abd9dc59a05e89d56251fbb
-  languageName: node
-  linkType: hard
-
-"html-to-image@npm:^1.11.11":
-  version: 1.11.11
-  resolution: "html-to-image@npm:1.11.11"
-  checksum: b453beca72a697bf06fae4945e5460d1d9b1751e8569a0d721dda9485df1dde093938cc9bd9172b8df5fc23133a53a4d619777b3d22f7211cd8a67e3197ab4e8
   languageName: node
   linkType: hard
 
@@ -22656,9 +22642,7 @@ __metadata:
     eslint-plugin-jest: ^27.0.4
     eslint-plugin-nuxt: ^4.0.0
     eslint-plugin-vue: ^9.5.1
-    file-saver: ^2.0.5
     graphql-tag: ^2.12.6
-    html-to-image: ^1.11.11
     jest: ^29.1.2
     jest-environment-jsdom: ^29.1.2
     lodash-es: ^4.17.21
