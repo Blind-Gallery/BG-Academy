@@ -18,18 +18,28 @@ export default {
   },
   data () {
     return {
-      msg: `I just claimed my certificate of completion for ${this.title} by ${this.instructor}`
+
+    }
+  },
+
+  computed: {
+    msgForTwitter () {
+      return `I just claimed my certificate of completion for "${this.title}" by ${this.instructor} on @BlindGallery_!`
+    },
+    msgForFarcaster () {
+      return `I just claimed my certificate of completion for "${this.title}" by ${this.instructor} on @blind-gallery!`
+    },
+    getUrlToBuy () {
+      return window.location.origin + '/buyCourse/' + this.courseId
     }
   },
   methods: {
-    getUrlToBuy () {
-      return window.location.origin + '/buyCourse/' + this.courseId
-    },
+
     shareToTwitter () {
-      shareSocialMediaService.shareToTwitter(this.msg, this.getUrlToBuy())
+      shareSocialMediaService.shareToTwitter(this.msgForTwitter, this.getUrlToBuy)
     },
     shareToWarpcast () {
-      shareSocialMediaService.shareToWarpcast(this.msg, this.getUrlToBuy())
+      shareSocialMediaService.shareToWarpcast(this.msgForFarcaster, this.getUrlToBuy)
     }
   }
 }
