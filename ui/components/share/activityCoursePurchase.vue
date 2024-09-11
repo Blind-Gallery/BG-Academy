@@ -14,6 +14,10 @@ export default {
     courseId: {
       type: String,
       required: true
+    },
+    thumbnail: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -40,11 +44,8 @@ export default {
     },
     shareToWarpcast () {
       shareSocialMediaService.shareToWarpcast(this.msgForFarcaster, this.getUrlToBuy)
-    },
-    thumbnail: {
-      type: String,
-      required: true
     }
+
   }
 }
 
