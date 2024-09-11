@@ -1,6 +1,6 @@
 <script>
 import ShareSocialMediaService from '@/services/share'
-const shareSocialMediaService = new ShareSocialMediaService('coursePurchased')
+const shareSocialMediaService = new ShareSocialMediaService()
 export default {
   props: {
     title: {
@@ -28,9 +28,6 @@ export default {
     shareToTwitter () {
       shareSocialMediaService.shareToTwitter(this.msg, this.getUrlToBuy())
     },
-    shareToInstagram () {
-      shareSocialMediaService.shareToInstagram()
-    },
     shareToWarpcast () {
       shareSocialMediaService.shareToWarpcast(this.msg, this.getUrlToBuy())
     },
@@ -47,7 +44,7 @@ export default {
     <h4 class="tw-text-cyan-500 tw-mb-4">
       Share your activity
     </h4>
-    <div id="coursePurchased" class="tw-border tw-flex tw-flex-col tw-rounded tw-p-4 tw-gap-4">
+    <div class="tw-border tw-flex tw-flex-col tw-rounded tw-p-4 tw-gap-4">
       <img :src="thumbnail">
       <p class="tw-m-0">
         I just enrolled in <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}! Check it out below
@@ -68,12 +65,6 @@ export default {
           @click="shareToTwitter"
         >
           <Icon icon="ri:twitter-x-line" width="1rem" height="1rem" />
-        </div>
-        <div
-          class="tw-flex tw-items-center tw-justify-center tw-border tw-p-2 tw-rounded tw-w-[40px] tw-h-[40px] hover:tw-bg-cyan-500 tw-duration-200 tw-ease-in-out tw-cursor-pointer hover:tw-text-white hover:tw-border-0"
-          @click="shareToInstagram"
-        >
-          <Icon icon="mdi:instagram" width="1rem" height="1rem" />
         </div>
       </div>
     </div>

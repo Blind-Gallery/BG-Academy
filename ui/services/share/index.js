@@ -1,8 +1,4 @@
 export default class ShareSocialMediaService {
-  constructor (id) {
-    this.documentId = id
-  }
-
   shareToWarpcast (msj, urlEmbed) {
     window.open(`https://warpcast.com/~/compose?text=${msj}&embeds[]=${urlEmbed}`)
   }
