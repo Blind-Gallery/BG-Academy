@@ -18,18 +18,28 @@ export default {
   },
   data () {
     return {
-      msg: `I just enrolled in ${this.title} by ${this.instructor}! Check it out below`
+
+    }
+  },
+
+  computed: {
+    msgForFarcaster () {
+      return `I just enrolled in "${this.title}" by ${this.instructor}! Check it out below on @blind-gallery`
+    },
+    msgForTwitter () {
+      return `I just enrolled in "${this.title}" by ${this.instructor}! Check it out below on @BlindGallery_! `
+    },
+    getUrlToBuy () {
+      return window.location.origin + '/buyCourse/' + this.courseId
     }
   },
   methods: {
-    getUrlToBuy () {
-      return window.location.origin + '/buyCourse/' + this.courseId
-    },
+
     shareToTwitter () {
-      shareSocialMediaService.shareToTwitter(this.msg, this.getUrlToBuy())
+      shareSocialMediaService.shareToTwitter(this.msgForTwitter, this.getUrlToBuy)
     },
     shareToWarpcast () {
-      shareSocialMediaService.shareToWarpcast(this.msg, this.getUrlToBuy())
+      shareSocialMediaService.shareToWarpcast(this.msgForFarcaster, this.getUrlToBuy)
     },
     thumbnail: {
       type: String,
