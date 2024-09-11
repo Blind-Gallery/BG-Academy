@@ -18,7 +18,9 @@ export default {
   },
   methods: {
     shareToTwitter () {
-      shareSocialMediaService.shareToTwitter()
+      const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
+      const urlToBuy = window.location.href + '/buyCourse/' + this.courseId
+      shareSocialMediaService.shareToTwitter(msg, urlToBuy)
     },
     shareToInstagram () {
       shareSocialMediaService.shareToInstagram()

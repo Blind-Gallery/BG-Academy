@@ -23,6 +23,6 @@ export default class ShareSocialMediaService {
   }
 
   shareToTwitter (msj, urlEmbed) {
-    window.open(`http://twitter.com/share?url=${urlEmbed}&via=trucsweb&image-src=${msj}&text=${title}`)
+    window.open(`http://twitter.com/share?url=${urlEmbed}&via=trucsweb&text=${msj}`)
   }
 }
