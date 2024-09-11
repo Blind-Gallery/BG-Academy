@@ -18,7 +18,7 @@ export default {
   },
   data () {
     return {
-      msg: `I just claimed my certificate of completion to ${this.title} by ${this.instructor}`
+      msg: `I just claimed my certificate of completion for ${this.title} by ${this.instructor}`
     }
   },
   methods: {
@@ -46,7 +46,7 @@ export default {
       </div>
       <div>
         <p class="tw-m-0">
-          I just claimed my certificate of completion to <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}
+          I just claimed my certificate of completion for <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}
         </p>
       </div>
       <hr>

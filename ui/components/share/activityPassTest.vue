@@ -18,7 +18,7 @@ export default {
   },
   data () {
     return {
-      msg: `I just passed an exam from the ${this.title} by ${this.instructor}`
+      msg: `I just passed an exam in the ${this.title} course by ${this.instructor}`
     }
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
 
       <div>
         <p class="tw-m-0">
-          I just passed an exam from the <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}
+          I just passed an exam in the <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> course by {{ instructor }}
         </p>
       </div>
       <hr>

@@ -18,7 +18,7 @@ export default {
   },
   data () {
     return {
-      msg: `I just claimed my certificate of completion to ${this.title} by ${this.instructor}`
+      msg: `I just enrolled in ${this.title} by ${this.instructor}! Check it out below`
     }
   },
   methods: {
