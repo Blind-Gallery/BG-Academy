@@ -2,7 +2,7 @@
   <div>
     <PxModal ref="activityModal">
       <template #body>
-        <share-activity-claim-certificate :title="title" :instructor="instructor" />
+        <share-activity-claim-certificate :title="title" :instructor="instructor" :course-id="courseId" />
       </template>
     </PxModal>
     <div :class="approvedCourse ? '':'tw-opacity-50 tw-cursor-not-allowed' " class="tw-rounded tw-shadow tw-overflow-hidden">

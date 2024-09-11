@@ -2,7 +2,7 @@
   <div class="w-100">
     <PxModal ref="activityModal">
       <template #body>
-        <share-activity-claim-certificate :title="title" :instructor="instructor" />
+        <share-activity-claim-certificate :title="title" :instructor="instructor" :course-id="courseId" />
       </template>
     </PxModal>
     <button
