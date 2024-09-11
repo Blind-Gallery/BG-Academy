@@ -19,7 +19,7 @@ export default {
   methods: {
     shareToTwitter () {
       const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
-      const urlToBuy = window.location.href + '/buyCourse/' + this.courseId
+      const urlToBuy = window.location.origin + '/buyCourse/' + this.courseId
       shareSocialMediaService.shareToTwitter(msg, urlToBuy)
     },
     shareToInstagram () {
@@ -27,7 +27,7 @@ export default {
     },
     shareToWarpcast () {
       const msg = `I just passed an exam from the ${this.title} by ${this.instructor}`
-      const urlToBuy = window.location.href + '/buyCourse/' + this.courseId
+      const urlToBuy = window.location.origin + '/buyCourse/' + this.courseId
       shareSocialMediaService.shareToWarpcast(msg, urlToBuy)
     }
   }

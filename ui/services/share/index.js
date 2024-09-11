@@ -10,7 +10,7 @@ export default class ShareSocialMediaService {
     htmlToImage
       .toBlob(document.getElementById(this.documentId))
       .then(function (blob) {
-        saveAs(blob, 'academyCoursePassed.png')
+        saveAs(blob, 'academyCoursePassed.jpg')
       })
   }
 
