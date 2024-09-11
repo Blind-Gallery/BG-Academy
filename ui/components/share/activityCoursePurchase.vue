@@ -33,6 +33,10 @@ export default {
     },
     shareToWarpcast () {
       shareSocialMediaService.shareToWarpcast(this.msg, this.getUrlToBuy())
+    },
+    thumbnail: {
+      type: String,
+      required: true
     }
   }
 }
@@ -44,9 +48,9 @@ export default {
       Share your activity
     </h4>
     <div id="coursePurchased" class="tw-border tw-flex tw-flex-col tw-rounded tw-p-4 tw-gap-4">
-      <img src="https://moccasin-perfect-trout-941.mypinata.cloud/ipfs/QmQ6xcW8YcPdCVxM82mAjc9qSTmyks3buzaxsynjQZndby">
+      <img :src="thumbnail">
       <p class="tw-m-0">
-        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">'{{ title }}'</span> by {{ instructor }}! Check it out below
+        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}! Check it out below
       </p>
     </div>
     <hr>
