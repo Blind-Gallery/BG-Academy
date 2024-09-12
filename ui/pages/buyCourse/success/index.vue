@@ -1,5 +1,10 @@
 <template>
   <div class="d-flex align-items-center justify-content-center" style="height: 90vh;">
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-course-purchase :course-id="handleCourseId" :title="courseInfo?.name" :thumbnail="courseInfo?.thumbnail" :instructor="courseInfo?.teacher?.name" />
+      </template>
+    </PxModal>
     <div
       class="
       d-flex
@@ -38,8 +43,13 @@ import { gql } from 'graphql-tag'
 const COURSE_INFO = gql`
 query ($id: String!) {
   courses_by_pk(id: $id) {
-    modules {
-      chapters {
+   name
+   thumbnail
+   teacher {
+      name
+    }
+    modules (order_by: {created_at: asc}) {
+      chapters (order_by: {created_at: asc}) {
         id
       }
     }
@@ -51,13 +61,36 @@ export default {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
       courseId: null,
-      error: null
+      error: null,
+      courseInfo: null
+    }
+  },
+
+  computed: {
+    handleCourseId () {
+      return this.courseId
+    }
+  },
+  watch: {
+    handleCourseId (newVal) {
+      if (newVal) {
+        this.getCourseInfo(newVal)
+      }
     }
   },
   created () {
     this.checkParams()
   },
+  mounted () {
+    this.openActivityModal()
+  },
   methods: {
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     /**
      * Check if the user has been redirected from the payment page
      * and if the payment was successful give the user access to the course
@@ -114,18 +147,23 @@ export default {
         this.error = error.message
       }
     },
-    async getCourseInfo () {
-      const { data } = await this.$apollo.query({
-        query: COURSE_INFO,
-        variables: {
-          id: this.courseId
-        }
-      })
-      return data.courses_by_pk
+    async getCourseInfo (courseId) {
+      try {
+        const { data } = await this.$apollo.query({
+          query: COURSE_INFO,
+          variables: {
+            id: courseId
+          }
+        })
+        this.courseInfo = data.courses_by_pk
+
+        return data.courses_by_pk
+      } catch (error) {
+        console.error(error)
+      }
     },
-    async goToFirstChapterId () {
-      const course = await this.getCourseInfo()
-      this.$router.push(`/courseNavigator/chapter/${course.modules[0].chapters[0].id}`)
+    goToFirstChapterId () {
+      this.$router.push(`/courseNavigator/chapter/${this.courseInfo.modules[0].chapters[0].id}`)
     }
   }
 }

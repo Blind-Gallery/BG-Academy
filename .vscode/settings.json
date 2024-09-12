@@ -26,7 +26,8 @@
     "tezo",
     "tezos",
     "TZIP",
-    "tzkt"
+    "tzkt",
+    "Warpcast"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
