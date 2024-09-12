@@ -20,7 +20,15 @@ async function safeStripeOperation (operation, errorMessage) {
 }
 class Stripe {
   async getIPDetails (ip) {
-    return geoip.lookup(ip)
+    logger.warn(`GeoIP lookup failed for IP: ${ip}`)
+    let response = geoip.lookup(ip)
+    if (!response) {
+      response = {
+        country: ''
+      }
+    }
+
+    return response
   }
 
   async customerOperation (operation, id, info = {}) {
@@ -79,6 +87,7 @@ class Stripe {
 
   async registerCustomer ({ customerId = null, user, ip }) {
     const { country } = await this.getIPDetails(ip)
+
     const customerInfo = {
       name: user.name,
       address: {
