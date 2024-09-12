@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: [
+    './plugins/formulate.config.js'
+  ],
   prefix: 'tw-',
   theme: {
     extend: {

@@ -56,6 +56,22 @@
             </h5>
 
             <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
+            <div v-if="courses[0]?.recommendations.length" class="tw-mt-8">
+              <h5>Recommendations</h5>
+              <div class="tw-relative">
+                <swiper
+                  :space-between="16"
+                  :loop="false"
+                  :breakpoints="breakpoints"
+                >
+                  <swiper-slide v-for="(recommendation, index) in courses[0]?.recommendations" :key="index" class="tw-my-6 tw-px-2">
+                    <course-recommendation :quote="recommendation.quote" :name="recommendation.name" :social="recommendation.social" :pfp="recommendation.pfp" :role="recommendation.role" />
+                  </swiper-slide>
+                </swiper>
+
+                <div class="tw-pointer-events-none tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-bg-gradient-to-l tw-from-white tw-to-transparent tw-z-10" />
+              </div>
+            </div>
           </div>
         </b-col>
 
@@ -92,17 +108,9 @@
                 <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
               </div>
               <div v-if="isAccessible">
-                <button class="primary-btn w-100 " @click="openModal">
-                  <Icon
-                    icon="material-symbols:credit-card"
-                    color="#fff"
+                <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
 
-                    width="21"
-                  />
-                  Credit card
-                </button>
-
-                <payments-tezos-generate :course-id="courses[0].id" />
+                <payments-tezos-generate v-if="$auth.user?.tezos_info" :course-id="courses[0].id" />
               </div>
               <div v-else class="tw-p-2 tw-rounded tw-border">
                 <span class="tw-text-xs">Launch on {{ courses[0].release_date | formatDate }}</span>
@@ -185,6 +193,8 @@
 <script>
 import { gql } from 'graphql-tag'
 import { mapGetters } from 'vuex'
+import { Swiper, SwiperSlide } from 'swiper-vue2'
+import courseRecommendation from '../../components/courseRecommendation.vue'
 import { ALLOW_LIST } from '@/constants'
 
 const USER_COURSES = gql`query ($id: String = "") {
@@ -197,6 +207,11 @@ const USER_COURSES = gql`query ($id: String = "") {
       }`
 
 export default {
+  components: {
+    courseRecommendation,
+    Swiper,
+    SwiperSlide
+  },
   apollo: {
     courses: {
       query: gql`
@@ -231,6 +246,13 @@ export default {
               description
             }
             teacher_id
+            recommendations {
+              name
+              pfp
+              quote
+              role
+              social
+            }
           }
         }
       `,
@@ -281,7 +303,25 @@ export default {
       showFullDescription:
       false,
       maxLength: 700,
-      nowDate: new Date()
+      nowDate: new Date(),
+      breakpoints: {
+        425: {
+          slidesPerView: 1.25,
+          spaceBetween: 30,
+          slidesPerGroup: 1
+        },
+        768: {
+          slidesPerView: 2.25,
+          spaceBetween: 30,
+          slidesPerGroup: 1
+        },
+
+        1024: {
+          slidesPerView: 2.25,
+          spaceBetween: 30,
+          slidesPerGroup: 1
+        }
+      }
     }
   },
   computed: {

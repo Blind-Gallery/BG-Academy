@@ -2,6 +2,7 @@ const { BadRequest } = require('http-errors')
 const { logger } = require('../service')
 
 const {
+  GET_COURSE_BY_ID,
   GET_COURSE_ID_FROM_CHAPTER_ID,
   GET_COURSE_ID_FROM_MODULE_ID,
   UPDATE_FEEDBACK
@@ -21,6 +22,11 @@ const routeTypeHandlers = {
 class Course {
   constructor ({ gql }) {
     this.gql = gql
+  }
+
+  async getCourseById (id) {
+    const { courses_by_pk: course } = await this.gql.request(GET_COURSE_BY_ID, { id })
+    return course
   }
 
   async getCourseIdFromRoute (route) {

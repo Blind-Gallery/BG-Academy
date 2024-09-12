@@ -1,5 +1,10 @@
 <template>
   <div>
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-pass-test :title="certificateInfo?.course?.name" :instructor="certificateInfo?.course?.teacher?.name" :course-id="courseId" />
+      </template>
+    </PxModal>
     <div v-if="!$apollo.loading">
       <b-container style="margin-top: 2rem; max-width: 1240px">
         <b-row class="courseNav-parent mb-3">
@@ -75,9 +80,9 @@
                     <swiper-slide v-for="(test, index) in module.questions" :key="index">
                       <div class="d-flex flex-column justify-content-between " style="height: 90%;">
                         <div>
-                          <h4 class="m-0 " style="color:#00b9cd">
+                          <h5 class="tw-cyan-500 ">
                             {{ `${test.text}` }}
-                          </h4>
+                          </h5>
 
                           <hr class="w-100">
                         </div>
@@ -87,7 +92,6 @@
                               :value="test.selectedOption"
                               :options="formatOptions(test.options)"
                               type="radio"
-                              class="test"
                               @input="(value) => {
                                 test.selectedOption = value
                               }"
@@ -382,7 +386,12 @@ export default {
   },
 
   methods: {
-
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     openModal (component) {
       const modalInstance = this.$refs.modalInstance
       modalInstance.showModal(component)
@@ -507,6 +516,9 @@ export default {
       }
 
       this.scorePercentage = Math.floor((this.correctAnswers / questions.length) * 100)
+      if (this.scorePercentage >= 80) {
+        this.openActivityModal()
+      }
 
       this.$apollo.mutate({
         mutation: UPDATE_USER_ANSWERS,
@@ -687,11 +699,6 @@ input:checked ~ label {
   border-radius: 5px;
 }
 
-.test .formulate-input .formulate-input-label{
-  font-weight: 400;
-
-}
-
 .fade-enter-active {
   transition: opacity 1s
 }
@@ -775,27 +782,33 @@ input:checked ~ label {
 .test label{
   margin: 0;
 }
+
 .formulate-input-group-item {
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-radius: .5em;
-    padding: .5em;
-    position: relative;
+  position: relative;
 
-    /* This makes the whole respond like a label to clicks */
-    label::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-      cursor: pointer;
-    }
+  /* This makes the whole respond like a label to clicks */
+  label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    cursor: pointer;
+  }
 
-    &[data-has-value] {
-      background-color: #00b9cd3f;
-    }
+  &[data-has-value] {
+    background-color:#f3f4f6;
+  }
 }
+.formulate-input-element .formulate-input-element--radio{
+  width: fit-content;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 990px) {
   .course-video{
   flex: 0 0 100%;

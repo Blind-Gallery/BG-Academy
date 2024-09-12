@@ -68,10 +68,10 @@ export default {
         validation="required"
         validation-name="Confirmation"
       />
-      <p v-show="success" style="color: green; font-size: 0.8em">
+      <p v-show="success" class="tw-text-green-500 tw-text-xs">
         {{ message }}
       </p>
-      <p v-show="!success" style="color: red; font-size: 0.8em">
+      <p v-show="!success" class="tw-text-red-500 tw-text-xs">
         {{ message }}
       </p>
       <button :disabled="isLoading" type="submit" class="primary-btn">

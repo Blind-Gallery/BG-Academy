@@ -1,5 +1,10 @@
 <template>
   <div class="w-100">
+    <PxModal ref="activityModal">
+      <template #body>
+        <share-activity-claim-certificate :title="title" :instructor="instructor" :course-id="courseId" />
+      </template>
+    </PxModal>
     <button
       v-if="!soulBoundTokenId"
       class="tw-flex tw-w-full  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200"
@@ -42,6 +47,14 @@ export default {
     }
   },
   props: {
+    title: {
+      type: String,
+      required: true
+    },
+    instructor: {
+      type: String,
+      required: true
+    },
     courseId: {
       type: String,
       required: true
@@ -67,6 +80,12 @@ export default {
     }
   },
   methods: {
+    openActivityModal (component) {
+      const modalInstance = this.$refs.activityModal
+      if (modalInstance) {
+        modalInstance.showModal(component)
+      }
+    },
     async getCertificate () {
       try {
         this.loading = true
@@ -76,6 +95,7 @@ export default {
         })
         this.$notify({ type: 'success', text: 'Certificate successfully minted' })
         this.tokenId = soulBoundTokenId
+        this.openActivityModal()
       } catch (e) {
         console.error(e)
         this.loading = false
@@ -84,6 +104,7 @@ export default {
         this.loading = false
       }
     }
+
   }
 }
 </script>
