@@ -20,9 +20,9 @@ async function safeStripeOperation (operation, errorMessage) {
 }
 class Stripe {
   async getIPDetails (ip) {
-    logger.warn(`GeoIP lookup failed for IP: ${ip}`)
     let response = geoip.lookup(ip)
     if (!response) {
+      logger.warn(`GeoIP lookup failed for IP: ${ip}`)
       response = {
         country: ''
       }
