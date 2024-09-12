@@ -21,15 +21,15 @@ class Login {
   }
 
   async stripeRegister (user, ip) {
-    const { customerId, country } = await this.stripe.registerCustomer({ customerId: user.customer_id, user, ip })
-    logger.debug(`Stripe customer registered: ${customerId}`)
-    if (!user.customer_id || user.country !== country) {
-      try {
+    try {
+      const { customerId, country } = await this.stripe.registerCustomer({ customerId: user.customer_id, user, ip })
+      logger.debug(`Stripe customer registered: ${customerId}`)
+      if (!user.customer_id || user.country !== country) {
         await this.gql.request(
           REGISTER_CUSTOMER_ID, { id: user.id, customerId, country })
-      } catch (e) {
-        logger.error(`Error registering customer: ${e.message}`)
       }
+    } catch (e) {
+      logger.error(`Error registering customer: ${e.message}`)
     }
   }
 
