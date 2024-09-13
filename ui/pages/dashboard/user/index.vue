@@ -151,33 +151,26 @@ export default {
     },
     formattedVolumeDollar () {
       return this.total_volume_credit_card.toLocaleString()
+    },
+    paymentsData () {
+      this.payments.forEach((payment) => {
+        if (payment.transaction_type === 'stripe') {
+          this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
+          this.total_count_credit_card++
+        } else if (payment.transaction_type === 'tezos') {
+          this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
+          this.total_count_tezos++
+        }
+      })
+      return this.payments
     }
   },
-
   watch: {
     teachers: {
       handler () {
         if (this.teachers.length === 0) {
           this.$router.push('/')
         }
-      },
-      deep: true
-    },
-    payments: {
-      handler () {
-        this.total_volume_credit_card = 0
-        this.total_volume_tezos = 0
-        this.total_count_credit_card = 0
-        this.total_count_tezos = 0
-        this.payments.forEach((payment) => {
-          if (payment.transaction_type === 'stripe') {
-            this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
-            this.total_count_credit_card++
-          } else if (payment.transaction_type === 'tezos') {
-            this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
-            this.total_count_tezos++
-          }
-        })
       },
       deep: true
     }
