@@ -1,4 +1,2 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."questions" add column "priority" integer
---  not null default '0';
+
+ALTER TABLE "public"."questions" DROP COLUMN "priority";
