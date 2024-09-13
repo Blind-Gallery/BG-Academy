@@ -101,36 +101,19 @@ export default {
         }
       }
     },
-    transactions_stripe_transaction_info: {
-      query: gql`query ($id: String) {
-        transactions_stripe_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}, courses_payments: {transaction_type: {_is_null: false}}}) {
-          courses_payments(where: {transaction_info: {transactions_stripe_transaction_info: {amount: {_is_null: false}}}}) {
-            transaction_info {
-              transactions_stripe_transaction_info {
-                amount
-                created_at
-                id
-              }
-            }
-          }
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
-        }
-      }
-    },
-    transactions_tezos_transaction_info: {
+    payments: {
       query: gql`query ($id: String){
-        transactions_tezos_transaction_info: courses(where: {teacher: {user_id: {_eq: $id}}, courses_payments: {transaction_type: {_is_null: false}}}) {
-          courses_payments(where: {transaction_info: {transactions_tezos_transaction_info: {amount: {_is_null: false}}}}) {
-            transaction_info {
-              transactions_tezos_transaction_info {
-                amount
-                created_at
-                id
-              }
+        payments(where: {transaction_type: {_is_null: false}, course_info: {teacher: {user_id: {_eq: $_id}}}}) {
+          transaction_type
+          transaction_info {
+            transactions_stripe_transaction_info {
+              amount
+              created_at
+              payment_intent
+            }
+            transactions_tezos_transaction_info {
+              amount
+              created_at
             }
           }
         }
@@ -178,20 +161,16 @@ export default {
       },
       deep: true
     },
-    transactions_stripe_transaction_info: {
+    payments: {
       handler () {
         this.total_volume_credit_card = 0
-        this.transactions_stripe_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-          this.total_volume_credit_card += transaction.transaction_info.transactions_stripe_transaction_info.amount
-        })
-      },
-      deep: true
-    },
-    transactions_tezos_transaction_info: {
-      handler () {
         this.total_volume_tezos = 0
-        this.transactions_tezos_transaction_info[0]?.courses_payments?.forEach((transaction) => {
-          this.total_volume_tezos += transaction.transaction_info.transactions_tezos_transaction_info.amount
+        this.payments.forEach((payment) => {
+          if (payment.transaction_type === 'stripe') {
+            this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
+          } else if (payment.transaction_type === 'tezos') {
+            this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
+          }
         })
       },
       deep: true
