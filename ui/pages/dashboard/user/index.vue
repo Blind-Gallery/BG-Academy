@@ -7,8 +7,8 @@
       </h4>
       <div class="tw-columns-1 lg:tw-columns-5">
         <dashboard-stats-card icon="material-symbols-light:calendar-month-outline-rounded" title="Date of the last sale" :date="formattedDate" />
-        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Credit card sales" :sales="transactions_stripe_transaction_info[0]?.courses_payments?.length || 0" />
-        <dashboard-stats-card icon="token:xtz" title="Tezos sales" :sales="transactions_tezos_transaction_info[0]?.courses_payments?.length || 0" />
+        <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Credit card sales" :sales="total_count_credit_card" />
+        <dashboard-stats-card icon="token:xtz" title="Tezos sales" :sales="total_count_tezos" />
         <dashboard-stats-card icon="material-symbols-light:credit-card-outline" title="Total volume credit card" :volume="formattedVolumeDollar" />
         <dashboard-stats-card icon="token:xtz" title="Total volume tezos" :volume="formattedVolumeTezos" />
       </div>
@@ -129,6 +129,8 @@ export default {
     return {
       total_volume_credit_card: 0,
       total_volume_tezos: 0,
+      total_count_credit_card: 0,
+      total_count_tezos: 0,
       user_id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
     }
   },
@@ -165,11 +167,15 @@ export default {
       handler () {
         this.total_volume_credit_card = 0
         this.total_volume_tezos = 0
+        this.total_count_credit_card = 0
+        this.total_count_tezos = 0
         this.payments.forEach((payment) => {
           if (payment.transaction_type === 'stripe') {
             this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
+            this.total_count_credit_card++
           } else if (payment.transaction_type === 'tezos') {
             this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
+            this.total_count_tezos++
           }
         })
       },
