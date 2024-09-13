@@ -8,6 +8,10 @@ const stripe = require('stripe')(
   { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
 )
 
+const {
+  PaymentConstants: { TAX_CODES, TAX_BEHAVIOR }
+} = require('../constants')
+
 async function safeStripeOperation (operation, errorMessage) {
   try {
     const result = await operation()
@@ -250,8 +254,7 @@ class Stripe {
    * @throws {InternalServerError} - If the tax calculation fails.
    */
   async calculateTax (amount, currency, reference, customerId) {
-    let id = null
-    const { taxCode } = await this.retrieveTaxSettings()
+    const response = null
     try {
       const calculation = await stripe.tax.calculations.create({
         currency,
@@ -260,20 +263,26 @@ class Stripe {
           {
             amount,
             reference,
-            tax_code: taxCode
+            tax_behavior: TAX_BEHAVIOR.INCLUSIVE,
+            tax_code: TAX_CODES.DIGITAL_GOODS
           }
         ]
       })
       logger.debug({ calculation })
-      id = calculation.id
+      response.id = calculation.id
+      response.amount = calculation.amount_total
+      response.taxAmountExclusive = calculation.tax_amount_exclusive
+      response.taxAmountInclusive = calculation.tax_amount_inclusive
+      response.taxBreakdown = calculation.tax_breakdown
     } catch (err) {
       logger.error(`Error while calculating tax: ${err.message}`)
     }
-    if (!id) {
+
+    if (!response) {
       throw new InternalServerError('Failed to calculate tax')
     }
 
-    return id
+    return response
   }
 }
 
