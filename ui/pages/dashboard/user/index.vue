@@ -103,7 +103,7 @@ export default {
     },
     payments: {
       query: gql`query ($id: String){
-        payments(where: {transaction_type: {_is_null: false}, course_info: {teacher: {user_id: {_eq: $_id}}}}) {
+        payments(where: {transaction_type: {_is_null: false}, course_info: {teacher: {user_id: {_eq: $id}}}}) {
           transaction_type
           transaction_info {
             transactions_stripe_transaction_info {
