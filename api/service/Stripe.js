@@ -267,7 +267,7 @@ class Stripe {
           {
             amount,
             reference,
-            tax_behavior: TAX_BEHAVIOR.INCLUSIVE,
+            tax_behavior: TAX_BEHAVIOR.EXCLUSIVE,
             tax_code: TAX_CODES.DIGITAL_GOODS
           }
         ]
