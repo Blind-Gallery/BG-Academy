@@ -33,7 +33,7 @@
             :confirm-params="confirmParams"
           />
           <button class="primary-btn mt-4 w-100" @click="pay">
-            Confirm payment
+            {{ confirmPaymentMsg }}
           </button>
         </div>
       </div>
@@ -58,6 +58,7 @@ export default {
   data () {
     this.pk = process.env.STRIPE_PUBLISHABLE_KEY
     return {
+      taxAmount: 0,
       selectedCountry: null,
       emailRegistered: false,
       email: this.$auth.user.email_info?.email || '',
@@ -125,6 +126,13 @@ export default {
         return this.$auth.user.country
       }
       return 'Select your country'
+    },
+    confirmPaymentMsg () {
+      if (this.taxAmount) {
+        return `Pay $${this.price + this.taxAmount} ($${this.taxAmount} tax)`
+      }
+
+      return `Pay $${this.price}`
     }
   },
   created () {
@@ -151,7 +159,7 @@ export default {
       this.generatePaymentIntent()
     },
     async generatePaymentIntent () {
-      const { paymentIntent } = await this.$axios.$post('/payments/stripe/payment-intent', {
+      const { paymentIntent, taxAmount } = await this.$axios.$post('/payments/stripe/payment-intent', {
         amount: this.price * 100,
         currency: 'usd',
         paymentMethodTypes: ['card'],
@@ -159,6 +167,7 @@ export default {
         userId: this.$auth.user.id,
         courseId: this.courseId
       })
+      this.taxAmount = taxAmount
       this.elementsOptions.clientSecret = paymentIntent.client_secret
       this.$forceUpdate() // this is a hack to force the component to re-render and update the client secret
     },
