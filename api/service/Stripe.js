@@ -8,6 +8,10 @@ const stripe = require('stripe')(
   { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
 )
 
+const {
+  PaymentConstants: { TAX_CODES, TAX_BEHAVIOR }
+} = require('../constants')
+
 async function safeStripeOperation (operation, errorMessage) {
   try {
     const result = await operation()
@@ -132,26 +136,32 @@ class Stripe {
    * const pay = new Payment()
    * const paymentIntent = await pay.paymentIntent(5000, 'usd', ['card'], 'email.example.com')
    */
-  async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail, taxId) {
+  async paymentIntent (amount, currency, _paymentMethodTypes, receiptEmail, taxId) {
     let paymentIntent = null
-    try {
-      const paymentIntentParams = {
-        amount,
-        currency,
-        automatic_payment_methods: {
-          enabled: true
-        },
-        async_workflows: {
-          inputs: {
-            tax: {
-              calculation: taxId
-            }
+    const paymentIntentParams = {
+      amount,
+      currency,
+      automatic_payment_methods: {
+        enabled: true
+      },
+      description: 'Thank you for your purchase!'
+    }
+    if (receiptEmail) {
+      logger.info(`Setting receipt email to ${receiptEmail}`)
+      paymentIntentParams.receipt_email = receiptEmail
+    }
+    if (taxId) {
+      logger.info(`Setting tax ID to ${taxId}`)
+      paymentIntentParams.async_workflows = {
+        inputs: {
+          tax: {
+            calculation: taxId
           }
         }
       }
-      if (receiptEmail) {
-        paymentIntentParams.receipt_email = receiptEmail
-      }
+    }
+    logger.debug(`Creating payment intent ${JSON.stringify(paymentIntentParams)}`)
+    try {
       paymentIntent = await stripe.paymentIntents.create(paymentIntentParams)
     } catch (err) {
       logger.error(err)
@@ -249,31 +259,53 @@ class Stripe {
    * @returns {string} - The ID of the tax calculation.
    * @throws {InternalServerError} - If the tax calculation fails.
    */
-  async calculateTax (amount, currency, reference, customerId) {
-    let id = null
-    const { taxCode } = await this.retrieveTaxSettings()
+  async calculateTax (amount, currency, reference, customerId, country) {
+    const response = {}
+    const taxCalculationParams = {
+      currency,
+      line_items: [
+        {
+          amount,
+          reference,
+          tax_behavior: TAX_BEHAVIOR.EXCLUSIVE,
+          tax_code: TAX_CODES.DIGITAL_GOODS
+        }
+      ]
+    }
+    if (country) {
+      taxCalculationParams.customer_details = {
+        address: {
+          country
+        },
+        address_source: 'billing'
+      }
+    } else if (customerId) {
+      taxCalculationParams.customer = customerId
+    } else {
+      logger.warn('No customer ID or country provided for tax calculation')
+      throw new BadRequest('No customer ID or country provided for tax calculation')
+    }
+
     try {
-      const calculation = await stripe.tax.calculations.create({
-        currency,
-        customer: customerId,
-        line_items: [
-          {
-            amount,
-            reference,
-            tax_code: taxCode
-          }
-        ]
-      })
-      logger.debug({ calculation })
-      id = calculation.id
+      const calculation = await stripe.tax.calculations.create(taxCalculationParams)
+      logger.debug(`Tax calculation successful: ${JSON.stringify(calculation)}`)
+      response.id = calculation.id
+      response.amount = calculation.amount_total
+      response.taxAmountExclusive = calculation.tax_amount_exclusive
+      response.taxAmountInclusive = calculation.tax_amount_inclusive
+      response.taxBreakdown = calculation.tax_breakdown
     } catch (err) {
       logger.error(`Error while calculating tax: ${err.message}`)
     }
-    if (!id) {
-      throw new InternalServerError('Failed to calculate tax')
+
+    logger.info(response)
+
+    if (!response) {
+      logger.info(`Failed to calculate tax - ${response} response`)
+      throw new InternalServerError(`Failed to calculate tax - ${response} response`)
     }
 
-    return id
+    return response
   }
 }
 

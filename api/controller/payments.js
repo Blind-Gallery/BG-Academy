@@ -15,7 +15,8 @@ class PaymentController {
 
   async stripePaymentIntent (req, res) {
     const {
-      customer_id: customerId
+      customer_id: customerId,
+      country
     } = await this.userModel.getUserById(req.body.userId)
 
     const {
@@ -23,15 +24,24 @@ class PaymentController {
       price,
       discount_price: discountPrice
     } = await this.courseModel.getCourseById(req.body.courseId)
-    const taxId = await this.paymentsModel.stripe.calculateTax(
-      discountPrice || price,
-      'usd',
-      `course-${sku}`,
-      customerId
-    )
+
+    let cost = discountPrice || price
+    cost *= 100
+
+    const { taxId, amount, taxAmountExclusive } = await this.paymentsModel.createStripeTaxCalculation({
+      customerId,
+      country: req.body.country,
+      sku,
+      cost,
+      userCountry: country
+    })
+
     req.body.taxId = taxId
+    req.body.amount = amount // amount with tax included
+
+    req.log.debug(`Creating stripe payment intent for ${req.body.amount} USD - tax: ${taxAmountExclusive}`)
     const paymentIntent = await this.paymentsModel.createStripePaymentIntent(req.body)
-    return { paymentIntent }
+    return { paymentIntent, taxAmount: taxAmountExclusive }
   }
 
   async stripePaymentIntentConfirm (req, res) {
