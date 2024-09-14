@@ -19,14 +19,18 @@ class PaymentController {
       country
     } = await this.userModel.getUserById(req.body.userId)
 
+    const {
+      sku,
+      price,
+      discount_price: discountPrice
+    } = await this.courseModel.getCourseById(req.body.courseId)
+
+    let cost = discountPrice || price
+    cost = cost * 100
+
     let taxAmountExclusive = 0
     if (customerId) {
       try {
-        const {
-          sku,
-          price,
-          discount_price: discountPrice
-        } = await this.courseModel.getCourseById(req.body.courseId)
         const taxCalculation = []
         if (country !== req.body.country) {
           taxCalculation.push(false)
@@ -35,7 +39,7 @@ class PaymentController {
           taxCalculation.push(customerId)
         }
         const { id: taxId, amount, taxAmountExclusive: taxAmount } = await this.paymentsModel.stripe.calculateTax(
-          discountPrice || price,
+          cost,
           'usd',
           `course-${sku}`,
           ...taxCalculation
@@ -46,6 +50,9 @@ class PaymentController {
         req.body.amount = amount
       } catch (err) {
         req.log.error(`Failed to calculate tax: ${err.message}`)
+        // If tax calculation fails, use the cost without tax
+        req.log.warn('Using cost without tax')
+        req.body.amount = cost
       }
     }
     req.log.info(`Creating stripe payment intent for ${req.body.amount} USD - tax: ${taxAmountExclusive}`)
