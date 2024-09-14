@@ -257,22 +257,36 @@ class Stripe {
    * @returns {string} - The ID of the tax calculation.
    * @throws {InternalServerError} - If the tax calculation fails.
    */
-  async calculateTax (amount, currency, reference, customerId) {
+  async calculateTax (amount, currency, reference, customerId, country) {
     const response = {}
+    const taxCalculationParams = {
+      currency,
+      line_items: [
+        {
+          amount,
+          reference,
+          tax_behavior: TAX_BEHAVIOR.EXCLUSIVE,
+          tax_code: TAX_CODES.DIGITAL_GOODS
+        }
+      ]
+    }
+    if (country) {
+      taxCalculationParams.customer_details = {
+        address: {
+          country
+        },
+        address_source: 'billing'
+      }
+    } else if (customerId) {
+      taxCalculationParams.customer = customerId
+    } else {
+      logger.warn('No customer ID or country provided for tax calculation')
+      throw new BadRequest('No customer ID or country provided for tax calculation')
+    }
+
     try {
-      const calculation = await stripe.tax.calculations.create({
-        currency,
-        customer: customerId,
-        line_items: [
-          {
-            amount,
-            reference,
-            tax_behavior: TAX_BEHAVIOR.EXCLUSIVE,
-            tax_code: TAX_CODES.DIGITAL_GOODS
-          }
-        ]
-      })
-      logger.debug(calculation)
+      const calculation = await stripe.tax.calculations.create(taxCalculationParams)
+      logger.debug(`Tax calculation successful: ${JSON.stringify(calculation)}`)
       response.id = calculation.id
       response.amount = calculation.amount_total
       response.taxAmountExclusive = calculation.tax_amount_exclusive
