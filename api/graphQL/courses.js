@@ -9,6 +9,17 @@ query ($id: String!) {
     price
     discount_price
     onchain_id
+    teacher {
+      name
+    }
+    modules {
+      id
+      title
+      chapters {
+        id
+        title
+      }
+    }
   }
 }
 `
