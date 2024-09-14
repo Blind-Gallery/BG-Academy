@@ -38,7 +38,8 @@ const stripePaymentIntent = {
             client_secret: { type: 'string' },
             id: { type: 'string' }
           }
-        }
+        },
+        taxAmount: { type: 'number' }
       }
     }
   }
