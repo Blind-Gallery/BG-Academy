@@ -138,24 +138,28 @@ class Stripe {
    */
   async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail, taxId) {
     let paymentIntent = null
-    try {
-      const paymentIntentParams = {
-        amount,
-        currency,
-        automatic_payment_methods: {
-          enabled: true
-        },
-        async_workflows: {
-          inputs: {
-            tax: {
-              calculation: taxId
-            }
+    const paymentIntentParams = {
+      amount,
+      currency,
+      automatic_payment_methods: {
+        enabled: true
+      }
+    }
+    if (receiptEmail) {
+      logger.info(`Setting receipt email to ${receiptEmail}`)
+      paymentIntentParams.receipt_email = receiptEmail
+    }
+    if (taxId) {
+      logger.info(`Setting tax ID to ${taxId}`)
+      paymentIntentParams.async_workflows = {
+        inputs: {
+          tax: {
+            calculation: taxId
           }
         }
       }
-      if (receiptEmail) {
-        paymentIntentParams.receipt_email = receiptEmail
-      }
+    }
+    try {
       paymentIntent = await stripe.paymentIntents.create(paymentIntentParams)
     } catch (err) {
       logger.error(err)
@@ -254,7 +258,7 @@ class Stripe {
    * @throws {InternalServerError} - If the tax calculation fails.
    */
   async calculateTax (amount, currency, reference, customerId) {
-    const response = null
+    const response = {}
     try {
       const calculation = await stripe.tax.calculations.create({
         currency,
@@ -268,7 +272,7 @@ class Stripe {
           }
         ]
       })
-      logger.debug({ calculation })
+      logger.debug(calculation)
       response.id = calculation.id
       response.amount = calculation.amount_total
       response.taxAmountExclusive = calculation.tax_amount_exclusive
@@ -278,8 +282,11 @@ class Stripe {
       logger.error(`Error while calculating tax: ${err.message}`)
     }
 
+    logger.info(response)
+
     if (!response) {
-      throw new InternalServerError('Failed to calculate tax')
+      logger.info(`Failed to calculate tax - ${response} response`)
+      throw new InternalServerError(`Failed to calculate tax - ${response} response`)
     }
 
     return response
