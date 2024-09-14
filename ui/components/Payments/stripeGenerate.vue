@@ -129,7 +129,7 @@ export default {
     },
     confirmPaymentMsg () {
       if (this.taxAmount) {
-        return `Pay $${this.price + this.taxAmount} ($${this.taxAmount / 100} tax)`
+        return `Pay $${this.price + this.taxAmount / 100} ($${this.taxAmount / 100} tax)`
       }
 
       return `Pay $${this.price}`
