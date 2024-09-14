@@ -155,7 +155,7 @@ class Payments {
     const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
 
     try {
-      const { id: taxId, amount, taxAmountExclusive } = await this.paymentsModel.stripe.calculateTax(
+      const { id: taxId, amount, taxAmountExclusive } = await this.stripe.calculateTax(
         cost,
         'usd',
         `course-${sku}`,
@@ -163,8 +163,8 @@ class Payments {
       )
       return { taxId, amount, taxAmountExclusive }
     } catch (err) {
-      this.log.error(`Failed to calculate tax: ${err.message}`)
-      this.log.warn('Using cost without tax')
+      logger.error(`Failed to calculate tax: ${err.message}`)
+      logger.warn('Using cost without tax')
       return { taxId: null, amount: cost, taxAmountExclusive: 0 }
     }
   }
