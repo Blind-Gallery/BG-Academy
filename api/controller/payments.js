@@ -15,23 +15,38 @@ class PaymentController {
 
   async stripePaymentIntent (req, res) {
     const {
-      customer_id: customerId
+      customer_id: customerId,
+      country
     } = await this.userModel.getUserById(req.body.userId)
 
-    const {
-      sku,
-      price,
-      discount_price: discountPrice
-    } = await this.courseModel.getCourseById(req.body.courseId)
-    const taxId = await this.paymentsModel.stripe.calculateTax(
-      discountPrice || price,
-      'usd',
-      `course-${sku}`,
-      customerId
-    )
-    req.body.taxId = taxId
+    let taxAmountExclusive = 0
+    if (country !== req.body.country) {
+      // update user country
+    }
+    if (customerId) {
+      try {
+        const {
+          sku,
+          price,
+          discount_price: discountPrice
+        } = await this.courseModel.getCourseById(req.body.courseId)
+        const { id: taxId, amount, taxAmountExclusive: taxAmount } = await this.paymentsModel.stripe.calculateTax(
+          discountPrice || price,
+          'usd',
+          `course-${sku}`,
+          customerId
+        )
+
+        taxAmountExclusive = taxAmount
+        req.body.taxId = taxId
+        req.body.amount = amount
+      } catch (err) {
+        req.log.error(`Failed to calculate tax: ${err.message}`)
+      }
+    }
+    req.log.info(`Creating stripe payment intent for ${req.body.amount} USD - tax: ${taxAmountExclusive}`)
     const paymentIntent = await this.paymentsModel.createStripePaymentIntent(req.body)
-    return { paymentIntent }
+    return { paymentIntent, taxAmount: taxAmountExclusive }
   }
 
   async stripePaymentIntentConfirm (req, res) {
