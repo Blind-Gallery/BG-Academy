@@ -20,9 +20,6 @@ class PaymentController {
     } = await this.userModel.getUserById(req.body.userId)
 
     let taxAmountExclusive = 0
-    if (country !== req.body.country) {
-      // update user country
-    }
     if (customerId) {
       try {
         const {
@@ -30,11 +27,18 @@ class PaymentController {
           price,
           discount_price: discountPrice
         } = await this.courseModel.getCourseById(req.body.courseId)
+        const taxCalculation = []
+        if (country !== req.body.country) {
+          taxCalculation.push(false)
+          taxCalculation.push(req.body.country)
+        } else {
+          taxCalculation.push(customerId)
+        }
         const { id: taxId, amount, taxAmountExclusive: taxAmount } = await this.paymentsModel.stripe.calculateTax(
           discountPrice || price,
           'usd',
           `course-${sku}`,
-          customerId
+          ...taxCalculation
         )
 
         taxAmountExclusive = taxAmount
