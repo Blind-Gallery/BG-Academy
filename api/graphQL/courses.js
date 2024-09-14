@@ -12,6 +12,14 @@ query ($id: String!) {
     teacher {
       name
     }
+    modules {
+      id
+      title
+      chapters {
+        id
+        title
+      }
+    }
   }
 }
 `
