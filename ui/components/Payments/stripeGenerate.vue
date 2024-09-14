@@ -15,9 +15,10 @@
           <FormulateInput
             v-model="selectedCountry"
             type="select"
-            label="Country (for tax purposes)"
+            label="Country"
             :options="country"
-            :placeholder="countryPlaceholder"
+            validation="required"
+            placeholder="Please select your country (for tax purposes)"
             style="margin-bottom: 0.6rem;"
           />
           <FormulateInput class="mt-4" type="submit" :disabled="isLoading" :label="isLoading ? 'Loading...' : 'Next'" />
