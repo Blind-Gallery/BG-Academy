@@ -13,10 +13,9 @@
             style="margin-bottom: 0.6rem;"
           />
           <FormulateInput
-            v-show="false"
             v-model="selectedCountry"
             type="select"
-            label="Country"
+            label="Country (for tax purposes)"
             :options="country"
             :placeholder="countryPlaceholder"
             style="margin-bottom: 0.6rem;"
@@ -165,7 +164,8 @@ export default {
         paymentMethodTypes: ['card'],
         receiptEmail: this.email,
         userId: this.$auth.user.id,
-        courseId: this.courseId
+        courseId: this.courseId,
+        country: this.selectedCountry
       })
       this.taxAmount = taxAmount
       this.elementsOptions.clientSecret = paymentIntent.client_secret
