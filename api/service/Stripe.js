@@ -159,6 +159,7 @@ class Stripe {
         }
       }
     }
+    logger.debug(`Creating payment intent ${JSON.stringify(paymentIntentParams)}`)
     try {
       paymentIntent = await stripe.paymentIntents.create(paymentIntentParams)
     } catch (err) {
