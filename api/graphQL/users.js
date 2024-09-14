@@ -4,6 +4,7 @@ const GET_USER_FROM_ID = gql`
 query ($userId: String!) {
   users_by_pk(id: $userId) {
     id
+    name
     country
     customer_id
     tezos_info {
