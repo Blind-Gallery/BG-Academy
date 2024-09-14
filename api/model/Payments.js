@@ -137,6 +137,38 @@ class Payments {
     return payment
   }
 
+  getStripeTaxCalculationData ({ country, userCountry, customerId }) {
+    if (!customerId) {
+      return [false, country]
+    }
+
+    return country !== userCountry ? [false, country] : [customerId]
+  }
+
+  async createStripeTaxCalculation ({
+    customerId,
+    country,
+    cost,
+    sku,
+    userCountry
+  }) {
+    const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
+
+    try {
+      const { id: taxId, amount, taxAmountExclusive } = await this.paymentsModel.stripe.calculateTax(
+        cost,
+        'usd',
+        `course-${sku}`,
+        ...taxCalculation
+      )
+      return { taxId, amount, taxAmountExclusive }
+    } catch (err) {
+      this.log.error(`Failed to calculate tax: ${err.message}`)
+      this.log.warn('Using cost without tax')
+      return { taxId: null, amount: cost, taxAmountExclusive: 0 }
+    }
+  }
+
   async createStripePaymentIntent ({
     amount,
     currency,
