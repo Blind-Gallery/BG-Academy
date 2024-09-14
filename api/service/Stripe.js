@@ -136,14 +136,15 @@ class Stripe {
    * const pay = new Payment()
    * const paymentIntent = await pay.paymentIntent(5000, 'usd', ['card'], 'email.example.com')
    */
-  async paymentIntent (amount, currency, paymentMethodTypes, receiptEmail, taxId) {
+  async paymentIntent (amount, currency, _paymentMethodTypes, receiptEmail, taxId) {
     let paymentIntent = null
     const paymentIntentParams = {
       amount,
       currency,
       automatic_payment_methods: {
         enabled: true
-      }
+      },
+      description: 'Thank you for your purchase!'
     }
     if (receiptEmail) {
       logger.info(`Setting receipt email to ${receiptEmail}`)
