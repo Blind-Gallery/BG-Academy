@@ -24,7 +24,8 @@ const stripePaymentIntent = {
     paymentMethodTypes: { type: 'array' },
     receiptEmail: { type: 'string' },
     courseId: { type: 'string' },
-    userId: { type: 'string' }
+    userId: { type: 'string' },
+    country: { type: 'string' }
   },
   response: {
     200: {
