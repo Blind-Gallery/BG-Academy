@@ -57,7 +57,7 @@ export default {
   <div class="tw-container tw-py-6">
     <div class="tw-grid tw-grid-cols-12 tw-gap-4">
       <div class="lg:tw-col-span-9 tw-col-span-12">
-        <div class="tw-flex tw-items-center  tw-flex-col tw-justify-center lg:tw-my-12">
+        <div class="tw-flex tw-flex-col">
           <div class="tw-w-full">
             <h4>Mint your project on objkt.com</h4>
           </div>
@@ -104,6 +104,49 @@ export default {
                 <p class="tw-text-xs tw-text-gray-500">
                   Sign in the transactions using your wallet to mint (upload) your shader to the blockchain.
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4>Want to learn more?</h4>
+          <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-2 tw-w-full">
+            <div class="tw-shadow tw-rounded tw-overflow-hidden tw-h-fit tw-w-full">
+              <div class=" tw-overflow-hidden">
+                <img src="https://blind-gallery.infura-ipfs.io/ipfs/QmRx3pUXWyGZmoQufKep2yGLKWVk9ugFdgWdEkGzgg8VbA">
+              </div>
+              <div class="tw-p-4">
+                <div>
+                  <h6>Create and sell art on Tezos</h6>
+                  <p class="tw-text-sm tw-text-gray-500">
+                    Learn the basics of minting artworks on Tezos using the steps below.
+                  </p>
+                </div>
+                <div>
+                  <a href="https://tezos.com/art/creators/create-and-sell-art-on-tezos" target="_blank" class="tw-underline tw-text-gray-500 tw-text-sm">
+                    Learn more
+                    <Icon icon="material-symbols-light:navigate-next" width="1.5rem" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="tw-shadow tw-rounded tw-overflow-hidden tw-w-full">
+              <div class="tw-overflow-hidden">
+                <img src="https://blind-gallery.infura-ipfs.io/ipfs/Qmca2ZNgvNkP31PVacpHsA62e5Rfn6HhCrNUjY5H6fMnA3">
+              </div>
+              <div class="tw-p-4">
+                <div>
+                  <h6>Learn more about objkt.com</h6>
+                  <p class="tw-text-sm tw-text-gray-500">
+                    The largest marketplace on Tezos.
+                  </p>
+                </div>
+                <div>
+                  <a href="https://docs.objkt.com/product" target="_blank" class="tw-underline tw-text-gray-500 tw-text-sm">
+                    Learn more
+                    <Icon icon="material-symbols-light:navigate-next" width="1.5rem" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
