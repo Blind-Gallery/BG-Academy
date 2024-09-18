@@ -32,67 +32,11 @@ export default {
         }
       }
     },
-    courses_aggregate: {
-      query: gql`query ($id: String) {
-        courses_aggregate(where: {teacher: {user_id: {_eq: $id}}}) {
-          aggregate {
-            count
-          }
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
-        }
-      }
-    },
-    users_aggregate: {
-      query: gql`query ($id: String) {
-        users_aggregate(where: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}) {
-          aggregate {
-            count
-          }
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
-        }
-      }
-    },
     user_course: {
       query: gql`query ($id: String) {
         user_course(order_by: {created_at: desc}, limit: 1,
           where: {course: {teacher: {user_id: {_eq: $id}}}}) {
           created_at
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
-        }
-      }
-    },
-    tezos_aggregate: {
-      query: gql`query ($id: String) {
-        tezos_aggregate (where: {user_info: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}}) {
-          aggregate {
-            count
-          }
-        }
-      }`,
-      variables () {
-        return {
-          id: this.$route.query.user_id ?? (this.$auth.loggedIn ? this.$auth.user.id : '')
-        }
-      }
-    },
-    emails_aggregate: {
-      query: gql`query ($id: String) {
-        emails_aggregate(where: {user_info: {courses: {course: {teacher: {user_id: {_eq: $id}}}}}}) {
-          aggregate {
-            count
-          }
         }
       }`,
       variables () {
@@ -151,18 +95,6 @@ export default {
     },
     formattedVolumeDollar () {
       return this.total_volume_credit_card.toLocaleString()
-    },
-    paymentsData () {
-      this.payments.forEach((payment) => {
-        if (payment.transaction_type === 'stripe') {
-          this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
-          this.total_count_credit_card++
-        } else if (payment.transaction_type === 'tezos') {
-          this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
-          this.total_count_tezos++
-        }
-      })
-      return this.payments
     }
   },
   watch: {
@@ -171,6 +103,24 @@ export default {
         if (this.teachers.length === 0) {
           this.$router.push('/')
         }
+      },
+      deep: true
+    },
+    payments: {
+      handler () {
+        this.total_volume_credit_card = 0
+        this.total_volume_tezos = 0
+        this.total_count_credit_card = 0
+        this.total_count_tezos = 0
+        this.payments.forEach((payment) => {
+          if (payment.transaction_type === 'stripe') {
+            this.total_volume_credit_card += payment.transaction_info.transactions_stripe_transaction_info.amount
+            this.total_count_credit_card++
+          } else if (payment.transaction_type === 'tezos') {
+            this.total_volume_tezos += payment.transaction_info.transactions_tezos_transaction_info.amount
+            this.total_count_tezos++
+          }
+        })
       },
       deep: true
     }
