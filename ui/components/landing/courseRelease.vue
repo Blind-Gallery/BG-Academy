@@ -13,7 +13,7 @@ export default {
     <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-shadow-sm tw-rounded tw-my-8 hover:tw-shadow tw-duration-200 tw-ease-in-out  tw-border-l-4 tw-border-l-cyan-500">
       <div class="tw-flex tw-flex-col tw-justify-center tw-gap-2 tw-w-full tw-order-2 lg:tw-order-1  tw-p-8">
         <div class="tw-border tw-border-cyan-500 tw-px-2 tw-rounded-full tw-w-fit">
-          <span class="tw-text-sm tw-text-cyan-500">New course</span>
+          <span class="tw-text-xs tw-text-cyan-500">New course available on 09/30/2024</span>
         </div>
         <div>
           <h1 class="tw-m-0">
