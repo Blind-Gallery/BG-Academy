@@ -119,7 +119,7 @@ export default {
                 <div>
                   <h6>Create and sell art on Tezos</h6>
                   <p class="tw-text-sm tw-text-gray-500">
-                    Learn the basics of minting artworks on Tezos using the steps below.
+                    Learn the basics of minting artworks on Tezos.
                   </p>
                 </div>
                 <div>
