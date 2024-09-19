@@ -8,7 +8,7 @@ class PaymentController {
   async stripeWebhook (req, res) {
     const sig = req.headers['stripe-signature']
     const response = await this.paymentsModel.verifyStripeWebhook(sig, req.rawBody)
-    req.log.info(`stripe verify response:  ${JSON.stringify(response)}`)
+    req.log.debug(`stripe verify response:  ${JSON.stringify(response)}`)
 
     return response
   }
