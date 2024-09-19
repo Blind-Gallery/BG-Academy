@@ -158,6 +158,18 @@ class Payments {
     return eeaMember(country)
   }
 
+  /**
+   * Creates a Stripe tax calculation for a payment.
+   *
+   * @param {Object} options - The options for creating the tax calculation.
+   * @param {string} options.customerId - The ID of the customer.
+   * @param {string} options.country - The selected country by the customer.
+   * @param {number} options.cost - The cost of the payment.
+   * @param {string} options.sku - The SKU of the payment.
+   * @param {string} options.userCountry - The country of the user. (our db)
+   * @returns {Object} - The tax calculation result.
+   * @throws {Error} - If there is an error calculating the tax.
+   */
   async createStripeTaxCalculation ({
     customerId,
     country,
