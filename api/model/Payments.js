@@ -156,13 +156,13 @@ class Payments {
   }
 
   /**
-   * Asserts the validation of country tax.
+   * Validates the country tax for a payment.
    *
    * @param {Object} options - The options object.
    * @param {string} options.country - The country to validate.
-   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the country tax is valid.
+   * @throws {BadRequest} If the country is not part of the EEA.
    */
-  async assertCountryTaxValidation ({ country }) {
+  assertCountryTaxValidation ({ country }) {
     if (!eeaMember(country)) {
       throw new BadRequest(`Country ${country} is not part of the EEA`)
     }
