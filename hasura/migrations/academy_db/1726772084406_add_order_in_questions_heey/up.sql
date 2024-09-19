@@ -89,23 +89,23 @@ VALUES (true, E'All of the above.',
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'Which creative coder is primarily known for their teachings on the YouTube channel “The Coding Train”?', 
-E'9b80067b-5c17-447e-b9b3-91fb4e98c079', 
+null, 
 E'25076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'4674105d-8dca-49d6-a705-512e66db9dfd',14);
 
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Daniel Shiffman.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'Daniel Shiffman.',
  E'9b80067b-5c17-447e-b9b3-91fb4e98c079', 
  E'25076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Lauren Lee McCarthy.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Lauren Lee McCarthy.',
  E'9b79067b-5c17-447e-b9b3-91fb4e98c079', 
  E'25076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Golan Levin.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Golan Levin.',
  E'9b78067b-5c17-447e-b9b3-91fb4e98c079', 
  E'25076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Casey Reas.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Casey Reas.',
  E'9b77067b-5c17-447e-b9b3-91fb4e98c079', 
  E'25076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
@@ -114,23 +114,23 @@ VALUES (E'Casey Reas.',
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'Which artist has been creating code-based sketches on a daily basis for 10 years?', 
-E'9b81067b-5c17-447e-b9b3-91fb4e98c079', 
+null,
 E'26076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'4674105d-8dca-49d6-a705-512e66db9dfd',15);
 
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Herbert Franke.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Herbert Franke.',
  E'9b87067b-5c17-447e-b9b4-91fb4e98c079', 
  E'26076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Marius Watz.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Marius Watz.',
  E'9b84067b-5c17-447e-b9b3-91fb4e98c079', 
  E'26076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Zach Lieberman.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'Zach Lieberman.',
  E'9b81067b-5c17-447e-b9b3-91fb4e98c079', 
  E'26076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Ben Fry.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Ben Fry.',
  E'9b81068b-5c17-447e-b9b3-91fb4e98c079', 
  E'26076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
@@ -141,23 +141,23 @@ VALUES (E'Ben Fry.',
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'Which is widely considered to be the first blockchain project to introduce the concept of unique collectable digital assets?', 
-E'5c17067b-5c17-447e-b9b4-91fb4e98c079', 
+null, 
 E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'c5a014db-7995-4cb6-8514-2377f5d47988',16);
 
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Autoglyphs.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Autoglyphs.',
  E'5c18067b-5c17-447e-b9b4-91fb4e98c079', 
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Cryptokitties.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'Cryptokitties.',
  E'5c17067b-5c17-447e-b9b4-91fb4e98c079', 
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Cryptopunks.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Cryptopunks.',
  E'5c19067b-5c17-447e-b9b4-91fb4e98c079', 
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Bored Ape Yacht Club.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Bored Ape Yacht Club.',
  E'5c19067b-5c17-447e-b9b4-91fb4e98c079', 
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
