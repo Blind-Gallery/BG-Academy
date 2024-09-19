@@ -24,7 +24,7 @@ export default {
 <template>
   <div>
     <div
-      class="tw-h-[350px] tw-w-[600px] tw-bg-gray-200 tw-rounded tw-p-4 tw-flex tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat tw-relative"
+      class="tw-h-[350px] tw-w-full tw-bg-gray-200 tw-rounded tw-p-4 tw-flex tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat tw-relative"
       :style="`background-image: url(${thumbnail})`"
     >
       <div class="tw-absolute tw-inset-0 tw-bg-gradient-to-t tw-from-black tw-to-transparent tw-opacity-90 tw-z-10 tw-rounded" />
