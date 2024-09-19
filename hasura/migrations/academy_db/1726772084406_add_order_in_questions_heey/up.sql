@@ -197,22 +197,22 @@ WHERE id = '2743868c-bdc3-4a5f-91d1-f1efd5146cd2';
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'What is the primary purpose of the dragons in William Mapan\'s work?', 
-E'8c17067b-5c17-447e-b9b4-91fb4e98c079', 
+null, 
 E'88076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'c5a014db-7995-4cb6-8514-2377f5d47988',19);
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'To serve as mere decorative pieces.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'To serve as mere decorative pieces.',
  E'8c10067b-5c17-447e-b9b4-91fb4e98c079', 
  E'88076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'To explore the concept of posthuman form and liberation.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'To explore the concept of posthuman form and liberation.',
  E'8c17067b-5c17-447e-b9b4-91fb4e98c079', 
  E'88076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'To represent traditional dragon mythology.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'To represent traditional dragon mythology.',
  E'8c10267b-5c17-447e-b9b4-91fb4e98c079', 
  E'88076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'To create a digital currency system.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'To create a digital currency system.',
  E'8c10367b-5c17-447e-b9b4-91fb4e98c079', 
  E'88076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
