@@ -164,56 +164,7 @@
         </div>
       </b-container>
 
-      <!--COURSES ROW-->
-      <b-container
-        id="explore-courses"
-        style="max-width: 1240px;"
-        class="my-5"
-      >
-        <h4 class="mb-4">
-          Our latest courses
-        </h4>
-
-        <Swiper
-
-          ref="swiper"
-          :navigation="{ nextEl: '.next-slide', prevEl: '.last-slide-disabled' }"
-          :modules="modules"
-          :effect="'fade'"
-          :breakpoints="breakpoints"
-          :space-between="30"
-          :grid="{
-            rows: 2,
-          }"
-          @slideChange="onSlideChange"
-        >
-          <SwiperSlide v-for="course in courses" :key="course.id" ref="slide">
-            <NuxtLink class="course-route" style="text-decoration: none;" :to="'/buyCourse/' + course.id">
-              <PxCardCourse
-                :is-progress="false"
-                :pfp="course.teacher.pfp"
-                :instructor="course.teacher.name"
-                :description="course.description"
-                :title="course.name"
-                :url="'/buyCourse/' + course.id"
-                :cover="course.thumbnail"
-              />
-            </NuxtLink>
-          </SwiperSlide>
-        </Swiper>
-        <!--SWIPER CONTROLS-->
-        <div class="d-flex align-items-center justify-content-end" style="gap:1rem">
-          <div ref="lastSlideBtn" :class="isFirstSlide === false? `last-slide`:`last-slide-disabled`" style="cursor: pointer;">
-            <Icon
-              icon="material-symbols:chevron-left"
-              width="2rem"
-            />
-          </div>
-          <div :class="isLastSlide === false ? 'next-slide':'next-slide-disabled'" style="cursor: pointer;">
-            <Icon width="2rem" icon="material-symbols:chevron-right" />
-          </div>
-        </div>
-
+      <b-container style="max-width: 1240px">
         <div class="my-5">
           <h4 class="mb-4">
             Upcoming courses
@@ -438,14 +389,11 @@
 </template>
 
 <script>
-import { Pagination, EffectFade, Navigation } from 'swiper'
-import { SwiperCore, Swiper, SwiperSlide } from 'swiper-vue2'
+
 import { gql } from 'graphql-tag'
 import 'swiper/swiper-bundle.css'
 
 import { IPFS } from '@/constants'
-
-SwiperCore.use([Pagination, Navigation])
 
 export default {
   apollo: {
@@ -513,11 +461,6 @@ export default {
       }
     }
   },
-  components: {
-    Swiper,
-    SwiperSlide
-
-  },
 
   data () {
     return {
@@ -548,7 +491,6 @@ export default {
       isLastSlide: false,
       currentSlide: 1,
       totalSlides: 0,
-      modules: [Pagination, EffectFade, Navigation],
       comingCourses:
       [
         {
