@@ -139,7 +139,15 @@ class Payments {
     return payment
   }
 
+  /**
+   * Gets the tax calculation data for Stripe.
+   * If the user is not from the same country as the course, the tax is not calculated.
+   * If the user is from the same country as the course, the tax is calculated.
+   * If there is no customer ID, the tax is not calculated.
+   */
   getStripeTaxCalculationData ({ country, userCountry, customerId }) {
+    this.assertCountryTaxValidation({ country })
+
     if (!customerId) {
       return [false, country]
     }
@@ -155,7 +163,9 @@ class Payments {
    * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the country tax is valid.
    */
   async assertCountryTaxValidation ({ country }) {
-    return eeaMember(country)
+    if (!eeaMember(country)) {
+      throw new BadRequest(`Country ${country} is not part of the EEA`)
+    }
   }
 
   /**
@@ -177,9 +187,9 @@ class Payments {
     sku,
     userCountry
   }) {
-    const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
-
     try {
+      const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
+
       const { id: taxId, amount, taxAmountExclusive } = await this.stripe.calculateTax(
         cost,
         'usd',
