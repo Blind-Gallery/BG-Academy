@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!$apollo.loading">
-      <landing-course-release v-if="!$auth.loggedIn" />
+      <landing-course-carrousel v-if="!$auth.loggedIn" />
 
       <!--LOGGED CONTAINER-->
       <b-container v-if="$auth.loggedIn" class="mb-5" style="max-width: 1240px;">
