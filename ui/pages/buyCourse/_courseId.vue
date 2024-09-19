@@ -65,7 +65,14 @@
                   :breakpoints="breakpoints"
                 >
                   <swiper-slide v-for="(recommendation, index) in courses[0]?.recommendations" :key="index" class="tw-my-6 tw-px-2">
-                    <course-recommendation :quote="recommendation.quote" :name="recommendation.name" :twitter="recommendation.twitter" :pfp="recommendation.pfp" :role="recommendation.role" />
+                    <course-recommendation
+                      :quote="recommendation.quote"
+                      :name="recommendation.name"
+                      :twitter="recommendation.twitter"
+                      :farcaster="recommendation.farcaster"
+                      :pfp="recommendation.pfp"
+                      :role="recommendation.role"
+                    />
                   </swiper-slide>
                 </swiper>
 
