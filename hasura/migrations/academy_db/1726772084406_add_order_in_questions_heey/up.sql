@@ -158,7 +158,7 @@ VALUES (false, E'Cryptopunks.',
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
 VALUES (false, E'Bored Ape Yacht Club.',
- E'5c19067b-5c17-447e-b9b4-91fb4e98c079', 
+ E'5c19077b-5c17-447e-b9b4-91fb4e98c079', 
  E'56076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
 -- new
