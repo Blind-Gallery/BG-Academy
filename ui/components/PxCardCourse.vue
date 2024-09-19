@@ -1,54 +1,7 @@
-<template>
-  <div>
-    <div class="card-container shadow-sm rounded border position-relative mb-4">
-      <div v-if="comingSoon" class=" coming-soon">
-        <span class="small " style="color: #00b9cd;"><b>Coming soon</b></span>
-      </div>
-
-      <div v-if="comingSoon" class="category">
-        <span style="color: #ffff;"><b>{{ category }}</b></span>
-      </div>
-      <div class="card-data p-4">
-        <div class="d-flex align-items-center mb-2">
-          <b-avatar style="border: 1px solid #fff;" :src="pfp" size="2rem" class="mr-2" /><span class="small">{{ instructor }}</span>
-        </div>
-        <div>
-          <h5>{{ title }}</h5>
-          <p class="small formatted-card-description" style="max-width: 100%;">
-            {{ description }}
-          </p>
-        </div>
-        <div v-if="!comingSoon" class="d-flex align-items-center">
-          <NuxtLink :to="url">
-            <button class="mr-3 secondary-btn-black">
-              View course
-            </button>
-          </NuxtLink>
-        </div>
-      </div>
-      <div class="layer" />
-      <div class="background-img">
-        <img class="w-100" :src="cover" alt="cover">
-      </div>
-    </div>
-  </div>
-</template>
 <script>
 export default {
   props: {
-    cover: {
-      type: String,
-      required: true
-    },
     title: {
-      type: String,
-      required: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    pfp: {
       type: String,
       required: true
     },
@@ -56,98 +9,38 @@ export default {
       type: String,
       required: true
     },
-    url: {
+    description: {
       type: String,
       required: true
     },
-
-    comingSoon: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    category: {
+    thumbnail: {
       type: String,
-      required: false,
-      default: 'Artists'
+      required: true
     }
   }
 }
 </script>
-  <style>
-  .card-container{
-     height: 340px;
-     position: relative;
-     overflow: hidden;
-  }
 
-  .card-data{
-      color:#fff;
-      z-index: 3;
-      position: absolute;
-      bottom: 0;
-  }
-  .layer{
-      background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-      width: 100%;
-      height: 100%;
-      opacity: 0.8;
-      z-index: 2;
-      position: absolute;
-  }
+<template>
+  <div>
+    <div
+      class="tw-h-[350px] tw-w-[600px] tw-bg-gray-200 tw-rounded tw-p-4 tw-flex tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat tw-relative"
+      :style="`background-image: url(${thumbnail})`"
+    >
+      <div class="tw-absolute tw-inset-0 tw-bg-gradient-to-t tw-from-black tw-to-transparent tw-opacity-90 tw-z-10 tw-rounded" />
+      <div />
 
-  .background-img{
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      z-index:1;
-      overflow: hidden;
-
-  }
-
-  .background-img img{
-    width: 100%; /* Ancho del 100% del contenedor */
-    height: 100%; /* Altura del 100% del contenedor */
-    object-fit: cover;
-  }
-
-  .formatted-card-description{
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-
-}
-
-.coming-soon{
-  z-index: 5;
-  background-color: #fff;
-  right: 0;
-  padding: 0.5rem;
-  border-radius: 0px 0px 0px 10px;
-  position: absolute;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-}
-
-.category{
-  z-index:5;
-  background-color: #00000083;
-  left: 0;
-  position: absolute;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  padding:0.25rem;
-  margin:0.5rem;
-  min-width: 100px;
-  max-width: 150px;
-  text-align: center;
- border-radius: 50px;
- font-size: small;
-}
-
-@media (max-width:425px){
-  .card-container{
-    height: 270px;
-  }
-}
-
-  </style>
+      <div class="tw-relative tw-z-20  tw-p-2 tw-rounded tw-text-white">
+        <div class="tw-mb-2">
+          <h5 class="tw-mb-0">
+            {{ title }}
+          </h5>
+          <span>By {{ instructor }}</span>
+        </div>
+        <p class="tw-text-sm tw-line-clamp-2">
+          {{ description }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
