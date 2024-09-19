@@ -1,6 +1,8 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
 const { logger } = require('../service')
 const { TRANSACTION_TYPES } = require('../constants/payments')
+const { eeaMember } = require('is-european')
+
 const {
   GET_COURSE_BY_ID,
   CREATE_PAYMENT_INTENT,
@@ -143,6 +145,17 @@ class Payments {
     }
 
     return country !== userCountry ? [false, country] : [customerId]
+  }
+
+  /**
+   * Asserts the validation of country tax.
+   *
+   * @param {Object} options - The options object.
+   * @param {string} options.country - The country to validate.
+   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the country tax is valid.
+   */
+  async assertCountryTaxValidation ({ country }) {
+    return eeaMember(country)
   }
 
   async createStripeTaxCalculation ({
