@@ -3603,6 +3603,13 @@ is-docker@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-docker/-/is-docker-2.2.1.tgz#33eeabe23cfe86f14bde4408a02c0cfb853acdaa"
   integrity sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==
 
+is-european@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/is-european/-/is-european-1.0.8.tgz#08c7455d227c33fbb8e439fafc25cc456360b057"
+  integrity sha512-eKl5xl1hdE/FSVpk7l92wArxcd+/oJHnbDZmUjQyKipo7d40JxKV2VfpufRhlPWwxLTtfeOrCO/nyFyL8amRFQ==
+  dependencies:
+    iso-3166 "~3.1.0"
+
 is-extglob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/is-extglob/-/is-extglob-2.1.1.tgz#a88c02535791f02ed37c76a1b9ea9773c833f8c2"
@@ -3761,6 +3768,11 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
+
+iso-3166@~3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/iso-3166/-/iso-3166-3.1.0.tgz#0581492579d9513fa87381acbc6ad736ad2d9f16"
+  integrity sha512-evfmpa/xssMZ00Av6CyLXeqy8jfWC+eNrEYnqLNk6GspAPaXewQD1zoVyAy26sj1nTUhu+HInevnk6vI+Tufig==
 
 istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.2.0:
   version "3.2.2"

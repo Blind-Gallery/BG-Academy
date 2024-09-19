@@ -46,6 +46,7 @@
     "graphql-request": "^6.1.0",
     "handlebars": "^4.7.8",
     "http-errors": "^2.0.0",
+    "is-european": "^1.0.8",
     "it-all": "^3.0.3",
     "jsonwebtoken": "^9.0.1",
     "puppeteer": "^21.3.6",
