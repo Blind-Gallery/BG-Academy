@@ -166,22 +166,22 @@ VALUES (false, E'Bored Ape Yacht Club.',
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'Which blockchain platform was favored by artists seeking a more affordable and experimental environment for releasing generative art?', 
-E'7c17067b-5c17-447e-b9b4-91fb4e98c079', 
+null, 
 E'66076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'c5a014db-7995-4cb6-8514-2377f5d47988',17);
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Cardano.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Cardano.',
  E'7c18067b-5c17-447e-b9b4-91fb4e98c079', 
  E'66076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Tezos.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'Tezos.',
  E'7c17067b-5c17-447e-b9b4-91fb4e98c079', 
  E'66076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Ethereum.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Ethereum.',
  E'7c19067b-5c17-447e-b9b4-91fb4e98c079', 
  E'66076fe5-8d6e-463b-b793-76ba7c0bd2d6');
- INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Binance Smart Chain.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Binance Smart Chain.',
  E'7c18057b-5c17-447e-b9b4-91fb4e98c079', 
  E'66076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
