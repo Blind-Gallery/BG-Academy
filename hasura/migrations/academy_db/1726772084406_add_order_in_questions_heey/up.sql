@@ -64,23 +64,23 @@ WHERE id = 'f9fad854-0356-4aba-acd9-276cd06c705b';
 INSERT INTO "public"."questions"("text", "answer_id", "id", "module_id","priority") 
 VALUES (
 E'Based on the text, which of the following disciplines has been significantly impacted by generative art?', 
-E'8b76067b-5c17-447e-b9b3-91fb4e98c079', 
+null, 
 E'23076fe5-8d6e-463b-b793-76ba7c0bd2d6', E'4674105d-8dca-49d6-a705-512e66db9dfd',13);
 
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Architecture.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Architecture.',
  E'5b76067b-5c17-447e-b9b3-91fb4e98c079', 
  E'23076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Design.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Design.',
  E'6b76067b-5c17-447e-b9b3-91fb4e98c079', 
  E'23076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'Fashion.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (false, E'Fashion.',
  E'7b76067b-5c17-447e-b9b3-91fb4e98c079', 
  E'23076fe5-8d6e-463b-b793-76ba7c0bd2d6');
-INSERT INTO "public"."question_options"("text", "id", "question_id") 
-VALUES (E'All of the above.',
+INSERT INTO "public"."question_options"("is_correct","text", "id", "question_id") 
+VALUES (true, E'All of the above.',
  E'8b76067b-5c17-447e-b9b3-91fb4e98c079', 
  E'23076fe5-8d6e-463b-b793-76ba7c0bd2d6');
 
