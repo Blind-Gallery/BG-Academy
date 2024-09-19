@@ -50,7 +50,7 @@ export default {
           <img
             class="tw-w-[30px] tw-max-w-[30px]  tw-rounded-full tw-overflow-hidden tw-object-cover"
             :src="pfp"
-            alt="Profile picture"
+            :alt="`${name}'s profile picture`"
           >
         </div>
         <div class="tw-flex tw-flex-col">
