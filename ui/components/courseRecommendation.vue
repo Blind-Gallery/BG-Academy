@@ -60,12 +60,14 @@ export default {
           <span class="tw-text-xs tw-text-gray-500">{{ role }}</span>
         </div>
       </div>
-      <a v-show="twitter" :href="twitter" target="_blank">
-        <Icon icon="ri:twitter-x-line" width="1rem" height="1rem" />
-      </a>
-      <a v-show="farcaster" :href="farcaster" target="_blank">
-        <Icon icon="simple-icons:farcaster" width="1rem" height="1rem" />
-      </a>
+      <div>
+        <a v-show="twitter" :href="twitter" target="_blank">
+          <Icon icon="ri:twitter-x-line" width="1rem" height="1rem" />
+        </a>
+        <a v-show="farcaster" :href="farcaster" target="_blank">
+          <Icon icon="simple-icons:farcaster" width="1rem" height="1rem" />
+        </a>
+      </div>
     </div>
   </div>
 </template>
