@@ -28,6 +28,7 @@
     "tezos",
     "TZIP",
     "tzkt",
+    "vuex",
     "Warpcast"
   ],
   "editor.codeActionsOnSave": {
