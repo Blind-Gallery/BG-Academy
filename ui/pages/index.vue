@@ -516,14 +516,6 @@ export default {
           description: 'Learn how to create a simple and powerful artist statement.',
           cover: `${IPFS.GATEWAY}QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK`,
           category: 'Artists'
-        },
-        {
-          pfp: 'https://pbs.twimg.com/profile_images/1562451296338206720/kyeAnsga_400x400.jpg',
-          instructor: 'By Heeey',
-          title: 'Generative Coded Art 101',
-          description: 'Learn the fundamental concepts and history behind generative art.',
-          cover: `${IPFS.GATEWAY}QmWLSjZT33uBizZ3pPe3c7xLT8PdZzjg8727efLNHuhckC`,
-          category: 'Artists, Collectors'
         }
 
       ]
