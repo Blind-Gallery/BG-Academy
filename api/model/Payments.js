@@ -1,6 +1,8 @@
 const { BadRequest, Conflict, InternalServerError } = require('http-errors')
 const { logger } = require('../service')
 const { TRANSACTION_TYPES } = require('../constants/payments')
+const { eeaMember } = require('is-european')
+
 const {
   GET_COURSE_BY_ID,
   CREATE_PAYMENT_INTENT,
@@ -137,7 +139,15 @@ class Payments {
     return payment
   }
 
+  /**
+   * Gets the tax calculation data for Stripe.
+   * If the user is not from the same country as the course, the tax is not calculated.
+   * If the user is from the same country as the course, the tax is calculated.
+   * If there is no customer ID, the tax is not calculated.
+   */
   getStripeTaxCalculationData ({ country, userCountry, customerId }) {
+    this.assertCountryTaxValidation({ country })
+
     if (!customerId) {
       return [false, country]
     }
@@ -145,6 +155,31 @@ class Payments {
     return country !== userCountry ? [false, country] : [customerId]
   }
 
+  /**
+   * Validates the country tax for a payment.
+   *
+   * @param {Object} options - The options object.
+   * @param {string} options.country - The country to validate.
+   * @throws {BadRequest} If the country is not part of the EEA.
+   */
+  assertCountryTaxValidation ({ country }) {
+    if (!eeaMember(country)) {
+      throw new BadRequest(`Country ${country} is not part of the EEA`)
+    }
+  }
+
+  /**
+   * Creates a Stripe tax calculation for a payment.
+   *
+   * @param {Object} options - The options for creating the tax calculation.
+   * @param {string} options.customerId - The ID of the customer.
+   * @param {string} options.country - The selected country by the customer.
+   * @param {number} options.cost - The cost of the payment.
+   * @param {string} options.sku - The SKU of the payment.
+   * @param {string} options.userCountry - The country of the user. (our db)
+   * @returns {Object} - The tax calculation result.
+   * @throws {Error} - If there is an error calculating the tax.
+   */
   async createStripeTaxCalculation ({
     customerId,
     country,
@@ -152,9 +187,9 @@ class Payments {
     sku,
     userCountry
   }) {
-    const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
-
     try {
+      const taxCalculation = this.getStripeTaxCalculationData({ country, userCountry, customerId })
+
       const { id: taxId, amount, taxAmountExclusive } = await this.stripe.calculateTax(
         cost,
         'usd',
