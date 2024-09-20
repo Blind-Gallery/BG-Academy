@@ -257,10 +257,11 @@ query ($id: uuid!) {
         }
       }
     }
-    questions {
+    questions(order_by: {priority: asc}, where: {priority: {_is_null: false}}) {
       id
       text
       answer_id
+      priority
       options {
         text
         id
