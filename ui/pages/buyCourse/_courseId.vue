@@ -10,23 +10,23 @@
         >
           <div class="course-info">
             <PxPlayer
-              :video-id="courses[0].thumbnail_video"
+              :video-id="courses_by_pk.thumbnail_video"
               chapter-id=""
               width="100%"
               class="mb-4 d-lg-block d-none"
             />
             <h5>
-              {{ courses[0].name }}
+              {{ courses_by_pk.name }}
             </h5>
             <p>
-              {{ courses[0].summary }}
+              {{ courses_by_pk.summary }}
             </p>
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
 
             <div
-              v-for="itemModule in courses[0].modules"
+              v-for="itemModule in courses_by_pk.modules"
               :key="itemModule.id"
             >
               <div v-if="itemModule.you_will_learn" class="d-flex  rounded  mb-2">
@@ -43,7 +43,7 @@
             </h5>
             <div>
               <p v-if="showFullDescription">
-                {{ courses[0].description }}
+                {{ courses_by_pk.description }}
               </p>
               <p v-else>
                 {{ shortDescription }}
@@ -55,8 +55,8 @@
               Course curriculum
             </h5>
 
-            <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses[0].modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
-            <div v-if="courses[0]?.recommendations.length" class="tw-mt-8">
+            <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses_by_pk.modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
+            <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
               <h5>Recommendations</h5>
               <div class="tw-relative">
                 <swiper
@@ -64,7 +64,7 @@
                   :loop="false"
                   :breakpoints="breakpoints"
                 >
-                  <swiper-slide v-for="(recommendation, index) in courses[0]?.recommendations" :key="index" class="tw-my-6 tw-px-2">
+                  <swiper-slide v-for="(recommendation, index) in courses_by_pk?.recommendations" :key="index" class="tw-my-6 tw-px-2">
                     <course-recommendation
                       :quote="recommendation.quote"
                       :name="recommendation.name"
@@ -89,43 +89,43 @@
           class="mb-3"
         >
           <PxPlayer
-            :video-id="courses[0].thumbnail_video"
+            :video-id="courses_by_pk.thumbnail_video"
             chapter-id=""
             width="100%"
             class="d-lg-none"
           />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <accordion-course-instructor :pfp="courses[0].teacher.pfp" :name="courses[0].teacher.name" :description="courses[0].teacher.description" />
+            <accordion-course-instructor :pfp="courses_by_pk.teacher.pfp" :name="courses_by_pk.teacher.name" :description="courses_by_pk.teacher.description" />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
                   <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
-                    ${{ courses[0].discount_price || courses[0].price }}
+                    ${{ courses_by_pk.discount_price || courses_by_pk.price }}
                   </h2>
                   <h6
-                    v-if="courses[0].discount_price"
+                    v-if="courses_by_pk.discount_price"
                     class="m-0  tw-line-through tw-text-gray-500"
                   >
-                    ${{ courses[0].price }}
+                    ${{ courses_by_pk.price }}
                   </h6>
                 </div>
                 <p class="m-0">
                   Access course
                 </p>
-                <span v-if="courses[0].discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses[0].discount_price * 100 / courses[0].price) }}%!)</span>
+                <span v-if="courses_by_pk.discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses_by_pk.discount_price * 100 / courses_by_pk.price) }}%!)</span>
               </div>
               <div v-if="isAccessible">
                 <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
 
-                <payments-tezos-generate v-if="$auth.user?.tezos_info" :course-id="courses[0].id" />
+                <payments-tezos-generate v-if="$auth.user?.tezos_info" :course-id="courses_by_pk.id" />
               </div>
               <div v-else class="tw-p-2 tw-rounded tw-border">
-                <span class="tw-text-xs">Launch on {{ courses[0].release_date | formatDate }}</span>
+                <span class="tw-text-xs">Launch on {{ courses_by_pk.release_date | formatDate }}</span>
               </div>
             </div>
 
             <div v-else>
-              <NuxtLink :to="'/courseNavigator/chapter/' + courses[0].modules[0].chapters[0].id">
+              <NuxtLink :to="'/courseNavigator/chapter/' + courses_by_pk.modules[0].chapters[0].id">
                 <button class="primary-btn w-100">
                   View course
                 </button>
@@ -149,8 +149,8 @@
               <div>
                 <!-- this line makes the discount_price have priority over the general price -->
                 <payments-stripe-generate
-                  :price="courses[0].discount_price || courses[0].price"
-                  :course-id="courses[0].id"
+                  :price="courses_by_pk.discount_price || courses_by_pk.price"
+                  :course-id="courses_by_pk.id"
                 />
               </div>
             </b-modal>
@@ -164,7 +164,7 @@
               </div>
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:signal-cellular-alt" class="mr-2" /><p class="small m-0">
-                  {{ courses[0].level }} level
+                  {{ courses_by_pk.level }} level
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
@@ -220,10 +220,10 @@ export default {
     SwiperSlide
   },
   apollo: {
-    courses: {
+    courses_by_pk: {
       query: gql`
         query ($id: String!) {
-          courses(where: { id: { _eq: $id } }) {
+          courses_by_pk(id: $id) {
             id
             onchain_id
             name
@@ -240,12 +240,17 @@ export default {
             modules (order_by: {created_at: asc}) {
               title
               id
+              you_will_learn_title
+              you_will_learn
               chapters (order_by: {created_at: asc}) {
                 id
                 title
               }
-              you_will_learn_title
-              you_will_learn
+              questions_aggregate {
+                aggregate {
+                  count(columns: answer_id)
+                }
+              }
             }
             teacher {
               name
@@ -337,7 +342,7 @@ export default {
       return this.isReleased || this.hasEarlyAccess
     },
     isReleased: function () {
-      const releaseDate = this.courses[0].release_date
+      const releaseDate = this.courses_by_pk.release_date
       return !releaseDate || new Date(releaseDate) < this.nowDate
     },
     hasEarlyAccess: function () {
@@ -352,9 +357,11 @@ export default {
       'tezosAddress',
       'isWalletConnected'
     ]),
-
     formattedDuration: function () {
-      const totalMinutes = Math.floor(this.courses[0].duration / 60)
+      const totalQuestions = this.courses_by_pk.modules.reduce((acc, module) => {
+        return acc + module.questions_aggregate.aggregate.count
+      }, 0)
+      const totalMinutes = Math.floor(this.courses_by_pk.duration / 60) + totalQuestions
       const hours = Math.floor(totalMinutes / 60)
       const minutes = totalMinutes % 60
 
@@ -383,7 +390,7 @@ export default {
     },
 
     shortDescription () {
-      const description = this.courses[0].description
+      const description = this.courses_by_pk.description
       return description.length > this.maxLength
         ? description.substring(0, this.maxLength) + '...'
         : description
@@ -393,7 +400,7 @@ export default {
     },
 
     isLargeDescription () {
-      const description = this.courses[0].description
+      const description = this.courses_by_pk.description
       return description.length > this.maxLength
     }
   },
