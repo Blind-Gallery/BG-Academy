@@ -33,6 +33,7 @@ export default {
       swiperInstance: null
     }
   },
+
   mounted () {
     this.initSwiper()
   },
@@ -59,8 +60,8 @@ export default {
         initialSlide: 2,
         loop: true,
         breakpoints: {
-          640: {
-            slidesPerView: 1,
+          320: {
+            slidesPerView: 1.15,
             spaceBetween: 10
           },
           768: {
