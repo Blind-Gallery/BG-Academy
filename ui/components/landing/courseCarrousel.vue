@@ -91,13 +91,14 @@ export default {
       </p>
     </div>
     <div class="tw-container tw-relative">
-      <div v-if="!$apollo.loading">
+      <div>
         <div class="swiper tw-overflow-hidden ">
           <div class="swiper-wrapper">
             <div v-for="(course, courseIndex) in courses" :key="courseIndex" class="swiper-slide">
-              <NuxtLink class="hover:tw-no-underline" :to="`/buyCourse/${course.id}`">
+              <NuxtLink v-if="!$apollo.loading" class="hover:tw-no-underline" :to="`/buyCourse/${course.id}`">
                 <PxCardCourse :title="course.name" :description="course.description" :thumbnail="course.thumbnail" :instructor="course.teacher.name" />
               </NuxtLink>
+              <div v-else class="tw-bg-gray-200 tw-animate-pulse tw-rounded tw-w-full tw-h-[350px]" />
             </div>
           </div>
         </div>
