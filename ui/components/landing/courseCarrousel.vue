@@ -33,6 +33,15 @@ export default {
       swiperInstance: null
     }
   },
+  watch: {
+    courses (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$nextTick(() => {
+          this.swiperInstance.update()
+        })
+      }
+    }
+  },
 
   mounted () {
     this.initSwiper()
