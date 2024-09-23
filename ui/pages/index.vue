@@ -198,62 +198,7 @@
           </b-container>
         </b-container>
 
-        <!--COMMUNITY FEEDBACK-->
-
-        <b-container style="max-width: 1240px;" class="my-5">
-          <h4 class="m-0 text-center">
-            Community feedback
-          </h4>
-          <b-row class="align-items-center pt-5 pb-5 justify-content-center">
-            <b-col cols="12" lg="4">
-              <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-                <a href="https://twitter.com/Datzel3" target="_blank" style="text-decoration: none;">
-                  <div class="feedback-info p-4 d-flex align-items-center">
-                    <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://pbs.twimg.com/profile_images/1603791594762604549/RmkcXqLF_400x400.jpg" />
-                    <div>
-                      <h4 class="m-0">
-                        Datzel
-                      </h4>
-                      <p class="m-0">
-                        Graphic Designer and Artist
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="p-4">
-                    <p class="small text-secondary m-0">
-                      I wish I had discovered this platform when I first started my journey as a blockchain artist. A platform that teaches you everything about the ecosystem is a great advantage!
-                    </p>
-                  </div>
-                </a>
-              </div>
-            </b-col>
-            <b-col cols="12" lg="4">
-              <a href="https://twitter.com/aljaparis" target="_blank" style="text-decoration: none;">
-                <div style="height: 300px;" class="d-flex flex-column  shadow-sm rounded mb-4">
-
-                  <div class="feedback-info p-4 d-flex align-items-center">
-                    <b-avatar style="border: 2px solid #fff;" class="mr-3" size="3.5rem" src="https://pbs.twimg.com/profile_images/1665442400590856195/rZQEm-Vh_400x400.jpg" />
-                    <div>
-                      <h4 class="m-0">
-                        Aleksandra Art
-                      </h4>
-                      <p class="m-0">
-                        Art Curator
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="p-4">
-                    <p class="small text-secondary m-0">
-                      Educational endeavors within the Blockchain art sphere have been some of the most important steps for reaching a mutual understanding with the wider creative industry. It's imperative for art practitioners to grasp the core principles of Web 3 in a structured and coherent fashion - I'm excited to be a part of it!
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </b-col>
-          </b-row>
-        </b-container>
+        <landing-community-feedback />
 
         <b-container style="max-width: 1240px;" class="my-5 py-5">
           <b-row class="align-items-end">
