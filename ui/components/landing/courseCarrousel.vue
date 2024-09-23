@@ -106,7 +106,14 @@ export default {
           <div class="swiper-wrapper">
             <div v-for="(course, courseIndex) in courses" :key="courseIndex" class="swiper-slide">
               <NuxtLink v-if="!$apollo.loading" class="hover:tw-no-underline" :to="`/buyCourse/${course.id}`">
-                <PxCardCourse :title="course.name" :description="course.description" :thumbnail="course.thumbnail" :instructor="course.teacher.name" />
+                <PxCardCourse
+                  :title="course.name"
+                  :teacher="course.teacher.name"
+                  :description="course.description"
+                  :thumbnail="course.thumbnail"
+                  :instructor="course.teacher.name"
+                  :pfp="course.teacher.pfp"
+                />
               </NuxtLink>
               <div v-else class="tw-bg-gray-200 tw-animate-pulse tw-rounded tw-w-full tw-h-[350px]" />
             </div>
