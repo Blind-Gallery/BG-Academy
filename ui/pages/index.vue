@@ -163,29 +163,7 @@
           </b-tabs>
         </div>
       </b-container>
-
-      <b-container style="max-width: 1240px">
-        <div class="my-5">
-          <h4 class="mb-4">
-            Upcoming courses
-          </h4>
-          <b-row>
-            <b-col v-for="(course,index) in comingCourses" :key="index" cols="12" lg="6">
-              <PxCardCourse
-                is-progress="false"
-                :pfp="course.pfp"
-                :instructor="course.instructor"
-                :description="course.description"
-                :title="course.title"
-                url=""
-                :cover="course.cover"
-                :coming-soon="true"
-                :category="course.category"
-              />
-            </b-col>
-          </b-row>
-        </div>
-      </b-container>
+      <landing-upcoming-courses />
       <div v-if="!$auth.loggedIn">
         <b-container fluid style="background-color: #F6F6F6;">
           <b-container style="max-width: 1240px;">
@@ -393,8 +371,6 @@
 import { gql } from 'graphql-tag'
 import 'swiper/swiper-bundle.css'
 
-import { IPFS } from '@/constants'
-
 export default {
   apollo: {
     courses: {
@@ -464,7 +440,6 @@ export default {
 
   data () {
     return {
-      gateway: IPFS.GATEWAY,
       totalCertificates: [],
       targetBreakpoint: null,
       screenWidth: 0,
@@ -490,35 +465,7 @@ export default {
       isFirstSlide: true,
       isLastSlide: false,
       currentSlide: 1,
-      totalSlides: 0,
-      comingCourses:
-      [
-        {
-          pfp: 'https://pbs.twimg.com/profile_images/1510148081475629058/Q85gM-EI_400x400.jpg',
-          instructor: 'By Uncap Collective',
-          title: 'A Collectors Journey',
-          description: 'Uncap Collective shares advice for collectors, including the different genres and how to approach this dynamic art ecosystem.',
-          cover: `${IPFS.GATEWAY}QmW16LtcSVTnXjbuqwmQ84WLDomGbMKDRfhPcFWfBiiT9s`,
-          category: 'Collectors'
-        },
-        {
-          pfp: 'https://pbs.twimg.com/profile_images/1589977797451288576/zZ_JdJaB_400x400.jpg',
-          instructor: 'By Dist',
-          title: 'Designing Sounds for Beginners',
-          description: 'Learn the fundamentals of digital sound-making for creatives.',
-          cover: `${IPFS.GATEWAY}QmannDKXVxP2sqg9hKcEUi9ytRDBxRVS4zAAyYttmmxsVn`,
-          category: 'Artists'
-        },
-        {
-          pfp: 'https://pbs.twimg.com/profile_images/1525982570327990273/YJ8grBE8_400x400.jpg',
-          instructor: 'By Haiver',
-          title: 'Mastering The Artist Statement',
-          description: 'Learn how to create a simple and powerful artist statement.',
-          cover: `${IPFS.GATEWAY}QmTf43Zy5TEbBMb3gW3Vj9HcfNEjLqiiRCG8gBhLSZk6XK`,
-          category: 'Artists'
-        }
-
-      ]
+      totalSlides: 0
 
     }
   },
