@@ -11,3 +11,5 @@ WHERE id = 'de54ee2d-3893-402c-b9aa-8ad555dcdb4b';
 UPDATE courses
 SET visible = false
 WHERE id = '9df7cd5f-d9b3-4f37-9693-15ed1be65cf5';
+
+alter table "public"."questions" alter column "priority" set not null;
