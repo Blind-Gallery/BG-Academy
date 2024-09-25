@@ -165,39 +165,7 @@
       </b-container>
       <landing-upcoming-courses />
       <div v-if="!$auth.loggedIn">
-        <b-container fluid style="background-color: #F6F6F6;">
-          <b-container style="max-width: 1240px;">
-            <b-row class="align-items-center">
-              <b-col cols="12" lg="6">
-                <div class="my-4">
-                  <h4>Where Art Meets Innovation</h4>
-                  <p>
-                    Academy by Blind Gallery is more than just an educational platform; it's a bridge connecting the realms of art and technology. We are dedicated to empowering digital art professionals – artists, curators, gallerists, and collectors – with cutting-edge knowledge and insights.
-                  </p>
-                  <p style="font-weight: 600;">
-                    Crafted by Art and Tech Enthusiasts
-                  </p>
-                  <ul>
-                    <li>
-                      <span style="font-weight: 600;">Expertly Designed Curriculum:</span>  Every course at Academy is meticulously designed by connoisseurs of digital art.
-                    </li>
-                    <li class="mt-4 ">
-                      <span style="font-weight: 600;">Join Our Educator Community:</span> Are you experienced in the field of digital art? We welcome trailblazers to join our educator team. Share your expertise and shape the future of digital art education. Interested? Reach out <span v-b-modal.educatorsForm style="color: #00B9CD; text-decoration:underline;">
-                        here.
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </b-col>
-              <b-col cols="12" lg="6">
-                <div class="w-100">
-                  <img width="100%" src="/videos/about.gif" alt="about">
-                </div>
-              </b-col>
-            </b-row>
-          </b-container>
-        </b-container>
-
+        <landing-product-section />
         <landing-community-feedback />
         <landing-frequently-questions />
       </div>
