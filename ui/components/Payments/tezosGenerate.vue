@@ -1,17 +1,22 @@
 <template>
-  <button
-    v-show="tezosPrice > 0"
-    class="secondary-btn w-100"
-    @click="pay"
-  >
-    <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
-    {{ tezosPrice }} Tezos
-  </button>
+  <div>
+    <button
+      v-if="tezosPrice > 0"
+      class="tw-flex tw-w-full tw-mt-2  tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200"
+      @click="pay"
+    >
+      <Icon icon="cryptocurrency:xtz" color="#00b9cd" width="21" />
+      {{ tezosPrice }} Tezos
+    </button>
+    <button v-else disabled class="tw-flex tw-mt-2 tw-w-full tw-gap-1 tw-items-center tw-justify-center tw-text-sm tw-text-cyan-500 tw-border  tw-border-cyan-500 tw-rounded tw-py-2 tw-px-6 hover:tw-border-cyan-600  hover:tw-text-cyan-600 tw-ease-in-out tw-duration-200">
+      <Icon icon="eos-icons:bubble-loading" width="1rem" /> <span>Loading</span>
+    </button>
+  </div>
 </template>
 
 <script>
 import { dappClient } from '~/services/tezos'
-import { CONTRACT_ADDRESS } from '~/constants'
+import { TEZOS } from '~/constants'
 const { OpKind } = require('@taquito/taquito')
 
 export default {
@@ -24,7 +29,7 @@ export default {
   data () {
     return {
       onchainId: 0,
-      contractAddress: CONTRACT_ADDRESS.academy,
+      contractAddress: TEZOS.CONTRACT_ADDRESS.academy,
       tezosPrice: 0
     }
   },

@@ -11,8 +11,10 @@
   "cSpell.words": [
     "axios",
     "envkey",
+    "farcaster",
     "fastify",
     "formated",
+    "geoip",
     "ghostnet",
     "hasura",
     "Heeey",
@@ -25,7 +27,9 @@
     "tezo",
     "tezos",
     "TZIP",
-    "tzkt"
+    "tzkt",
+    "vuex",
+    "Warpcast"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"

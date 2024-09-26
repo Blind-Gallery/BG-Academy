@@ -1,5 +1,28 @@
 const { gql } = require('graphql-request')
 
+const GET_COURSE_BY_ID = gql`
+query ($id: String!) {
+  courses_by_pk(id: $id) {
+    id
+    sku
+    name
+    price
+    discount_price
+    onchain_id
+    teacher {
+      name
+    }
+    modules {
+      id
+      title
+      chapters {
+        id
+        title
+      }
+    }
+  }
+}
+`
 const GET_COURSE_ID_FROM_CHAPTER_ID = gql`
 query (
   $id: uuid!
@@ -63,6 +86,7 @@ mutation (
 `
 
 module.exports = {
+  GET_COURSE_BY_ID,
   GET_COURSE_ID_FROM_CHAPTER_ID,
   GET_COURSE_ID_FROM_MODULE_ID,
   UPDATE_FEEDBACK,

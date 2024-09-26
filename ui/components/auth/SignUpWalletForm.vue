@@ -29,7 +29,13 @@ export default {
         console.error(error)
 
         if (error.response && error.response.status === 400) {
-          this.invalidMessage = 'This wallet is already registered'
+          this.$formulate.handle({
+            formErrors: ['This wallet has already been registered before.']
+          }, 'walletSignUp')
+        } else {
+          this.$formulate.handle({
+            formErrors: ['Something went wrong, please try again.']
+          }, 'walletSignUp')
         }
       }
     },
@@ -67,6 +73,7 @@ export default {
     <FormulateForm
       v-slot="{ isLoading }"
       v-model="walletForm"
+      name="walletSignUp"
       @submit="doSignUpWallet"
     >
       <FormulateInput
@@ -83,12 +90,7 @@ export default {
         :label="isLoading ? 'Loading...' : 'Connect wallet'"
         @submit="doSignUpWallet"
       />
-      <p
-        class="small m-0 text-center"
-        style="font-size: small; color: #960505"
-      >
-        {{ invalidMessage }}
-      </p>
+      <FormulateErrors />
     </FormulateForm>
   </div>
 </template>

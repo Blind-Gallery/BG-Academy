@@ -2,16 +2,16 @@ import { SigningType } from '@airgap/beacon-sdk'
 import { char2Bytes } from '@taquito/utils'
 import { BeaconWallet } from '@taquito/beacon-wallet'
 import { TezosToolkit } from '@taquito/taquito'
-import { ENDPOINT, DEFAULT_MATRIX_NODE, CHAIN_NAME, APP_NAME } from '@/constants'
+import { TEZOS, METADATA } from '@/constants'
 
 export const dappClient = () => {
   let instance
 
   function init () {
     const options = {
-      name: APP_NAME,
-      matrixNodes: [DEFAULT_MATRIX_NODE],
-      preferredNetwork: CHAIN_NAME,
+      name: METADATA.APP_NAME,
+      matrixNodes: [TEZOS.DEFAULT_MATRIX_NODE],
+      preferredNetwork: TEZOS.CHAIN_NAME,
       featuredWallets: ['autonomy', 'kukai', 'temple', 'naan'],
       disableDefaultEvents: false
     }
@@ -62,8 +62,8 @@ export const dappClient = () => {
       if (!activeAccount) {
         await client.requestPermissions({
           network: {
-            type: CHAIN_NAME,
-            rpcUrl: ENDPOINT
+            type: TEZOS.CHAIN_NAME,
+            rpcUrl: TEZOS.ENDPOINT
           }
         })
       }
@@ -144,7 +144,7 @@ export const dappClient = () => {
   }
 
   function tezos () {
-    const Tezos = new TezosToolkit(ENDPOINT)
+    const Tezos = new TezosToolkit(TEZOS.ENDPOINT)
     const wallet = getClientWallet()
     if (wallet) {
       Tezos.setWalletProvider(wallet)

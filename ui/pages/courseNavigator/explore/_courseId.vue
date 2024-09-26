@@ -22,6 +22,14 @@ export default {
       certificateInfo: null,
       collections: [
         {
+          title: 'Generative Art Exploration',
+          description: 'Generative art, curated by the Academy by Blind Gallery.',
+          creator: 'Blind Gallery',
+          route: 'https://objkt.com/curations/objkt/generative-art-exploration-4f3d9260',
+          published: 'September, 2024',
+          cover: 'https://assets.objkt.media/file/assets-004/g/31532289/thumb400?cb=cf946649'
+        },
+        {
           title: 'Dragons',
           description: 'A grid of many lines forming a dragon crafted on paper. They all have their own personality... Be sure to name and take care of them.',
           creator: 'William Mapan',

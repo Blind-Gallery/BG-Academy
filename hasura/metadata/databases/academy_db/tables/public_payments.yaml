@@ -2,6 +2,9 @@ table:
   name: payments
   schema: public
 object_relationships:
+  - name: course_info
+    using:
+      foreign_key_constraint_on: course_id
   - name: transaction_info
     using:
       foreign_key_constraint_on: transaction_id

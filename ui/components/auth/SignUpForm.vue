@@ -2,8 +2,7 @@
 export default {
   data () {
     return {
-      signUpForm: {},
-      invalidMessage: null
+      signUpForm: {}
     }
   },
 
@@ -20,10 +19,13 @@ export default {
         this.$emit('closeModal')
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          this.invalidMessage =
-            'There is already an existing account with the email address'
+          this.$formulate.handle({
+            formErrors: ['There is already an existing account with the email address.']
+          }, 'signup')
         } else {
-          this.invalidMessage = 'Sing Up error'
+          this.$formulate.handle({
+            formErrors: ['Something went wrong, please try again.']
+          }, 'signup')
         }
       }
     }
@@ -38,7 +40,7 @@ export default {
     <FormulateForm
       v-slot="{ isLoading }"
       v-model="signUpForm"
-      class="login-form"
+      name="signup"
       @submit="doEmailSignUp"
     >
       <FormulateInput
@@ -71,9 +73,7 @@ export default {
         validation="required|confirm"
         validation-name="Password confirmation"
       />
-      <p class="small" style="font-size: small; color: #960505">
-        {{ invalidMessage }}
-      </p>
+      <FormulateErrors />
       <FormulateInput
         type="submit"
         :disabled="isLoading"

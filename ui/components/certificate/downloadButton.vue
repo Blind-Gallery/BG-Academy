@@ -31,14 +31,19 @@ export default {
     async getCertificate () {
       if (this.loading) { return }
       this.loading = true
-      const { cid } = await this.$axios.$post('/docs/certificate', {
-        userId: this.$auth.user.id,
-        courseId: this.courseId
-      })
+      try {
+        const { cid } = await this.$axios.$post('/docs/certificate', {
+          userId: this.$auth.user.id,
+          courseId: this.courseId
+        })
 
-      const url = `https://blind-gallery.infura-ipfs.io/ipfs/${cid}`
-      this.url = url
-      this.$forceUpdate()
+        const url = `https://blind-gallery.infura-ipfs.io/ipfs/${cid}`
+        this.url = url
+        this.$forceUpdate()
+      } catch (error) {
+        console.error('No certificate', error)
+      }
+      this.loading = false
     }
   }
 }

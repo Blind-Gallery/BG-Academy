@@ -7,15 +7,30 @@ const { verifySignature } = require('@taquito/utils')
 const {
   GET_USER_BY_EMAIL,
   GET_USER_BY_WALLET,
-  UPDATE_CHANGE_PASSWORD_REQUEST_CODE
+  UPDATE_CHANGE_PASSWORD_REQUEST_CODE,
+  REGISTER_CUSTOMER_ID
 } = require('../graphQL')
 
 class Login {
-  constructor ({ gql, jwt, email, opts }) {
+  constructor ({ gql, jwt, email, opts, stripe }) {
     this.gql = gql
     this.opts = opts
     this.email = email
     this.jwt = jwt
+    this.stripe = stripe
+  }
+
+  async stripeRegister (user, ip) {
+    try {
+      const { customerId, country } = await this.stripe.registerCustomer({ customerId: user.customer_id, user, ip })
+      logger.debug(`Stripe customer registered: ${customerId}`)
+      if (!user.customer_id || user.country !== country) {
+        await this.gql.request(
+          REGISTER_CUSTOMER_ID, { id: user.id, customerId, country })
+      }
+    } catch (e) {
+      logger.error(`Error registering customer: ${e.message}`)
+    }
   }
 
   async getUserByEmail (email) {
@@ -46,20 +61,21 @@ class Login {
     return { user }
   }
 
-  async login ({ email, password, wallet, publicKey, signedMessage, payload }) {
+  async login ({ email, password, wallet, publicKey, signedMessage, payload, ipAddress }) {
+    logger.debug(`Login: ${email} ${wallet} ${ipAddress}`)
     if (!email && !wallet) {
       throw new BadRequest('No email or wallet provided')
     }
 
     if (email) {
-      return this.emailLogin({ email, password })
+      return this.emailLogin({ email, password, ipAddress })
     }
     if (wallet) {
-      return this.walletLogin({ wallet, signedMessage, publicKey, payload })
+      return this.walletLogin({ wallet, signedMessage, publicKey, payload, ipAddress })
     }
   }
 
-  async emailLogin ({ email, password }) {
+  async emailLogin ({ email, password, ipAddress }) {
     if (!email) {
       throw new BadRequest('No email provided')
     }
@@ -69,6 +85,7 @@ class Login {
       if (!await bcrypt.compare(password, user.email_info.password)) {
         throw new Unauthorized('Wrong password')
       }
+      this.stripeRegister(user, ipAddress)
       return {
         refreshToken: await this._getJWTRefreshToken({ id: user.id, user, email }),
         token: await this._getJWTToken(
@@ -87,7 +104,7 @@ class Login {
     }
   }
 
-  async walletLogin ({ wallet, publicKey, signedMessage, payload }) {
+  async walletLogin ({ wallet, publicKey, signedMessage, payload, ipAddress }) {
     if (!wallet) {
       throw new BadRequest('No wallet provided')
     }
@@ -108,6 +125,7 @@ class Login {
       if (!user) {
         throw new Unauthorized('Wallet not found')
       }
+      this.stripeRegister(user, ipAddress)
       return {
         refreshToken: await this._getJWTRefreshToken({ id: user.id, user, wallet }),
         token: await this._getJWTToken(
