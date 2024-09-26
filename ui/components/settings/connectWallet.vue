@@ -1,6 +1,12 @@
 <script>
 import { dappClient } from '~/services/tezos'
 export default {
+  data () {
+    return {
+      message: '',
+      success: false
+    }
+  },
   computed: {
     formattedWallet () {
       const wallet = this.$auth.user.tezos_info.wallet
@@ -43,9 +49,10 @@ export default {
       data.userId = this.$auth.user.id
       try {
         await this.$axios.$post('users/register-wallet', data)
+        this.message = 'Wallet linked successfully.'
+        this.success = true
       } catch (error) {
-        console.error(error)
-        // TODO: Handle error alert the user
+        this.message = 'Please consider we do not support merging accounts yet. Otherwise, an error occurred. Please try again.'
       }
     }
   }
@@ -72,9 +79,21 @@ export default {
             </p>
           </div>
 
-          <button type="button" class="tw-flex tw-gap-2 tw-items-center tw-bg-cyan-500 tw-text-sm tw-px-6 tw-w-fit tw-py-2 tw-text-white hover:tw-bg-cyan-600 tw-duration-200 tw-ease-in-out tw-rounded" @click="connectWallet">
-            <div><Icon icon="material-symbols-light:account-balance-wallet-outline" width="1.25rem" /></div> <span>Connect wallet</span>
+          <button
+            type="button"
+            class="tw-flex tw-gap-2 tw-items-center tw-bg-cyan-500 tw-text-sm tw-px-6 tw-w-fit tw-py-2 tw-text-white hover:tw-bg-cyan-600 tw-duration-200 tw-ease-in-out tw-rounded"
+            @click="connectWallet"
+          >
+            <div>
+              <Icon icon="material-symbols-light:account-balance-wallet-outline" width="1.25rem" />
+            </div> <span>Connect wallet</span>
           </button>
+          <p v-show="success" style="color: green; font-size: 0.8em">
+            {{ message }}
+          </p>
+          <p v-show="!success" style="color: red; font-size: 0.8em">
+            {{ message }}
+          </p>
         </div>
         <div v-else>
           <h6 class="tw-font-bold tw-text-sm">
