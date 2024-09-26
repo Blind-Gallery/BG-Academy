@@ -254,32 +254,7 @@ export default {
   data () {
     return {
       totalCertificates: [],
-      targetBreakpoint: null,
-      screenWidth: 0,
-      breakpoints: {
-        320: {
-          slidesPerGroup: 1,
-          slidesPerView: 1,
-          spaceBetween: 10
-        },
-        650: {
-          slidesPerView: 2,
-          spaceBetween: 30,
-          slidesPerGroup: 2
-        },
-
-        1024: {
-          slidesPerView: 2,
-          spaceBetween: 30,
-          slidesPerGroup: 3
-        }
-      },
-      showAllCourses: false,
-      isFirstSlide: true,
-      isLastSlide: false,
-      currentSlide: 1,
-      totalSlides: 0
-
+      showAllCourses: false
     }
   },
   computed: {
@@ -289,37 +264,12 @@ export default {
   },
 
   watch: {
-    // This function allows you to listen to changes in screen size in order to determine the total slides of the swiper.
-    screenWidth (newValue) {
-      this.screenWidth = newValue
-      if (this.$refs.swiper) {
-        if (this.screenWidth > 1024) {
-          this.targetBreakpoint = 1024
-        } else if (this.screenWidth > 650) {
-          this.targetBreakpoint = 650
-        } else {
-          this.targetBreakpoint = 320
-        }
-
-        this.totalSlides = Math.ceil(
-          this.$refs.swiper.$el.swiper.slides.length /
-        this.breakpoints[this.targetBreakpoint].slidesPerGroup
-        )
-
-        this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
-      }
-    },
     user (newValue) {
       if (newValue) {
         this.totalCertificates = []
       }
     }
 
-  },
-  mounted () {
-    window.addEventListener('resize', this.updateScreenWidth)
-    this.updateScreenWidth()
-    this.handleCertificate()
   },
 
   methods: {
@@ -328,19 +278,6 @@ export default {
         this.totalCertificates.push(status)
       }
       if (!this.$auth.user) { this.totalCertificates = [] }
-    },
-    updateScreenWidth () {
-      this.screenWidth = window.innerWidth
-    },
-    onSlideChange () {
-      this.isFirstSlide = this.$refs.swiper.$el.swiper.isBeginning
-      this.isLastSlide = this.$refs.swiper.$el.swiper.isEnd
-
-      this.currentSlide = Math.ceil((this.$refs.swiper.$el.swiper.realIndex + 1) / this.breakpoints[this.targetBreakpoint].slidesPerGroup)
-    },
-
-    toggleCollapse (moduleIndex) {
-      this.$root.$emit('bv::toggle::collapse', `accordion-${moduleIndex}`)
     }
   }
 
@@ -356,59 +293,9 @@ export default {
   color:#fff
 }
 
-.partners-container img{
-  filter: brightness(0%);
-  justify-self: center;
-  opacity: 0.5;
-
-}
-
-.partners-container{
-  display:grid;
-  grid-template-columns: repeat(4,0.2fr);
-  align-items: center;
-  justify-content: center;
-  gap:1.5rem;
-  padding:1.25rem
-}
-
-.feedback-info{
-  background: linear-gradient(83deg, rgba(26,55,75,1) 0%, rgba(25,91,136,1) 100%);
-  color:#fff;
-  border-radius: 5px 5px 0px 0px;
-}
-
 .profile-container{
   min-height: 380px;
   margin: 1rem 0rem;
 }
 
-.last-slide, .next-slide{
-  padding:0.25rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 50%;
-}
-
-.last-slide-disabled, .next-slide-disabled{
-  opacity: .35;
-
-  pointer-events: none;
-}
-
-@media(max-width:768px){
-.partners-container{
-  display:grid;
-  grid-template-columns: repeat(2,0.5fr);
-}
-}
-
-@media (max-width: 425px){
-  .intro-left-col{
-    align-items: center;
-  }
-  .intro-left-col h1, .intro-left-col p{
-    text-align: center;
-  }
-
-}
 </style>
