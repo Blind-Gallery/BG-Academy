@@ -17,7 +17,8 @@ export default {
     async changePassword () {
       try {
         const payload = {
-          password: this.passwordData.newPassword,
+          password: this.passwordData.password,
+          newPassword: this.passwordData.newPassword,
           userId: this.userId
         }
         await this.$axios.post('/users/change-password', payload)
@@ -45,7 +46,7 @@ export default {
     <div class="tw-my-4">
       <FormulateForm v-slot="{ isLoading }" v-model="passwordData" class="w-100" @submit="changePassword">
         <FormulateInput
-          name="newPassword"
+          name="password"
           type="password"
           label="Current password"
           placeholder="Enter password"
@@ -56,7 +57,7 @@ export default {
           validation-name="Current password"
         />
         <FormulateInput
-          name="confirmPassword"
+          name="newPassword"
           type="password"
           label="New password"
           placeholder="Enter password"
@@ -69,7 +70,12 @@ export default {
         <p v-show="!success" style="color: red; font-size: 0.8em">
           {{ message }}
         </p>
-        <button :disabled="isLoading" :class="isLoading ? 'tw-bg-cyan-400 hover:tw-bg-cyan-400': ''" type="submit" class="tw-bg-cyan-500 tw-rounded hover:tw-bg-cyan-600 tw-duration-200 tw-ease-in-out tw-text-white tw-text-sm tw-py-2 tw-px-6">
+        <button
+          :disabled="isLoading"
+          :class="isLoading ? 'tw-bg-cyan-400 hover:tw-bg-cyan-400': ''"
+          type="submit"
+          class="tw-bg-cyan-500 tw-rounded hover:tw-bg-cyan-600 tw-duration-200 tw-ease-in-out tw-text-white tw-text-sm tw-py-2 tw-px-6"
+        >
           <span v-if="!isLoading">Save changes</span>
           <div v-else class="tw-flex tw-gap-2 tw-items-center">
             <Icon icon="eos-icons:bubble-loading" width="1rem" />
