@@ -61,7 +61,7 @@ export default {
           type="password"
           label="New password"
           placeholder="Enter password"
-          validation="required"
+          validation="required|matches:/[0-9]/|min:8,length"
           validation-name="New password"
         />
         <p v-show="success" style="color: green; font-size: 0.8em">
