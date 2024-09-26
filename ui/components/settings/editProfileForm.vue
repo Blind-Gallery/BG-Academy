@@ -1,4 +1,6 @@
 <script>
+import { IPFS } from '@/constants'
+
 export default {
   data () {
     return {
@@ -22,9 +24,6 @@ export default {
 
     async updatePFP (event) {
       this.selectedFile = event.target.files[0]
-      if (this.selectedFile) {
-        this.profileData.pfp = URL.createObjectURL(this.selectedFile)
-      }
 
       const formData = new FormData()
       formData.append('file', this.selectedFile)
@@ -34,12 +33,13 @@ export default {
         }
       })
       this.imageCID = cid
+      this.profileData.pfp = `${IPFS.GATEWAY}${cid}`
     },
     async updateProfileData (data) {
       data.userId = this.$auth.user.id
 
       if (this.imageCID) {
-        data.pfp = `https://blind-gallery.infura-ipfs.io/ipfs/${this.imageCID}`
+        data.pfp = `${IPFS.GATEWAY}${this.imageCID}`
       }
       try {
         await this.$axios.$post('users/update', data)
