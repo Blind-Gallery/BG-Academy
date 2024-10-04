@@ -45,8 +45,8 @@ export default {
 
   data () {
     return {
-      tabOptions: ['All', 'Certificates'],
-      selectedTab: 'All'
+      tabOptions: ['Courses', 'Certificates'],
+      selectedTab: 'Courses'
     }
   },
 
@@ -66,8 +66,8 @@ export default {
       </li>
     </ul>
 
-    <div v-if="selectedTab === 'All'">
-      <div v-if="user_course.length > 0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-4">
+    <div v-if="selectedTab === 'Courses'">
+      <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-4">
         <div v-for="item in user_course" :key="item.id">
           <NuxtLink v-if="!$apollo.loading" class="tw-text-inherit hover:tw-no-underline hover:tw-text-inherit" :to="'/courseNavigator/chapter/' + item.last_chapter_id_seen">
             <PxCardUserCourse
@@ -88,7 +88,7 @@ export default {
           </div>
         </div>
       </div>
-      <div v-else>
+      <div v-if="!user_course?.length > 0">
         <p class="tw-text-sm tw-text-gray-500">
           Your purchased courses will appear here
         </p>
@@ -96,9 +96,10 @@ export default {
     </div>
 
     <div v-if="selectedTab === 'Certificates'">
-      <div v-if="user_course.length > 0" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-4">
+      <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-4">
         <div v-for="certificates in user_course" :key="certificates?.course_id">
           <certificate-base-card
+            v-if="!$apollo.loading"
             :title="certificates?.course?.name"
             :instructor="certificates?.course?.teacher?.name"
             :cover="certificates?.course?.thumbnail"
@@ -107,9 +108,17 @@ export default {
             :op-hash="certificates?.certificate_mint_op"
             @certificate-received="handleCertificate"
           />
+          <div v-else class="tw-rounded tw-overflow-hidden tw-shadow hover:tw-shadow-md tw-duration-200 tw-ease-in-out">
+            <div class="tw-w-full tw-h-[260px] tw-bg-gray-200 tw-animate-pulse" />
+            <div class="tw-p-4">
+              <div class="tw-p-2 tw-rounded tw-w-1/2 tw-animate-pulse tw-bg-gray-200 tw-mb-4" />
+              <div class="tw-p-1 tw-rounded tw-w-full tw-animate-pulse tw-bg-gray-200 tw-mb-2" />
+              <div class="tw-p-1 tw-rounded tw-w-1/2 tw-animate-pulse tw-bg-gray-200" />
+            </div>
+          </div>
         </div>
       </div>
-      <div v-else>
+      <div v-if="!user_course?.length > 0">
         <p class="tw-text-sm tw-text-gray-500">
           Your certificates will appear here
         </p>
