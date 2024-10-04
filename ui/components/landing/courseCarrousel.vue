@@ -115,7 +115,7 @@ export default {
                   :pfp="course.teacher.pfp"
                 />
               </NuxtLink>
-              <div v-else class="tw-bg-gray-200 tw-animate-pulse tw-rounded tw-w-full tw-h-[350px]" />
+              <div v-else class="tw-bg-gray-100 tw-animate-pulse tw-rounded tw-w-full tw-h-[350px]" />
             </div>
           </div>
         </div>
