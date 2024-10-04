@@ -12,6 +12,7 @@ query ($userId: String!) {
     }
     email_info {
       email
+      password
     }
   }
 }

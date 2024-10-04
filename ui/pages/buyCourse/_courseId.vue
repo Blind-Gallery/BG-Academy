@@ -295,7 +295,27 @@ export default {
 
       // Get the day and add "rd"
       const day = date.getDate()
-      const dayWithSuffix = `${day}rd`
+
+      function getOrdinalSuffix (number) {
+        const remainder10 = number % 10
+        const remainder100 = number % 100
+
+        if (remainder100 >= 11 && remainder100 <= 13) {
+          return number + 'th'
+        }
+
+        switch (remainder10) {
+          case 1:
+            return number + 'st'
+          case 2:
+            return number + 'nd'
+          case 3:
+            return number + 'rd'
+          default:
+            return number + 'th'
+        }
+      }
+      const dayWithSuffix = getOrdinalSuffix(day)
 
       // Get the hour (6 PM)
       let hours = date.getHours()
