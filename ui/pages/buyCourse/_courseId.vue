@@ -21,6 +21,30 @@
             <p>
               {{ courses_by_pk.summary }}
             </p>
+            <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
+              <h5>Recommendations</h5>
+              <div class="tw-relative">
+                <swiper
+                  :space-between="16"
+                  :loop="false"
+                  :breakpoints="breakpoints"
+                >
+                  <swiper-slide v-for="(recommendation, index) in courses_by_pk?.recommendations" :key="index" class="tw-my-6 tw-px-2">
+                    <course-recommendation
+                      :quote="recommendation.quote"
+                      :name="recommendation.name"
+                      :twitter="recommendation.twitter"
+                      :farcaster="recommendation.farcaster"
+                      :pfp="recommendation.pfp"
+                      :role="recommendation.role"
+                    />
+                  </swiper-slide>
+                </swiper>
+
+                <div class="tw-pointer-events-none tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-bg-gradient-to-l tw-from-white tw-to-transparent tw-z-10" />
+              </div>
+            </div>
+
             <h5 class="mb-3 mt-4">
               You will learn
             </h5>
@@ -56,29 +80,6 @@
             </h5>
 
             <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses_by_pk.modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
-            <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
-              <h5>Recommendations</h5>
-              <div class="tw-relative">
-                <swiper
-                  :space-between="16"
-                  :loop="false"
-                  :breakpoints="breakpoints"
-                >
-                  <swiper-slide v-for="(recommendation, index) in courses_by_pk?.recommendations" :key="index" class="tw-my-6 tw-px-2">
-                    <course-recommendation
-                      :quote="recommendation.quote"
-                      :name="recommendation.name"
-                      :twitter="recommendation.twitter"
-                      :farcaster="recommendation.farcaster"
-                      :pfp="recommendation.pfp"
-                      :role="recommendation.role"
-                    />
-                  </swiper-slide>
-                </swiper>
-
-                <div class="tw-pointer-events-none tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-bg-gradient-to-l tw-from-white tw-to-transparent tw-z-10" />
-              </div>
-            </div>
           </div>
         </b-col>
 
