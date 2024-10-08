@@ -18,19 +18,21 @@
           <ul>
             <li class="hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer tw-rounded tw-flex tw-items-center tw-gap-2 tw-p-2 tw-whitespace-nowrap">
               <NuxtLink
-                to="/profile"
+                to="/settings/profile"
                 class="hover:tw-no-underline tw-text-black hover:tw-text-black tw-flex tw-items-center tw-gap-2"
+                @click.native="closeDropdown"
               >
                 <Icon
-                  icon="material-symbols-light:edit-square-outline-rounded"
+                  icon="material-symbols-light:settings-outline"
                   width="1.25rem"
                   class="tw-text-gray-500"
                 />
-                <span class="tw-text-sm">Edit Profile</span>
+                <span class="tw-text-sm">Settings</span>
               </NuxtLink>
             </li>
             <li
               class="hover:tw-bg-gray-100 tw-ease-in-out tw-duration-200 tw-cursor-pointer tw-rounded tw-flex tw-items-center tw-gap-2 tw-p-2 tw-whitespace-nowrap"
+
               @click="doLogout"
             >
               <Icon
@@ -75,11 +77,12 @@ export default {
       }
       this.$auth.logout()
     },
-
     toggleDropdown () {
       this.isDropdownVisible = !this.isDropdownVisible
     },
-
+    closeDropdown () {
+      this.isDropdownVisible = false
+    },
     handleClickOutside (event) {
       const dropdown = this.$refs.dropdown
       if (dropdown && !dropdown.contains(event.target)) {

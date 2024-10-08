@@ -243,6 +243,12 @@ class User {
       throw new BadRequest('User not found')
     }
 
+    if (user?.email_info.password) {
+      if (!await bcrypt.compare(password, user.email_info.password)) {
+        throw new Unauthorized('Wrong password')
+      }
+    }
+
     await this.gql.request(
       UPDATE_USER_PASSWORD, {
         password: await bcrypt.hash(newPassword, 10),
