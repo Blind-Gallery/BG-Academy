@@ -165,7 +165,7 @@
               <div class="d-flex align-items-center mb-2">
                 <Icon icon="material-symbols:language" class="mr-2" />
                 <p class="small m-0">
-                  {{ courses_by_pk.modules_aggregate.aggregate.count }} modules
+                  {{ courses_by_pk?.modules_aggregate?.aggregate?.count || courses_by_pk?.modules?.length }} modules
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
