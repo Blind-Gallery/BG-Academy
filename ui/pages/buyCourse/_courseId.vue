@@ -78,10 +78,11 @@
               Course curriculum
             </h5>
 
-            <accordion-courseCurriculum
+            <accordion-course-curriculum
               v-for="(itemModule, moduleIndex) in courses_by_pk.modules"
               :key="moduleIndex"
               :title="itemModule.title"
+              :subtitle="itemModule.subtitle"
               :module-id="moduleIndex"
               :chapters="itemModule.chapters"
             />
@@ -238,6 +239,7 @@ export default {
             release_date
             modules (order_by: {created_at: asc}) {
               title
+              subtitle
               id
               you_will_learn_title
               you_will_learn
