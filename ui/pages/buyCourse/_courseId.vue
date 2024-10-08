@@ -3,11 +3,7 @@
     <PxModal ref="modalInstance" />
     <b-container style="max-width: 1240px; margin-top:2rem; margin-bottom: 4rem;">
       <b-row v-if="!$apollo.loading" class="mt-md-3">
-        <b-col
-          order="2"
-          order-lg="1"
-          lg="8"
-        >
+        <b-col order="2" order-lg="1" lg="8">
           <div class="course-info">
             <PxPlayer
               :video-id="courses_by_pk.thumbnail_video"
@@ -24,12 +20,12 @@
             <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
               <h5>Recommendations</h5>
               <div class="tw-relative">
-                <swiper
-                  :space-between="16"
-                  :loop="false"
-                  :breakpoints="breakpoints"
-                >
-                  <swiper-slide v-for="(recommendation, index) in courses_by_pk?.recommendations" :key="index" class="tw-my-6 tw-px-2">
+                <swiper :space-between="16" :loop="false" :breakpoints="breakpoints">
+                  <swiper-slide
+                    v-for="(recommendation, index) in courses_by_pk?.recommendations"
+                    :key="index"
+                    class="tw-my-6 tw-px-2"
+                  >
                     <course-recommendation
                       :quote="recommendation.quote"
                       :name="recommendation.name"
@@ -41,7 +37,9 @@
                   </swiper-slide>
                 </swiper>
 
-                <div class="tw-pointer-events-none tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-bg-gradient-to-l tw-from-white tw-to-transparent tw-z-10" />
+                <div
+                  class="tw-pointer-events-none tw-absolute tw-right-0 tw-top-0 tw-h-full tw-w-16 tw-bg-gradient-to-l tw-from-white tw-to-transparent tw-z-10"
+                />
               </div>
             </div>
 
@@ -49,10 +47,7 @@
               You will learn
             </h5>
 
-            <div
-              v-for="itemModule in courses_by_pk.modules"
-              :key="itemModule.id"
-            >
+            <div v-for="itemModule in courses_by_pk.modules" :key="itemModule.id">
               <div v-if="itemModule.you_will_learn" class="d-flex  rounded  mb-2">
                 <div style="margin-right:0.5rem">
                   <Icon icon="material-symbols:check-circle-outline-rounded" color="#00c851" width="1.25rem" />
@@ -72,48 +67,50 @@
               <p v-else>
                 {{ shortDescription }}
               </p>
-              <span v-if="isLargeDescription" style="cursor: pointer; font-weight: 600; font-size: small;" @click="toggleDescription">{{ readDescriptionText }}</span>
+              <span
+                v-if="isLargeDescription"
+                style="cursor: pointer; font-weight: 600; font-size: small;"
+                @click="toggleDescription"
+              >{{ readDescriptionText }}</span>
             </div>
 
             <h5 class="mb-3 mt-4">
               Course curriculum
             </h5>
 
-            <accordion-courseCurriculum v-for="(itemModule, moduleIndex) in courses_by_pk.modules" :key="moduleIndex" :title="itemModule.title" :module-id="moduleIndex" :chapters="itemModule.chapters" />
+            <accordion-courseCurriculum
+              v-for="(itemModule, moduleIndex) in courses_by_pk.modules"
+              :key="moduleIndex"
+              :title="itemModule.title"
+              :module-id="moduleIndex"
+              :chapters="itemModule.chapters"
+            />
           </div>
         </b-col>
 
-        <b-col
-          order="1"
-          order-lg="2"
-          lg="4"
-          class="mb-3"
-        >
-          <PxPlayer
-            :video-id="courses_by_pk.thumbnail_video"
-            chapter-id=""
-            width="100%"
-            class="d-lg-none"
-          />
+        <b-col order="1" order-lg="2" lg="4" class="mb-3">
+          <PxPlayer :video-id="courses_by_pk.thumbnail_video" chapter-id="" width="100%" class="d-lg-none" />
           <div class="d-flex flex-column p-3 shadow-sm rounded " style="gap:0.5rem; position:sticky; top: 77px;">
-            <accordion-course-instructor :pfp="courses_by_pk.teacher.pfp" :name="courses_by_pk.teacher.name" :description="courses_by_pk.teacher.description" />
+            <accordion-course-instructor
+              :pfp="courses_by_pk.teacher.pfp"
+              :name="courses_by_pk.teacher.name"
+              :description="courses_by_pk.teacher.description"
+            />
             <div v-if="!userHasCourse || !$auth.loggedIn" class="d-flex flex-column" style="gap:0.5rem">
               <div class="border rounded p-2">
                 <div class="tw-flex tw-items-center tw-gap-2">
                   <h2 class="m-0 font-weight-bold" style="color:#00b9cd">
                     ${{ courses_by_pk.discount_price || courses_by_pk.price }}
                   </h2>
-                  <h6
-                    v-if="courses_by_pk.discount_price"
-                    class="m-0  tw-line-through tw-text-gray-500"
-                  >
+                  <h6 v-if="courses_by_pk.discount_price" class="m-0  tw-line-through tw-text-gray-500">
                     ${{ courses_by_pk.price }}
                   </h6>
                 </div>
                 <p class="m-0">
                   Access course
                 </p>
-                <span v-if="courses_by_pk.discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save {{ 100 - Math.ceil(courses_by_pk.discount_price * 100 / courses_by_pk.price) }}%!)</span>
+                <span v-if="courses_by_pk.discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save
+                  {{ 100 - Math.ceil(courses_by_pk.discount_price * 100 / courses_by_pk.price) }}%!)</span>
               </div>
               <div v-if="isAccessible">
                 <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
@@ -138,14 +135,9 @@
                 <h2>
                   Payment details
                 </h2>
-                <span
-                  style="cursor: pointer"
-                  @click="close()"
-                ><Icon
-                  width="32"
-                  color="#888"
-                  icon="material-symbols:close"
-                /></span>
+                <span style="cursor: pointer" @click="close()">
+                  <Icon width="32" color="#888" icon="material-symbols:close" />
+                </span>
               </template>
               <div>
                 <!-- this line makes the discount_price have priority over the general price -->
@@ -159,27 +151,33 @@
             <div style="width:100%; margin:1rem 0rem; border-bottom:1px solid #6c757d3b" />
             <div class="d-flex-column">
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:alarm-outline" class="mr-2" /><p class="small m-0">
-                  Approx. duration  {{ formattedDuration }}
+                <Icon icon="material-symbols:alarm-outline" class="mr-2" />
+                <p class="small m-0">
+                  Approx. duration {{ formattedDuration }}
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:signal-cellular-alt" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:signal-cellular-alt" class="mr-2" />
+                <p class="small m-0">
                   {{ courses_by_pk.level }} level
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon
-                  icon="material-symbols:language"
-
-                  class="mr-2"
-                /><p class="small m-0">
+                <Icon icon="material-symbols:language" class="mr-2" />
+                <p class="small m-0">
+                  {{ courses_by_pk.modules_aggregate.aggregate.count }} modules
+                </p>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <Icon icon="material-symbols:language" class="mr-2" />
+                <p class="small m-0">
                   100% Online
                 </p>
               </div>
 
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:verified-outline" class="mr-2" /><p class="small m-0">
+                <Icon icon="material-symbols:verified-outline" class="mr-2" />
+                <p class="small m-0">
                   Certificate
                 </p>
               </div>
@@ -251,6 +249,11 @@ export default {
                 aggregate {
                   count(columns: answer_id)
                 }
+              }
+            }
+            modules_aggregate(where: {is_countable: {_eq: true}}) {
+              aggregate {
+                count(columns: is_countable)
               }
             }
             teacher {
