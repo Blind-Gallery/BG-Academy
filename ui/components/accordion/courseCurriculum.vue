@@ -12,6 +12,10 @@ export default {
     chapters: {
       type: Array,
       required: true
+    },
+    subtitle: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -60,7 +64,7 @@ export default {
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1.5rem" />
           </div>
         </div>
-        <span class="tw-text-gray-500 tw-text-sm">Chapters: {{ chapters.length }}</span>
+        <span class="tw-text-gray-500 tw-text-sm">{{ subtitle }}</span>
       </div>
 
       <transition
