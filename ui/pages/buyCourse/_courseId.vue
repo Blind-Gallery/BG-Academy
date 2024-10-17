@@ -35,6 +35,24 @@
                       :role="recommendation.role"
                     />
                   </swiper-slide>
+                  <swiper-slide class="tw-my-6 tw-px-2">
+                    <course-recommendation
+                      quote=""
+                      name="Eliza Struthers-Jobin"
+                      twitter="https://x.com/iamelizasj"
+                      farcaster=""
+                      pfp="https://pbs.twimg.com/profile_images/1607053899495624706/aQ7rBl5B_400x400.jpg"
+                      role="Digital Artist"
+                    >
+                      <template #quote>
+                        <p class="tw-text-gray-500 tw-m-0 tw-text-xs tw-whitespace-pre-line">
+                          ilithya explains what would otherwise be intimidating math concepts and graphs in an incredibly accessible and intuitive way.
+
+                          She uses analogies that really make the magic of shaders click!
+                        </p>
+                      </template>
+                    </course-recommendation>
+                  </swiper-slide>
                 </swiper>
 
                 <div
