@@ -38,6 +38,9 @@ export default {
     >
       <Icon icon="material-symbols-light:format-quote" width="1.5rem" height="1.5rem" style="color: white" />
     </div>
+    <div v-if="!quote">
+      <slot name="quote" />
+    </div>
     <div>
       <p class="tw-text-gray-500 tw-m-0 tw-text-xs tw-whitespace-pre-line">
         {{ quote }}
