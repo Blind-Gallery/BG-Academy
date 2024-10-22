@@ -44,20 +44,36 @@ class Documents {
     }
   }
 
-  async getSoulBoundTokenIdFromOpHash (opHash) {
-    const axios = require('axios').default
-    // ${TZKT_ENDPOINT}/v1/operations/${opHash}
+  async getContractStorageFromOperationHash (opHash, intent = 0) {
+    if (intent > 5) {
+      logger.error(`Error while getting information about ${opHash}`)
+      return null
+    }
 
+    const axios = require('axios').default
     const options = {
       method: 'GET',
       url: `${TZKT_ENDPOINT}/v1/operations/${opHash}`,
       headers: { Accept: '*/*', 'User-Agent': 'Thunder Client (https://www.thunderclient.com)' }
     }
 
-    const { data } = await axios.request(options)
-    if (data.length === 0) throw new BadRequest('No operation found')
-    const { storage } = data[0]
+    try {
+      const { data } = await axios.request(options)
+      logger.debug(`Response for ${opHash} on attempt ${intent}: ${JSON.stringify(data)}`)
+      if (data && data[0] && data[0].storage) {
+        return data[0].storage // Return storage data immediately on success
+      } else {
+        logger.error(`Unexpected response structure for ${opHash} on attempt ${intent}`)
+      }
+    } catch (e) {
+      logger.error(`Error(${intent}) while getting information about ${opHash}: ${e.message}`)
+    }
 
+    return await this.getContractStorageFromOperationHash(opHash, intent + 1)
+  }
+
+  async getSoulBoundTokenIdFromOpHash (opHash) {
+    const storage = await this.getContractStorageFromOperationHash(opHash)
     return storage.last_token_id - 1
   }
 
