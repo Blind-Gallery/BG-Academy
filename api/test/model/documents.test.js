@@ -72,4 +72,14 @@ describe('Documents model', () => {
     // assert
     assert.ok(contractStorage)
   })
+
+  test('Get token id from operation hash', async (t) => {
+    // arrange
+    const opHash = 'op8zy3gWFX8tozmxkZgsPYMrgoTQcD7QLXhaTvUyxKMfdXv61te'
+    // act
+    const tokenId = await documentsModel.getSoulBoundTokenIdFromOpHash(opHash)
+
+    // assert
+    assert.ok(tokenId)
+  })
 })
