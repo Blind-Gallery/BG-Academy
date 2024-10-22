@@ -59,7 +59,7 @@ class Documents {
 
     try {
       const { data } = await axios.request(options)
-
+      logger.debug(`Response for ${opHash} on attempt ${intent}: ${JSON.stringify(data)}`)
       if (data && data[0] && data[0].storage) {
         return data[0].storage // Return storage data immediately on success
       } else {
