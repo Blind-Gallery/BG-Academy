@@ -53,9 +53,9 @@ async function userHandler (req, reply) {
 }
 
 async function recoverPasswordHandler (req, reply) {
-  return this.authController.recoverPassword(req.body)
+  return this.authController.recoverPassword(req, reply)
 }
 
 async function validateRecoverPasswordCodeHandler (req, reply) {
-  return this.authController.validateRecoverPasswordCode(req.body)
+  return this.authController.validateRecoverPasswordCode(req, reply)
 }
