@@ -20,7 +20,7 @@
             <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
               <h5>Recommendations</h5>
               <div class="tw-relative">
-                <swiper :space-between="16" :loop="false" :breakpoints="breakpoints">
+                <swiper :space-between="16" :loop="false" :breakpoints="breakpoints" style="cursor: grab;">
                   <swiper-slide
                     v-for="(recommendation, index) in courses_by_pk?.recommendations"
                     :key="index"
@@ -475,7 +475,9 @@ export default {
 }
 </script>
 <style>
-
+.swiper {
+  cursor: grab;
+}
 .curriculum-chapter {
   max-width: 100%;
 }
