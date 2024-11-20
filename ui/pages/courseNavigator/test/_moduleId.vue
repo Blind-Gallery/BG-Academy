@@ -262,7 +262,7 @@ query ($id: uuid!) {
       text
       answer_id
       priority
-      options {
+      options (order_by: {priority: asc}) {
         text
         id
       }
