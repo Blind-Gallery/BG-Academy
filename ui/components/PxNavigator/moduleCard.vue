@@ -10,7 +10,14 @@ export default {
       required: false,
       default: null
     }
-
+  },
+  computed: {
+    description () {
+      if (this.moduleInfo.subtitle) {
+        return this.moduleInfo.subtitle
+      }
+      return ''
+    }
   }
 }
 </script>
@@ -23,6 +30,6 @@ export default {
       </span>
       <slot name="icon" />
     </div>
-    <span class="tw-text-xs tw-text-gray-500">Chapters: {{ moduleInfo.chapters.length }}</span>
+    <span class="tw-text-xs tw-text-gray-500">{{ description }}</span>
   </div>
 </template>

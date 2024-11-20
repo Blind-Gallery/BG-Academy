@@ -23,11 +23,17 @@ export default {
   },
 
   computed: {
+    parsedTitle () {
+      if (this.title[this.title.length - 1] === '.') {
+        return this.title
+      }
+      return this.title + '.'
+    },
     msgForTwitter () {
-      return `I just passed an exam in the "${this.title}" course by ${this.instructor} on @BlindGallery_!`
+      return `I just passed an exam in the "${this.parsedTitle}" Course by ${this.instructor} on @BlindGallery_!`
     },
     msgForFarcaster () {
-      return `I just passed an exam in the "${this.title}" course by ${this.instructor} on @blind-gallery!`
+      return `I just passed an exam in the "${this.parsedTitle}" Course by ${this.instructor} on @blind-gallery!`
     },
     getUrlToBuy () {
       return window.location.origin + '/buyCourse/' + this.courseId
@@ -56,7 +62,7 @@ export default {
 
       <div>
         <p class="tw-m-0">
-          I just passed an exam in the <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> course by {{ instructor }}
+          I just passed an exam in the <span class="tw-font-bold tw-text-cyan-500">{{ parsedTitle }}</span> Course by {{ instructor }}
         </p>
       </div>
       <hr>

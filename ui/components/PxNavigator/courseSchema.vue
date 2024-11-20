@@ -11,7 +11,11 @@
     />
 
     <div v-for="(chapterModule, moduleIndex) in courses_by_pk.modules" :ref="`collapseContent${chapterModule.id}`" :key="moduleIndex" class="tw-border tw-rounded tw-mb-2 tw-max-h-[68px] tw-overflow-hidden transition tw-duration-200 tw-ease-in-out">
-      <PxNavigator-ModuleCard :active-module="activeModuleId" :module-info="chapterModule" @click.native="triggerCollapse(chapterModule.id)">
+      <PxNavigator-ModuleCard
+        :active-module="activeModuleId"
+        :module-info="chapterModule"
+        @click.native="triggerCollapse(chapterModule.id)"
+      >
         <template #icon>
           <div :ref="`collapseIcon${chapterModule.id}`" class="tw-ease-in-out tw-duration-200">
             <Icon icon="material-symbols-light:keyboard-arrow-down-rounded" width="1rem" />
@@ -39,6 +43,7 @@ query MyQuery($id: String!) {
       id
       next_module_id
       title
+      subtitle
       questions {
         id
       }

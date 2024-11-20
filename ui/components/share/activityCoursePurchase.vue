@@ -27,11 +27,18 @@ export default {
   },
 
   computed: {
+    parsedTitle () {
+      // remove the last character if it is a period (. )
+      if (this.title[this.title.length - 1] === '.') {
+        return this.title.slice(0, -1)
+      }
+      return this.title
+    },
     msgForFarcaster () {
-      return `I just enrolled in "${this.title}" by ${this.instructor}! Check it out below on @blind-gallery`
+      return `I just enrolled in "${this.parsedTitle}" by ${this.instructor}! Check it out below on @blind-gallery`
     },
     msgForTwitter () {
-      return `I just enrolled in "${this.title}" by ${this.instructor}! Check it out below on @BlindGallery_! `
+      return `I just enrolled in "${this.parsedTitle}" by ${this.instructor}! Check it out below on @BlindGallery_! `
     },
     getUrlToBuy () {
       return window.location.origin + '/buyCourse/' + this.courseId
@@ -58,7 +65,7 @@ export default {
     <div class="tw-border tw-flex tw-flex-col tw-rounded tw-p-4 tw-gap-4">
       <img :src="thumbnail">
       <p class="tw-m-0">
-        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">{{ title }}</span> by {{ instructor }}! Check it out below
+        I just enrolled in <span class="tw-font-bold tw-text-cyan-500">{{ parsedTitle }}</span> by {{ instructor }}! Check it out below
       </p>
     </div>
     <hr>
