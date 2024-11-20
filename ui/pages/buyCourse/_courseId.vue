@@ -20,7 +20,7 @@
             <div v-if="courses_by_pk?.recommendations.length" class="tw-mt-8">
               <h5>Recommendations</h5>
               <div class="tw-relative">
-                <swiper :space-between="16" :loop="false" :breakpoints="breakpoints">
+                <swiper :space-between="16" :loop="false" :breakpoints="breakpoints" style="cursor: grab;">
                   <swiper-slide
                     v-for="(recommendation, index) in courses_by_pk?.recommendations"
                     :key="index"
@@ -182,7 +182,7 @@
                 </p>
               </div>
               <div class="d-flex align-items-center mb-2">
-                <Icon icon="material-symbols:language" class="mr-2" />
+                <Icon icon="material-symbols:book-2" class="mr-2" />
                 <p class="small m-0">
                   {{ courses_by_pk?.modules_aggregate?.aggregate?.count || courses_by_pk?.modules?.length }} modules
                 </p>
@@ -493,7 +493,9 @@ export default {
 }
 </script>
 <style>
-
+.swiper {
+  cursor: grab;
+}
 .curriculum-chapter {
   max-width: 100%;
 }

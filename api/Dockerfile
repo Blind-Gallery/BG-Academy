@@ -1,10 +1,39 @@
-FROM node:18.0.0
-RUN VERSION=$(curl https://envkey-releases.s3.amazonaws.com/latest/envkeysource-version.txt) \ 
-  && curl -s https://envkey-releases.s3.amazonaws.com/envkeysource/release_artifacts/$VERSION/install.sh | bash
+# syntax=docker/dockerfile:1
 
-RUN mkdir /app
-COPY . /app
-WORKDIR /app
-RUN npm install
+ARG NODE_VERSION=18.19.1
+FROM node:${NODE_VERSION}-alpine
 
-CMD envkey-source -w --rolling -- npm run start
+# Set environment to production
+ENV NODE_ENV production
+
+# Install dependencies
+COPY package.json yarn.lock ./
+RUN --mount=type=cache,target=/root/.yarn \
+    yarn install --production --frozen-lockfile --verbose
+
+# Install Chromium and other required dependencies
+RUN apk add --no-cache \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont
+
+# Specify Puppeteer's Chromium path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Create necessary directories and set permissions for the node user
+RUN mkdir -p /home/node/Downloads /app \
+    && chown -R node:node /home/node \
+    && chown -R node:node /app
+
+# Switch to non-root user
+USER node
+
+# Copy application files
+COPY . .
+
+# Expose port and start application
+EXPOSE 3000
+CMD yarn start

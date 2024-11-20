@@ -1,0 +1,32 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      GRAPHQL_ENDPOINT: http://host.docker.internal:8080/v1/graphql
+      GRAPHQL_SECRET: ${GRAPHQL_SECRET}
+      HOST: '0.0.0.0'
+      INFURA_API_KEY: ${INFURA_API_KEY}
+      INFURA_PROJECT_ID: ${INFURA_PROJECT_ID}
+      IPFS_URL: ${IPFS_URL}
+      LOG_LEVEL: 'debug'
+      PORT: '3000'
+      PROCFILE: 'api/Procfile'
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SERVER_ENV: 'true'
+      STRIPE_ENDPOINT_SECRET: ${STRIPE_ENDPOINT_SECRET}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      TEZOS_PRIVATE_KEY: ${TEZOS_PRIVATE_KEY}
+      TEZOS_PROTOCOL: ${TEZOS_PROTOCOL}
+    ports:
+      - 3000:3000
