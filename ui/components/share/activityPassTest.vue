@@ -36,7 +36,7 @@ export default {
       return `I just passed an exam in the "${this.parsedTitle}" Course by ${this.instructor} on @blind-gallery!`
     },
     getUrlToBuy () {
-      return window.location.origin + '/buyCourse/' + this.parsedTitle
+      return window.location.origin + '/buyCourse/' + this.courseId
     }
   },
   methods: {
