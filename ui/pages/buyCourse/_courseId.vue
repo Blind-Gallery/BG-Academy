@@ -110,7 +110,8 @@
                 <p class="m-0">
                   Access course
                 </p>
-                <span v-if="courses_by_pk.discount_price" class="tw-text-green-500 tw-text-xs">Launch Discount (You save
+                <span v-if="courses_by_pk.discount_price" class="tw-text-green-500 tw-text-xs">Christmas Discount 🎁 (You
+                  save
                   {{ 100 - Math.ceil(courses_by_pk.discount_price * 100 / courses_by_pk.price) }}%!)</span>
               </div>
               <div v-if="isAccessible">
