@@ -5,7 +5,7 @@ const logger = require('./Logger')
 require('dotenv').config()
 const stripe = require('stripe')(
   process.env.STRIPE_SECRET_KEY,
-  { apiVersion: '2023-08-16; payment_intent_with_tax_api_beta=v1;' }
+  { apiVersion: '2025-06-30.preview' }
 )
 
 const {
@@ -152,7 +152,7 @@ class Stripe {
     }
     if (taxId) {
       logger.info(`Setting tax ID to ${taxId}`)
-      paymentIntentParams.async_workflows = {
+      paymentIntentParams.hooks = {
         inputs: {
           tax: {
             calculation: taxId
