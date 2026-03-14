@@ -132,7 +132,7 @@
                   save
                   {{ 100 - Math.ceil(courses_by_pk.discount_price * 100 / courses_by_pk.price) }}%!)</span>
               </div>
-              <div v-if="isAccessible">
+              <div v-if="false">
                 <button-px-primary prefix-icon="credit-card" text="Credit card" width="tw-w-full" @click="openModal" />
 
                 <payments-tezos-generate v-if="$auth.user?.tezos_info" :course-id="courses_by_pk.id" />
