@@ -52,12 +52,6 @@ export default {
       <NuxtLink to="/">
         <img :src="`${gateway}QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV`" width="150px">
       </NuxtLink>
-      <div v-if="!$auth.loggedIn" class="tw-flex tw-items-center tw-gap-2">
-        <button-PxTertiary text="Become an Educator" @click="openModal('support-become-an-educator-form');closeMobileMenu " />
-        <button-PxSecondary text="Sign Up" @click="openModal('auth-sign-up-form')" />
-        <button-PxPrimary text="Sign In" @click="openModal('auth-log-in-form')" />
-      </div>
-      <layout-PxProfile v-else />
     </div>
     <!-- RESPONSIVE MENU BTNS -->
     <div class="tw-flex tw-items-center tw-justify-between lg:tw-hidden">
@@ -75,15 +69,6 @@ export default {
         </button>
       </div>
       <layout-PxProfile v-else />
-    </div>
-
-    <!-- RESPONSIVE MENU -->
-    <div class="tw-relative">
-      <div ref="responsiveMenu" class="tw-mt-4 tw-py-4 tw-flex tw-flex-col tw-gap-4 lg:tw-hidden tw-left-[-110%] tw-absolute tw-bg-white tw-w-full tw-ease-in-out tw-duration-200">
-        <button-PxSecondary width="tw-w-full" text="Sign Up" @click="handleSignUp" />
-        <button-PxPrimary width="tw-w-full" text="Sign In" @click="handleSignIn" />
-        <button-PxTertiary width="tw-w-full" text="Become an Educator" @click="handleEducators" />
-      </div>
     </div>
   </div>
 </template>
