@@ -52,13 +52,13 @@ export default {
       <NuxtLink to="/">
         <img :src="`${gateway}QmdttBPgdS8ERmJQgacHire1y2F8uHJLEm6oNmSx9yisbV`" width="150px">
       </NuxtLink>
-    </div>
-    <div v-if="!$auth.loggedIn" class="tw-flex tw-items-center tw-gap-2">
+      <div v-if="!$auth.loggedIn" class="tw-flex tw-items-center tw-gap-2">
         <button-PxTertiary text="Become an Educator" />
         <button-PxSecondary text="Sign Up" />
         <button-PxPrimary text="Sign In" />
       </div>
-    <layout-PxProfile v-else />
+      <layout-PxProfile v-else />
+    </div>
     <!-- RESPONSIVE MENU BTNS -->
     <div class="tw-flex tw-items-center tw-justify-between lg:tw-hidden">
       <NuxtLink to="/">
